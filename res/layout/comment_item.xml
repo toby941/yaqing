@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#F3F1EF">
+    <ImageView
+        android:id="@+id/commentimg"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="@dimen/comment_pic_width"
+        android:layout_height="@dimen/comment_pic_height"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_launcher" />
+
+    <LinearLayout
+        android:id="@+id/j_main"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        
+        android:layout_toRightOf="@id/commentimg" >
+        <TextView
+            android:id="@+id/commentname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="17dp"
+            />
+        
+        <TextView
+            android:id="@+id/commentcontent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#414144"
+            android:textSize="13dp"
+            />
+        
+        <TextView
+            android:id="@+id/commenttime"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10dp"
+            />
+    </LinearLayout>
+    <ImageView
+        android:layout_marginTop="15dp"
+        android:src="@drawable/dotted"
+        android:scaleType="fitXY"
+        android:layout_below="@id/j_main"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        />
+</RelativeLayout>

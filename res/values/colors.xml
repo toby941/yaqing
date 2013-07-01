@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="list_bg">#eff5f8</color>
+    <color name="content_bg">#187693</color>
+    <color name="line_color">#E9E9E9</color>
+    <color name="home_bg">#2289A8</color>
+    <color name="list_title">#111212</color>
+    <color name="list_subTitle">#B3B9BC</color>
+    
+    <color name="menu_bg">#F2F2F2</color>
+    <color name="gird_like">#505050</color>
+    <color name="gird_title">#898989</color>
+    <color name="ticket_primary_color">#ffffffff</color>
+    <color name ="date_today">#FE6661</color>
+</resources>

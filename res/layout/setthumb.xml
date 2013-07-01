@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/preview"
+        android:scaleType="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/takephoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="takephoto" />
+    
+    <Button
+        android:id="@+id/setphoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set" />
+
+</LinearLayout>

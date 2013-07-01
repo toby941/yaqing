@@ -1,0 +1,35 @@
+<resources>
+    <dimen name="main_banner_padding">5dp</dimen>
+    <dimen name="main_pic_height">180dp</dimen>
+    <dimen name="main_pic_index_height">20dp</dimen>
+    <dimen name="main_pic_index_width">60dp</dimen>
+    <dimen name="left_menu_item_height">50dp</dimen>
+    <dimen name="select_lan_grid_height">250dp</dimen>
+    <dimen name="main_top_left_btn_marginTop">10dp</dimen>
+    <dimen name="main_top_left_btn_marginLeft">10dp</dimen>
+    <dimen name="main_top_right_btn_marginTop">5dp</dimen>
+    <dimen name="main_top_right_btn_marginRight">10dp</dimen>
+    <dimen name="left_menu_paddingleft">30dp</dimen>
+    <dimen name="left_menu_paddingright">25dp</dimen>
+    <dimen name="left_menu_paddingtop">20dp</dimen>
+    <dimen name="left_menu_paddingBottom">20dp</dimen>
+    <dimen name="head_pic_width">50dp</dimen>
+    <dimen name="head_pic_height">50dp</dimen>
+    <dimen name="icon_item_image_topmargin">10dp</dimen>
+    <dimen name="icon_item_leftmargin">15dp</dimen>
+    <dimen name="icon_item_topmargin">15dp</dimen>
+    <dimen name="news_item_pic_width">70dp</dimen>
+    <dimen name="news_item_pic_height">70dp</dimen>
+    <dimen name="detail_news_pic_height">250dp</dimen>
+    <dimen name="detail_news_tip_height">40dp</dimen>
+    <dimen name="detail_news_content_abstract_height">90dp</dimen>
+    <dimen name="cep_item_padLeft">15dp</dimen>
+    <dimen name="cep_item_padRight">15dp</dimen>
+    <dimen name="cep_item_padTop">25dp</dimen>
+    <dimen name="cep_item_padBottom">30dp</dimen>
+    <dimen name="cep_item_pic_height">345dp</dimen>
+    <dimen name="cep_item_box_width">220dp</dimen>
+    <dimen name="cep_item_box_height">100dp</dimen>
+    <dimen name="comment_pic_width">70dp</dimen>
+    <dimen name="comment_pic_height">70dp</dimen>
+</resources>
