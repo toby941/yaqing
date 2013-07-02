@@ -226,24 +226,11 @@ public class HomeActivity extends SlidingBaseActivity {
 			View view = inflater.inflate(R.layout.menu_rights, null);
 			LinearLayout layout = (LinearLayout) view
 					.findViewById(R.id.menu_list);
-
-			IconListItem cep = new IconListItem(HomeActivity.this);
-			cep.setIcon(R.drawable.icon_cep_bg, R.drawable.icon,
-					R.string.cep_menu_title);
-			cep.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent();
-					intent.setClass(HomeActivity.this, CepActivity.class);
-					HomeActivity.this.startActivity(intent);
-				}
-			});
-			layout.addView(cep);
-
+			
 			IconListItem iconListItemSchedule = new IconListItem(
 					HomeActivity.this);
 			iconListItemSchedule.setIcon(R.drawable.icon_schedule_bg,
-					R.drawable.icon, R.string.menu_left_schedule);
+					R.drawable.item_dialy_bg, R.string.menu_left_schedule);
 			iconListItemSchedule.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -253,32 +240,30 @@ public class HomeActivity extends SlidingBaseActivity {
 				}
 			});
 			layout.addView(iconListItemSchedule);
-
-			IconListItem iconListItemMedal = new IconListItem(HomeActivity.this);
-			iconListItemMedal.setIcon(R.drawable.icon_equip_bg,
-					R.drawable.icon, R.string.menu_left_equip);
-			iconListItemMedal.setOnClickListener(new OnClickListener() {
+			
+			IconListItem cep = new IconListItem(HomeActivity.this);
+			cep.setIcon(R.drawable.icon_schedule_bg,
+					R.drawable.cep_icon, R.string.cep_menu_title);
+			cep.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent();
-					intent.setClass(HomeActivity.this, SurroundActivity.class);
+					intent.setClass(HomeActivity.this, CepActivity.class);
 					HomeActivity.this.startActivity(intent);
 				}
 			});
-			layout.addView(iconListItemMedal);
-
-			IconListItem contact = new IconListItem(HomeActivity.this);
-			contact.setIcon(R.drawable.icon_contact_bg, R.drawable.icon,
-					R.string.contact_menu_title);
-			contact.setOnClickListener(new OnClickListener() {
+			layout.addView(cep);
+			
+			IconListItem video = new IconListItem(HomeActivity.this);
+			video.setIcon(R.drawable.icon_schedule_bg,
+					R.drawable.video_icon, R.string.cep_video);
+			video.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent();
-					intent.setClass(HomeActivity.this, ContactActivity.class);
-					HomeActivity.this.startActivity(intent);
+					
 				}
 			});
-			layout.addView(contact);
+			layout.addView(video);
 
 			return view;
 		}
