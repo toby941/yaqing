@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.airAd.framework.worker.ImageFetcher;
 import com.airAd.yaqinghui.Config;
-import com.airAd.yaqinghui.NewsDetailActivity;
+import com.airAd.yaqinghui.CepDetailActivity;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.data.model.CepItem;
 import com.airAd.yaqinghui.factory.ImageFetcherFactory;
@@ -75,7 +75,7 @@ public class CepItemFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			Intent it=new Intent();
-			it.setClass(getActivity(), NewsDetailActivity.class);
+			it.setClass(getActivity(), CepDetailActivity.class);
 			it.putExtra(Config.CEP_ID, item.getCepId());
 			getActivity().startActivity(it);
 		}

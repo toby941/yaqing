@@ -74,5 +74,4 @@ public class BaseActivity extends SherlockFragmentActivity {
     protected View getParentView(){
     	return findViewById(R.id.main);
     }
-    
 }

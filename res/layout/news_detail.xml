@@ -95,23 +95,22 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
                         android:layout_gravity="bottom"
-                        android:orientation="vertical" >
+                        android:orientation="vertical"
+                        android:padding="5dp" >
 
                         <TextView
-                            android:id="@+id/title"
+                            android:id="@+id/detail_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="fgggg"
                             android:textColor="#000000"
                             android:textSize="15dp" />
 
                         <LinearLayout
                             android:id="@+id/cep_stars"
-                            android:layout_marginTop="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             android:orientation="horizontal" >
 
                             <ImageView
@@ -148,63 +147,12 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <RelativeLayout
+            <View
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/detail_news_content_abstract_height"
-                android:padding="10dp" >
-
-                <ImageView
-                    android:id="@+id/j_yinhao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/yinghao" />
-
-                <ImageView
-                    android:id="@+id/detail_content_goto_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/news_detail_goto" />
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginRight="3dp"
-                    android:layout_toLeftOf="@id/detail_content_goto_btn"
-                    android:layout_toRightOf="@id/j_yinhao"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/detail_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:textSize="15dp" />
-
-                    <TextView
-                        android:id="@+id/detail_content_abstract"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="3"
-                        android:textColor="#858585" />
-                </LinearLayout>
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:background="@drawable/siglines" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:background="@drawable/siglines" />
+                android:layout_height="3px"
+                android:background="@drawable/shader_line" />
+            
+            
         </LinearLayout>
     </ScrollView>
 

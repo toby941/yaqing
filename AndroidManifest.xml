@@ -59,7 +59,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".NewsDetailActivity"
+            android:name=".CepDetailActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait" >
         </activity>

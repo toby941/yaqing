@@ -62,24 +62,22 @@ import android.widget.Toast;
  * @author Panyi
  * 
  */
-public class NewsDetailActivity extends BaseActivity {
+public class CepDetailActivity extends BaseActivity {
 	private ImageButton mBackBtn;
 	private ViewPager mGallery;
 	private ImageFetcher mImageFetcher;
 	private NewsDetail mDetail;
-	private TextView mAbstractText, mTitleText;
+	private TextView mTitleText;
 	private RelativeLayout progress;
 	private ScrollView mainScroll;
 	private RequestTask mTask;
-	private int commentY, preY = 0;
-	private RelativeLayout mCommit;
 	private String cepId;// cep活动ID
 	private LayoutInflater mInflater;
 	private PopupWindow pop;
 	private RelativeLayout mainLayout;
 	private boolean isCancel = false;
 	private ProgressDialog progressDialog;
-	
+
 	private View popLayoutView;
 
 	@Override
@@ -107,7 +105,8 @@ public class NewsDetailActivity extends BaseActivity {
 			JSONObject jsonObj = null;
 			try {
 				jsonObj = basicAPI.SelectTheOneCepActive(params[0],
-						MyApplication.getCurrentApp().getUser().getId(), User.getLan());
+						MyApplication.getCurrentApp().getUser().getId(),
+						User.getLan());
 			} catch (Exception e) {
 				e.printStackTrace();
 				jsonObj = null;
@@ -121,11 +120,11 @@ public class NewsDetailActivity extends BaseActivity {
 			super.onPostExecute(result);
 			mDetail = result;
 			if (result == null) {
-				Toast.makeText(NewsDetailActivity.this, R.string.net_exception,
+				Toast.makeText(CepDetailActivity.this, R.string.net_exception,
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
-			mGallery.setAdapter(new ImagePagerAdapter(NewsDetailActivity.this
+			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this
 					.getSupportFragmentManager(), mDetail.getPicList()));
 			mTitleText.setText(mDetail.getTitle());
 			// 载入评论内容
@@ -161,12 +160,14 @@ public class NewsDetailActivity extends BaseActivity {
 		mBackBtn.setOnClickListener(new BackClick());
 		mGallery = (ViewPager) findViewById(R.id.gallery);
 		mTitleText = (TextView) findViewById(R.id.detail_title);
+		progress = (RelativeLayout) findViewById(R.id.progressLayout);
+		mainScroll = (ScrollView)findViewById(R.id.main);
 	}
 
 	private class BackClick implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			NewsDetailActivity.this.finish();
+			CepDetailActivity.this.finish();
 		}
 	}// end inner class
 
@@ -186,9 +187,9 @@ public class NewsDetailActivity extends BaseActivity {
 
 		@Override
 		public Fragment getItem(int position) {
-			return ImageDetailFragment.newInstance(picList.get(position),
-					ImageFetcherFactory
-							.genImageFetcher(NewsDetailActivity.this));
+			return ImageDetailFragment
+					.newInstance(picList.get(position), ImageFetcherFactory
+							.genImageFetcher(CepDetailActivity.this));
 		}
 
 		@Override
