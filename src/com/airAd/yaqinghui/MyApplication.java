@@ -46,9 +46,9 @@ public class MyApplication extends Application {
 
 	@Override
 	public void onCreate() {
+		super.onCreate();
 		current = this;
 		stack = new Stack<Object>();
-		super.onCreate();
 		dbService = new DatabaseService(this);
 	}
 
