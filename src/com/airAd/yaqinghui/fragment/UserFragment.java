@@ -3,7 +3,7 @@ package com.airAd.yaqinghui.fragment;
 import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
-import com.airAd.yaqinghui.data.model.User;
+import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.ui.CustomViewPager;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;

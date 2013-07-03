@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
-import com.airAd.yaqinghui.util.AMapUtil;
+import com.airAd.yaqinghui.common.AMapUtil;
+import com.airAd.yaqinghui.common.Config;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.SupportMapFragment;

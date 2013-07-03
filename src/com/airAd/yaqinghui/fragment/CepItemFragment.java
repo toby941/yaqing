@@ -3,11 +3,11 @@ package com.airAd.yaqinghui.fragment;
 import java.util.ArrayList;
 
 import com.airAd.framework.worker.ImageFetcher;
-import com.airAd.yaqinghui.Config;
 import com.airAd.yaqinghui.CepDetailActivity;
 import com.airAd.yaqinghui.R;
-import com.airAd.yaqinghui.data.model.CepItem;
-import com.airAd.yaqinghui.factory.ImageFetcherFactory;
+import com.airAd.yaqinghui.business.model.CepItem;
+import com.airAd.yaqinghui.common.Config;
+import com.airAd.yaqinghui.core.ImageFetcherFactory;
 
 import android.content.Context;
 import android.content.Intent;

@@ -2,11 +2,12 @@ package com.airAd.yaqinghui;
 
 import net.sf.json.JSONObject;
 
-import com.airAd.yaqinghui.api.BasicAPI;
-import com.airAd.yaqinghui.data.model.CommentMark;
-import com.airAd.yaqinghui.factory.HessianClient;
-import com.airAd.yaqinghui.net.CommentService;
-import com.airAd.yaqinghui.net.MyActiveService;
+import com.airAd.yaqinghui.business.CommentService;
+import com.airAd.yaqinghui.business.MyActiveService;
+import com.airAd.yaqinghui.business.api.BasicAPI;
+import com.airAd.yaqinghui.business.model.CommentMark;
+import com.airAd.yaqinghui.common.Config;
+import com.airAd.yaqinghui.core.HessianClient;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

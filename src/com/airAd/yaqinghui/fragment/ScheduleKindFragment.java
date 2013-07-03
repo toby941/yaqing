@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import com.airAd.framework.worker.ImageFetcher;
 import com.airAd.framework.worker.ImageCache.ImageCacheParams;
-import com.airAd.yaqinghui.Config;
 import com.airAd.yaqinghui.R;
-import com.airAd.yaqinghui.data.model.ActivityItem;
-import com.airAd.yaqinghui.factory.ImageFetcherFactory;
+import com.airAd.yaqinghui.business.model.ActivityItem;
+import com.airAd.yaqinghui.common.Config;
+import com.airAd.yaqinghui.core.ImageFetcherFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap.CompressFormat;
@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * ÈÕ³ÌÁÐ±í
+ * ï¿½Õ³ï¿½ï¿½Ð±ï¿½
  * 
  * @author Panyi
  * 

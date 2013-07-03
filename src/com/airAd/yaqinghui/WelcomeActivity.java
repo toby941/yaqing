@@ -1,19 +1,19 @@
 package com.airAd.yaqinghui;
 
-import com.airAd.yaqinghui.data.model.User;
-import com.airAd.yaqinghui.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageView;
+
+import com.airAd.yaqinghui.business.model.User;
+import com.airAd.yaqinghui.common.Config;
 
 public class WelcomeActivity extends BaseActivity {
 	public static final int LOAD_DELAY = 2500;
@@ -35,8 +35,8 @@ public class WelcomeActivity extends BaseActivity {
 	private void init() {
 		sp = this.getSharedPreferences(Config.PACKAGE, Context.MODE_PRIVATE);
 		mLoadImage = (ImageView) findViewById(R.id.loadImage);
-		AlphaAnimation alpha = new AlphaAnimation(1.0f, 0);// 欢迎页变淡动画
-		alpha.setStartOffset(1000);// 延时1s后播放动画
+        AlphaAnimation alpha = new AlphaAnimation(1.0f, 0);// 欢迎页变淡动画
+        alpha.setStartOffset(1000);// 延时1s后播放动画
 		alpha.setDuration(LOAD_DELAY);
 		alpha.setFillAfter(true);
 		alpha.setAnimationListener(new AnimationListener() {
@@ -46,7 +46,7 @@ public class WelcomeActivity extends BaseActivity {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				if (isFirstLogin()) {// 第一次登陆 显示引导 视频页面
+                if (isFirstLogin()) {// 第一次登陆 显示引导 视频页面
 					Intent it = new Intent(WelcomeActivity.this,
 							TutorialActivity.class);
 					it.putExtra("subNum", 3);
@@ -60,7 +60,8 @@ public class WelcomeActivity extends BaseActivity {
 										Config.USER_INFO_KEY, "")));
 						WelcomeActivity.this.startActivity(new Intent(
 								WelcomeActivity.this, HomeActivity.class));
-					} else {// 还未登录
+                    }
+                    else {// 还未登录
 						Intent it = new Intent(WelcomeActivity.this,
 								TutorialActivity.class);
 						it.putExtra("subNum", 1);
@@ -80,17 +81,17 @@ public class WelcomeActivity extends BaseActivity {
 	protected boolean hasLogin() {
 		SharedPreferences sp = getSharedPreferences(Config.PACKAGE,
 				Context.MODE_PRIVATE);
-		if (StringUtil.isBlank(sp.getString(Config.USER_INFO_KEY, ""))) {
+        if (StringUtils.isBlank(sp.getString(Config.USER_INFO_KEY, ""))) {
 			return false;
 		}
 		return true;
 	}
 
-	/**
-	 * 是否是第一次使用
-	 * 
-	 * @return
-	 */
+	        /**
+     * 是否是第一次使用
+     * 
+     * @return
+     */
 	private boolean isFirstLogin() {
 		int times = sp.getInt(Config.USE_TIMES, -1);
 		if (times < 0) {

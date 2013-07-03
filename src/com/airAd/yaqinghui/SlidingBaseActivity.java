@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+
+import com.airAd.yaqinghui.common.Constants;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class SlidingBaseActivity extends SlidingFragmentActivity {

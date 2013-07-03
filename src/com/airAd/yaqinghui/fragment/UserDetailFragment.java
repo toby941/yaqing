@@ -10,9 +10,9 @@ import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.SetThumbActivity;
-import com.airAd.yaqinghui.data.model.ActivityItem;
-import com.airAd.yaqinghui.data.model.User;
-import com.airAd.yaqinghui.factory.ImageFetcherFactory;
+import com.airAd.yaqinghui.business.model.ActivityItem;
+import com.airAd.yaqinghui.business.model.User;
+import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.airAd.yaqinghui.ui.CustomViewPager;
 
 import android.app.Activity;

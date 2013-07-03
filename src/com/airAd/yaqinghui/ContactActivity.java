@@ -56,7 +56,7 @@ import android.widget.Toast;
 import com.airAd.framework.util.ImageUtil;
 import com.airAd.framework.worker.ImageCache;
 import com.airAd.framework.worker.ImageFetcher;
-import com.airAd.yaqinghui.factory.ImageFetcherFactory;
+import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.Weibo;
 import com.weibo.sdk.android.WeiboAuthListener;

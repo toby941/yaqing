@@ -4,8 +4,8 @@ import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.airAd.yaqinghui.data.DatabaseService;
-import com.airAd.yaqinghui.data.model.User;
+import com.airAd.yaqinghui.business.model.User;
+import com.airAd.yaqinghui.db.DatabaseService;
 
 import android.app.Activity;
 import android.app.Application;

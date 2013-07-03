@@ -14,6 +14,7 @@ import android.widget.PopupWindow;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.airAd.yaqinghui.common.Constants;
 
 /**
  * 基础Activity类

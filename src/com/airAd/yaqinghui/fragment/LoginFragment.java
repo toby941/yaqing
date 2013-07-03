@@ -4,16 +4,16 @@ import java.util.Locale;
 
 import net.sf.json.JSONObject;
 
-import com.airAd.yaqinghui.Config;
 import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.WelcomeActivity;
-import com.airAd.yaqinghui.api.BasicAPI;
-import com.airAd.yaqinghui.data.model.User;
-import com.airAd.yaqinghui.factory.HessianClient;
-import com.airAd.yaqinghui.net.CepService;
-import com.airAd.yaqinghui.util.StringUtil;
+import com.airAd.yaqinghui.business.CepService;
+import com.airAd.yaqinghui.business.api.BasicAPI;
+import com.airAd.yaqinghui.business.model.User;
+import com.airAd.yaqinghui.common.Config;
+import com.airAd.yaqinghui.common.StringUtil;
+import com.airAd.yaqinghui.core.HessianClient;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
