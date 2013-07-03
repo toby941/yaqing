@@ -64,11 +64,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".CommitDialogActivity"
-            android:configChanges="locale"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".CallDialogActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"

@@ -1,62 +1,39 @@
 package com.airAd.yaqinghui;
 
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.zip.Inflater;
 
 import net.sf.json.JSONObject;
-
-import com.airAd.framework.net.RemoteService;
-import com.airAd.framework.net.Response;
-import com.airAd.framework.worker.ImageFetcher;
-import com.airAd.framework.worker.NetWorker;
-import com.airAd.framework.worker.NetWorkerHandler;
-import com.airAd.framework.worker.ImageCache.ImageCacheParams;
-import com.airAd.yaqinghui.business.CepService;
-import com.airAd.yaqinghui.business.NewsDetailService;
-import com.airAd.yaqinghui.business.PrecontractService;
-import com.airAd.yaqinghui.business.api.BasicAPI;
-import com.airAd.yaqinghui.business.model.Comment;
-import com.airAd.yaqinghui.business.model.NewsDetail;
-import com.airAd.yaqinghui.business.model.PrecontractCancelCepActive;
-import com.airAd.yaqinghui.business.model.PrecontractSignUp;
-import com.airAd.yaqinghui.business.model.User;
-import com.airAd.yaqinghui.common.Config;
-import com.airAd.yaqinghui.core.HessianClient;
-import com.airAd.yaqinghui.core.ImageFetcherFactory;
-import com.airAd.yaqinghui.fragment.ImageDetailFragment;
-import com.airAd.yaqinghui.ui.IndexView;
-
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.PaintDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.airAd.framework.worker.ImageFetcher;
+import com.airAd.yaqinghui.business.NewsDetailService;
+import com.airAd.yaqinghui.business.api.BasicAPI;
+import com.airAd.yaqinghui.business.model.NewsDetail;
+import com.airAd.yaqinghui.business.model.User;
+import com.airAd.yaqinghui.common.Config;
+import com.airAd.yaqinghui.core.HessianClient;
+import com.airAd.yaqinghui.core.ImageFetcherFactory;
+import com.airAd.yaqinghui.fragment.ImageDetailFragment;
 
 /**
  * 
@@ -72,7 +49,7 @@ public class CepDetailActivity extends BaseActivity {
 	private RelativeLayout progress;
 	private ScrollView mainScroll;
 	private RequestTask mTask;
-	private String cepId;// cep活动ID
+    private String cepId;// cep活动ID
 	private LayoutInflater mInflater;
 	private PopupWindow pop;
 	private RelativeLayout mainLayout;
@@ -128,7 +105,7 @@ public class CepDetailActivity extends BaseActivity {
 			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this
 					.getSupportFragmentManager(), mDetail.getPicList()));
 			mTitleText.setText(mDetail.getTitle());
-			// 载入评论内容
+            // 载入评论内容
 			progress.setVisibility(View.GONE);
 			mainScroll.setVisibility(View.VISIBLE);
 		}

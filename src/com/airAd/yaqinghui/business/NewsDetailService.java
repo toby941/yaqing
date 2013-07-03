@@ -2,11 +2,9 @@ package com.airAd.yaqinghui.business;
 
 import java.util.ArrayList;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-import com.airAd.yaqinghui.business.model.Comment;
 import com.airAd.yaqinghui.business.model.NewsDetail;
 
 /**

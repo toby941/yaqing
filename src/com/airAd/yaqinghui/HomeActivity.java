@@ -3,8 +3,6 @@ package com.airAd.yaqinghui;
 import java.io.File;
 import java.util.Calendar;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang.StringUtils;
 
 import android.app.ProgressDialog;
@@ -15,7 +13,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,12 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airAd.framework.worker.ImageFetcher;
-import com.airAd.yaqinghui.business.SigninService;
-import com.airAd.yaqinghui.business.api.BasicAPI;
-import com.airAd.yaqinghui.business.model.SignInCepActive;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.StringUtil;
-import com.airAd.yaqinghui.core.HessianClient;
 import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.airAd.yaqinghui.fragment.UserDetailFragment;
 import com.airAd.yaqinghui.fragment.UserFragment;
@@ -55,7 +48,6 @@ public class HomeActivity extends SlidingBaseActivity {
     private ImageFetcher mImageFetcher;
     private ImageButton mLeftBtn, mRightBtn;
     private ProgressDialog progressDialog;
-    private SigninTask mSignTask;
 
     private Bitmap mThumbBitmap;
     private ChangeThumbReceiver mChangeThumbReceiver;
@@ -85,9 +77,6 @@ public class HomeActivity extends SlidingBaseActivity {
     public void onDestroy() {
         super.onDestroy();
         mImageFetcher.closeCache();
-        if (mSignTask != null) {
-            mSignTask.cancel(true);
-        }
 
         if (mChangeThumbReceiver != null) {// 取消监听
             this.unregisterReceiver(mChangeThumbReceiver);
@@ -345,8 +334,6 @@ public class HomeActivity extends SlidingBaseActivity {
             progressDialog.setCancelable(true);
         }
         progressDialog.show();
-        mSignTask = new SigninTask();
-        mSignTask.execute(twobarcode);
     }
 
     /**
@@ -399,32 +386,4 @@ public class HomeActivity extends SlidingBaseActivity {
         bitmap = BitmapFactory.decodeFile(path, options);
         return bitmap;
     }
-
-    private final class SigninTask extends AsyncTask<String, Void, SignInCepActive> {
-        @Override
-        protected SignInCepActive doInBackground(String... params) {
-            BasicAPI basicAPI = HessianClient.create();
-            JSONObject jsonObj = null;
-            try {
-                // jsonObj = basicAPI.SignInCepActive(params[0],
-                // Config.CEP_USER_ID, Config.LNG, Config.LAT);
-            }
-            catch (Exception e) {
-                jsonObj = null;
-                e.printStackTrace();
-            }
-            return new SigninService().getSignup(jsonObj);
-        }
-
-        @Override
-        protected void onPostExecute(SignInCepActive result) {
-            super.onPostExecute(result);
-            progressDialog.dismiss();
-            if (result == null) {
-                Toast.makeText(HomeActivity.this, R.string.net_exception, Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Toast.makeText(HomeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
-        }
-    }// end inner class
 }// end class
