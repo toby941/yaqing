@@ -1,39 +1,80 @@
 package com.airAd.yaqinghui;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
-import com.airAd.yaqinghui.fragment.ScheduleKindFragment;
-import com.airAd.yaqinghui.fragment.ScheduleListFragment;
+import com.airAd.yaqinghui.ui.EventView;
 
 /**
- * �����ճ�
+ * 赛事日程主界面
  * 
- * @author Panyi
+ * @author pengf
  */
 public class ScheduleActivity extends BaseActivity {
-    private ImageButton mBack, mToggleBtn;
-    private boolean isPersonShow = true;
 
-    private ViewPager mGallery;
-    private ScheduleListFragment mPersonFragment;
-    private ScheduleKindFragment mKindFragment;
-
+	private LinearLayout mainLayout;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.schedule);
-        init();
+        setContentView(R.layout.race_schedule);
+        mainLayout = findViewBy(R.id.mainLayout);
+        int myLastPos = addMyProjects();
+        addEvents(myLastPos + 1, 10);
+    }
+    
+    /**
+     * 添加我参与的项目
+     */
+    private int addMyProjects()
+    {
+    	findViewBy(R.id.myProjectTitle).setVisibility(View.VISIBLE);
+    	return addEvents(1, 2);
+    }
+    
+    public int addEvents(int startPos, int size)
+    {
+    	LinearLayout rowLayout = null;
+    	int row = 0;
+    	for(int i = 0; i < size; i++)
+    	{
+    		if(i % 4 == 0)
+    		{
+    			if(rowLayout != null)
+    			{
+    				mainLayout.addView(rowLayout, startPos + row - 1);
+    			}
+    			rowLayout = new LinearLayout(this);
+    			rowLayout.setLayoutParams(
+    					new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    			rowLayout.setOrientation(LinearLayout.HORIZONTAL);
+    			row ++;
+    		}
+    		EventView eventView = new EventView(this, R.drawable.run, R.string.project_trackfield);
+    		LayoutParams lp = new LayoutParams(0, LayoutParams.WRAP_CONTENT);
+    		lp.weight = 1;
+    		eventView.setLayoutParams(lp);
+    		rowLayout.addView(eventView);
+    	}
+    	if(rowLayout != null && rowLayout.getChildCount() < 4)
+    	{
+    		View spaceView = new View(this);
+    		LayoutParams lp = new LayoutParams(0, 
+    				LayoutParams.WRAP_CONTENT);
+    		lp.weight = 4 - rowLayout.getChildCount();
+    		spaceView.setLayoutParams(lp);
+    		rowLayout.addView(spaceView);
+    		Log.i("schedule", lp.weight + "");
+    	}
+    	mainLayout.addView(rowLayout, startPos + row - 1);
+    	return startPos + row;
     }
 
-    private void init() {
+   /* private void init() {
         mBack = (ImageButton) findViewById(R.id.main_banner_left_btn);
         mBack.setOnClickListener(new BackClick());
         mGallery = (ViewPager) findViewById(R.id.gallery);
@@ -107,5 +148,5 @@ public class ScheduleActivity extends BaseActivity {
             ScheduleActivity.this.finish();
         }
     }// end inner class
-
+*/
 }// end class
