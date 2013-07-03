@@ -3,16 +3,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F1EF" >
+    android:background="#E5E5E5" >
 
     <ImageView
-        android:id="@+id/j_banner"
+        android:id="@+id/j_top"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:scaleType="fitXY"
-        android:src="@drawable/cep_banner" />
+        android:src="@drawable/top_banner_bg" />
 
     <ImageButton
         android:id="@+id/main_banner_left_btn"
@@ -33,11 +32,18 @@
         android:layout_marginTop="10dp"
         android:src="@drawable/show_title" />
 
+    <ImageView
+        android:id="@+id/j_line"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/j_top"
+        android:scaleType="fitXY"
+        android:src="@drawable/colorbar" />
+    
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/j_banner"
-        android:background="@drawable/show_shade_bg" >
+        android:layout_below="@id/j_line" >
 
         <android.support.v4.view.ViewPager
             android:id="@+id/gallery"
@@ -45,7 +51,7 @@
             android:layout_height="fill_parent"
             android:layout_centerHorizontal="true" >
         </android.support.v4.view.ViewPager>
-        
+
         <com.airAd.yaqinghui.ui.IndexView
             android:id="@+id/gallery_index"
             android:layout_width="@dimen/main_pic_index_width"
@@ -53,5 +59,11 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
-
+	
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/j_line"
+        android:scaleType="fitXY"
+        android:src="@drawable/lighten"/>
 </RelativeLayout>

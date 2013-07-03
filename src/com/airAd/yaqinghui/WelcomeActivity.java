@@ -19,7 +19,7 @@ public class WelcomeActivity extends BaseActivity {
 	public static final int LOAD_DELAY = 2500;
 	private SharedPreferences sp;
 	private ImageView mLoadImage;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

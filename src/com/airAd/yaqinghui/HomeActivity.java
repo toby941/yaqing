@@ -42,6 +42,7 @@ import android.widget.Toast;
 
 import com.airAd.framework.worker.ImageFetcher;
 import com.airAd.framework.worker.NetWorker;
+import com.airAd.yaqinghui.data.DatabaseService;
 import com.airAd.yaqinghui.data.model.Schedule;
 import com.airAd.yaqinghui.data.model.SignInCepActive;
 import com.airAd.yaqinghui.factory.HessianClient;
@@ -78,6 +79,8 @@ public class HomeActivity extends SlidingBaseActivity {
 
 	private TextView dateBanner, dateText;
 	private PushClose mPushClose;
+	
+	private DatabaseService dbService;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -109,6 +112,7 @@ public class HomeActivity extends SlidingBaseActivity {
 
 	public void init() {
 		// startPushService();
+		dbService= new DatabaseService(this);
 		registerBroadcast();
 		initSlidingMenu();
 		mImageFetcher = ImageFetcherFactory.genImageFetcher(this);

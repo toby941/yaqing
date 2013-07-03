@@ -21,15 +21,19 @@ public class CepActive {
 	public String getCepid() {
 		return cepid;
 	}
+	
 	public void setCepid(String cepid) {
 		this.cepid = cepid;
 	}
+	
 	public String getCepstate() {
 		return cepstate;
 	}
+	
 	public void setCepstate(String cepstate) {
 		this.cepstate = cepstate;
 	}
+	
 	public String getCeptitle() {
 		return ceptitle;
 	}

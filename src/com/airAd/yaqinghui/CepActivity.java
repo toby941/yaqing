@@ -1,6 +1,7 @@
 package com.airAd.yaqinghui;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import net.sf.json.JSONObject;
 import android.app.ProgressDialog;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.airAd.framework.worker.ImageFetcher;
 import com.airAd.framework.worker.NetWorker;
 import com.airAd.yaqinghui.data.model.CepItem;
+import com.airAd.yaqinghui.data.model.User;
 import com.airAd.yaqinghui.factory.HessianClient;
 import com.airAd.yaqinghui.factory.ImageFetcherFactory;
 import com.airAd.yaqinghui.fragment.CepItemFragment;
@@ -41,6 +43,8 @@ public class CepActivity extends BaseActivity {
     private ArrayList<CepItem> itemList;
     private IndexView mIndexView;
     private ProgressDialog progressDialog;
+    
+    private User mUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class CepActivity extends BaseActivity {
     }
 
     private void init() {
+    	mUser = MyApplication.getCurrentApp().getUser();
         mImageFetcher = ImageFetcherFactory.genImageFetcher(this);
         mBack = (ImageButton) findViewById(R.id.main_banner_left_btn);
         mBack.setOnClickListener(new BackClick());
@@ -113,10 +118,9 @@ public class CepActivity extends BaseActivity {
 			BasicAPI basicAPI = HessianClient.create();
 			JSONObject jsonObj;
 			try{
-				jsonObj = basicAPI.SelectAllCepActive(Config.CEP_USER_ID);
+				jsonObj = basicAPI.SelectAllCepActive(mUser.getId(),Locale.getDefault().getLanguage());
+				System.out.println(jsonObj.toString());
 			}catch(Exception e){
-				String s=e.getMessage();
-	        	MyApplication.push(s);
 				return null;
 			}
 			return new CepService().getCepList(jsonObj);

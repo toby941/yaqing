@@ -20,8 +20,6 @@ public class CepService {
                 item.setTitle(obj.getString("ceptitle"));
                 item.setTips(obj.getString("cepcontent"));
                 item.setPicUrl(obj.getString("ceppicture"));
-                item.setCommentNum(obj.getString("commentnum"));
-                item.setAttendNum(obj.getString("joinnum"));
                 retList.add(item);
             }// end for i
         } catch (JSONException e) {

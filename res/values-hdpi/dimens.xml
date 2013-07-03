@@ -25,9 +25,9 @@
     <dimen name="detail_news_content_abstract_height">90dp</dimen>
     <dimen name="cep_item_padLeft">15dp</dimen>
     <dimen name="cep_item_padRight">15dp</dimen>
-    <dimen name="cep_item_padTop">25dp</dimen>
-    <dimen name="cep_item_padBottom">30dp</dimen>
-    <dimen name="cep_item_pic_height">345dp</dimen>
+    <dimen name="cep_item_padTop">10dp</dimen>
+    <dimen name="cep_item_padBottom">0dp</dimen>
+    <dimen name="cep_item_pic_height">300dp</dimen>
     <dimen name="cep_item_box_width">220dp</dimen>
     <dimen name="cep_item_box_height">100dp</dimen>
     <dimen name="comment_pic_width">70dp</dimen>

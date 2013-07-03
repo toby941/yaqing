@@ -24,7 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * CEPÃ¿Ïî
+ * CEPÃ¿ï¿½ï¿½
  * 
  * @author Panyi
  * 
@@ -51,18 +51,12 @@ public class CepItemFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.cep_item, container, false);
-		TextView attendText = (TextView) v.findViewById(R.id.cep_text_attend);
-		TextView commitText = (TextView) v.findViewById(R.id.cep_text_commit);
 		TextView titleText =  (TextView) v.findViewById(R.id.title);
-		TextView contentText =  (TextView) v.findViewById(R.id.content);
 		ImageView img = (ImageView) v.findViewById(R.id.img);
-		detailBtn = (LinearLayout)v.findViewById(R.id.newsDetail);
-		detailBtn.setOnClickListener(new DetailBtn());
+//		detailBtn = (LinearLayout)v.findViewById(R.id.newsDetail);
+//		detailBtn.setOnClickListener(new DetailBtn());
 		
 		titleText.setText(item.getTitle());
-		contentText.setText(item.getTips());
-		attendText.setText(item.getAttendNum());
-		commitText.setText(item.getCommentNum());
 		mImageFetcher.loadImage(item.getPicUrl(), img);
 		
 		return v;
