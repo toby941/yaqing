@@ -50,14 +50,6 @@ public class MyApplication extends Application {
 		stack = new Stack<Object>();
 		super.onCreate();
 		dbService = new DatabaseService(this);
-//		Timer timer = new Timer();
-//		timer.schedule(new TimerTask() {
-//			@Override
-//			public void run() {
-//				Intent it = new Intent();
-//				MyApplication.this.sendBroadcast(it);
-//			}
-//		}, 0, 1000);
 	}
 
 	@Override
