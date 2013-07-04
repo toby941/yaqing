@@ -54,6 +54,11 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".GameDailyActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".LoginActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait" >
