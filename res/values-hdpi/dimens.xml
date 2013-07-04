@@ -30,4 +30,6 @@
     <dimen name="cep_item_box_height">100dp</dimen>
     <dimen name="comment_pic_width">70dp</dimen>
     <dimen name="comment_pic_height">70dp</dimen>
+    
+    <dimen name="cep_event_title_height">40dp</dimen>
 </resources>

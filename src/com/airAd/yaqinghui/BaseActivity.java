@@ -20,7 +20,6 @@ import com.airAd.yaqinghui.common.Constants;
  * 基础Activity类
  * 
  * @author panyi a
- * 
  */
 public class BaseActivity extends SherlockFragmentActivity {
 	private LayoutInflater mInflater;

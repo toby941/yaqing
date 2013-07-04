@@ -151,8 +151,113 @@
                 android:layout_width="fill_parent"
                 android:layout_height="3px"
                 android:background="@drawable/shader_line" />
-            
-            
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/cep_event_title_height"
+                android:background="#E5E5E5" >
+
+                <ImageView
+                    android:id="@+id/img_arrow_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="#E5E5E5"
+                    android:scaleType="center"
+                    android:src="@drawable/arrow_left" />
+
+                <ImageView
+                    android:id="@+id/j_img_arrow_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_toRightOf="@id/img_arrow_left"
+                    android:background="#E5E5E5"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/col_shadow" />
+
+                <ImageView
+                    android:id="@+id/img_arrow_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="#E5E5E5"
+                    android:scaleType="center"
+                    android:src="@drawable/arrow_right" />
+
+                <ImageView
+                    android:id="@+id/j_img_arrow_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_toLeftOf="@id/img_arrow_right"
+                    android:background="#E5E5E5"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/col_shadow" />
+
+                <LinearLayout
+                    android:id="@+id/add_cep_event"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_toLeftOf="@id/j_img_arrow_right"
+                    android:layout_toRightOf="@id/j_img_arrow_left"
+                    android:orientation="horizontal" >
+
+                    <com.airAd.yaqinghui.ui.CepTextView
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="第一场"
+                        android:textColor="#8D8D8D" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:background="#E5E5E5"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/col_shadow" />
+
+                    <com.airAd.yaqinghui.ui.CepTextView
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="第二场"
+                        android:textColor="#8D8D8D" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:background="#E5E5E5"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/col_shadow" />
+
+                    <com.airAd.yaqinghui.ui.CepTextView
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="第三场"
+                        android:textColor="#8D8D8D" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/cep_event_gallery"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/detail_news_pic_height">
+            </android.support.v4.view.ViewPager>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="4px"
+                android:layout_margin="5dp"
+                android:background="@drawable/shader_line" />
+
+            <TextView
+                android:id="@+id/cep_content"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:textSize="20dp" />
         </LinearLayout>
     </ScrollView>
 
@@ -160,7 +265,8 @@
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/j_line" >
+        android:layout_below="@id/j_line"
+        android:visibility="gone" >
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"

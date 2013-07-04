@@ -3,7 +3,12 @@
  */
 package com.airAd.yaqinghui.business.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 /**
  * Cep.java
@@ -20,6 +25,7 @@ public class Cep {
     private String score;
     private String time;
     private String place;
+    private List<String> pics;
     private List<CepEvent> cepEvents;
 
     //
@@ -29,6 +35,14 @@ public class Cep {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public List<String> getPics() {
+        return pics;
+    }
+
+    public void setPics(List<String> pics) {
+        this.pics = pics;
     }
 
     public String getTitle() {
@@ -103,6 +117,35 @@ public class Cep {
         this.place = place;
     }
 
-    //
+    public static Cep instance(JSONObject jsonObj) throws JSONException {
+        Cep cep = new Cep();
+        JSONObject obj = jsonObj.getJSONObject("TheOneCepInfo");
+        cep.setTitle(obj.getString("ceptitle"));
+        cep.setContent(obj.getString("cepcontent"));
+        cep.setPlace(obj.getString("cepplace"));
+        cep.setTime(obj.getString("ceptime"));
+        ArrayList<String> pics = new ArrayList<String>();
+        String[] picArray = obj.getString("ceppictureone").split(",");
+        for (int i = 0; i < picArray.length; i++) {
+            pics.add(picArray[i]);
+        }
+        cep.setPics(pics);
+        return cep;
+    }
 
+    public static List<Cep> instanceList(JSONObject jsonObj) throws JSONException {
+        List<Cep> ceps = new ArrayList<Cep>();
+        JSONArray cepArray = jsonObj.getJSONArray("AllCepInfo");
+        for (int i = 0; i < cepArray.size(); i++) {
+            Cep cep = new Cep();
+            JSONObject obj = cepArray.getJSONObject(i);
+            cep.setId(obj.getString("cepid"));
+            cep.setTitle(obj.getString("ceptitle"));
+            cep.setContent(obj.getString("cepcontent"));
+            cep.setPic(obj.getString("ceppicture"));
+            ceps.add(cep);
+        }// end loop
+        return ceps;
+    }
+    //
 }

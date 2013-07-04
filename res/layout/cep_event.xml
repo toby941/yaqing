@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F9F9"
+    android:orientation="vertical"
+    android:padding="15dp" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cep_event_clock" />
+        <TextView 
+            android:id="@+id/cep_event_time"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textColor="#000000"
+            />
+    </LinearLayout>
+	
+     <LinearLayout
+         android:visibility="gone"
+         android:layout_marginTop="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cep_event_clock" />
+    </LinearLayout>
+    
+     <LinearLayout
+         android:layout_marginTop="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cep_event_locate" />
+        <TextView 
+            android:id="@+id/cep_event_locate"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textColor="#000000"
+            />
+    </LinearLayout>
+    
+     <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cep_event_attend" />
+        <TextView 
+            android:id="@+id/cep_event_locate"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textColor="#000000"
+            />
+    </LinearLayout>
+    
+     <Button
+         android:layout_width="fill_parent" 
+         android:layout_height="wrap_content"
+         android:background="@drawable/prepost_bg"
+         />
+</LinearLayout>

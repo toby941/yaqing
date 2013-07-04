@@ -2,19 +2,9 @@ package com.airAd.yaqinghui.fragment;
 
 import java.util.ArrayList;
 
-import com.airAd.framework.worker.ImageFetcher;
-import com.airAd.framework.worker.ImageCache.ImageCacheParams;
-import com.airAd.yaqinghui.R;
-import com.airAd.yaqinghui.business.model.ActivityItem;
-import com.airAd.yaqinghui.common.Config;
-import com.airAd.yaqinghui.core.ImageFetcherFactory;
-
 import android.content.Context;
-import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +12,22 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airAd.framework.worker.ImageFetcher;
+import com.airAd.yaqinghui.R;
+import com.airAd.yaqinghui.business.model.ScheduleItem;
+import com.airAd.yaqinghui.core.ImageFetcherFactory;
+
 /**
- * �ճ��б�
  * 
  * @author Panyi
  * 
  */
 public class ScheduleListFragment extends Fragment {
-	private ArrayList<ActivityItem> itemList;
+	private ArrayList<ScheduleItem> itemList;
 	private ImageFetcher mImageFetcher;
 
 	public static ScheduleListFragment newInstance(
-		ArrayList<ActivityItem> itemList) {
+		ArrayList<ScheduleItem> itemList) {
 		final ScheduleListFragment f = new ScheduleListFragment();
 		f.itemList = itemList;
 		return f;
@@ -119,15 +113,15 @@ public class ScheduleListFragment extends Fragment {
 				convertView = mInflater
 						.inflate(R.layout.attend_list_item, null);
 			}
-			ActivityItem item = itemList.get(position);
+			ScheduleItem item = itemList.get(position);
 			ImageView statusImg = (ImageView) convertView
 					.findViewById(R.id.status_img);
 			TextView statusText = (TextView) convertView
 					.findViewById(R.id.status_text);
-			if (item.getStatus() == ActivityItem.ACTIVITY_STATUS_APPLYING) {
+			if (item.getStatus() == ScheduleItem.ACTIVITY_STATUS_APPLYING) {
 				statusImg.setImageResource(R.drawable.joining_icon);
 				statusText.setText(R.string.applying);
-			} else if (item.getStatus() == ActivityItem.ACTIVITY_STATUS_HASATTEND) {
+			} else if (item.getStatus() == ScheduleItem.ACTIVITY_STATUS_HASATTEND) {
 				statusImg.setImageResource(R.drawable.joined_icon);
 				statusText.setText(R.string.has_attend);
 			}

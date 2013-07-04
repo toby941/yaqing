@@ -35,9 +35,22 @@ public class ChangePasswordResponse {
         this.msg = msg;
     }
 
+    public String getTemp() {
+        return temp;
+    }
+
+    public void setTemp(String temp) {
+        this.temp = temp;
+    }
+
     public ChangePasswordResponse() {
         flag = Constants.FLAG_ERR;
         msg = Constants.FLAG_ERR_MSG;
+        temp = "";
+    }
+
+    public String toString() {
+        return getTemp();
     }
 
     public static ChangePasswordResponse instance(JSONObject obj) throws JSONException {
@@ -54,6 +67,7 @@ public class ChangePasswordResponse {
                 res.setMsg(result.optString("msg"));
             }
         }
+        res.setTemp(result.toString());
         return res;
     }
 

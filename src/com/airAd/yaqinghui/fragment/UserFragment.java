@@ -1,5 +1,21 @@
 package com.airAd.yaqinghui.fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
@@ -10,26 +26,6 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.google.zxing.client.android.CaptureActivity;
-
-import android.content.Context;
-import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * 
@@ -94,7 +90,7 @@ public class UserFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		user = MyApplication.getCurrentApp().getUser();
+        user = MyApplication.getCurrentUser();
 		locationManager = LocationManagerProxy.getInstance(getActivity());
 	}
 
@@ -114,8 +110,8 @@ public class UserFragment extends Fragment {
 		
 		if(user!=null){
 			TextView userName = (TextView)view.findViewById(R.id.username);
-			userName.setText(user.getName());//设置用户名
-		}
+            userName.setText(user.getName());// 设置用户名
+        }
 		return view;
 	}
 
@@ -150,19 +146,19 @@ public class UserFragment extends Fragment {
 	private final class ThumbClick implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			mGallery.setCurrentItem(1);// 跳转到个人信息页
+            mGallery.setCurrentItem(1);// 跳转到个人信息页
 		}
 	}// end inner class
 
 	private final class ScanClick implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			if(isLocating){//当前正在定位  按钮不响应
-				return;
+            if (isLocating) {// 当前正在定位 按钮不响应
+                return;
 			}
 			
-			if (openGPSSettings()) {// GPS确保打开
-				locationManager.removeUpdates(locationListener);
+            if (openGPSSettings()) {// GPS确保打开
+                locationManager.removeUpdates(locationListener);
 				locationManager.setGpsEnable(true);
 				locationManager.requestLocationUpdates(
 						LocationProviderProxy.AMapNetwork, 5000, 10,

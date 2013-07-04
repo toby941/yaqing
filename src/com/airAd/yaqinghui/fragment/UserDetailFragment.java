@@ -2,39 +2,27 @@ package com.airAd.yaqinghui.fragment;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.airAd.framework.worker.ImageFetcher;
 import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.SetThumbActivity;
-import com.airAd.yaqinghui.business.model.ActivityItem;
 import com.airAd.yaqinghui.business.model.User;
-import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.airAd.yaqinghui.ui.CustomViewPager;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 /**
  * 
@@ -51,7 +39,7 @@ public class UserDetailFragment extends Fragment {
 	private User mUser;
 	protected ImageFetcher mFetcher;
 	
-	 /*拍照的照片存储位置*/  
+    /* 拍照的照片存储位置 */
     private static final File PHOTO_DIR =
     		new File(Environment.getExternalStorageDirectory() + "/dcim/Camera");  
 
@@ -71,7 +59,7 @@ public class UserDetailFragment extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		mUser = MyApplication.getCurrentApp().getUser();
+        mUser = MyApplication.getCurrentUser();
 		super.onCreate(savedInstanceState);
 	}
 
@@ -85,9 +73,9 @@ public class UserDetailFragment extends Fragment {
 		mBack.setOnClickListener(new BackClick());
 		thumb = (ImageView) view.findViewById(R.id.snap);
 		thumb.setImageBitmap(((HomeActivity)getActivity()).getThumbBitmap());
-		thumb.setOnClickListener(new TakePhotoClick());// 拍照按钮
+        thumb.setOnClickListener(new TakePhotoClick());// 拍照按钮
 		
-		if(mUser!=null){//载入个人信息
+        if (mUser != null) {// 载入个人信息
 			ImageView countryImage =(ImageView)view.findViewById(R.id.detail_country_img);
 			mFetcher.loadImage(mUser.getFlag(), countryImage);
 			TextView nameText = (TextView)view.findViewById(R.id.detail_name);
@@ -125,7 +113,7 @@ public class UserDetailFragment extends Fragment {
 		System.gc();
 	}
 
-	private final class BackClick implements OnClickListener {// 返回第一页面
+    private final class BackClick implements OnClickListener {// 返回第一页面
 		@Override
 		public void onClick(View v) {
 			mGallery.setCurrentItem(0);
@@ -139,20 +127,19 @@ public class UserDetailFragment extends Fragment {
 		return dateFormat.format(date) + ".jpg";
 	}
 
-	/**
-	 * 拍照
-	 * 
-	 * @author Panyi
-	 * 
-	 */
+	        /**
+     * 拍照
+     * 
+     * @author Panyi
+     */
 	private final class TakePhotoClick implements OnClickListener {
 		@Override
 		public void onClick(View v) {
 			getActivity().startActivity(new Intent(getActivity(),SetThumbActivity.class));
 			
-//			PHOTO_DIR.mkdirs();// 创建照片的存储目录  
-//            File mCurrentPhotoFile = new File(PHOTO_DIR, getPhotoFileName());// 给新照的照片文件命名  
-//			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE, null);
+            // PHOTO_DIR.mkdirs();// 创建照片的存储目录
+            // File mCurrentPhotoFile = new File(PHOTO_DIR, getPhotoFileName());// 给新照的照片文件命名
+            // Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE, null);
 //			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mCurrentPhotoFile));
 //			intent.putExtra("name", mCurrentPhotoFile.getAbsolutePath());
 //			getActivity().startActivityForResult(intent, SELECTED_THUMBS);
@@ -161,7 +148,7 @@ public class UserDetailFragment extends Fragment {
 			// intent.addCategory(Intent.CATEGORY_OPENABLE);
 			// intent.setType("image/*");
 			// getActivity().startActivityForResult(Intent.createChooser(intent,
-			// "选择图片"), SELECTED_THUMBS);
+            // "选择图片"), SELECTED_THUMBS);
 		}
 	}// end inner class
 

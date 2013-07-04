@@ -1,27 +1,21 @@
 package com.airAd.yaqinghui.fragment;
 
-import java.util.ArrayList;
-
-import com.airAd.framework.worker.ImageFetcher;
-import com.airAd.yaqinghui.CepDetailActivity;
-import com.airAd.yaqinghui.R;
-import com.airAd.yaqinghui.business.model.CepItem;
-import com.airAd.yaqinghui.common.Config;
-import com.airAd.yaqinghui.core.ImageFetcherFactory;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.airAd.framework.worker.ImageFetcher;
+import com.airAd.yaqinghui.CepDetailActivity;
+import com.airAd.yaqinghui.R;
+import com.airAd.yaqinghui.business.model.Cep;
+import com.airAd.yaqinghui.common.Config;
 
 /**
  * 
@@ -29,15 +23,15 @@ import android.widget.TextView;
  * 
  */
 public class CepItemFragment extends Fragment {
-	private CepItem item;
+    private Cep cep;
 	private ImageFetcher mImageFetcher;
 	
 	private LinearLayout detailBtn;
 	
-	public static CepItemFragment newInstance(CepItem data, ImageFetcher fetcher) {
+    public static CepItemFragment newInstance(Cep data, ImageFetcher fetcher) {
 		final CepItemFragment f = new CepItemFragment();
 		f.mImageFetcher = fetcher;
-		f.item = data;
+		f.cep = data;
 		return f;
 	}
 
@@ -55,8 +49,8 @@ public class CepItemFragment extends Fragment {
 		View mainLayout  = v.findViewById(R.id.item_main);
 		mainLayout.setOnClickListener(new DetailBtn());
 		
-		titleText.setText(item.getTitle());
-		mImageFetcher.loadImage(item.getPicUrl(), img);
+		titleText.setText(cep.getTitle());
+        mImageFetcher.loadImage(cep.getPic(), img);
 		
 		return v;
 	}
@@ -76,7 +70,7 @@ public class CepItemFragment extends Fragment {
 		public void onClick(View v) {
 			Intent it=new Intent();
 			it.setClass(getActivity(), CepDetailActivity.class);
-			it.putExtra(Config.CEP_ID, item.getCepId());
+            it.putExtra(Config.CEP_ID, cep.getId());
 			getActivity().startActivity(it);
 		}
 	}//end inner class

@@ -1,33 +1,34 @@
 package com.airAd.yaqinghui.business;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-import com.airAd.yaqinghui.business.model.CepItem;
+import com.airAd.yaqinghui.business.api.BasicAPI;
+import com.airAd.yaqinghui.business.model.Cep;
+import com.airAd.yaqinghui.business.model.User;
+import com.airAd.yaqinghui.core.HessianClient;
 
 public class CepService {
-    public ArrayList<CepItem> getCepList(JSONObject jsonObj) {
-        ArrayList<CepItem> retList = new ArrayList<CepItem>();
+    public List<Cep> getCeps(String userId) {
+        BasicAPI api = HessianClient.create();
         try {
-            JSONArray cepArray = jsonObj.getJSONArray("AllCepInfo");
-            for (int i = 0; i < cepArray.size(); i++) {
-                CepItem item = new CepItem();
-                JSONObject obj = cepArray.getJSONObject(i);
-                item.setCepId(obj.getString("cepid"));
-                item.setTitle(obj.getString("ceptitle"));
-                item.setTips(obj.getString("cepcontent"));
-                item.setPicUrl(obj.getString("ceppicture"));
-                retList.add(item);
-            }// end for i
-        } catch (JSONException e) {
-            e.printStackTrace();
-            retList = null;
-            return retList;
+            JSONObject jsonObj = api.SelectAllCepActive(userId, User.getLan());
+            return Cep.instanceList(jsonObj);
         }
-        return retList;
+        catch (Exception e) {
+            return null;
+        }
     }
 
+    public Cep getCep(String userId, String cepId) {
+        BasicAPI api = HessianClient.create();
+        try {
+            JSONObject jsonObj = api.SelectTheOneCepActive(cepId, userId, User.getLan());
+            return Cep.instance(jsonObj);
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
 }

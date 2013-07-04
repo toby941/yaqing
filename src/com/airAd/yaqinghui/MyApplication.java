@@ -1,16 +1,13 @@
 package com.airAd.yaqinghui;
 
 import java.util.Stack;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import com.airAd.yaqinghui.business.model.User;
-import com.airAd.yaqinghui.db.DatabaseService;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Intent;
 import android.util.DisplayMetrics;
+
+import com.airAd.yaqinghui.business.model.User;
+import com.airAd.yaqinghui.db.DatabaseService;
 
 /**
  * 
@@ -36,6 +33,10 @@ public class MyApplication extends Application {
 		return current;
 	}
 	
+    public static User getCurrentUser() {
+        return getCurrentApp().getUser();
+    }
+
 	public static void push(Object obj) {
 		stack.push(obj);
 	}

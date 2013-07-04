@@ -1,11 +1,8 @@
 package com.airAd.yaqinghui;
 
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.List;
 
-import net.sf.json.JSONObject;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,12 +16,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.airAd.framework.worker.ImageFetcher;
-import com.airAd.framework.worker.NetWorker;
 import com.airAd.yaqinghui.business.CepService;
-import com.airAd.yaqinghui.business.api.BasicAPI;
-import com.airAd.yaqinghui.business.model.CepItem;
+import com.airAd.yaqinghui.business.model.Cep;
 import com.airAd.yaqinghui.business.model.User;
-import com.airAd.yaqinghui.core.HessianClient;
 import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.airAd.yaqinghui.fragment.CepItemFragment;
 import com.airAd.yaqinghui.ui.IndexView;
@@ -40,10 +34,10 @@ public class CepActivity extends BaseActivity {
     private ViewPager mGallery;
     private ImageFetcher mImageFetcher;
     private RequestTask mTask;
-    private ArrayList<CepItem> itemList;
+    private List<Cep> ceps;
     private IndexView mIndexView;
     private ProgressDialog progressDialog;
-    
+
     private User mUser;
 
     @Override
@@ -54,7 +48,7 @@ public class CepActivity extends BaseActivity {
     }
 
     private void init() {
-    	mUser = MyApplication.getCurrentApp().getUser();
+        mUser = MyApplication.getCurrentUser();
         mImageFetcher = ImageFetcherFactory.genImageFetcher(this);
         mBack = (ImageButton) findViewById(R.id.main_banner_left_btn);
         mBack.setOnClickListener(new BackClick());
@@ -80,12 +74,12 @@ public class CepActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int index) {
-            return CepItemFragment.newInstance(itemList.get(index), mImageFetcher);
+            return CepItemFragment.newInstance(ceps.get(index), mImageFetcher);
         }
 
         @Override
         public int getCount() {
-            return itemList.size();
+            return ceps.size();
         }
     }// end inner class
 
@@ -112,29 +106,22 @@ public class CepActivity extends BaseActivity {
         }
     }
 
-    private final class RequestTask extends AsyncTask<Integer, Integer, ArrayList<CepItem>> {
-      @Override
-		protected ArrayList<CepItem> doInBackground(Integer... params) {
-			BasicAPI basicAPI = HessianClient.create();
-			JSONObject jsonObj;
-			try{
-				jsonObj = basicAPI.SelectAllCepActive(mUser.getId(),Locale.getDefault().getLanguage());
-			}catch(Exception e){
-				return null;
-			}
-			return new CepService().getCepList(jsonObj);
-		}
+    private final class RequestTask extends AsyncTask<Integer, Integer, List<Cep>> {
+        @Override
+        protected List<Cep> doInBackground(Integer... params) {
+            return new CepService().getCeps(mUser.getId());
+        }
 
         @Override
-        protected void onPostExecute(ArrayList<CepItem> result) {
+        protected void onPostExecute(List<Cep> result) {
             super.onPostExecute(result);
             progressDialog.dismiss();
-            itemList = result;
-            if (itemList == null) {
+            ceps = result;
+            if (ceps == null) {
                 Toast.makeText(CepActivity.this, R.string.net_exception, Toast.LENGTH_SHORT).show();
                 return;
             }
-            mIndexView.setNum(itemList.size(), mIndexView.getMeasuredWidth());
+            mIndexView.setNum(ceps.size(), mIndexView.getMeasuredWidth());
             mGallery.setAdapter(new PageAdapter(getSupportFragmentManager()));
             mGallery.setOnPageChangeListener(new OnPageChangeListener() {
                 @Override
