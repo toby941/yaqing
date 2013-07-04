@@ -18,4 +18,12 @@ public class DatabaseService {
 		db = sqliteOpen.getWritableDatabase();
 	}
 	
+	public SQLiteDatabase getWirteDatabase()
+	{
+		return db;
+	}
+	public SQLiteDatabase getReadDatabase()
+	{
+		return sqliteOpen.getReadableDatabase();
+	}
 }// end class

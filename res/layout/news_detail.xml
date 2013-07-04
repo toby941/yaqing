@@ -48,7 +48,7 @@
         android:scaleType="fitXY"
         android:src="@drawable/colorbar" />
 
-    <ScrollView
+    <com.airAd.yaqinghui.ui.ViewPagerScrollView
         android:id="@+id/main"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -201,11 +201,11 @@
                     android:orientation="horizontal" >
 
                     <com.airAd.yaqinghui.ui.CepTextView
+                        android:id="@+id/cep_event_top1"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="第一场"
                         android:textColor="#8D8D8D" />
 
                     <ImageView
@@ -216,11 +216,11 @@
                         android:src="@drawable/col_shadow" />
 
                     <com.airAd.yaqinghui.ui.CepTextView
+                        android:id="@+id/cep_event_top2"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="第二场"
                         android:textColor="#8D8D8D" />
 
                     <ImageView
@@ -231,11 +231,11 @@
                         android:src="@drawable/col_shadow" />
 
                     <com.airAd.yaqinghui.ui.CepTextView
+                        android:id="@+id/cep_event_top3"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="第三场"
                         android:textColor="#8D8D8D" />
                 </LinearLayout>
             </RelativeLayout>
@@ -243,30 +243,30 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/cep_event_gallery"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/detail_news_pic_height">
+                android:layout_height="@dimen/detail_event_item_height">
             </android.support.v4.view.ViewPager>
 
             <View
                 android:layout_width="fill_parent"
-                android:layout_height="4px"
+                android:layout_height="2px"
                 android:layout_margin="5dp"
                 android:background="@drawable/shader_line" />
 
             <TextView
                 android:id="@+id/cep_content"
+                android:padding="10dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:textSize="20dp" />
+                android:textSize="18dp" />
         </LinearLayout>
-    </ScrollView>
+    </com.airAd.yaqinghui.ui.ViewPagerScrollView>
 
     <RelativeLayout
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/j_line"
-        android:visibility="gone" >
+         >
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"

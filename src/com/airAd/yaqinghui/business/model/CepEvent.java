@@ -3,7 +3,6 @@
  */
 package com.airAd.yaqinghui.business.model;
 
-import java.util.List;
 
 /**
  * CepEvent.java
@@ -13,13 +12,38 @@ import java.util.List;
 public class CepEvent {
     private String id;
     private String cepId;
-    private List<String> pics;
     private String place;
     private String startTime;
     private String endTime;
     private String flag;
+	private String name;
+	private Integer maxNum;
+	private Integer attendNum;
+	public String getName()
+	{
+		return name;
+	}
+	public void setName(String name)
+	{
+		this.name= name;
+	}
+	public Integer getMaxNum()
+	{
+		return maxNum;
+	}
+	public void setMaxNum(Integer maxNum)
+	{
+		this.maxNum= maxNum;
+	}
+	public Integer getAttendNum()
+	{
+		return attendNum;
+	}
+	public void setAttendNum(Integer attendNum)
+	{
+		this.attendNum= attendNum;
+	}
 
-    //
     public String getId() {
         return id;
     }
@@ -34,14 +58,6 @@ public class CepEvent {
 
     public void setCepId(String cepId) {
         this.cepId = cepId;
-    }
-
-    public List<String> getPics() {
-        return pics;
-    }
-
-    public void setPics(List<String> pics) {
-        this.pics = pics;
     }
 
     public String getPlace() {

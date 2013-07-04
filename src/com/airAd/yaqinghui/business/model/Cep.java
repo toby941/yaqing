@@ -20,10 +20,7 @@ public class Cep {
     private String title;
     private String content;
     private String pic;
-    private int joinNum;
-    private int sigupNum;
     private String score;
-    private String time;
     private String place;
     private List<String> pics;
     private List<CepEvent> cepEvents;
@@ -69,21 +66,6 @@ public class Cep {
         this.pic = pic;
     }
 
-    public int getJoinNum() {
-        return joinNum;
-    }
-
-    public void setJoinNum(int joinNum) {
-        this.joinNum = joinNum;
-    }
-
-    public int getSigupNum() {
-        return sigupNum;
-    }
-
-    public void setSigupNum(int sigupNum) {
-        this.sigupNum = sigupNum;
-    }
 
     public String getScore() {
         return score;
@@ -91,14 +73,6 @@ public class Cep {
 
     public void setScore(String score) {
         this.score = score;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public List<CepEvent> getCepEvents() {
@@ -123,7 +97,6 @@ public class Cep {
         cep.setTitle(obj.getString("ceptitle"));
         cep.setContent(obj.getString("cepcontent"));
         cep.setPlace(obj.getString("cepplace"));
-        cep.setTime(obj.getString("ceptime"));
         ArrayList<String> pics = new ArrayList<String>();
         String[] picArray = obj.getString("ceppictureone").split(",");
         for (int i = 0; i < picArray.length; i++) {

@@ -15,69 +15,90 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/cep_event_clock" />
-        <TextView 
+
+        <TextView
             android:id="@+id/cep_event_time"
-            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:textColor="#000000"
-            />
+            android:layout_marginLeft="10dp"
+            android:textColor="#000000" />
     </LinearLayout>
-	
-     <LinearLayout
-         android:visibility="gone"
-         android:layout_marginTop="5dp"
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/cep_event_clock" />
     </LinearLayout>
-    
-     <LinearLayout
-         android:layout_marginTop="5dp"
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal" >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/cep_event_locate" />
-        <TextView 
+
+        <TextView
             android:id="@+id/cep_event_locate"
-            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:textColor="#000000"
-            />
+            android:layout_marginLeft="10dp"
+            android:textColor="#000000" />
     </LinearLayout>
-    
-     <LinearLayout
-        android:layout_marginTop="5dp"
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal" >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/cep_event_attend" />
-        <TextView 
-            android:id="@+id/cep_event_locate"
-            android:layout_marginLeft="10dp"
+
+        <TextView
+            android:id="@+id/cep_event_attend"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:textColor="#000000"
-            />
+            android:layout_marginLeft="10dp"
+            android:textColor="#000000" />
     </LinearLayout>
-    
-     <Button
-         android:layout_width="fill_parent" 
-         android:layout_height="wrap_content"
-         android:background="@drawable/prepost_bg"
-         />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/prepost_bg"
+        android:text="@string/order_attend" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:text="@string/sign_in"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"	
+            android:layout_height="wrap_content" />
+        
+        <Button
+            android:layout_weight="1"
+            android:text="@string/make_socre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 </LinearLayout>

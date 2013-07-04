@@ -1,7 +1,7 @@
 /*
  * Copyright 2013 Mitian Technology, Co., Ltd. All rights reserved.
  */
-package com.airAd.yaqinghui.business.api.vo;
+package com.airAd.yaqinghui.business.api.vo.response;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;

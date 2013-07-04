@@ -5,8 +5,9 @@ package com.airAd.yaqinghui.business;
 
 import net.sf.json.JSONObject;
 
+import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.business.api.BasicAPI;
-import com.airAd.yaqinghui.business.api.vo.ChangePasswordResponse;
+import com.airAd.yaqinghui.business.api.vo.response.ChangePasswordResponse;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.core.HessianClient;
 
@@ -34,11 +35,12 @@ public class AccountService extends BaseService {
 
     //
 
-    public ChangePasswordResponse doChangePassword(String userId, String oldPassword, String newPassword,
-            String confirmPassword) {
+    public ChangePasswordResponse doChangePassword(String oldPassword, String newPassword, String confirmPassword) {
         BasicAPI api = HessianClient.create();
         try {
-            JSONObject jsonObj = api.ChangePassword(userId, oldPassword, newPassword, confirmPassword, User.getLan());
+            JSONObject jsonObj =
+                    api.ChangePassword(MyApplication.getCurrentUser().getId(), oldPassword, newPassword,
+                            confirmPassword, User.getLan());
             return ChangePasswordResponse.instance(jsonObj);
         }
         catch (Exception e) {

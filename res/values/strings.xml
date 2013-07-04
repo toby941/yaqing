@@ -28,14 +28,14 @@
     <string name="delete">删除</string>
     <string name="attention_test_text">男子200米花样游泳</string>
     <string name="net_exception">网络异常</string>
-    <string name="order_attend">预约参加</string>
+    <string name="order_attend">预约</string>
     <string name="order_cancel">取消预约</string>
     <string name="addCommit">添加评论</string>
     <string name="news_detail_title">活动详情</string>
     <string name="my_activity">我的活动</string>
     <string name="has_attend_activity">已报名活动</string>
     <string name="activity_notify">&#160;活动通知&#160;</string>
-    <string name="sign_in">&#160;&#160;&#160;&#160;签到&#160;&#160;&#160;&#160;</string>
+    <string name="sign_in">签到</string>
     <string name="applying">申请中</string>
     <string name="has_attend">已经报名</string>
     <string name="activity_search">活动查询</string>
@@ -85,5 +85,5 @@
     <string name="schedule_my_project">我参加的项目</string>
     <string name="schedule_other_project">其它的项目</string>
     <string name="project_trackfield">田径</string>
-
+	<string name="make_socre">评分</string>
 </resources>
