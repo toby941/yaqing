@@ -1,16 +1,53 @@
 package com.airAd.yaqinghui.business.model;
 
-public class ScheduleItem {
-    public static final int ACTIVITY_STATUS_HASATTEND = 2;
-    public static final int ACTIVITY_STATUS_APPLYING = 1;
-    private int status;
+import java.util.Date;
 
-    public int getStatus() {
-        return status;
+public class ScheduleItem {
+    public static final int TYPE_GAME = 1;
+    public static final int TYPE_CEP_EVENT = 2;
+
+    private Integer cid;
+    private String title;
+    private String timeStr;
+    private String place;
+    private String pic;
+    private String userId;
+    // itemtype 为1 refId 为比赛id itemtype为2 refId 为cep id
+    private String refId;
+    private String cepId;
+    // itemtype 1 比赛 2 cep活动
+    private Integer itemType;
+    private Integer year;
+    private Integer month;
+    private Integer day;
+    private Long addTimel;
+    private Date addTime;
+    private Long startTimel;
+    private Date startTime;
+    //
+
+    public Integer getCid() {
+        return cid;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public Long getStartTimel() {
+        return startTimel;
+    }
+
+    public void setStartTimel(Long startTimel) {
+        this.startTimel = startTimel;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setCid(Integer cid) {
+        this.cid = cid;
     }
 
     public String getTitle() {
@@ -21,40 +58,102 @@ public class ScheduleItem {
         this.title = title;
     }
 
-    public String getTime() {
-        return time;
+    public String getTimeStr() {
+        return timeStr;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTimeStr(String timeStr) {
+        this.timeStr = timeStr;
     }
 
-    public String getLocation() {
-        return location;
+    public String getPlace() {
+        return place;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
-    public String getContent() {
-        return content;
+    public String getPic() {
+        return pic;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 
-    public String getPicurl() {
-        return picurl;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setPicurl(String picurl) {
-        this.picurl = picurl;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
-    private String title;
-    private String time;
-    private String location;
-    private String content;
-    private String picurl;
+
+    public String getRefId() {
+        return refId;
+    }
+
+    public void setRefId(String refId) {
+        this.refId = refId;
+    }
+
+    public String getCepId() {
+        return cepId;
+    }
+
+    public void setCepId(String cepId) {
+        this.cepId = cepId;
+    }
+
+    public Integer getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(Integer itemType) {
+        this.itemType = itemType;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
+    }
+
+    public Long getAddTimel() {
+        return addTimel;
+    }
+
+    public void setAddTimel(Long addTimel) {
+        this.addTimel = addTimel;
+    }
+
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
+
+    //
+
 }// end class

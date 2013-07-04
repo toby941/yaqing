@@ -23,7 +23,16 @@ public class NoficationMessage {
     private Integer readFlag;
     private String content;
     private Integer messageType;
+    private Long addTimel;
     private Date addTime;
+
+    public Long getAddTimel() {
+        return addTimel;
+    }
+
+    public void setAddTimel(Long addTimel) {
+        this.addTimel = addTimel;
+    }
 
     public Integer getCid() {
         return cid;
