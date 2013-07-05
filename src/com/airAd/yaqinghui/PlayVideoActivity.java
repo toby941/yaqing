@@ -2,6 +2,8 @@ package com.airAd.yaqinghui;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
 /**
@@ -11,14 +13,19 @@ import android.widget.VideoView;
  */
 public class PlayVideoActivity extends Activity
 {
-	public static final String URL= "http://114.80.184.54/youku/6974F778BFA39812EE311F25BB/030010010051D611E3D90C0634800B1BFD35E0-2E07-7E8C-9EE9-49F634268EAA.3gp";
+	public static final String URL= "http://www.nanjing2013.org/upload/flv/yaqing.mp4";
 	private VideoView videoView;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		this.getWindow().setFlags(
+				WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.playvideo);
-		Uri uri= Uri.parse(URL);
+
+		Uri uri= Uri.parse("http://www.nanjing2013.org/upload/flv/yaqing.mp4");
 		videoView= (VideoView) this.findViewById(R.id.video);
 		videoView.setMediaController(new MediaController(this));
 		videoView.setVideoURI(uri);

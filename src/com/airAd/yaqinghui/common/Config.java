@@ -37,7 +37,7 @@ public class Config {
 	public static final String EVENT_REMIND_ISOPEN= "event_remind_isopen";
 	public static final String EVENT_REMIND_BEFORE= "event_remind_before";
 	public static final String REGULAR_REMIND_ISOPEN= "regular_remind_isopen";
-	public static final String REGULAR_REMIND_BEFORE= "regular_remind_before";
+	public static final String REGULAR_REMIND_TIME= "regular_remind_time";
 	
 	public static final String CHANGE_THUMB_BROADCAST="thumb_change_broadcast";
 

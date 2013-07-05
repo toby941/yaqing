@@ -87,5 +87,12 @@
     <string name="project_trackfield">田径</string>
 	<string name="make_socre">评分</string>
 	<string name="event_tips">事项提醒</string>
-	<string name="event_remind_text">开始前%d分钟提醒</string>	
+	<string name="event_remind_text">开始前%d分钟提醒</string>
+	<string name="dialy_remind">每日提醒</string>	
+	<string name="dialy_remind_text">%s提醒</string>
+	<string name="about">关于</string>
+	<string name="help">帮助</string>
+	<string name="upgrate_version">升级版本</string>
+	<string name="reset_password">修改密码</string>
+	<string name="login_out">退出账号</string>
 </resources>

@@ -106,7 +106,7 @@
         <activity
             android:name=".PlayVideoActivity"
             android:configChanges="locale"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".SetThumbActivity"
