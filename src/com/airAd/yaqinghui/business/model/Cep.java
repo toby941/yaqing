@@ -16,109 +16,133 @@ import net.sf.json.JSONObject;
  * @author liyuhang
  */
 public class Cep {
-    private String id;
-    private String title;
-    private String content;
-    private String pic;
-    private String score;
-    private String place;
-    private List<String> pics;
-    private List<CepEvent> cepEvents;
+	private String id;
+	private String title;
+	private String content;
+	private String iconType;
+	private String pic;
+	private String score;
+	private List<String> pics;
+	private List<CepEvent> cepEvents;
 
-    //
-    public String getId() {
-        return id;
-    }
+	//
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public List<String> getPics() {
-        return pics;
-    }
+	public String getIconType() {
+		return iconType;
+	}
 
-    public void setPics(List<String> pics) {
-        this.pics = pics;
-    }
+	public void setIconType(String iconType) {
+		this.iconType = iconType;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public List<String> getPics() {
+		return pics;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public void setPics(List<String> pics) {
+		this.pics = pics;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getPic() {
-        return pic;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public void setPic(String pic) {
-        this.pic = pic;
-    }
+	public String getContent() {
+		return content;
+	}
 
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-    public String getScore() {
-        return score;
-    }
+	public String getPic() {
+		return pic;
+	}
 
-    public void setScore(String score) {
-        this.score = score;
-    }
+	public void setPic(String pic) {
+		this.pic = pic;
+	}
 
-    public List<CepEvent> getCepEvents() {
-        return cepEvents;
-    }
+	public String getScore() {
+		return score;
+	}
 
-    public void setCepEvents(List<CepEvent> cepEvents) {
-        this.cepEvents = cepEvents;
-    }
+	public void setScore(String score) {
+		this.score = score;
+	}
 
-    public String getPlace() {
-        return place;
-    }
+	public List<CepEvent> getCepEvents() {
+		return cepEvents;
+	}
 
-    public void setPlace(String place) {
-        this.place = place;
-    }
+	public void setCepEvents(List<CepEvent> cepEvents) {
+		this.cepEvents = cepEvents;
+	}
 
-    public static Cep instance(JSONObject jsonObj) throws JSONException {
-        Cep cep = new Cep();
-        JSONObject obj = jsonObj.getJSONObject("TheOneCepInfo");
-        cep.setTitle(obj.getString("ceptitle"));
-        cep.setContent(obj.getString("cepcontent"));
-        cep.setPlace(obj.getString("cepplace"));
-        ArrayList<String> pics = new ArrayList<String>();
-        String[] picArray = obj.getString("ceppictureone").split(",");
-        for (int i = 0; i < picArray.length; i++) {
-            pics.add(picArray[i]);
-        }
-        cep.setPics(pics);
-        return cep;
-    }
+	public static Cep instance(JSONObject jsonObj) throws JSONException {
+		Cep cep = new Cep();
+		JSONObject obj = jsonObj.getJSONObject("TheOneCepInfo");
+		cep.setId(obj.optString("cepid"));
+		cep.setTitle(obj.getString("ceptitle"));
+		cep.setContent(obj.getString("cepcontent"));
+		ArrayList<String> pics = new ArrayList<String>();
+		String[] picArray = obj.getString("ceppictures").split(",");
+		for (int i = 0; i < picArray.length; i++) {
+			pics.add(picArray[i]);
+		}
+		cep.setPics(pics);
+		cep.setPic(obj.optString("ceppictureone"));
+		cep.setScore(obj.optString("score"));
+		// cepevent
+		JSONArray eventsArr = obj.optJSONArray("event");
+		List<CepEvent> events = new ArrayList<CepEvent>();
+		if (eventsArr != null) {
+			for (int i = 0; i < eventsArr.size(); i++) {
+				JSONObject eventObj = eventsArr.getJSONObject(i);
+				CepEvent event = new CepEvent();
+				event.setCepId(cep.getId());
+				event.setId(eventObj.getString("eventid"));
+				event.setStartTime(eventObj.optString("begintime"));
+				event.setEndTime(eventObj.optString("endtime"));
+				event.setPlace(eventObj.optString("cepplace"));
+				event.setMaxNum(Integer.parseInt(eventObj.optString("joinnum")));
+				event.setAttendNum(Integer.parseInt(eventObj
+						.optString("signupnum")));
+				events.add(event);
+			}
+			cep.setCepEvents(events);
+		}
+		//
+		return cep;
+	}
 
-    public static List<Cep> instanceList(JSONObject jsonObj) throws JSONException {
-        List<Cep> ceps = new ArrayList<Cep>();
-        JSONArray cepArray = jsonObj.getJSONArray("AllCepInfo");
-        for (int i = 0; i < cepArray.size(); i++) {
-            Cep cep = new Cep();
-            JSONObject obj = cepArray.getJSONObject(i);
-            cep.setId(obj.getString("cepid"));
-            cep.setTitle(obj.getString("ceptitle"));
-            cep.setContent(obj.getString("cepcontent"));
-            cep.setPic(obj.getString("ceppicture"));
-            ceps.add(cep);
-        }// end loop
-        return ceps;
-    }
-    //
+	public static List<Cep> instanceList(JSONObject jsonObj)
+			throws JSONException {
+		List<Cep> ceps = new ArrayList<Cep>();
+		JSONArray cepArray = jsonObj.getJSONArray("AllCepInfo");
+		for (int i = 0; i < cepArray.size(); i++) {
+			Cep cep = new Cep();
+			JSONObject obj = cepArray.getJSONObject(i);
+			cep.setId(obj.getString("cepid"));
+			cep.setTitle(obj.optString("ceptitle"));
+			cep.setContent(obj.optString("cepcontent"));
+			cep.setPic(obj.optString("ceppictureone"));
+			cep.setScore(obj.optString("score"));
+			ceps.add(cep);
+		}// end loop
+		return ceps;
+	}
+	//
 }

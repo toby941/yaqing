@@ -6,7 +6,6 @@
 
     <VideoView
         android:id="@+id/video"
-        android:src="@drawable/alarm_btn"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 	

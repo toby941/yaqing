@@ -86,4 +86,6 @@
     <string name="schedule_other_project">其它的项目</string>
     <string name="project_trackfield">田径</string>
 	<string name="make_socre">评分</string>
+	<string name="event_tips">事项提醒</string>
+	<string name="event_remind_text">开始前%d分钟提醒</string>	
 </resources>

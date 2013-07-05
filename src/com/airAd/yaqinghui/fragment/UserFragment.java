@@ -1,5 +1,4 @@
 package com.airAd.yaqinghui.fragment;
-
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -7,6 +6,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,158 +27,184 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.google.zxing.client.android.CaptureActivity;
-
 /**
  * 
  * @author Panyi
  * 
  */
-public class UserFragment extends Fragment {
-	public static final int SCAN_QRCODE = 400;
-
+public class UserFragment extends Fragment
+{
+	public static final int SCAN_QRCODE= 400;
 	protected CustomViewPager mGallery;
 	private ImageView thumbImage;
 	private Button signImage;
-	private boolean isLocating = false;
+	private boolean isLocating= false;
+	private View settingBtn;
+	private View notifyBtn;
 	private User user;
-
-	public AMapLocationListener locationListener = new AMapLocationListener() {
+	private NotifyList notifyListFragment;
+	private SettingsFragment settingFragment;
+	public AMapLocationListener locationListener= new AMapLocationListener()
+	{
 		@Override
-		public void onLocationChanged(Location location) {
+		public void onLocationChanged(Location location)
+		{
 		}
-
 		@Override
-		public void onProviderDisabled(String provider) {
+		public void onProviderDisabled(String provider)
+		{
 		}
-
 		@Override
-		public void onProviderEnabled(String provider) {
+		public void onProviderEnabled(String provider)
+		{
 		}
-
 		@Override
-		public void onStatusChanged(String provider, int status, Bundle extras) {
+		public void onStatusChanged(String provider, int status, Bundle extras)
+		{
 		}
-
 		@Override
-		public void onLocationChanged(AMapLocation location) {
-			if (location != null) {
-				Double geoLat = location.getLatitude();
-				Double geoLng = location.getLongitude();
+		public void onLocationChanged(AMapLocation location)
+		{
+			if (location != null)
+			{
+				Double geoLat= location.getLatitude();
+				Double geoLng= location.getLongitude();
 				System.out.println("location--->" + geoLat + "," + geoLng);
 				locationManager.removeUpdates(this);
-				Intent it = new Intent(getActivity(), CaptureActivity.class);
+				Intent it= new Intent(getActivity(), CaptureActivity.class);
 				getActivity().startActivityForResult(it, SCAN_QRCODE);
-				isLocating = false;
+				isLocating= false;
 			}
 		}
 	};
-
 	LocationManagerProxy locationManager;
-
-	public static UserFragment newInstance(CustomViewPager gallery) {
-		final UserFragment f = new UserFragment();
-		f.mGallery = gallery;
+	public static UserFragment newInstance(CustomViewPager gallery)
+	{
+		final UserFragment f= new UserFragment();
+		f.mGallery= gallery;
 		return f;
 	}
-
-	public ImageView getThumb() {
+	public ImageView getThumb()
+	{
 		return thumbImage;
 	}
-
-	private UserFragment() {
+	private UserFragment()
+	{
 	}
-
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
-        user = MyApplication.getCurrentUser();
-		locationManager = LocationManagerProxy.getInstance(getActivity());
+		user= MyApplication.getCurrentUser();
+		locationManager= LocationManagerProxy.getInstance(getActivity());
 	}
-
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		final View view = inflater.inflate(R.layout.menu_lefts_user, container,
-				false);
-
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	{
+		final View view= inflater.inflate(R.layout.menu_lefts_user, container, false);
 		// TODO
 		setThumbImage(view);
-
-		thumbImage = (ImageView) view.findViewById(R.id.headpic);
+		thumbImage= (ImageView) view.findViewById(R.id.headpic);
 		thumbImage.setOnClickListener(new ThumbClick());
-		signImage = (Button) view.findViewById(R.id.sign);
+		signImage= (Button) view.findViewById(R.id.sign);
 		signImage.setOnClickListener(new ScanClick());
-		
-		if(user!=null){
-			TextView userName = (TextView)view.findViewById(R.id.username);
-            userName.setText(user.getName());// 设置用户名
-        }
+		settingBtn= view.findViewById(R.id.settingBtn);
+		settingBtn.setOnClickListener(new SettingClick());
+		notifyBtn= view.findViewById(R.id.notifyBtn);
+		notifyBtn.setOnClickListener(new NotifyClick());
+		if (user != null)
+		{
+			TextView userName= (TextView) view.findViewById(R.id.username);
+			userName.setText(user.getName());// 设置用户名
+		}
 		return view;
 	}
-
-	private void setThumbImage(View view) {
-		ImageView userImage = (ImageView) view.findViewById(R.id.headpic);
-		userImage.setImageBitmap(((HomeActivity) getActivity())
-				.getThumbBitmap());
+	private void setThumbImage(View view)
+	{
+		ImageView userImage= (ImageView) view.findViewById(R.id.headpic);
+		userImage.setImageBitmap(((HomeActivity) getActivity()).getThumbBitmap());
 	}
-
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
+	public void onActivityCreated(Bundle savedInstanceState)
+	{
 		super.onActivityCreated(savedInstanceState);
 	}
-
 	@Override
-	public void onResume() {
+	public void onResume()
+	{
 		super.onResume();
 	}
-
 	@Override
-	public void onPause() {
+	public void onPause()
+	{
 		super.onPause();
 	}
-
 	@Override
-	public void onDestroy() {
+	public void onDestroy()
+	{
 		super.onDestroy();
 		locationManager.removeUpdates(locationListener);
 		System.gc();
 	}
-
-	private final class ThumbClick implements OnClickListener {
+	private final class SettingClick implements OnClickListener
+	{
 		@Override
-		public void onClick(View v) {
-            mGallery.setCurrentItem(1);// 跳转到个人信息页
+		public void onClick(View v)
+		{
+			FragmentManager fm= getActivity().getSupportFragmentManager();
+			FragmentTransaction ft= fm.beginTransaction();
+			ft.replace(R.id.left_menu_container, SettingsFragment.newInstance());
+			ft.commit();
+		}
+	}//end inner class
+	private final class NotifyClick implements OnClickListener
+	{
+		@Override
+		public void onClick(View v)
+		{
+			FragmentManager fm= getActivity().getSupportFragmentManager();
+			FragmentTransaction ft= fm.beginTransaction();
+			ft.replace(R.id.left_menu_container, NotifyList.newInstance());
+			ft.commit();
+		}
+	}//end inner class
+	private final class ThumbClick implements OnClickListener
+	{
+		@Override
+		public void onClick(View v)
+		{
+			mGallery.setCurrentItem(1);// 跳转到个人信息页
 		}
 	}// end inner class
-
-	private final class ScanClick implements OnClickListener {
+	private final class ScanClick implements OnClickListener
+	{
 		@Override
-		public void onClick(View v) {
-            if (isLocating) {// 当前正在定位 按钮不响应
-                return;
+		public void onClick(View v)
+		{
+			if (isLocating)
+			{// 当前正在定位 按钮不响应
+				return;
 			}
-			
-            if (openGPSSettings()) {// GPS确保打开
-                locationManager.removeUpdates(locationListener);
+			if (openGPSSettings())
+			{// GPS确保打开
+				locationManager.removeUpdates(locationListener);
 				locationManager.setGpsEnable(true);
-				locationManager.requestLocationUpdates(
-						LocationProviderProxy.AMapNetwork, 5000, 10,
-						locationListener);
-				isLocating = true;
+				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);
+				isLocating= true;
 			}
 		}
 	}// end inner class
-
-	private boolean openGPSSettings() {
-		LocationManager alm = (LocationManager) getActivity().getSystemService(
-				Context.LOCATION_SERVICE);
-		if (alm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+	private boolean openGPSSettings()
+	{
+		LocationManager alm= (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+		if (alm.isProviderEnabled(LocationManager.GPS_PROVIDER))
+		{
 			return true;
-		} else {
-			Toast.makeText(getActivity(), R.string.opengps, Toast.LENGTH_SHORT)
-					.show();
-			getActivity().startActivity(
-					new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+		}
+		else
+		{
+			Toast.makeText(getActivity(), R.string.opengps, Toast.LENGTH_SHORT).show();
+			getActivity().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 			return false;
 		}
 	}

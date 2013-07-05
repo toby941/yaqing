@@ -2,6 +2,7 @@ package com.airAd.yaqinghui;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -25,10 +26,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airAd.framework.worker.ImageFetcher;
+import com.airAd.yaqinghui.business.ScheduleService;
+import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.StringUtil;
 import com.airAd.yaqinghui.core.ImageFetcherFactory;
@@ -54,10 +58,12 @@ public class HomeActivity extends SlidingBaseActivity {
 
     private UserFragment userFragment;
     private UserDetailFragment userDetailFragment;
-
     private TextView dateBanner, dateText;
     private PushClose mPushClose;
-
+	private ScheduleService mScheduleService;
+	private List<ScheduleItem> mScheduleItemList;
+	private ListView mSheduleList;
+	private int scheduleDay= -1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +84,8 @@ public class HomeActivity extends SlidingBaseActivity {
         super.onDestroy();
         mImageFetcher.closeCache();
 
-        if (mChangeThumbReceiver != null) {// 取消监听
+		if (mChangeThumbReceiver != null)
+		{// 取消监听
             this.unregisterReceiver(mChangeThumbReceiver);
         }
     }
@@ -90,16 +97,17 @@ public class HomeActivity extends SlidingBaseActivity {
         mImageFetcher = ImageFetcherFactory.genImageFetcher(this);
         initComponent();
         setPushClose();
-        getThumbBitmap();// 设置头像位图数据
+		getThumbBitmap();// 设置头像位图数据
     }
 
     /**
-     * 设置时间数据
-     */
+	 * 设置时间数据
+	 */
     private void setPushClose() {
         mPushClose = (PushClose) this.findViewById(R.id.pushClose);
         View bottomView = LayoutInflater.from(this).inflate(R.layout.date, null);
         View topView = LayoutInflater.from(this).inflate(R.layout.dialy, null);
+		mSheduleList= (ListView) bottomView.findViewById(R.id.date_list);
         mPushClose.setContent(topView, bottomView);
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -110,7 +118,31 @@ public class HomeActivity extends SlidingBaseActivity {
         TextView dateText = (TextView) topView.findViewById(R.id.date_banner);
         bannerText.setText(StringUtil.dateOfDay(month) + "." + year);
         dateText.setText(day + " " + StringUtil.retWeekName(weekday));
+		mScheduleService= new ScheduleService();
     }
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		backPressedCount= 0;
+		if (scheduleDay == -1)
+		{
+			final Calendar calendar= Calendar.getInstance();
+			int day= calendar.get(Calendar.DAY_OF_MONTH);
+			setSheduleListData(day);
+		}
+		else
+		{
+			setSheduleListData(scheduleDay);
+		}
+	}
+
+
+	private void setSheduleListData(int day)
+	{
+		mScheduleService.getCalendlarScheduleData();
+
+	}
 
     private void registerBroadcast() {
         mChangeThumbReceiver = new ChangeThumbReceiver();
@@ -118,14 +150,14 @@ public class HomeActivity extends SlidingBaseActivity {
     }
 
     public Bitmap getThumbBitmap() {
-        mThumbBitmap = prepareThumbImage();// 设置头像位图数据
+		mThumbBitmap= prepareThumbImage();// 设置头像位图数据
         return mThumbBitmap;
     }
 
     // private void startPushService() {
     // Intent startPush = new Intent();
     // startPush.setClass(this, PushService.class);
-    // this.stopService(startPush);//停止服务
+	// this.stopService(startPush);//停止服务
     // this.startService(startPush);
     // }
 
@@ -163,12 +195,6 @@ public class HomeActivity extends SlidingBaseActivity {
 
     public void onStop() {
         super.onStop();
-    }
-
-    @Override
-    protected void onResume() {
-        backPressedCount = 0;
-        super.onResume();
     }
 
     public ImageFetcher getImageFetcher() {
@@ -225,7 +251,9 @@ public class HomeActivity extends SlidingBaseActivity {
             video.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+					Intent intent= new Intent();
+					intent.setClass(HomeActivity.this, PlayVideoActivity.class);
+					HomeActivity.this.startActivity(intent);
                 }
             });
             layout.addView(video);
@@ -245,10 +273,10 @@ public class HomeActivity extends SlidingBaseActivity {
     }
 
     /**
-     * 左侧菜单
-     * 
-     * @author Administrator
-     */
+	 * 左侧菜单
+	 * 
+	 * @author Administrator
+	 */
     public class LeftMenuFragment extends Fragment {
         private CustomViewPager leftGalllery;
 
@@ -294,8 +322,8 @@ public class HomeActivity extends SlidingBaseActivity {
         }// end inner class
     }
 
-    // 二维码扫描返回
-    @Override
+	// 二维码扫描返回
+	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -309,10 +337,10 @@ public class HomeActivity extends SlidingBaseActivity {
     }
 
     /**
-     * 接到广播 改变头像
-     * 
-     * @author Administrator
-     */
+	 * 接到广播 改变头像
+	 * 
+	 * @author Administrator
+	 */
     private final class ChangeThumbReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -337,19 +365,22 @@ public class HomeActivity extends SlidingBaseActivity {
     }
 
     /**
-     * 载入头像位图
-     * 
-     * @return
-     */
+	 * 载入头像位图
+	 * 
+	 * @return
+	 */
     public Bitmap prepareThumbImage() {
         SharedPreferences sp = getSharedPreferences(Config.PACKAGE, Context.MODE_PRIVATE);
         String thumbPath = sp.getString(Config.THUMB_PATH, "");
-        if (StringUtils.isBlank(thumbPath)) {// 载入默认头像
+		if (StringUtils.isBlank(thumbPath))
+		{// 载入默认头像
             return BitmapFactory.decodeResource(getResources(), R.drawable.icon);
         }
-        else {// 载入自定义头像
-            File thumbFile = new File(thumbPath);
-            if (!thumbFile.exists()) {// 若文件不存在 载入默认头像
+		else
+		{// 载入自定义头像
+			File thumbFile= new File(thumbPath);
+			if (!thumbFile.exists())
+			{// 若文件不存在 载入默认头像
                 return BitmapFactory.decodeResource(getResources(), R.drawable.icon);
             }
             try {
@@ -363,25 +394,25 @@ public class HomeActivity extends SlidingBaseActivity {
     }
 
     /**
-     * 根据指定路径载入压缩后的位图数据
-     * 
-     * @param path
-     * @return
-     * @throws Exception
-     */
+	 * 根据指定路径载入压缩后的位图数据
+	 * 
+	 * @param path
+	 * @return
+	 * @throws Exception
+	 */
     private Bitmap loadBitmap(String path) throws Exception {
         BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap bitmap = BitmapFactory.decodeFile(path, options); // 此时返回bm为空
-        // 计算缩放比
-        int be = (int) (options.outHeight / (float) 300);
-        int ys = options.outHeight % 300;// 求余数
-        float fe = ys / (float) 300;
+		Bitmap bitmap= BitmapFactory.decodeFile(path, options); // 此时返回bm为空
+		// 计算缩放比
+		int be= (int) (options.outHeight / (float) 300);
+		int ys= options.outHeight % 300;// 求余数
+		float fe= ys / (float) 300;
         if (fe >= 0.5)
             be = be + 1;
         if (be <= 0)
             be = 1;
         options.inSampleSize = be;
-        // 重新读入图片，options.inJustDecodeBounds 设为 false
+		// 重新读入图片，options.inJustDecodeBounds 设为 false
         options.inJustDecodeBounds = false;
         bitmap = BitmapFactory.decodeFile(path, options);
         return bitmap;

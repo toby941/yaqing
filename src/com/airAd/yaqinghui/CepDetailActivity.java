@@ -91,7 +91,8 @@ public class CepDetailActivity extends BaseActivity
 		@Override
 		protected Cep doInBackground(String... params)
 		{
-			return new CepService().getCep(params[0]);
+			return new CepService().getCep(MyApplication.getCurrentUser()
+					.getId(), params[0]);
 		}
 		@Override
 		protected void onPostExecute(Cep result)
@@ -102,7 +103,6 @@ public class CepDetailActivity extends BaseActivity
 			cep.setContent("为天地立心,为生民立命,为往圣继绝学,为天下开万世太平。爱因斯坦说过“窗外的每一片树叶，都使人类的科学显得那么幼稚无力  “不理睬是最大的轻蔑。”“成吉思汗的骑兵，攻击速度与二十世纪的装甲部队相当；北宋的床弩，射程达一千五百米，与二十世纪的狙击步枪差不多；但这些仍不过是古代的骑兵与弓弩而已，不可能与现代力量抗衡。基础理论决定一切，未来史学派清楚地看到了这一点。而你们，却被回光返照的低级技术蒙住了眼睛。你们躺在现代文明的温床中安于享乐，对即将到来的决定人类命运的终极决战完全没有精神上的准备。”  ”");
 			cep.setId("00001");
 			cep.setPic("http://imgtuku.mingxing.com/upload/attach/2013/05/36797-3YaaYgV.jpg");
-			cep.setPlace("菜市口");
 			cep.setScore("123");
 			cep.setTitle("亚青会活动cep");
 			List<CepEvent> cepEvents= new ArrayList<CepEvent>();
@@ -316,7 +316,7 @@ public class CepDetailActivity extends BaseActivity
 				}
 			}
 			else if (sub_end == event_length && sub_start != 0)
-			{// 在尾部
+ {// 在尾部
 				if (index == event_length - 1)
 				{
 					sub_cur= 2;

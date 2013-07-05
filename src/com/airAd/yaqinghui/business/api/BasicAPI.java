@@ -34,10 +34,7 @@ public interface BasicAPI {
             String ManyLangMark);
     public JSONObject SelectAllCepActive(String userid,String ManyLangMark);//获得所有CEP活动
     public JSONObject SelectTheOneCepActive(String cepid,String userid,String ManyLangMark);//获取一个CEP活动详情
-    public JSONObject PrecontractSignUpCepActive(String cepid,String userid,String ManyLangMark);//预约CEP活动
-    public JSONObject PrecontractCancelCepActive(String cepid,String userid,String ManyLangMark);//取消预约CEP活动
-    public JSONObject ConfirmCepActive(String cepid,String userid,String ManyLangMark);//确认参加
-    public JSONObject SelectConfirmCepActive (String userid,String ManyLangMark);
-    public JSONObject CepActiveComment (String cepid,String userid,String commentcontent,String ManyLangMark);// CEP活动评论
+    public JSONObject PrecontractSignUpCepActive(String cepid,String eventid,String userid,String ManyLangMark);//预约CEP活动
+    public JSONObject PrecontractCancelCepActive(String cepid,String eventid,String userid,String ManyLangMark);//取消预约CEP活动
     public JSONObject SignInCepActive(String twobarcode,String userid,String log,String lat,String ManyLangMark);//二维码签到
 }

@@ -3,6 +3,8 @@
  */
 package com.airAd.yaqinghui.business.model;
 
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * CepEvent.java
@@ -10,89 +12,104 @@ package com.airAd.yaqinghui.business.model;
  * @author liyuhang
  */
 public class CepEvent {
-    private String id;
-    private String cepId;
-    private String place;
-    private String startTime;
-    private String endTime;
-    private String flag;
+	private String id;
+	private String cepId;
+	private String place;
+	private String startTime;
+	private String endTime;
+	private String flag;
 	private String name;
 	private Integer maxNum;
 	private Integer attendNum;
-	public String getName()
-	{
+	private String cepPic;
+
+
+	public String getCepPic() {
+		return cepPic;
+	}
+	public void setCepPic(String cepPic) {
+		this.cepPic = cepPic;
+	}
+	public String getName() {
 		return name;
 	}
-	public void setName(String name)
-	{
-		this.name= name;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public Integer getMaxNum()
-	{
+	public Integer getMaxNum() {
 		return maxNum;
 	}
-	public void setMaxNum(Integer maxNum)
-	{
-		this.maxNum= maxNum;
+	public void setMaxNum(Integer maxNum) {
+		this.maxNum = maxNum;
 	}
-	public Integer getAttendNum()
-	{
+	public Integer getAttendNum() {
 		return attendNum;
 	}
-	public void setAttendNum(Integer attendNum)
-	{
-		this.attendNum= attendNum;
+	public void setAttendNum(Integer attendNum) {
+		this.attendNum = attendNum;
 	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getCepId() {
-        return cepId;
-    }
+	public String getCepId() {
+		return cepId;
+	}
 
-    public void setCepId(String cepId) {
-        this.cepId = cepId;
-    }
+	public void setCepId(String cepId) {
+		this.cepId = cepId;
+	}
 
-    public String getPlace() {
-        return place;
-    }
+	public String getPlace() {
+		return place;
+	}
 
-    public void setPlace(String place) {
-        this.place = place;
-    }
+	public void setPlace(String place) {
+		this.place = place;
+	}
 
+	public String getFlag() {
+		return flag;
+	}
 
-    public String getFlag() {
-        return flag;
-    }
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
 
-    public void setFlag(String flag) {
-        this.flag = flag;
-    }
+	public String getStartTime() {
+		return startTime;
+	}
 
-    public String getStartTime() {
-        return startTime;
-    }
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
+	public String getEndTime() {
+		return endTime;
+	}
 
-    public String getEndTime() {
-        return endTime;
-    }
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
+	public Long getStartTimel() {
+		// TODO convert string starttime to long
+		return 1L;
+	}
+	public String getEventTimeRangeDescription() {
+		return startTime + "-" + endTime;
+	}
 
-    //
-
+	public int getStartDayOfMonth() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date(getStartTimel()));
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		return day;
+	}
+	//
 }

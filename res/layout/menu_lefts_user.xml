@@ -87,6 +87,7 @@
                 android:src="@drawable/siglines" />
 
             <RelativeLayout
+                android:id="@+id/notifyBtn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="#333241"
@@ -131,6 +132,7 @@
                     android:src="@drawable/left_menu_goto" />
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -283,7 +285,7 @@
                 android:src="@drawable/siglines" />
 
             <RelativeLayout
-                android:id="@+id/notifyBtn"
+                android:id="@+id/settingBtn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="#333241"

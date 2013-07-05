@@ -109,7 +109,8 @@ public class CepActivity extends BaseActivity {
     private final class RequestTask extends AsyncTask<Integer, Integer, List<Cep>> {
         @Override
         protected List<Cep> doInBackground(Integer... params) {
-            return new CepService().getCeps();
+			return new CepService().getCeps(MyApplication.getCurrentUser()
+					.getId());
         }
 
         @Override
