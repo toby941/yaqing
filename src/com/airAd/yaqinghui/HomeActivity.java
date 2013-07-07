@@ -228,7 +228,7 @@ public class HomeActivity extends SlidingBaseActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.setClass(HomeActivity.this, ScheduleActivity.class);
+                    intent.setClass(HomeActivity.this, GameScheduleActivity.class);
                     HomeActivity.this.startActivity(intent);
                 }
             });

@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.airAd.framework.worker.ImageFetcher;
 import com.airAd.yaqinghui.R;
 
 /**
@@ -17,8 +18,9 @@ import com.airAd.yaqinghui.R;
  */
 public class EventView extends LinearLayout
 {
-	private ImageView iconView;
-	private TextView titleView;
+	private ImageView mIconView;
+	private TextView mTitleView;
+	private String mImgUrl;
 
 	public EventView(Context context, AttributeSet attrs, int defStyle)
 	{
@@ -38,18 +40,26 @@ public class EventView extends LinearLayout
 		init(context);
 	}
 	
-	public EventView(Context context, int imgResId, int txtResId)
+	public EventView(Context context, String imgUrl, String txt)
 	{
 		super(context);
 		init(context);
-		iconView.setImageResource(imgResId);
-		titleView.setText(txtResId);
+		mImgUrl = imgUrl;
+		mTitleView.setText(txt);
 	}
 
 	private void init(Context context)
 	{
 		LayoutInflater.from(context).inflate(R.layout.event_view, this);
-		iconView = (ImageView)findViewById(R.id.icon);
-		titleView = (TextView)findViewById(R.id.title);
+		mIconView = (ImageView)findViewById(R.id.icon);
+		mTitleView = (TextView)findViewById(R.id.title);
+	}
+	
+	public void load(ImageFetcher fetcher)
+	{
+		if(mImgUrl != null)
+		{
+			fetcher.loadImage(mImgUrl, mIconView);
+		}
 	}
 }

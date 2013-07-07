@@ -37,4 +37,15 @@ public interface BasicAPI {
     public JSONObject PrecontractSignUpCepActive(String cepid,String eventid,String userid,String ManyLangMark);//预约CEP活动
     public JSONObject PrecontractCancelCepActive(String cepid,String eventid,String userid,String ManyLangMark);//取消预约CEP活动
     public JSONObject SignInCepActive(String twobarcode,String userid,String log,String lat,String ManyLangMark);//二维码签到
+    
+	public JSONObject SelectConfirmCepActive (String userid,String ManyLangMark);
+	public JSONObject CepActiveComment (String cepid,String eventid,String userid,String commentcontent,String ManyLangMark);
+	
+	//huss add 20130627
+	public JSONObject GetWeather(String ManyLangMark);
+	public JSONObject GetGameInfo(String userId,String ManyLangMark);
+	public JSONObject GetGameDetailInfo(String GameBigType,String GameDate,String ManyLangMark);
+	public JSONObject GetGameDetailInfoPlace(String GamePlaceGame,String GameDate,String ManyLangMark);
+	public JSONObject getLocation(String ManyLangMark);
+	public JSONObject getLocationDetail(String id,String ManyLangMark);
 }

@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.airAd.yaqinghui.business.ScheduleService;
+import com.airAd.yaqinghui.business.GameService;
+import com.airAd.yaqinghui.business.model.Game;
 import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.common.StringUtil;
 import com.airAd.yaqinghui.ui.CanCloseListView;
@@ -24,19 +27,25 @@ public class GameDailyActivity extends BaseActivity {
 
 	private PushClose mPushClose;
 	private CanCloseListView listView;
-	private ScheduleService scheduleService;
+	private GameService gameService;
 	private List<ScheduleItem> itemList = new ArrayList<ScheduleItem>();
+	private String gameId;
+	
+	public static final String GAME_ID = "game_id";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.schedule_daily);
+		gameId = getIntent().getStringExtra(GAME_ID);
 		init();
 	}
 
 	public void init() {
-		scheduleService = new ScheduleService();
+		gameService = new GameService();
+		new GameDailyTask().execute();
 		setPushClose();
+		listView.setAdapter(new DailyAdapter());
 	}
 
 	/**
@@ -61,7 +70,7 @@ public class GameDailyActivity extends BaseActivity {
 		dateText.setText(day + " " + StringUtil.retWeekName(weekday));
 	}
 
-	private class ListAdapter extends BaseAdapter
+	private class DailyAdapter extends BaseAdapter
 	{
 
 		@Override
@@ -86,4 +95,21 @@ public class GameDailyActivity extends BaseActivity {
 		
 	}
 	
+	private class GameDailyTask extends AsyncTask<Void, Void, Object> {
+		@Override
+		protected void onPreExecute() {
+		}
+
+		@Override
+		protected Object doInBackground(Void... params) {
+			Calendar c = Calendar.getInstance();
+			c.set(2013, 7, 17);
+			gameService.getGameInfo(gameId, c.getTime());
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Object obj) {
+		}
+	}
 }

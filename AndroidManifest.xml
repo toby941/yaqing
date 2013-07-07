@@ -49,7 +49,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ScheduleActivity"
+            android:name=".GameScheduleActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait" >
         </activity>
