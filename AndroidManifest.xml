@@ -109,7 +109,7 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".SetThumbActivity"
+            android:name=".ChangePwdActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait" >
         </activity>

@@ -333,6 +333,20 @@ public class HomeActivity extends SlidingBaseActivity {
                 // System.out.println(twobarcode);
                 requestSign(twobarcode, Config.CEP_USER_ID, Config.LNG, Config.LAT);
             }
+			//            switch (requestCode)
+			//    		{
+			//    			case TAKE_PHOTO :
+			//    				startPhotoZoom(Uri.fromFile(tempFile), 150);
+			//    				break;
+			//    			case SELECT_GALLERY :
+			//    				break;
+			//    			case TAKE_CROP :
+			//    				if (data != null)
+			//    				{
+			//    					setPicToView(data);
+			//    				}
+			//    				break;
+			//    		}
         }
     }
 

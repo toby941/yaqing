@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0EBE7"
+    android:id="@+id/popMain"
+    android:orientation="vertical" >
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#ffffff" />
+
+    <TextView
+        android:id="@+id/pop_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="@string/event_tips"
+        android:textColor="#797979"
+        android:textSize="20dp" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/single_line" />
+
+	<TextView
+	    android:id="@+id/set_event_flag"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:background="@drawable/pop_selecttime_item_bg"
+        android:gravity="left"
+        android:text="@string/open_event_remind"
+        android:textColor="#797979"
+        android:textSize="13dp" />
+	
+	
+	<ListView
+	    android:id="@+id/time_delta_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/pop_selecttime_item_bg"/>
+</LinearLayout>

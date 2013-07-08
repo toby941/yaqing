@@ -95,4 +95,15 @@
 	<string name="upgrate_version">升级版本</string>
 	<string name="reset_password">修改密码</string>
 	<string name="login_out">退出账号</string>
+	<string name="change_thumb">修改头像</string>
+	<string name="take_photo">相机拍摄</string>
+	<string name="select_from_album">从相册中获取</string>
+	<string name="confirm_thumb">确认使用此头像?</string>
+	<string name="confirm">确认</string>
+	<string name="cancel">取消</string>
+	<string name="account_init_password">账号初始密码</string>
+	<string name="new_passwod">新密码</string>
+	<string name="new_confirm_password">新密码确认</string>
+	<string name="close_event_remind">关闭事项提醒</string>
+	<string name="open_event_remind">开启事项提醒</string>
 </resources>
