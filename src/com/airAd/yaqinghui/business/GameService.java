@@ -8,12 +8,12 @@ import java.util.Date;
 import java.util.List;
 
 import net.sf.json.JSONObject;
-
 import android.util.Log;
 
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.business.api.BasicAPI;
 import com.airAd.yaqinghui.business.model.Game;
+import com.airAd.yaqinghui.business.model.GameInfo;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.core.HessianClient;
 
@@ -36,12 +36,12 @@ public class GameService extends BaseService {
 		}
     }
 	
-	public List<Game> getGameInfo(String typeId, Date date) {
+	public List<GameInfo> getGameInfo(String typeId, Date date) {
 		BasicAPI api = HessianClient.create();
 		try {
 			JSONObject jsonObj = api.GetGameDetailInfo(typeId, sdf.format(date), User.getLan());
 			Log.i("GameService", jsonObj.toString());
-			return Game.instanceList(jsonObj);
+			return GameInfo.instanceList(jsonObj);
 		} catch (Exception e) {
 			return null;
 		}

@@ -93,6 +93,7 @@ public class User {
     }
 
     public static String getLan() {
-        return Locale.getDefault().getLanguage();
+    	return "CHI";
+        //return Locale.getDefault().getLanguage();
     }
 }// end class

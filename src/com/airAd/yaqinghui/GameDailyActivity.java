@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.airAd.yaqinghui.business.GameService;
-import com.airAd.yaqinghui.business.model.Game;
-import com.airAd.yaqinghui.business.model.ScheduleItem;
+import com.airAd.yaqinghui.business.model.GameInfo;
 import com.airAd.yaqinghui.common.StringUtil;
 import com.airAd.yaqinghui.ui.CanCloseListView;
 import com.airAd.yaqinghui.ui.PushClose;
@@ -28,8 +26,9 @@ public class GameDailyActivity extends BaseActivity {
 	private PushClose mPushClose;
 	private CanCloseListView listView;
 	private GameService gameService;
-	private List<ScheduleItem> itemList = new ArrayList<ScheduleItem>();
+	private List<GameInfo> gameInfoList = new ArrayList<GameInfo>();
 	private String gameId;
+	private DailyAdapter dailyAdapter;
 	
 	public static final String GAME_ID = "game_id";
 
@@ -43,9 +42,10 @@ public class GameDailyActivity extends BaseActivity {
 
 	public void init() {
 		gameService = new GameService();
-		new GameDailyTask().execute();
+		new GameDailyTask().execute(gameId);
 		setPushClose();
-		listView.setAdapter(new DailyAdapter());
+		dailyAdapter = new DailyAdapter();
+		listView.setAdapter(dailyAdapter);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class GameDailyActivity extends BaseActivity {
 
 		@Override
 		public int getCount() {
-			return itemList.size();
+			return gameInfoList.size();
 		}
 
 		@Override
@@ -90,26 +90,47 @@ public class GameDailyActivity extends BaseActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			return null;
+			if(convertView == null)
+			{
+				convertView = getLayoutInflater().inflate(R.layout.game_daily_item, null);
+			}
+			if(convertView.getTag() == null)
+			{
+				ViewHolder viewHolder = new ViewHolder();
+				viewHolder.titleView = (TextView)convertView.findViewById(R.id.game_title);
+				viewHolder.locView = (TextView)convertView.findViewById(R.id.game_loc);
+				convertView.setTag(viewHolder);
+			}
+			ViewHolder viewHolder = (ViewHolder)convertView.getTag();
+			viewHolder.titleView.setText(gameInfoList.get(position).getTitle());
+			viewHolder.locView.setText(gameInfoList.get(position).getPlace());
+			return convertView;
 		}
-		
 	}
 	
-	private class GameDailyTask extends AsyncTask<Void, Void, Object> {
+	private static class ViewHolder
+	{
+		public TextView titleView;
+		public TextView locView;
+	}
+	
+	private class GameDailyTask extends AsyncTask<String, Void, List<GameInfo>> {
 		@Override
 		protected void onPreExecute() {
 		}
 
 		@Override
-		protected Object doInBackground(Void... params) {
+		protected List<GameInfo> doInBackground(String... params) {
+			String gameId = params[0];
 			Calendar c = Calendar.getInstance();
-			c.set(2013, 7, 17);
-			gameService.getGameInfo(gameId, c.getTime());
-			return null;
+			c.set(2013, 7, 12);
+			return gameService.getGameInfo(gameId, c.getTime());
 		}
 
 		@Override
-		protected void onPostExecute(Object obj) {
+		protected void onPostExecute(List<GameInfo> list) {
+			gameInfoList = list;
+			dailyAdapter.notifyDataSetChanged();
 		}
 	}
 }
