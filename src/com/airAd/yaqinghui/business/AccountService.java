@@ -4,6 +4,7 @@
 package com.airAd.yaqinghui.business;
 
 import net.sf.json.JSONObject;
+import android.util.Log;
 
 import com.airAd.yaqinghui.business.api.BasicAPI;
 import com.airAd.yaqinghui.business.api.vo.response.ChangePasswordResponse;
@@ -22,6 +23,7 @@ public class AccountService extends BaseService {
 			// ("00000001", "1236","CHI");
 			JSONObject jsonObj = basicAPI.UserLogin(username, password,
 					User.getLan());
+			Log.d("htestDoLogin", jsonObj.toString());
 			return User.instance(jsonObj);
 		} catch (Exception e) {
 			return null;
@@ -40,6 +42,7 @@ public class AccountService extends BaseService {
 		try {
 			JSONObject jsonObj = api.ChangePassword(userId, oldPassword,
 					newPassword, confirmPassword, User.getLan());
+			Log.d("htestChangePassword", jsonObj.toString());
 			return ChangePasswordResponse.instance(jsonObj);
 		} catch (Exception e) {
 			return new ChangePasswordResponse();

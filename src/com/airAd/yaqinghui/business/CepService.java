@@ -7,6 +7,7 @@ import java.util.Map;
 import net.sf.json.JSONObject;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.business.api.BasicAPI;
@@ -27,6 +28,7 @@ public class CepService extends BaseService {
 		BasicAPI api = HessianClient.create();
 		try {
 			JSONObject jsonObj = api.SelectAllCepActive(userId, User.getLan());
+			Log.d("htestGetCeps", jsonObj.toString());
 			return Cep.instanceList(jsonObj);
 		} catch (Exception e) {
 			return null;
@@ -38,6 +40,7 @@ public class CepService extends BaseService {
 		try {
 			JSONObject jsonObj = api.SelectTheOneCepActive(cepId, userId,
 					User.getLan());
+			Log.d("htestGetCep", jsonObj.toString());
 			return Cep.instance(jsonObj);
 		} catch (Exception e) {
 			return null;
@@ -52,6 +55,7 @@ public class CepService extends BaseService {
 		try {
 			JSONObject jsonObj = api.PrecontractSignUpCepActive(cep.getId(),
 					event.getId(), userId, User.getLan());
+			Log.d("htestDoReservationCepEvent", jsonObj.toString());
 			res = CepEventReservationResponse.instanceSignupObj(jsonObj);
 			// 如果预约成功则插入数据库个人行程表
 			if (Constants.FLAG_SUCC.equals(res)) {
@@ -91,6 +95,7 @@ public class CepService extends BaseService {
 		try {
 			JSONObject jsonObj = api.PrecontractCancelCepActive(cepId, eventId,
 					userId, User.getLan());
+			Log.d("htestDoCancelReservationCepEvent", jsonObj.toString());
 			res = CepEventReservationResponse.instanceCancelObj(jsonObj);
 			// 如果取消成功则删除数据库中相应记录
 			if (Constants.FLAG_SUCC.equals(res)) {
@@ -120,6 +125,7 @@ public class CepService extends BaseService {
 			JSONObject jsonObj = api.SignInCepActive(param.getQrcode(),
 					param.getUserId(), param.getLng(), param.getLat(),
 					User.getLan());
+			Log.d("htestDoCheckinCepEvent", jsonObj.toString());
 			res = CepEventCheckinResponse.instance(jsonObj);
 			return res;
 		} catch (Exception e) {

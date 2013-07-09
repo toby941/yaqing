@@ -26,6 +26,14 @@
         android:layout_marginRight="10dp"
         android:scaleType="fitXY"
         android:src="@drawable/single_line" />
+    
+    <ImageView 
+        android:id="@+id/pre_image"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+        />
 
 	<Button
 	    android:id="@+id/confirm_thumb_btn"
@@ -35,6 +43,7 @@
 	    android:layout_marginRight="10dp"
 	    android:layout_marginTop="10dp"
 	    android:text="@string/confirm"
+	    android:background="@drawable/take_photo_btn_bg"
 	    android:textColor="#ffffff" />
 
 	<Button 
@@ -47,5 +56,6 @@
         android:layout_marginBottom="20dp"
         android:textColor="#ffffff"
         android:text="@string/cancel"
+        android:background="@drawable/select_photo_btn_bg"
 	    />	
 </LinearLayout>

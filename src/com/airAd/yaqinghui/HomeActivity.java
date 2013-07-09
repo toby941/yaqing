@@ -3,6 +3,7 @@ package com.airAd.yaqinghui;
 import java.io.File;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -47,6 +48,7 @@ import com.slidingmenu.lib.SlidingMenu;
 /**
  * @author Panyi
  */
+
 public class HomeActivity extends SlidingBaseActivity {
     private int backPressedCount = 0;
     private ImageFetcher mImageFetcher;
@@ -64,6 +66,9 @@ public class HomeActivity extends SlidingBaseActivity {
 	private List<ScheduleItem> mScheduleItemList;
 	private ListView mSheduleList;
 	private int scheduleDay= -1;
+	private Map<Integer, Integer> allDays;
+	private List<ScheduleItem> mDataList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +90,7 @@ public class HomeActivity extends SlidingBaseActivity {
         mImageFetcher.closeCache();
 
 		if (mChangeThumbReceiver != null)
-		{// 取消监听
+ {// 取消监听
             this.unregisterReceiver(mChangeThumbReceiver);
         }
     }
@@ -104,10 +109,10 @@ public class HomeActivity extends SlidingBaseActivity {
 	 * 设置时间数据
 	 */
     private void setPushClose() {
+		mScheduleService= new ScheduleService();
         mPushClose = (PushClose) this.findViewById(R.id.pushClose);
         View bottomView = LayoutInflater.from(this).inflate(R.layout.date, null);
         View topView = LayoutInflater.from(this).inflate(R.layout.dialy, null);
-		mSheduleList= (ListView) bottomView.findViewById(R.id.date_list);
         mPushClose.setContent(topView, bottomView);
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -118,39 +123,26 @@ public class HomeActivity extends SlidingBaseActivity {
         TextView dateText = (TextView) topView.findViewById(R.id.date_banner);
         bannerText.setText(StringUtil.dateOfDay(month) + "." + year);
         dateText.setText(day + " " + StringUtil.retWeekName(weekday));
-		mScheduleService= new ScheduleService();
     }
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
 		backPressedCount= 0;
-		if (scheduleDay == -1)
+		if (scheduleDay == -1)// 首次进入选择当前天的日程安排
 		{
 			final Calendar calendar= Calendar.getInstance();
 			int day= calendar.get(Calendar.DAY_OF_MONTH);
-			setSheduleListData(day);
 		}
-		else
-		{
-			setSheduleListData(scheduleDay);
-		}
+		mPushClose.setSheduleListData(scheduleDay);
 	}
-
-
-	private void setSheduleListData(int day)
-	{
-		mScheduleService.getCalendlarScheduleData();
-
-	}
-
     private void registerBroadcast() {
         mChangeThumbReceiver = new ChangeThumbReceiver();
         this.registerReceiver(mChangeThumbReceiver, new IntentFilter(Config.CHANGE_THUMB_BROADCAST));
     }
 
     public Bitmap getThumbBitmap() {
-		mThumbBitmap= prepareThumbImage();// 设置头像位图数据
+		mThumbBitmap = prepareThumbImage();// 设置头像位图数据
         return mThumbBitmap;
     }
 
@@ -222,7 +214,9 @@ public class HomeActivity extends SlidingBaseActivity {
             LinearLayout layout = (LinearLayout) view.findViewById(R.id.menu_list);
 
             IconListItem iconListItemSchedule = new IconListItem(HomeActivity.this);
-            iconListItemSchedule.setIcon(R.drawable.icon_schedule_bg, R.drawable.item_dialy_bg,
+			iconListItemSchedule.setIcon(
+					R.drawable.icon_schedule_bg,
+					R.drawable.item_dialy_bg,
                     R.string.menu_left_schedule);
             iconListItemSchedule.setOnClickListener(new OnClickListener() {
                 @Override
@@ -333,20 +327,6 @@ public class HomeActivity extends SlidingBaseActivity {
                 // System.out.println(twobarcode);
                 requestSign(twobarcode, Config.CEP_USER_ID, Config.LNG, Config.LAT);
             }
-			//            switch (requestCode)
-			//    		{
-			//    			case TAKE_PHOTO :
-			//    				startPhotoZoom(Uri.fromFile(tempFile), 150);
-			//    				break;
-			//    			case SELECT_GALLERY :
-			//    				break;
-			//    			case TAKE_CROP :
-			//    				if (data != null)
-			//    				{
-			//    					setPicToView(data);
-			//    				}
-			//    				break;
-			//    		}
         }
     }
 
@@ -387,15 +367,17 @@ public class HomeActivity extends SlidingBaseActivity {
         SharedPreferences sp = getSharedPreferences(Config.PACKAGE, Context.MODE_PRIVATE);
         String thumbPath = sp.getString(Config.THUMB_PATH, "");
 		if (StringUtils.isBlank(thumbPath))
-		{// 载入默认头像
-            return BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+ {// 载入默认头像
+			return BitmapFactory
+					.decodeResource(getResources(), R.drawable.icon);
         }
 		else
-		{// 载入自定义头像
-			File thumbFile= new File(thumbPath);
+ {// 载入自定义头像
+			File thumbFile = new File(thumbPath);
 			if (!thumbFile.exists())
-			{// 若文件不存在 载入默认头像
-                return BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+ {// 若文件不存在 载入默认头像
+				return BitmapFactory.decodeResource(getResources(),
+						R.drawable.icon);
             }
             try {
                 return loadBitmap(thumbPath);
@@ -416,10 +398,10 @@ public class HomeActivity extends SlidingBaseActivity {
 	 */
     private Bitmap loadBitmap(String path) throws Exception {
         BitmapFactory.Options options = new BitmapFactory.Options();
-		Bitmap bitmap= BitmapFactory.decodeFile(path, options); // 此时返回bm为空
+		Bitmap bitmap = BitmapFactory.decodeFile(path, options); // 此时返回bm为空
 		// 计算缩放比
-		int be= (int) (options.outHeight / (float) 300);
-		int ys= options.outHeight % 300;// 求余数
+		int be = (int) (options.outHeight / (float) 300);
+		int ys = options.outHeight % 300;// 求余数
 		float fe= ys / (float) 300;
         if (fe >= 0.5)
             be = be + 1;

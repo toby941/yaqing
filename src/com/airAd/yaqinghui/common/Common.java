@@ -1,9 +1,17 @@
 package com.airAd.yaqinghui.common;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 public class Common {
-	
+	public static String timeString(String timeStr)
+	{
+		long time= Long.parseLong(timeStr);
+		SimpleDateFormat sdf= new SimpleDateFormat("HH:mm a");
+		Date dt = new Date(time);  
+		return sdf.format(dt);
+	}
 	
 	public static int genRand(int min, int max) {
 		return (new Random()).nextInt(max) % (max - min + 1) + min;

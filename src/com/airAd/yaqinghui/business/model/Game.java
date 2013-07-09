@@ -17,6 +17,7 @@ import net.sf.json.JSONObject;
 public class Game {	
 	private String id;
 	private String name;
+	private String type; // 比赛、训练
 	private String pic;
 	
 	public String getId() {
@@ -38,6 +39,12 @@ public class Game {
 		this.pic = pic;
 	}
 	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public static List<Game> instanceList(JSONObject jsonObj)
 	{
 		List<Game> games = new ArrayList<Game>();

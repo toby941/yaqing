@@ -51,7 +51,8 @@ public class CanCloseListView extends ListView {
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		if (isHead) {
+		if (isHead)
+		{
 			return false;
 		}
 

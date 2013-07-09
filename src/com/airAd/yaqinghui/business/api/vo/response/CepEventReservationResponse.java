@@ -13,8 +13,12 @@ import com.airAd.yaqinghui.common.Constants;
  * @author liyuhang
  */
 public class CepEventReservationResponse {
-	private static String SIGNUP_SUCC = "P1";
-	private static String SIGNUP_ERR = "P0";
+	// 预约返回
+	private static String PRECONTRACT_SUCC = "P1";
+	private static String PRECONTRACT_ERR = "P0";
+	// 签到返回
+	private static String SIGNUP_SUCC = "S1";
+	private static String SIGNUP_ERR = "S0";
 	//
 	private static String CANCEL_SUCC = "C1";
 	private static String CANCEL_ERR = "C0";
@@ -40,7 +44,7 @@ public class CepEventReservationResponse {
 		CepEventReservationResponse res = new CepEventReservationResponse();
 		JSONObject result = obj.getJSONObject("PrecontractSignUp");
 		String statusFlag = result.optString("sucessmark");
-		res.setFlag(SIGNUP_SUCC.equals(statusFlag)
+		res.setFlag(PRECONTRACT_SUCC.equals(statusFlag)
 				? Constants.FLAG_SUCC
 				: Constants.FLAG_ERR);
 		res.setMsg(result.optString("sucesstext"));

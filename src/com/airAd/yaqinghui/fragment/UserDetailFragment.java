@@ -100,7 +100,6 @@ public class UserDetailFragment extends Fragment
 		mBack= (ImageButton) view.findViewById(R.id.back);
 		mBack.setOnClickListener(new BackClick());
 		thumb= (ImageView) view.findViewById(R.id.snap);
-		mPreView= (ImageView) view.findViewById(R.id.preview);
 		thumb.setImageBitmap(((HomeActivity) getActivity()).getThumbBitmap());
 		thumb.setOnClickListener(new SetThumbClick());// 拍照按钮
 		if (mUser != null)
@@ -145,6 +144,7 @@ public class UserDetailFragment extends Fragment
 		confirmWindow.setAnimationStyle(R.style.PopupAnimation);
 		mConfirmSet= (Button) confirmContentView.findViewById(R.id.confirm_thumb_btn);
 		mCancelSet= (Button) confirmContentView.findViewById(R.id.cancel_thumb_btn);
+		mPreView= (ImageView) confirmContentView.findViewById(R.id.pre_image);
 		mConfirmSet.setOnClickListener(new ConfirmThumb());
 		mCancelSet.setOnClickListener(new mCancelSet());
 	}
@@ -339,6 +339,7 @@ public class UserDetailFragment extends Fragment
 			photo= PicProcessUtils.toRoundBitmap((Bitmap) bundle.getParcelable("data"));//处理为圆角图片
 			//			thumb.setVisibility(View.VISIBLE);
 			thumb.setImageBitmap(photo);
+			mPreView.setImageBitmap(photo);
 			confirmWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
 		}
 	}

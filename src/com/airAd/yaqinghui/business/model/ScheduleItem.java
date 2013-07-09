@@ -5,6 +5,7 @@ import java.util.Date;
 public class ScheduleItem {
     public static final int TYPE_GAME = 1;
     public static final int TYPE_CEP_EVENT = 2;
+	public static final int TYPE_TRAINING= 3;
 
     private Integer cid;
     private String title;
@@ -12,10 +13,10 @@ public class ScheduleItem {
     private String place;
     private String pic;
     private String userId;
-    // itemtype 为1 refId 为比赛id itemtype为2 refId 为cep id
+	// itemtype 为1 refId 为比赛id itemtype为2 refId 为cep id
     private String refId;
     private String cepId;
-    // itemtype 1 比赛 2 cep活动
+	// itemtype 1 比赛 2 cep活动
     private Integer itemType;
     private Integer year;
     private Integer month;
