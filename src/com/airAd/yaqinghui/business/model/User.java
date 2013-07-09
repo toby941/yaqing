@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
+import android.util.Log;
 
 /**
  * @author Panyi
@@ -93,6 +94,7 @@ public class User {
     }
 
     public static String getLan() {
+		Log.d("htestGetLan", Locale.getDefault().getLanguage());
     	return "CHI";
         //return Locale.getDefault().getLanguage();
     }

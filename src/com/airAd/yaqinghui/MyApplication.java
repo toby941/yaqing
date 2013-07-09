@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.DisplayMetrics;
+import cn.jpush.android.api.JPushInterface;
 
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.db.DatabaseService;
@@ -55,6 +56,8 @@ public class MyApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		JPushInterface.setDebugMode(true);
+		JPushInterface.init(this);
 		current = this;
 		stack = new Stack<Object>();
 		dbService = new DatabaseService(this);

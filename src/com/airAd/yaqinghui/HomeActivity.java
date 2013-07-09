@@ -50,367 +50,380 @@ import com.slidingmenu.lib.SlidingMenu;
  */
 
 public class HomeActivity extends SlidingBaseActivity {
-    private int backPressedCount = 0;
-    private ImageFetcher mImageFetcher;
-    private ImageButton mLeftBtn, mRightBtn;
-    private ProgressDialog progressDialog;
+	private int backPressedCount = 0;
+	private ImageFetcher mImageFetcher;
+	private ImageButton mLeftBtn, mRightBtn;
+	private ProgressDialog progressDialog;
 
-    private Bitmap mThumbBitmap;
-    private ChangeThumbReceiver mChangeThumbReceiver;
+	private Bitmap mThumbBitmap;
+	private ChangeThumbReceiver mChangeThumbReceiver;
 
-    private UserFragment userFragment;
-    private UserDetailFragment userDetailFragment;
-    private TextView dateBanner, dateText;
-    private PushClose mPushClose;
+	private UserFragment userFragment;
+	private UserDetailFragment userDetailFragment;
+	private TextView dateBanner, dateText;
+	private PushClose mPushClose;
 	private ScheduleService mScheduleService;
 	private List<ScheduleItem> mScheduleItemList;
 	private ListView mSheduleList;
-	private int scheduleDay= -1;
+	private int scheduleDay = -1;
 	private Map<Integer, Integer> allDays;
 	private List<ScheduleItem> mDataList;
+	public String lat, lng;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setTheme(R.style.Theme_Sherlock_NoActionBar);
-        setContentView(R.layout.main);
-        init();
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setTheme(R.style.Theme_Sherlock_NoActionBar);
+		setContentView(R.layout.main);
+		init();
+	}
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mImageFetcher.setExitTasksEarly(true);
-        mImageFetcher.flushCache();
-    }
+	@Override
+	public void onPause() {
+		super.onPause();
+		mImageFetcher.setExitTasksEarly(true);
+		mImageFetcher.flushCache();
+	}
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mImageFetcher.closeCache();
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mImageFetcher.closeCache();
 
-		if (mChangeThumbReceiver != null)
- {// 取消监听
-            this.unregisterReceiver(mChangeThumbReceiver);
-        }
-    }
+		if (mChangeThumbReceiver != null) {// 取消监听
+			this.unregisterReceiver(mChangeThumbReceiver);
+		}
+	}
 
-    public void init() {
-        // startPushService();
-        registerBroadcast();
-        initSlidingMenu();
-        mImageFetcher = ImageFetcherFactory.genImageFetcher(this);
-        initComponent();
-        setPushClose();
+	public void init() {
+		// startPushService();
+		registerBroadcast();
+		initSlidingMenu();
+		mImageFetcher = ImageFetcherFactory.genImageFetcher(this);
+		initComponent();
+		setPushClose();
 		getThumbBitmap();// 设置头像位图数据
-    }
+	}
 
-    /**
+	/**
 	 * 设置时间数据
 	 */
-    private void setPushClose() {
-		mScheduleService= new ScheduleService();
-        mPushClose = (PushClose) this.findViewById(R.id.pushClose);
-        View bottomView = LayoutInflater.from(this).inflate(R.layout.date, null);
-        View topView = LayoutInflater.from(this).inflate(R.layout.dialy, null);
-        mPushClose.setContent(topView, bottomView);
-        final Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int weekday = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        TextView bannerText = (TextView) bottomView.findViewById(R.id.home_date_banner);
-        TextView dateText = (TextView) topView.findViewById(R.id.date_banner);
-        bannerText.setText(StringUtil.dateOfDay(month) + "." + year);
-        dateText.setText(day + " " + StringUtil.retWeekName(weekday));
-    }
+	private void setPushClose() {
+		mScheduleService = new ScheduleService();
+		mPushClose = (PushClose) this.findViewById(R.id.pushClose);
+		View bottomView = LayoutInflater.from(this)
+				.inflate(R.layout.date, null);
+		View topView = LayoutInflater.from(this).inflate(R.layout.dialy, null);
+		mPushClose.setContent(topView, bottomView);
+		final Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		int weekday = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+		TextView bannerText = (TextView) bottomView
+				.findViewById(R.id.home_date_banner);
+		TextView dateText = (TextView) topView.findViewById(R.id.date_banner);
+		bannerText.setText(StringUtil.dateOfDay(month) + "." + year);
+		dateText.setText(day + " " + StringUtil.retWeekName(weekday));
+	}
 	@Override
-	protected void onResume()
-	{
+	protected void onResume() {
 		super.onResume();
-		backPressedCount= 0;
+		backPressedCount = 0;
 		if (scheduleDay == -1)// 首次进入选择当前天的日程安排
 		{
-			final Calendar calendar= Calendar.getInstance();
-			int day= calendar.get(Calendar.DAY_OF_MONTH);
+			final Calendar calendar = Calendar.getInstance();
+			int day = calendar.get(Calendar.DAY_OF_MONTH);
 		}
 		mPushClose.setSheduleListData(scheduleDay);
 	}
-    private void registerBroadcast() {
-        mChangeThumbReceiver = new ChangeThumbReceiver();
-        this.registerReceiver(mChangeThumbReceiver, new IntentFilter(Config.CHANGE_THUMB_BROADCAST));
-    }
+	private void registerBroadcast() {
+		mChangeThumbReceiver = new ChangeThumbReceiver();
+		this.registerReceiver(mChangeThumbReceiver, new IntentFilter(
+				Config.CHANGE_THUMB_BROADCAST));
+	}
 
-    public Bitmap getThumbBitmap() {
+	public Bitmap getThumbBitmap() {
 		mThumbBitmap = prepareThumbImage();// 设置头像位图数据
-        return mThumbBitmap;
-    }
+		return mThumbBitmap;
+	}
 
-    // private void startPushService() {
-    // Intent startPush = new Intent();
-    // startPush.setClass(this, PushService.class);
+	// private void startPushService() {
+	// Intent startPush = new Intent();
+	// startPush.setClass(this, PushService.class);
 	// this.stopService(startPush);//停止服务
-    // this.startService(startPush);
-    // }
+	// this.startService(startPush);
+	// }
 
-    private void initComponent() {
-        mLeftBtn = (ImageButton) findViewById(R.id.main_banner_left_btn);
-        mRightBtn = (ImageButton) findViewById(R.id.main_banner_right_btn);
-        mLeftBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HomeActivity.this.getSlidingMenu().showMenu(true);
-            }
-        });
-        mRightBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HomeActivity.this.getSlidingMenu().showSecondaryMenu(true);
-            }
-        });
-    }
+	private void initComponent() {
+		mLeftBtn = (ImageButton) findViewById(R.id.main_banner_left_btn);
+		mRightBtn = (ImageButton) findViewById(R.id.main_banner_right_btn);
+		mLeftBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				HomeActivity.this.getSlidingMenu().showMenu(true);
+			}
+		});
+		mRightBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				HomeActivity.this.getSlidingMenu().showSecondaryMenu(true);
+			}
+		});
+	}
 
-    private void initSlidingMenu() {
-        SlidingMenu sm = getSlidingMenu();
-        sm.setShadowWidth(30);
-        sm.setBehindOffset(100);
-        sm.setFadeDegree(0.35f);
-        sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        sm.setMode(SlidingMenu.LEFT_RIGHT);
-        sm.setShadowDrawable(R.drawable.shadow);
-        sm.setSecondaryShadowDrawable(R.drawable.shadowright);
-        setBehindContentView(R.layout.menu_frame);
-        getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame, new LeftMenuFragment()).commit();
-        sm.setSecondaryMenu(R.layout.menu_frame_two);
-        getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_two, new RightMenuFragment()).commit();
-    }
+	private void initSlidingMenu() {
+		SlidingMenu sm = getSlidingMenu();
+		sm.setShadowWidth(30);
+		sm.setBehindOffset(100);
+		sm.setFadeDegree(0.35f);
+		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		sm.setMode(SlidingMenu.LEFT_RIGHT);
+		sm.setShadowDrawable(R.drawable.shadow);
+		sm.setSecondaryShadowDrawable(R.drawable.shadowright);
+		setBehindContentView(R.layout.menu_frame);
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.menu_frame, new LeftMenuFragment()).commit();
+		sm.setSecondaryMenu(R.layout.menu_frame_two);
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.menu_frame_two, new RightMenuFragment()).commit();
+	}
 
-    public void onStop() {
-        super.onStop();
-    }
+	public void onStop() {
+		super.onStop();
+	}
 
-    public ImageFetcher getImageFetcher() {
-        return mImageFetcher;
-    }
+	public ImageFetcher getImageFetcher() {
+		return mImageFetcher;
+	}
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && !getSlidingMenu().isMenuShowing()) {
-            if (backPressedCount++ == 0)
-                Toast.makeText(this, R.string.pro_exit_cofirm, Toast.LENGTH_LONG).show();
-            else
-                finish();
-            return true;
-        }
-        else {
-            return super.onKeyDown(keyCode, event);
-        }
-    }
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK
+				&& !getSlidingMenu().isMenuShowing()) {
+			if (backPressedCount++ == 0)
+				Toast.makeText(this, R.string.pro_exit_cofirm,
+						Toast.LENGTH_LONG).show();
+			else
+				finish();
+			return true;
+		} else {
+			return super.onKeyDown(keyCode, event);
+		}
+	}
 
-    public class RightMenuFragment extends Fragment {
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.menu_rights, null);
-            LinearLayout layout = (LinearLayout) view.findViewById(R.id.menu_list);
+	public class RightMenuFragment extends Fragment {
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View view = inflater.inflate(R.layout.menu_rights, null);
+			LinearLayout layout = (LinearLayout) view
+					.findViewById(R.id.menu_list);
 
-            IconListItem iconListItemSchedule = new IconListItem(HomeActivity.this);
-			iconListItemSchedule.setIcon(
-					R.drawable.icon_schedule_bg,
-					R.drawable.item_dialy_bg,
-                    R.string.menu_left_schedule);
-            iconListItemSchedule.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setClass(HomeActivity.this, GameScheduleActivity.class);
-                    HomeActivity.this.startActivity(intent);
-                }
-            });
-            layout.addView(iconListItemSchedule);
+			IconListItem iconListItemSchedule = new IconListItem(
+					HomeActivity.this);
+			iconListItemSchedule.setIcon(R.drawable.icon_schedule_bg,
+					R.drawable.item_dialy_bg, R.string.menu_left_schedule);
+			iconListItemSchedule.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent();
+					intent.setClass(HomeActivity.this,
+							GameScheduleActivity.class);
+					HomeActivity.this.startActivity(intent);
+				}
+			});
+			layout.addView(iconListItemSchedule);
 
-            IconListItem cep = new IconListItem(HomeActivity.this);
-            cep.setIcon(R.drawable.icon_schedule_bg, R.drawable.cep_icon, R.string.cep_menu_title);
-            cep.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setClass(HomeActivity.this, CepActivity.class);
-                    HomeActivity.this.startActivity(intent);
-                }
-            });
-            layout.addView(cep);
+			IconListItem cep = new IconListItem(HomeActivity.this);
+			cep.setIcon(R.drawable.icon_schedule_bg, R.drawable.cep_icon,
+					R.string.cep_menu_title);
+			cep.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent();
+					intent.setClass(HomeActivity.this, CepActivity.class);
+					HomeActivity.this.startActivity(intent);
+				}
+			});
+			layout.addView(cep);
 
-            IconListItem video = new IconListItem(HomeActivity.this);
-            video.setIcon(R.drawable.icon_schedule_bg, R.drawable.video_icon, R.string.cep_video);
-            video.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-					Intent intent= new Intent();
+			IconListItem video = new IconListItem(HomeActivity.this);
+			video.setIcon(R.drawable.icon_schedule_bg, R.drawable.video_icon,
+					R.string.cep_video);
+			video.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent();
 					intent.setClass(HomeActivity.this, PlayVideoActivity.class);
 					HomeActivity.this.startActivity(intent);
-                }
-            });
-            layout.addView(video);
+				}
+			});
+			layout.addView(video);
 
-            return view;
-        }
+			return view;
+		}
 
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-        }
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+		}
 
-        @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-        }
-    }
+		@Override
+		public void onActivityCreated(Bundle savedInstanceState) {
+			super.onActivityCreated(savedInstanceState);
+		}
+	}
 
-    /**
+	/**
 	 * 左侧菜单
 	 * 
 	 * @author Administrator
 	 */
-    public class LeftMenuFragment extends Fragment {
-        private CustomViewPager leftGalllery;
+	public class LeftMenuFragment extends Fragment {
+		private CustomViewPager leftGalllery;
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.menu_left, null);
-            leftGalllery = (CustomViewPager) view.findViewById(R.id.left_menugallery);
-            leftGalllery.setAdapter(new LeftMenuAdapter(getActivity().getSupportFragmentManager()));
-            return view;
-        }
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View view = inflater.inflate(R.layout.menu_left, null);
+			leftGalllery = (CustomViewPager) view
+					.findViewById(R.id.left_menugallery);
+			leftGalllery.setAdapter(new LeftMenuAdapter(getActivity()
+					.getSupportFragmentManager()));
+			return view;
+		}
 
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-        }
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+		}
 
-        private final class LeftMenuAdapter extends FragmentStatePagerAdapter {
-            public LeftMenuAdapter(FragmentManager fm) {
-                super(fm);
-            }
+		private final class LeftMenuAdapter extends FragmentStatePagerAdapter {
+			public LeftMenuAdapter(FragmentManager fm) {
+				super(fm);
+			}
 
-            @Override
-            public Fragment getItem(int index) {
-                if (index == 0) {
-                    if (userFragment == null) {
-                        userFragment = UserFragment.newInstance(leftGalllery);
-                    }
-                    return userFragment;
-                }
-                else {
-                    if (userDetailFragment == null) {
-                        userDetailFragment = UserDetailFragment.newInstance(leftGalllery, mImageFetcher);
-                    }
-                    return userDetailFragment;
-                }
-            }
+			@Override
+			public Fragment getItem(int index) {
+				if (index == 0) {
+					if (userFragment == null) {
+						userFragment = UserFragment.newInstance(leftGalllery);
+					}
+					return userFragment;
+				} else {
+					if (userDetailFragment == null) {
+						userDetailFragment = UserDetailFragment.newInstance(
+								leftGalllery, mImageFetcher);
+					}
+					return userDetailFragment;
+				}
+			}
 
-            @Override
-            public int getCount() {
-                return 2;
-            }
+			@Override
+			public int getCount() {
+				return 2;
+			}
 
-        }// end inner class
-    }
+		}// end inner class
+	}
 
 	// 二维码扫描返回
 	@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == UserFragment.SCAN_QRCODE) {
-                String twobarcode = data.getStringExtra(CaptureActivity.FLAG);
-                Log.e("yq", twobarcode);
-                // System.out.println(twobarcode);
-                requestSign(twobarcode, Config.CEP_USER_ID, Config.LNG, Config.LAT);
-            }
-        }
-    }
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			if (requestCode == UserFragment.SCAN_QRCODE) {
+				String twobarcode = data.getStringExtra(CaptureActivity.FLAG);
+				Log.e("yq", twobarcode);
+				// System.out.println(twobarcode);
+				requestSign(twobarcode, MyApplication.getCurrentApp().getUser()
+						.getId(), lng, lat);
+			}
+		}
+	}
 
-    /**
+	/**
 	 * 接到广播 改变头像
 	 * 
 	 * @author Administrator
 	 */
-    private final class ChangeThumbReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (userFragment != null) {
-                userFragment.getThumb().setImageBitmap(prepareThumbImage());
-            }
-            if (userDetailFragment != null) {
-                userDetailFragment.getThumb().setImageBitmap(prepareThumbImage());
-            }
-        }
-    }
+	private final class ChangeThumbReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (userFragment != null) {
+				userFragment.getThumb().setImageBitmap(prepareThumbImage());
+			}
+			if (userDetailFragment != null) {
+				userDetailFragment.getThumb().setImageBitmap(
+						prepareThumbImage());
+			}
+		}
+	}
 
-    private void requestSign(String twobarcode, String userid, String lng, String lat) {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(HomeActivity.this);
-            progressDialog.setTitle(R.string.dialog_title);
-            progressDialog.setMessage(getResources().getText(R.string.dialog_msg));
-            progressDialog.setCanceledOnTouchOutside(true);
-            progressDialog.setCancelable(true);
-        }
-        progressDialog.show();
-    }
+	private void requestSign(String twobarcode, String userid, String lng,
+			String lat) {
+		if (progressDialog == null) {
+			progressDialog = new ProgressDialog(HomeActivity.this);
+			progressDialog.setTitle(R.string.dialog_title);
+			progressDialog.setMessage(getResources().getText(
+					R.string.dialog_msg));
+			progressDialog.setCanceledOnTouchOutside(true);
+			progressDialog.setCancelable(true);
+		}
+		progressDialog.show();
+	}
 
-    /**
+	/**
 	 * 载入头像位图
 	 * 
 	 * @return
 	 */
-    public Bitmap prepareThumbImage() {
-        SharedPreferences sp = getSharedPreferences(Config.PACKAGE, Context.MODE_PRIVATE);
-        String thumbPath = sp.getString(Config.THUMB_PATH, "");
-		if (StringUtils.isBlank(thumbPath))
- {// 载入默认头像
+	public Bitmap prepareThumbImage() {
+		SharedPreferences sp = getSharedPreferences(Config.PACKAGE,
+				Context.MODE_PRIVATE);
+		String thumbPath = sp.getString(Config.THUMB_PATH, "");
+		if (StringUtils.isBlank(thumbPath)) {// 载入默认头像
 			return BitmapFactory
 					.decodeResource(getResources(), R.drawable.icon);
-        }
-		else
- {// 载入自定义头像
+		} else {// 载入自定义头像
 			File thumbFile = new File(thumbPath);
-			if (!thumbFile.exists())
- {// 若文件不存在 载入默认头像
+			if (!thumbFile.exists()) {// 若文件不存在 载入默认头像
 				return BitmapFactory.decodeResource(getResources(),
 						R.drawable.icon);
-            }
-            try {
-                return loadBitmap(thumbPath);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                return BitmapFactory.decodeResource(getResources(), R.drawable.icon);
-            }
-        }
-    }
+			}
+			try {
+				return loadBitmap(thumbPath);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return BitmapFactory.decodeResource(getResources(),
+						R.drawable.icon);
+			}
+		}
+	}
 
-    /**
+	/**
 	 * 根据指定路径载入压缩后的位图数据
 	 * 
 	 * @param path
 	 * @return
 	 * @throws Exception
 	 */
-    private Bitmap loadBitmap(String path) throws Exception {
-        BitmapFactory.Options options = new BitmapFactory.Options();
+	private Bitmap loadBitmap(String path) throws Exception {
+		BitmapFactory.Options options = new BitmapFactory.Options();
 		Bitmap bitmap = BitmapFactory.decodeFile(path, options); // 此时返回bm为空
 		// 计算缩放比
 		int be = (int) (options.outHeight / (float) 300);
 		int ys = options.outHeight % 300;// 求余数
-		float fe= ys / (float) 300;
-        if (fe >= 0.5)
-            be = be + 1;
-        if (be <= 0)
-            be = 1;
-        options.inSampleSize = be;
+		float fe = ys / (float) 300;
+		if (fe >= 0.5)
+			be = be + 1;
+		if (be <= 0)
+			be = 1;
+		options.inSampleSize = be;
 		// 重新读入图片，options.inJustDecodeBounds 设为 false
-        options.inJustDecodeBounds = false;
-        bitmap = BitmapFactory.decodeFile(path, options);
-        return bitmap;
-    }
+		options.inJustDecodeBounds = false;
+		bitmap = BitmapFactory.decodeFile(path, options);
+		return bitmap;
+	}
 }// end class

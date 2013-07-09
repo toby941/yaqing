@@ -5,6 +5,12 @@ import java.util.Date;
 import java.util.Random;
 
 public class Common {
+	public static String timeNotifyString(long time)
+	{
+		SimpleDateFormat sdf= new SimpleDateFormat("MM.dd.yyyy");
+		Date dt= new Date(time);
+		return sdf.format(dt);
+	}
 	public static String timeString(String timeStr)
 	{
 		long time= Long.parseLong(timeStr);

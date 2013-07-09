@@ -4,7 +4,7 @@ import java.util.List;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,14 +12,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -34,7 +32,9 @@ import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.airAd.yaqinghui.fragment.CepEventItem;
 import com.airAd.yaqinghui.fragment.ImageDetailFragment;
+import com.airAd.yaqinghui.fragment.UserFragment;
 import com.airAd.yaqinghui.ui.CepTextView;
+import com.google.zxing.client.android.CaptureActivity;
 /**
  * 
  * @author Panyi
@@ -69,6 +69,8 @@ public class CepDetailActivity extends BaseActivity
 	private int sub_cur;
 	private int sub_start, sub_end;
 	private int event_length;
+	public String lat, lng;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -76,6 +78,27 @@ public class CepDetailActivity extends BaseActivity
 		setContentView(R.layout.news_detail);
 		init();
 		requestDetailData();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK)
+		{
+			if (requestCode == UserFragment.SCAN_QRCODE)
+			{
+				String twobarcode= data.getStringExtra(CaptureActivity.FLAG);
+				Log.e("yq", twobarcode);
+				// System.out.println(twobarcode);
+				requestSign(twobarcode, MyApplication.getCurrentApp().getUser().getId(), lng, lat);
+			}
+		}
+	}
+	
+	private void requestSign(String twobarcode, String userid, String lng, String lat)
+	{
+		System.out.println("二维码-->" + twobarcode + "," + userid + "," + lng + "," + lat);
 	}
 	/**
 	 * 
@@ -160,6 +183,7 @@ public class CepDetailActivity extends BaseActivity
 			cepEvents.add(e4);
 			cepEvents.add(e5);
 			cepEvents.add(e6);
+
 			cep.setCepEvents(cepEvents);
 			if (cep == null)
 			{
@@ -316,7 +340,7 @@ public class CepDetailActivity extends BaseActivity
 				}
 			}
 			else if (sub_end == event_length && sub_start != 0)
- {// 在尾部
+			{// 在尾部
 				if (index == event_length - 1)
 				{
 					sub_cur= 2;
@@ -476,27 +500,4 @@ public class CepDetailActivity extends BaseActivity
 			return listCepEvent.size();
 		}
 	}// end inner class
-	private void setPopView(String tips)
-	{
-		if (pop == null)
-		{
-			popLayoutView= mInflater.inflate(R.layout.select_time, null);
-			pop= new PopupWindow(popLayoutView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-			pop.setBackgroundDrawable(new BitmapDrawable());
-			pop.setOutsideTouchable(true);
-			pop.setFocusable(true);
-			Button closeBtn= (Button) popLayoutView.findViewById(R.id.iknowBtn);
-			closeBtn.setOnClickListener(new OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					pop.dismiss();
-				}
-			});
-		}
-		pop.showAtLocation(mainLayout, Gravity.CENTER, 0, 0);
-		TextView text= (TextView) popLayoutView.findViewById(R.id.tips);
-		text.setText(tips);
-	}
 }// end class

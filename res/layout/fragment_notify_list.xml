@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#333241" >
+    android:background="@drawable/texture_bg" >
 
     <RelativeLayout
         android:id="@+id/j_detail_banner"
@@ -36,11 +36,13 @@
         android:scaleType="fitXY"
         android:src="@drawable/left_user_caitiao" />
 
-    <ImageView
-        android:layout_width="fill_parent"
+	<ListView
+	    android:id="@+id/notify_list"
+	    android:layout_below="@id/caitiao"
+	    android:divider="@android:color/transparent"
+        android:scrollingCache="false"
+        android:fadingEdge="none"  
+	    android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/caitiao"
-        android:scaleType="fitXY"
-        android:src="@drawable/icon" />
-
+	    />
 </RelativeLayout>

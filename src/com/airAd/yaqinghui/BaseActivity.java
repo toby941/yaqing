@@ -30,6 +30,7 @@ public class BaseActivity extends SherlockFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		setTheme(R.style.Theme_Sherlock_Light_NoActionBar);
 		super.onCreate(savedInstanceState);
+
 		mInflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mPushReceiver = new PushReceiver();

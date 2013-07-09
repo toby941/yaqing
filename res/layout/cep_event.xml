@@ -89,13 +89,19 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/signin"
             android:text="@string/sign_in"
+            android:background="@drawable/sign_in_bg"
             android:layout_weight="1"
+            android:textColor="#888888"
             android:layout_width="wrap_content"	
             android:layout_height="wrap_content" />
         
         <Button
             android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textColor="#888888"
+            android:background="@drawable/sign_in_bg"
             android:text="@string/make_socre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

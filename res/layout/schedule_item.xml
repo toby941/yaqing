@@ -38,6 +38,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/schedule_frame"
+        android:id="@+id/maininfo"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -98,8 +99,11 @@
            >
 
             <Button
+                android:id="@+id/signin"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#888888"
+                android:background="@drawable/sign_in_bg"
                 android:text="@string/sign_in" />
         </LinearLayout>
     </LinearLayout>

@@ -9,7 +9,9 @@ import java.util.Date;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -67,6 +69,7 @@ public class UserDetailFragment extends Fragment
 	private View confirmContentView;//确认框内容
 	private Button mConfirmSet;
 	private Button mCancelSet;
+	private AssetManager assertManager;
 	/* 拍照的照片存储位置 */
 	private static final File PHOTO_DIR= new File(Environment.getExternalStorageDirectory() + "/dcim/Camera");
 	public static UserDetailFragment newInstance(CustomViewPager gallery, ImageFetcher imageFetcher)
@@ -87,6 +90,7 @@ public class UserDetailFragment extends Fragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		mUser= MyApplication.getCurrentUser();
+		assertManager= getActivity().getAssets();
 		super.onCreate(savedInstanceState);
 	}
 	@Override
@@ -110,9 +114,19 @@ public class UserDetailFragment extends Fragment
 			TextView genderText= (TextView) view.findViewById(R.id.detail_gender);
 			TextView itemText= (TextView) view.findViewById(R.id.detail_attenditem_text);
 			TextView itemTextEg= (TextView) view.findViewById(R.id.detail_attenditem_texteg);
+			ImageView itemIcon= (ImageView) view.findViewById(R.id.detail_attenditem_icon);
 			nameText.setText(mUser.getName());
 			genderText.setText(mUser.getGender());
 			itemText.setText(mUser.getTypes()[0]);
+			try
+			{
+				itemIcon.setImageBitmap(BitmapFactory.decodeStream(assertManager.open(mUser.getTypes()[0].toLowerCase()
+						+ ".png")));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
 		return view;
 	}
@@ -222,6 +236,8 @@ public class UserDetailFragment extends Fragment
 		super.onDestroy();
 		System.gc();
 	}
+
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		switch (requestCode)
@@ -261,7 +277,6 @@ public class UserDetailFragment extends Fragment
 			startActivityForResult(intent, TAKE_PHOTO);
 		}
 	}// end inner class
-
 	private final class BackClick implements OnClickListener
 	{// 返回第一页面
 		@Override
@@ -270,7 +285,6 @@ public class UserDetailFragment extends Fragment
 			mGallery.setCurrentItem(0);
 		}
 	}// end inner class
-
 	private final class SelectfromGallery implements OnClickListener
 	{
 		@Override
@@ -284,8 +298,6 @@ public class UserDetailFragment extends Fragment
 			startActivityForResult(intent, SELECT_GALLERY);
 		}
 	}//end inner class
-
-
 	public void saveMyBitmap(Bitmap bmp) throws IOException
 	{
 		if (!FileUtils.isHasSdcard())

@@ -1,4 +1,5 @@
 package com.airAd.yaqinghui.fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -44,6 +45,7 @@ public class UserFragment extends Fragment
 	private User user;
 	private NotifyList notifyListFragment;
 	private SettingsFragment settingFragment;
+	private ProgressDialog mProgressDialog;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -69,11 +71,17 @@ public class UserFragment extends Fragment
 			{
 				Double geoLat= location.getLatitude();
 				Double geoLng= location.getLongitude();
-				System.out.println("location--->" + geoLat + "," + geoLng);
+				//				System.out.println("location--->" + geoLat + "," + geoLng);
 				locationManager.removeUpdates(this);
 				Intent it= new Intent(getActivity(), CaptureActivity.class);
+				HomeActivity home= (HomeActivity) getActivity();
+				home.lat= geoLat + "";
+				home.lng= geoLng + "";
+
 				getActivity().startActivityForResult(it, SCAN_QRCODE);
 				isLocating= false;
+				if (mProgressDialog.isShowing())
+					mProgressDialog.dismiss();
 			}
 		}
 	};
@@ -97,6 +105,10 @@ public class UserFragment extends Fragment
 		super.onCreate(savedInstanceState);
 		user= MyApplication.getCurrentUser();
 		locationManager= LocationManagerProxy.getInstance(getActivity());
+		mProgressDialog= new ProgressDialog(getActivity());
+		mProgressDialog.setTitle(R.string.dialog_title);
+		mProgressDialog.setMessage(getResources().getText(R.string.is_locating));
+		mProgressDialog.setCancelable(true);
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -191,6 +203,7 @@ public class UserFragment extends Fragment
 				locationManager.setGpsEnable(true);
 				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);
 				isLocating= true;
+				mProgressDialog.show();
 			}
 		}
 	}// end inner class

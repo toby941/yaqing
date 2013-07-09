@@ -25,8 +25,18 @@ public class NoficationMessage {
     private Integer messageType;
     private Long addTimel;
     private Date addTime;
+	private String title;
 
-    public Long getAddTimel() {
+	public String getTitle()
+	{
+		return title;
+	}
+	public void setTitle(String title)
+	{
+		this.title= title;
+	}
+	public Long getAddTimel()
+	{
         return addTimel;
     }
 

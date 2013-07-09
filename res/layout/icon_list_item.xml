@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingBottom="15dp"
+    android:paddingLeft="20dp"
+    android:paddingTop="2dp"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_centerVertical="true"
+        android:id="@+id/homeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
 
         <ImageView
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/icon" />
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/home_icon" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:textColor="#BBC5C7"
-            android:textSize="20dp" />
-    </LinearLayout>
+            android:layout_toRightOf="@id/icon"
+            android:text="@string/menu_left_home"
+            android:textColor="#BFC3C9"
+            android:textSize="19dp" />
+    </RelativeLayout>
 
-    <!--
-         <View
-		android:layout_alignParentBottom="true"        
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/siglines" />
-    -->
 
     <ImageView
         android:id="@+id/glare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:layout_alignParentRight="true"
-        android:src="@drawable/glare"
-        android:visibility="invisible" />
-
+        android:src="@drawable/glare" />
+    <View
+        android:layout_below="@id/glare"
+        android:layout_width="match_parent"
+        android:layout_height="3px"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/siglines2" />
 </RelativeLayout>

@@ -3,11 +3,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,7 +26,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.airAd.yaqinghui.CepDetailActivity;
+import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.business.ScheduleService;
@@ -29,8 +38,17 @@ import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Common;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.fragment.SettingsFragment;
+import com.airAd.yaqinghui.fragment.UserFragment;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
+import com.google.zxing.client.android.CaptureActivity;
 public class PushClose extends RelativeLayout
 {
+	public static final int UNSELECTED_COLOR= Color.rgb(254, 102, 97);
+	public static final int SELECTED_COLOR= Color.rgb(50, 63, 78);
+	public static final int TEXT_NORMAL_COLOR= Color.rgb(177, 179, 184);
 	public static final int DAYS= 11;
 	public boolean isClosed= true;
 	private LinearLayout mBottomView;
@@ -50,9 +68,48 @@ public class PushClose extends RelativeLayout
 	private ListView mSheduleList;
 	private List<ScheduleItem> mDataList;
 	private ScheduleItemAdapter scheduleAdapter;
-	public static final int UNSELECTED_COLOR= Color.rgb(254, 102, 97);
-	public static final int SELECTED_COLOR= Color.rgb(50, 63, 78);
-	public static final int TEXT_NORMAL_COLOR= Color.rgb(177, 179, 184);
+	private HomeActivity parentActivity;
+	private LocationManagerProxy locationManager;
+	private boolean isLocating= false;
+	private ProgressDialog mProgressDialog;
+	public AMapLocationListener locationListener= new AMapLocationListener()
+	{
+		@Override
+		public void onLocationChanged(Location location)
+		{
+		}
+		@Override
+		public void onProviderDisabled(String provider)
+		{
+		}
+		@Override
+		public void onProviderEnabled(String provider)
+		{
+		}
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras)
+		{
+		}
+		@Override
+		public void onLocationChanged(AMapLocation location)
+		{
+			if (location != null)
+			{
+				Double geoLat= location.getLatitude();
+				Double geoLng= location.getLongitude();
+				//				System.out.println("location2--->" + geoLat + "," + geoLng);
+				locationManager.removeUpdates(this);
+				parentActivity.lat= geoLat + "";
+				parentActivity.lng= geoLng + "";
+
+				Intent it= new Intent(parentActivity, CaptureActivity.class);
+				parentActivity.startActivityForResult(it, UserFragment.SCAN_QRCODE);
+				isLocating= false;
+				if (mProgressDialog.isShowing())
+					mProgressDialog.dismiss();
+			}
+		}
+	};
 	public PushClose(Context context)
 	{
 		super(context);
@@ -66,6 +123,11 @@ public class PushClose extends RelativeLayout
 	private void init(Context context)
 	{
 		mContext= context;
+		if (mContext instanceof HomeActivity)
+		{
+			parentActivity= (HomeActivity) mContext;
+		}
+		locationManager= LocationManagerProxy.getInstance(mContext);
 		mScroller= new Scroller(getContext());
 		mScheduleService= new ScheduleService();
 	}
@@ -90,6 +152,10 @@ public class PushClose extends RelativeLayout
 		mTopView.addView(top);
 		mListView= (CanCloseListView) mTopView.findViewById(R.id.date_list);
 		mSheduleList= (ListView) top.findViewById(R.id.date_list);
+		mProgressDialog= new ProgressDialog(mContext);
+		mProgressDialog.setTitle(R.string.dialog_title);
+		mProgressDialog.setMessage(getResources().getText(R.string.is_locating));
+		mProgressDialog.setCancelable(true);
 		addDateListener();
 	}
 	private void addDateListener()
@@ -184,7 +250,10 @@ public class PushClose extends RelativeLayout
 			TextView place= (TextView) convertView.findViewById(R.id.place);
 			TextView tips= (TextView) convertView.findViewById(R.id.tips);
 			TextView timeText= (TextView) convertView.findViewById(R.id.schedule_item_time);
-
+			View mainInfo= convertView.findViewById(R.id.maininfo);
+			View signBtn= convertView.findViewById(R.id.signin);//签到按钮
+			mainInfo.setOnClickListener(null);
+			signBtn.setOnClickListener(null);
 			gotos.setVisibility(View.GONE);
 			cepZone.setVisibility(View.GONE);
 			timeText.setText(Common.timeString(data.getTimeStr()));
@@ -210,6 +279,8 @@ public class PushClose extends RelativeLayout
 				banner.setBackgroundColor(Color.parseColor(mContext.getString(R.color.schedule_cep)));
 				gotos.setVisibility(View.VISIBLE);
 				cepZone.setVisibility(View.VISIBLE);
+				mainInfo.setOnClickListener(new GotoCep(data.getCepId()));
+				signBtn.setOnClickListener(new ScanClick());
 			}
 			else if (ScheduleItem.TYPE_TRAINING == data.getItemType())
 			{
@@ -218,6 +289,54 @@ public class PushClose extends RelativeLayout
 			return convertView;
 		}
 	}//end inner class
+	private final class ScanClick implements OnClickListener
+	{
+		@Override
+		public void onClick(View v)
+		{
+			if (isLocating)
+			{// 当前正在定位 按钮不响应
+				return;
+			}
+			if (openGPSSettings())
+			{// GPS确保打开
+				locationManager.removeUpdates(locationListener);
+				locationManager.setGpsEnable(true);
+				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);
+				isLocating= true;
+				mProgressDialog.show();
+			}
+		}
+	}// end inner class
+	private boolean openGPSSettings()
+	{
+		LocationManager alm= (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+		if (alm.isProviderEnabled(LocationManager.GPS_PROVIDER))
+		{
+			return true;
+		}
+		else
+		{
+			Toast.makeText(mContext, R.string.opengps, Toast.LENGTH_SHORT).show();
+			mContext.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+			return false;
+		}
+	}
+	private final class GotoCep implements OnClickListener
+	{
+		private String cepId;
+		public GotoCep(String cepId)
+		{
+			this.cepId= cepId;
+		}
+		@Override
+		public void onClick(View v)
+		{
+			Intent it= new Intent(mContext, CepDetailActivity.class);
+			it.putExtra(Config.CEP_ID, cepId);
+			mContext.startActivity(it);
+		}
+	}//end innner class
 	/**
 	 * 点击日期事件响应
 	 * 
@@ -244,7 +363,6 @@ public class PushClose extends RelativeLayout
 			selectedDate= dateText;
 			int day= Integer.parseInt(selectedDate.getText().toString());
 			close();
-
 			setSheduleListData(day);
 			// if(dateText.isHaveActivity){
 			// dateText.setNoneActivity();
