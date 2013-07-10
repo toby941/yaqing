@@ -15,4 +15,7 @@
     <color name="schedule_game">#E40011</color>
     <color name="schedule_cep">#FFBB02</color>
     <color name="schedule_training">#2D9BD6</color>
+    <color name="game_daily_title">#484848</color>
+    <color name="game_daily_loc">#ADADAD</color>
+    <color name="game_daily_date">#545358</color>
 </resources>

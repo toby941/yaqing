@@ -124,12 +124,15 @@ public class GameDailyActivity extends BaseActivity {
 			String gameId = params[0];
 			Calendar c = Calendar.getInstance();
 			c.set(2013, 7, 12);
-			return gameService.getGameInfo(gameId, c.getTime());
+			return gameService.getGameInfo("00001", c.getTime());
 		}
 
 		@Override
 		protected void onPostExecute(List<GameInfo> list) {
-			gameInfoList = list;
+			if(list != null)
+			{
+				gameInfoList = list;
+			}
 			dailyAdapter.notifyDataSetChanged();
 		}
 	}
