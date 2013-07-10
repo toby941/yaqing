@@ -64,11 +64,11 @@ public class GameScheduleActivity extends BaseActivity {
 			}
 			EventView eventView = new EventView(this, myGameList.get(i).getPic(),
 					myGameList.get(i).getName());
-			final String gameId = myGameList.get(i).getId();
+			final int pos = i;
 			eventView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					openDaily(gameId);
+					openDaily(pos);
 				}
 			});
 			LayoutParams lp = new LayoutParams(0, LayoutParams.WRAP_CONTENT);
@@ -89,9 +89,10 @@ public class GameScheduleActivity extends BaseActivity {
 		return startPos + row;
 	}
 
-	private void openDaily(String id) {
+	private void openDaily(int index) {
 		Intent intent  = new Intent(this, GameDailyActivity.class);
-		intent.putExtra(GameDailyActivity.GAME_ID, id);
+		intent.putExtra(GameDailyActivity.GAME_ID, myGameList.get(index).getId());
+		intent.putExtra(GameDailyActivity.GAME_PIC_URL, myGameList.get(index).getPic());
 		startActivity(intent);
 	}
 

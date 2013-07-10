@@ -56,8 +56,8 @@ public class MyApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		JPushInterface.setDebugMode(true);
-		JPushInterface.init(this);
+	//	JPushInterface.setDebugMode(true);
+	//	JPushInterface.init(this);
 		current = this;
 		stack = new Stack<Object>();
 		dbService = new DatabaseService(this);

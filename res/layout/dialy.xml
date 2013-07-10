@@ -26,8 +26,13 @@
         android:id="@+id/date_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/date_banner"
-        android:divider="@android:color/transparent"
-        android:fadingEdge="none"
-        android:scrollingCache="false" />
+        android:layout_below="@id/date_banner" />
+
+    <ProgressBar 
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        style="@android:style/Widget.ProgressBar.Large"
+        android:visibility="gone"/>
 </RelativeLayout>

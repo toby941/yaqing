@@ -3,6 +3,8 @@
  */
 package com.airAd.yaqinghui.business.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,9 @@ public class GameInfo {
 	private String id;
 	private String time;
 	private String content;
+	private String pic;
+	
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm");
 	
 	/**
 	 * 
@@ -82,5 +87,22 @@ public class GameInfo {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	public String getPic() {
+		return pic;
+	}
+
+	public void setPic(String pic) {
+		this.pic = pic;
+	}
 	
+	public long getStartTime()
+	{
+		try {
+			return sdf.parse(time.substring(0, time.indexOf("-"))).getTime();
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 }
