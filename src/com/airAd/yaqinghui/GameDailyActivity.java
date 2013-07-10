@@ -6,14 +6,14 @@ import java.util.List;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.airAd.yaqinghui.business.GameService;
@@ -29,11 +29,13 @@ public class GameDailyActivity extends BaseActivity {
 
 	private PushClose mPushClose;
 	private CanCloseListView listView;
+	private ProgressBar progressbar;
 	private GameService gameService;
 	private List<GameInfo> gameInfoList = new ArrayList<GameInfo>();
 	private DailyAdapter dailyAdapter;
 	private OnClickListener addScheduleListener;
-	
+	private List<String> storedInfoIdList;// 已经持久化的gameInfolist
+
 	private String gameId;
 	private String gamePicUrl;
 	public static final String GAME_ID = "game_id";
@@ -50,24 +52,19 @@ public class GameDailyActivity extends BaseActivity {
 
 	public void init() {
 		gameService = new GameService();
-		new GameDailyTask().execute(gameId);
 		setPushClose();
 		dailyAdapter = new DailyAdapter();
 		listView.setAdapter(dailyAdapter);
-		/*listView.setOnItemClickListener(new OnItemClickListener() {
+		new GameDailyTask().execute(gameId);
+		storedInfoIdList = gameService.queryScheduleIds();
+		Log.i("storedInfoIdList", storedInfoIdList.toString());
+		addScheduleListener = new OnClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View v, int pos,
-					long arg3) {
-				gameService.addtoSchedule(gameInfoList.get(pos));
-			}
-		});*/
-		addScheduleListener = new OnClickListener() {
-			
-			@Override
 			public void onClick(View v) {
-				int pos = (Integer)v.getTag();
-				gameService.addtoSchedule(gameInfoList.get(pos));
+				int pos = (Integer) v.getTag();
+				gameService.addtoSchedule(gameInfoList.get(pos), gamePicUrl);
+				v.setEnabled(false);
 			}
 		};
 	}
@@ -80,7 +77,8 @@ public class GameDailyActivity extends BaseActivity {
 		View bottomView = LayoutInflater.from(this)
 				.inflate(R.layout.date, null);
 		View topView = LayoutInflater.from(this).inflate(R.layout.dialy, null);
-		listView = (CanCloseListView)topView.findViewById(R.id.date_list);
+		progressbar = (ProgressBar) topView.findViewById(R.id.progressBar);
+		listView = (CanCloseListView) topView.findViewById(R.id.date_list);
 		mPushClose.setContent(topView, bottomView);
 		final Calendar calendar = Calendar.getInstance();
 		int year = calendar.get(Calendar.YEAR);
@@ -94,8 +92,7 @@ public class GameDailyActivity extends BaseActivity {
 		dateText.setText(day + " " + StringUtil.retWeekName(weekday));
 	}
 
-	private class DailyAdapter extends BaseAdapter
-	{
+	private class DailyAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
@@ -114,46 +111,55 @@ public class GameDailyActivity extends BaseActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			if(convertView == null)
-			{
-				convertView = getLayoutInflater().inflate(R.layout.game_daily_item, null);
+			if (convertView == null) {
+				convertView = getLayoutInflater().inflate(
+						R.layout.game_daily_item, null);
 			}
-			if(convertView.getTag() == null)
-			{
+			if (convertView.getTag() == null) {
 				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.titleView = (TextView)convertView.findViewById(R.id.game_title);
-				viewHolder.locView = (TextView)convertView.findViewById(R.id.game_loc);
-				viewHolder.dateView = (TextView)convertView.findViewById(R.id.date);
-				viewHolder.addBtn = (Button)convertView.findViewById(R.id.game_add_btn);
+				viewHolder.titleView = (TextView) convertView
+						.findViewById(R.id.game_title);
+				viewHolder.locView = (TextView) convertView
+						.findViewById(R.id.game_loc);
+				viewHolder.dateView = (TextView) convertView
+						.findViewById(R.id.date);
+				viewHolder.addBtn = (Button) convertView
+						.findViewById(R.id.game_add_btn);
 				convertView.setTag(viewHolder);
 			}
-			ViewHolder viewHolder = (ViewHolder)convertView.getTag();
+			ViewHolder viewHolder = (ViewHolder) convertView.getTag();
 			viewHolder.titleView.setText(gameInfoList.get(position).getTitle());
 			viewHolder.locView.setText(gameInfoList.get(position).getPlace());
-			viewHolder.dateView.setText(formatTime(gameInfoList.get(position).getTime()));
-			viewHolder.addBtn.setTag(position);
-			viewHolder.addBtn.setOnClickListener(addScheduleListener);
+			viewHolder.dateView.setText(formatTime(gameInfoList.get(position)
+					.getTime()));
+			if (storedInfoIdList.contains(gameInfoList.get(position).getId())) {
+				viewHolder.addBtn.setEnabled(false);
+			} else {
+				viewHolder.addBtn.setEnabled(true);
+				viewHolder.addBtn.setTag(position);
+				viewHolder.addBtn.setOnClickListener(addScheduleListener);
+			}
+
 			return convertView;
 		}
 	}
-	
-	public String formatTime(String time)
-	{
+
+	public String formatTime(String time) {
 		return time.substring(time.indexOf(" ") + 1);
 	}
-	
-	private static class ViewHolder
-	{
+
+	private static class ViewHolder {
 		public TextView titleView;
 		public TextView locView;
 		public TextView dateView;
 		public Button addBtn;
-		public int pos;
 	}
-	
+
 	private class GameDailyTask extends AsyncTask<String, Void, List<GameInfo>> {
 		@Override
 		protected void onPreExecute() {
+			progressbar.setVisibility(View.VISIBLE);
+			listView.setVisibility(View.GONE);
 		}
 
 		@Override
@@ -171,10 +177,11 @@ public class GameDailyActivity extends BaseActivity {
 
 		@Override
 		protected void onPostExecute(List<GameInfo> list) {
-			if(list != null)
-			{
+			if (list != null) {
 				gameInfoList = list;
 			}
+			progressbar.setVisibility(View.GONE);
+			listView.setVisibility(View.VISIBLE);
 			dailyAdapter.notifyDataSetChanged();
 		}
 	}
