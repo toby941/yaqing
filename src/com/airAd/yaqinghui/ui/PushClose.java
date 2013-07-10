@@ -1,5 +1,6 @@
 package com.airAd.yaqinghui.ui;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -371,6 +372,18 @@ public class PushClose extends RelativeLayout
 			// }
 		}
 	}// end inner class
+
+	public Calendar getSelectDateInt()
+	{
+		Calendar calender= Calendar.getInstance();
+		if (selectedDate == null)
+		{
+			return calender;
+		}
+		calender.set(Calendar.DAY_OF_MONTH, Integer.parseInt(selectedDate.getText().toString()));
+		return calender;
+	}
+
 	@Override
 	public void computeScroll()
 	{

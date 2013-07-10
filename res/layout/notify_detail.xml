@@ -23,17 +23,6 @@
         android:layout_marginTop="6dp"
         android:background="@android:color/transparent"
         android:src="@drawable/back_top_btn" />
-    
-    <ImageButton
-        android:id="@+id/search_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="6dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/search_btn_bg" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -50,31 +39,41 @@
         android:layout_below="@id/j_top"
         android:scaleType="fitXY"
         android:src="@drawable/colorbar" />
-    
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/j_line" >
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/gallery"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_centerHorizontal="true" >
-        </android.support.v4.view.ViewPager>
-
-        <com.airAd.yaqinghui.ui.IndexView
-            android:id="@+id/gallery_index"
-            android:layout_width="@dimen/main_pic_index_width"
-            android:layout_height="@dimen/main_pic_index_height"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-	
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@id/j_line"
-        android:scaleType="fitXY"
-        android:src="@drawable/lighten"/>
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#000000"
+            android:textSize="17dp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#888888" />
+
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/schedule_item_dot" />
+        
+         <TextView
+             android:id="@+id/content"
+            android:layout_marginTop="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#888888" />
+    </LinearLayout>
+
 </RelativeLayout>

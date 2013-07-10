@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
+import com.airAd.yaqinghui.MyCepActivity;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.ui.CustomViewPager;
@@ -35,6 +36,10 @@ import com.google.zxing.client.android.CaptureActivity;
  */
 public class UserFragment extends Fragment
 {
+	public static final int MYCEP_ORDER= 1;//预约
+	public static final int MYCEP_SIGNIN= 2;//签到
+	public static final int MYCEP_COMMENT= 3;//评论
+	public static final String MYCEP_TYPE= "my_cep_type";
 	public static final int SCAN_QRCODE= 400;
 	protected CustomViewPager mGallery;
 	private ImageView thumbImage;
@@ -46,6 +51,7 @@ public class UserFragment extends Fragment
 	private NotifyList notifyListFragment;
 	private SettingsFragment settingFragment;
 	private ProgressDialog mProgressDialog;
+	private ImageView myCepOrder, myCepSingn, myCepComment;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -77,7 +83,6 @@ public class UserFragment extends Fragment
 				HomeActivity home= (HomeActivity) getActivity();
 				home.lat= geoLat + "";
 				home.lng= geoLng + "";
-
 				getActivity().startActivityForResult(it, SCAN_QRCODE);
 				isLocating= false;
 				if (mProgressDialog.isShowing())
@@ -124,10 +129,16 @@ public class UserFragment extends Fragment
 		settingBtn.setOnClickListener(new SettingClick());
 		notifyBtn= view.findViewById(R.id.notifyBtn);
 		notifyBtn.setOnClickListener(new NotifyClick());
+		myCepOrder= (ImageView) view.findViewById(R.id.mycep_order);
+		myCepSingn= (ImageView) view.findViewById(R.id.mycep_signin);
+		myCepComment= (ImageView) view.findViewById(R.id.mycep_comment);
 		if (user != null)
 		{
 			TextView userName= (TextView) view.findViewById(R.id.username);
 			userName.setText(user.getName());// 设置用户名
+			myCepOrder.setOnClickListener(new GotoMyCep(MYCEP_ORDER));
+			myCepSingn.setOnClickListener(new GotoMyCep(MYCEP_SIGNIN));
+			myCepComment.setOnClickListener(new GotoMyCep(MYCEP_COMMENT));
 		}
 		return view;
 	}
@@ -158,6 +169,21 @@ public class UserFragment extends Fragment
 		locationManager.removeUpdates(locationListener);
 		System.gc();
 	}
+	private final class GotoMyCep implements OnClickListener
+	{
+		int type;
+		public GotoMyCep(int type)
+		{
+			this.type= type;
+		}
+		@Override
+		public void onClick(View v)
+		{
+			Intent it= new Intent(getActivity(), MyCepActivity.class);
+			it.putExtra(MYCEP_TYPE, type);
+			getActivity().startActivity(it);
+		}
+	}//end inner class
 	private final class SettingClick implements OnClickListener
 	{
 		@Override

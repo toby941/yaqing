@@ -8,7 +8,6 @@ import android.view.Window;
 import android.widget.ImageButton;
 
 /**
- * 提交评论 对话框
  * 
  * @author Panyi
  * 

@@ -90,7 +90,8 @@ public class HomeActivity extends SlidingBaseActivity {
 		super.onDestroy();
 		mImageFetcher.closeCache();
 
-		if (mChangeThumbReceiver != null) {// 取消监听
+		if (mChangeThumbReceiver != null)
+		{// 取消监听
 			this.unregisterReceiver(mChangeThumbReceiver);
 		}
 	}
@@ -144,16 +145,9 @@ public class HomeActivity extends SlidingBaseActivity {
 	}
 
 	public Bitmap getThumbBitmap() {
-		mThumbBitmap = prepareThumbImage();// 设置头像位图数据
+		mThumbBitmap= prepareThumbImage();// 设置头像位图数据
 		return mThumbBitmap;
 	}
-
-	// private void startPushService() {
-	// Intent startPush = new Intent();
-	// startPush.setClass(this, PushService.class);
-	// this.stopService(startPush);//停止服务
-	// this.startService(startPush);
-	// }
 
 	private void initComponent() {
 		mLeftBtn = (ImageButton) findViewById(R.id.main_banner_left_btn);
@@ -383,12 +377,16 @@ public class HomeActivity extends SlidingBaseActivity {
 		SharedPreferences sp = getSharedPreferences(Config.PACKAGE,
 				Context.MODE_PRIVATE);
 		String thumbPath = sp.getString(Config.THUMB_PATH, "");
-		if (StringUtils.isBlank(thumbPath)) {// 载入默认头像
+		if (StringUtils.isBlank(thumbPath))
+		{// 载入默认头像
 			return BitmapFactory
 					.decodeResource(getResources(), R.drawable.icon);
-		} else {// 载入自定义头像
-			File thumbFile = new File(thumbPath);
-			if (!thumbFile.exists()) {// 若文件不存在 载入默认头像
+		}
+		else
+		{// 载入自定义头像
+			File thumbFile= new File(thumbPath);
+			if (!thumbFile.exists())
+			{// 若文件不存在 载入默认头像
 				return BitmapFactory.decodeResource(getResources(),
 						R.drawable.icon);
 			}
@@ -411,11 +409,11 @@ public class HomeActivity extends SlidingBaseActivity {
 	 */
 	private Bitmap loadBitmap(String path) throws Exception {
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		Bitmap bitmap = BitmapFactory.decodeFile(path, options); // 此时返回bm为空
+		Bitmap bitmap= BitmapFactory.decodeFile(path, options); // 此时返回bm为空
 		// 计算缩放比
-		int be = (int) (options.outHeight / (float) 300);
-		int ys = options.outHeight % 300;// 求余数
-		float fe = ys / (float) 300;
+		int be= (int) (options.outHeight / (float) 300);
+		int ys= options.outHeight % 300;// 求余数
+		float fe= ys / (float) 300;
 		if (fe >= 0.5)
 			be = be + 1;
 		if (be <= 0)

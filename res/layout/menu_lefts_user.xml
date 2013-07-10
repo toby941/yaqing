@@ -204,13 +204,14 @@
                         android:layout_weight="1" >
 
                         <ImageView
+                            android:id="@+id/mycep_order"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:src="@drawable/baoming_none" />
 
                         <TextView
-                             android:visibility="invisible"
+                            android:visibility="invisible"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
@@ -230,6 +231,7 @@
                         android:layout_weight="1" >
 
                         <ImageView
+                            android:id="@+id/mycep_signin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
@@ -256,6 +258,7 @@
                         android:layout_weight="1" >
 
                         <ImageView
+                            android:id="@+id/mycep_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"

@@ -30,9 +30,7 @@ public class BaseActivity extends SherlockFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		setTheme(R.style.Theme_Sherlock_Light_NoActionBar);
 		super.onCreate(savedInstanceState);
-
-		mInflater = (LayoutInflater) this
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater= (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mPushReceiver = new PushReceiver();
 	}
 
@@ -46,38 +44,40 @@ public class BaseActivity extends SherlockFragmentActivity {
 		super.onPause();
 		unregisterReceiver(mPushReceiver);
 	}
-
-	private final class PushReceiver extends BroadcastReceiver {
+	private final class PushReceiver extends BroadcastReceiver
+	{
 		@Override
-		public void onReceive(Context context, Intent intent) {
-			String str = intent.getStringExtra("status");
+		public void onReceive(Context context, Intent intent)
+		{
+			String str= intent.getStringExtra("status");
 			// System.out.println(str);
 			showPop(str);
 		}
 	} // end inner class
-
-	protected void showPop(String content) {
-		if (pop == null) {
-			popView = mInflater.inflate(R.layout.confirm_cep, null);
-			pop = new PopupWindow(popView, LayoutParams.WRAP_CONTENT,
-					LayoutParams.WRAP_CONTENT);
+	protected void showPop(String content)
+	{
+		if (pop == null)
+		{
+			popView= mInflater.inflate(R.layout.confirm_cep, null);
+			pop= new PopupWindow(popView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			pop.setBackgroundDrawable(new BitmapDrawable());
 			pop.setOutsideTouchable(true);
 			pop.setFocusable(true);
 		}
-		TextView text = (TextView) popView.findViewById(R.id.confitm_text);
+		TextView text= (TextView) popView.findViewById(R.id.confitm_text);
 		text.setText(content);
 		pop.setAnimationStyle(R.style.PopupAnimation);
-		if (getParentView() != null) {
+		if (getParentView() != null)
+		{
 			pop.showAtLocation(getParentView(), Gravity.BOTTOM, 0, 0);
 		}
 	}
-
-	protected View getParentView() {
+	protected View getParentView()
+	{
 		return findViewById(R.id.main);
 	}
-
-	public <E extends View> E findViewBy(int id) {
+	public <E extends View> E findViewBy(int id)
+	{
 		return (E) findViewById(id);
 	}
 }

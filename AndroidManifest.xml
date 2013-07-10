@@ -119,7 +119,21 @@
             android:configChanges="locale"
             android:screenOrientation="portrait" >
         </activity>
-        
+         <activity
+            android:name=".NotifyDetailActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" >
+        </activity>
+         <activity
+            android:name=".MyCepActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" >
+        </activity>
+         <activity
+            android:name=".ShakeActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" >
+        </activity>
         
         <!-- Required -->
         <service

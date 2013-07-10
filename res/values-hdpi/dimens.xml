@@ -33,4 +33,5 @@
     
     <dimen name="cep_event_title_height">40dp</dimen>
      <dimen name="detail_event_item_height">240dp</dimen>
+     <dimen name="cep_shake_offset">13dp</dimen>
 </resources>

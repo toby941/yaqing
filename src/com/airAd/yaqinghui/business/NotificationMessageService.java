@@ -44,7 +44,8 @@ public class NotificationMessageService extends BaseService
 	}
 	public List<NoficationMessage> getCepEventHistoryMessages(int type)
 	{
-		return null;
+		return getNoficationMessages();
+		//		return null;
 	}
 	public List<NoficationMessage> getBadgesHistoryMessages()
 	{

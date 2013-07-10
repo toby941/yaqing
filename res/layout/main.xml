@@ -76,7 +76,12 @@
             android:layout_height="fill_parent"
              android:orientation="vertical"
             android:layout_alignParentTop="true" />
-        
+        <ImageView 
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/top"
+            android:src="@drawable/schdule_bottom"
+            />
     </com.airAd.yaqinghui.ui.PushClose>
 
     <ImageView

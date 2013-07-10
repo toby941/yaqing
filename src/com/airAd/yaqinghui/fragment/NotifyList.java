@@ -1,6 +1,7 @@
 package com.airAd.yaqinghui.fragment;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,13 +9,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.airAd.yaqinghui.MyApplication;
+import com.airAd.yaqinghui.NotifyDetailActivity;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.business.NotificationMessageService;
 import com.airAd.yaqinghui.business.model.NoficationMessage;
@@ -46,6 +49,7 @@ public class NotifyList extends Fragment
 		listView= (ListView) view.findViewById(R.id.notify_list);
 		return view;
 	}
+
 	@Override
 	public void onResume()
 	{
@@ -53,7 +57,7 @@ public class NotifyList extends Fragment
 		dataList= notifyService.getNoficationMessages();
 		selectListener= new ItemSelectListener();
 		listView.setAdapter(new NotifyAdapter());
-		listView.setOnItemSelectedListener(selectListener);
+		listView.setOnItemClickListener(selectListener);
 	}
 	@Override
 	public void onStop()
@@ -116,15 +120,16 @@ public class NotifyList extends Fragment
 			return convertView;
 		}
 	}//end inner class
-	private final class ItemSelectListener implements OnItemSelectedListener
+	private final class ItemSelectListener implements OnItemClickListener
 	{
+
 		@Override
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int posiotion, long arg3)
+		public void onItemClick(AdapterView<?> arg0, View arg1, int index, long arg3)
 		{
-		}
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0)
-		{
+			//			System.out.println(arg2);
+			MyApplication.getCurrentApp().push(dataList.get(index));
+			Intent it= new Intent(getActivity(), NotifyDetailActivity.class);
+			getActivity().startActivity(it);
 		}
 	}//end class
 }// end class

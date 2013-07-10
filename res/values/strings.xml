@@ -39,7 +39,6 @@
     <string name="applying">申请中</string>
     <string name="has_attend">已经报名</string>
     <string name="activity_search">活动查询</string>
-    <string name="shake_tips_text">摇一摇查找活动推荐</string>
     <string name="schedule_banner_text">竞赛日程</string>
     <string name="signin_record">签到记录</string>
     <string name="scan_tips">点击扫描二维码即可成功签到</string>
@@ -108,4 +107,7 @@
 	<string name="open_event_remind">开启事项提醒</string>
 	<string name="schedule_item_tips">活动开始前%d分钟提醒</string>
 	<string name="is_locating">正在定位中...</string>
+	<string name="has_order">已预约</string>
+	<string name="is_ordering">预约中</string>
+	<string name="shake_tips">摇一摇查找活动推荐</string>
 </resources>
