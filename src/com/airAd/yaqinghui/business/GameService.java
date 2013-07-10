@@ -8,12 +8,15 @@ import java.util.Date;
 import java.util.List;
 
 import net.sf.json.JSONObject;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.business.api.BasicAPI;
 import com.airAd.yaqinghui.business.model.Game;
 import com.airAd.yaqinghui.business.model.GameInfo;
+import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.core.HessianClient;
 
@@ -46,4 +49,23 @@ public class GameService extends BaseService {
 			return null;
 		}
     }
+	
+	/**
+	 * 添加到日程
+	 */
+	public void addtoSchedule(GameInfo gameInfo)
+	{
+		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
+		ContentValues cValue = new ContentValues();
+		//
+		cValue.put("user_id", MyApplication.getCurrentUser().getId());
+		cValue.put("ref_id", gameInfo.getId());
+		cValue.put("item_type", ScheduleItem.TYPE_GAME);
+		cValue.put("title", gameInfo.getTitle());
+		cValue.put("place", gameInfo.getPlace());
+		cValue.put("add_time", new Date().getTime());
+		cValue.put("time_str", gameInfo.getStartTime() + "");
+		//
+		db.insert("schedule", null, cValue);
+	}
 }

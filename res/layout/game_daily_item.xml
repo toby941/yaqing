@@ -10,12 +10,17 @@
     	android:layout_margin="10dp"
     	android:layout_marginLeft="10dp"
     	android:textColor="@color/game_daily_date"
-    	android:textSize="14sp"
+    	android:textStyle="bold"
+    	android:textSize="15sp"
     	android:text="08:30 am">
 	</TextView>
 	<RelativeLayout 
 	    android:layout_width="match_parent"
     	android:layout_height="wrap_content"
+    	android:layout_marginLeft="15dp"
+    	android:layout_marginRight="15dp"
+    	android:layout_marginBottom="15dp"
+    	android:layout_marginTop="8dp"
     	android:padding="15dp"
     	android:background="@android:color/white">
 	    <Button 
@@ -24,20 +29,18 @@
     		android:layout_height="wrap_content"
     		android:layout_alignParentRight="true"
     		android:layout_marginRight="15dp"
-    		android:layout_centerVertical="true"
-    		/>
+    		android:layout_centerVertical="true"/>
 	    
 	    <TextView 
 	        android:id="@+id/game_title"
 	        android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:layout_marginLeft="10dp"
-    		android:layout_marginTop="15dp"
     		android:layout_alignParentLeft="true"
     		android:layout_toLeftOf="@+id/game_add_btn"
     		android:text="男子游泳"
     		android:textColor="@color/game_daily_title"
-    		android:textSize="14sp"/>
+    		android:textSize="15sp"/>
 	    
 	    <ImageView
 	        android:id="@+id/game_loc_icon"
@@ -54,9 +57,8 @@
     		android:layout_below="@+id/game_title"
     		android:layout_toRightOf="@+id/game_loc_icon"
     		android:layout_toLeftOf="@+id/game_add_btn"
-    		android:layout_marginLeft="10dp"
+    	 	android:layout_marginLeft="10dp"
     		android:layout_marginTop="10dp"
-    		android:layout_marginBottom="15dp"
     		android:textColor="@color/game_daily_loc"
     		android:textSize="13sp"
     		android:text="南京奥体中心"/>

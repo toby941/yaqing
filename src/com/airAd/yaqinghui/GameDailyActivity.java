@@ -8,8 +8,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.airAd.yaqinghui.business.GameService;
@@ -27,16 +31,20 @@ public class GameDailyActivity extends BaseActivity {
 	private CanCloseListView listView;
 	private GameService gameService;
 	private List<GameInfo> gameInfoList = new ArrayList<GameInfo>();
-	private String gameId;
 	private DailyAdapter dailyAdapter;
+	private OnClickListener addScheduleListener;
 	
+	private String gameId;
+	private String gamePicUrl;
 	public static final String GAME_ID = "game_id";
+	public static final String GAME_PIC_URL = "game_pic_url";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.schedule_daily);
 		gameId = getIntent().getStringExtra(GAME_ID);
+		gamePicUrl = getIntent().getStringExtra(GAME_PIC_URL);
 		init();
 	}
 
@@ -46,6 +54,22 @@ public class GameDailyActivity extends BaseActivity {
 		setPushClose();
 		dailyAdapter = new DailyAdapter();
 		listView.setAdapter(dailyAdapter);
+		/*listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int pos,
+					long arg3) {
+				gameService.addtoSchedule(gameInfoList.get(pos));
+			}
+		});*/
+		addScheduleListener = new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				int pos = (Integer)v.getTag();
+				gameService.addtoSchedule(gameInfoList.get(pos));
+			}
+		};
 	}
 
 	/**
@@ -99,19 +123,32 @@ public class GameDailyActivity extends BaseActivity {
 				ViewHolder viewHolder = new ViewHolder();
 				viewHolder.titleView = (TextView)convertView.findViewById(R.id.game_title);
 				viewHolder.locView = (TextView)convertView.findViewById(R.id.game_loc);
+				viewHolder.dateView = (TextView)convertView.findViewById(R.id.date);
+				viewHolder.addBtn = (Button)convertView.findViewById(R.id.game_add_btn);
 				convertView.setTag(viewHolder);
 			}
 			ViewHolder viewHolder = (ViewHolder)convertView.getTag();
 			viewHolder.titleView.setText(gameInfoList.get(position).getTitle());
 			viewHolder.locView.setText(gameInfoList.get(position).getPlace());
+			viewHolder.dateView.setText(formatTime(gameInfoList.get(position).getTime()));
+			viewHolder.addBtn.setTag(position);
+			viewHolder.addBtn.setOnClickListener(addScheduleListener);
 			return convertView;
 		}
+	}
+	
+	public String formatTime(String time)
+	{
+		return time.substring(time.indexOf(" ") + 1);
 	}
 	
 	private static class ViewHolder
 	{
 		public TextView titleView;
 		public TextView locView;
+		public TextView dateView;
+		public Button addBtn;
+		public int pos;
 	}
 	
 	private class GameDailyTask extends AsyncTask<String, Void, List<GameInfo>> {
@@ -124,6 +161,11 @@ public class GameDailyActivity extends BaseActivity {
 			String gameId = params[0];
 			Calendar c = Calendar.getInstance();
 			c.set(2013, 7, 12);
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			return gameService.getGameInfo("00001", c.getTime());
 		}
 
