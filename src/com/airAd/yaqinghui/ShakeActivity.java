@@ -1,7 +1,14 @@
 package com.airAd.yaqinghui;
 import java.util.List;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -26,6 +33,18 @@ public class ShakeActivity extends BaseActivity
 
 	private ImageView mMonkey;
 	private LinearLayout item;
+	private ShakeHandler handler;
+	private Sensor acceleromererSensor;
+	private SensorEventListener acceleromererListener;
+	private SensorManager sm;
+	private int count= -1;
+	private long lastUpdate;
+	private long curTime;
+	private float last_x= 0.0f;
+	private float last_y= 0.0f;
+	private float last_z= 0.0f;
+	private static final int SHAKE_THRESHOLD= 1500;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -35,6 +54,7 @@ public class ShakeActivity extends BaseActivity
 	}
 	private void init()
 	{
+		handler= new ShakeHandler();
 		mBack= (ImageButton) findViewById(R.id.main_banner_left_btn);
 		mBack.setOnClickListener(new BackClick());
 		//		cepList= (List<Cep>) MyApplication.getCurrentApp().pop();
@@ -49,14 +69,45 @@ public class ShakeActivity extends BaseActivity
 				shake();
 			}
 		});
+		sm= (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		acceleromererSensor= sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		acceleromererListener= new SensorEventListener()
+		{
+			public void onAccuracyChanged(Sensor arg0, int arg1)
+			{
+			}
+			public void onSensorChanged(SensorEvent event)
+			{
+				curTime= System.currentTimeMillis();
+				// 每300毫秒检测一次
+				if ((curTime - lastUpdate) > 300)
+				{
+					long diffTime= (curTime - lastUpdate);
+					lastUpdate= curTime;
+					float x= event.values[SensorManager.DATA_X];
+					float y= event.values[SensorManager.DATA_Y];
+					float z= event.values[SensorManager.DATA_Z];
+					float speed= Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+					if (speed > SHAKE_THRESHOLD)
+					{
+						shakeDo(curTime);
+					}
+					last_x= x;
+					last_y= y;
+					last_z= z;
+				}
+			}
+		};
+		sm.registerListener(acceleromererListener, acceleromererSensor, SensorManager.SENSOR_DELAY_NORMAL);
+	}
+
+	private void shakeDo(long time)
+	{
+
 	}
 
 	private void shake()
 	{
-		//		Animation am= new RotateAnimation(0, 360);
-		//		am.setDuration(2000);
-		//		am.setRepeatCount(10);
-		//		mMonkey.startAnimation(am);
 		item.setVisibility(View.GONE);
 		int pivot= Animation.RELATIVE_TO_SELF;
 		CycleInterpolator interpolator= new CycleInterpolator(2f);
@@ -76,7 +127,7 @@ public class ShakeActivity extends BaseActivity
 			@Override
 			public void onAnimationEnd(Animation animation)
 			{
-				showItem();
+				//				showItem();
 			}
 		});
 		mMonkey.startAnimation(animation);
@@ -101,4 +152,38 @@ public class ShakeActivity extends BaseActivity
 			ShakeActivity.this.finish();
 		}
 	}// end inner class
+
+	private final class ShakeThread extends Thread
+	{
+		@Override
+		public void run()
+		{
+			while (true)
+			{
+				try
+				{
+					count--;
+					if (count < 0)
+					{
+						count= 0;
+					}
+					Thread.sleep(50);
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}//end while
+		}
+	}
+
+	private final class ShakeHandler extends Handler
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			super.handleMessage(msg);
+
+		}
+	}//end inner class
 }// end class

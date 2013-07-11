@@ -4,7 +4,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import com.airAd.yaqinghui.R;
 public class Common {
+	public static int getCepTypePic(String iconType)
+	{
+		if ("0".equals(iconType))
+		{
+			return R.drawable.cep_type_red;
+		}
+		else if ("1".equals(iconType))
+		{
+			return R.drawable.cep_type_green;
+		}
+		else
+		{
+			return R.drawable.cep_type_blue;
+		}
+	}
 	public static String timeNotifyString(long time)
 	{
 		SimpleDateFormat sdf= new SimpleDateFormat("MM.dd.yyyy");

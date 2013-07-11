@@ -138,8 +138,10 @@ public class Cep {
 			cep.setId(obj.getString("cepid"));
 			cep.setTitle(obj.optString("ceptitle"));
 			cep.setContent(obj.optString("cepcontent"));
-			cep.setPic(obj.optString("ceppictureone"));
+			cep.setPic(obj.optString("ceppicture"));
 			cep.setScore(obj.optString("score"));
+			cep.setIconType(obj.getString("type"));
+			cep.setScore(obj.getString("score"));
 			ceps.add(cep);
 		}// end loop
 		return ceps;

@@ -67,27 +67,32 @@
             android:layout_alignLeft="@id/title"
             android:orientation="horizontal" >
             <ImageView
-                android:src="@drawable/cep_stars_light"
+                android:id="@+id/starts_1"
+                android:src="@drawable/cep_stars_shadow"
                 android:layout_marginRight="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView
-                android:src="@drawable/cep_stars_light"
+                android:id="@+id/starts_2"
+                android:src="@drawable/cep_stars_shadow"
                android:layout_marginRight="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView
-                android:src="@drawable/cep_stars_light"
+                android:id="@+id/starts_3"
+                android:src="@drawable/cep_stars_shadow"
                 android:layout_marginRight="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView
-                android:src="@drawable/cep_stars_light"
+                android:id="@+id/starts_4"
+                android:src="@drawable/cep_stars_shadow"
                 android:layout_marginRight="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView
-                android:src="@drawable/cep_stars_light"
+                android:id="@+id/starts_5"
+                android:src="@drawable/cep_stars_shadow"
                 android:layout_marginRight="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
