@@ -1,5 +1,4 @@
 package com.airAd.yaqinghui;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ProgressDialog;
@@ -25,10 +24,13 @@ import android.widget.Toast;
 
 import com.airAd.framework.worker.ImageFetcher;
 import com.airAd.yaqinghui.business.CepService;
+import com.airAd.yaqinghui.business.api.vo.param.CepEventCheckinParam;
+import com.airAd.yaqinghui.business.api.vo.response.CepEventCheckinResponse;
 import com.airAd.yaqinghui.business.model.Cep;
 import com.airAd.yaqinghui.business.model.CepEvent;
 import com.airAd.yaqinghui.common.Common;
 import com.airAd.yaqinghui.common.Config;
+import com.airAd.yaqinghui.common.Constants;
 import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.airAd.yaqinghui.fragment.CepEventItem;
 import com.airAd.yaqinghui.fragment.ImageDetailFragment;
@@ -74,6 +76,7 @@ public class CepDetailActivity extends BaseActivity
 	public String lat, lng;
 	private ImageView typeImage;
 	private ImageView[] starsImg= new ImageView[STARS_NUM];
+	private SigninTask signTask;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -96,14 +99,63 @@ public class CepDetailActivity extends BaseActivity
 				Log.e("yq", twobarcode);
 				// System.out.println(twobarcode);
 				requestSign(twobarcode, MyApplication.getCurrentApp().getUser().getId(), lng, lat);
+
 			}
 		}
 	}
 	
 	private void requestSign(String twobarcode, String userid, String lng, String lat)
 	{
-		System.out.println("二维码-->" + twobarcode + "," + userid + "," + lng + "," + lat);
+		if (signTask != null)
+		{
+			signTask.cancel(true);
+		}
+		signTask = new SigninTask();
+		CepEventCheckinParam params= new CepEventCheckinParam();
+		params.setUserId(userid);
+		params.setQrcode(twobarcode);
+		params.setLat(lat);
+		params.setLng(lng);
+		signTask.execute(params);
 	}
+	
+	
+	private final class SigninTask extends AsyncTask<CepEventCheckinParam, Void, CepEventCheckinResponse>
+	{
+		@Override
+		protected void onPreExecute()
+		{
+			super.onPreExecute();
+		}
+
+		@Override
+		protected CepEventCheckinResponse doInBackground(CepEventCheckinParam... param)
+		{
+			return (new CepService()).doCheckinCepEvent(param[0]);
+		}
+		@Override
+		protected void onPostExecute(CepEventCheckinResponse result)
+		{
+			super.onPostExecute(result);
+			if (result != null)
+			{
+				if (Constants.FLAG_SUCC.equals(result.getFlag()))//签到成功
+				{
+					Toast.makeText(CepDetailActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+					//勋章操作
+				}
+				else
+				{
+					Toast.makeText(CepDetailActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+				}
+			}
+			else
+			{
+				Toast.makeText(CepDetailActivity.this, R.string.login_failed, Toast.LENGTH_SHORT).show();
+			}
+		}
+	}//end inner class
+
 	/**
 	 * 
 	 * @param service
@@ -131,9 +183,8 @@ public class CepDetailActivity extends BaseActivity
 				Toast.makeText(CepDetailActivity.this, R.string.net_exception, Toast.LENGTH_SHORT).show();
 				return;
 			}
-			List<String> picList= new ArrayList<String>();
-			picList.add(cep.getPic());
-			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this.getSupportFragmentManager(), picList));
+
+			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this.getSupportFragmentManager(), cep.getPics()));
 			typeImage.setImageResource(Common.getCepTypePic(cep.getIconType()));
 			setSorce();
 			mTitleText.setText(cep.getTitle());
@@ -355,6 +406,10 @@ public class CepDetailActivity extends BaseActivity
 		if (mTask != null)
 		{
 			mTask.cancel(true);
+		}
+		if (signTask != null)
+		{
+			signTask.cancel(true);
 		}
 	}
 	private void init()

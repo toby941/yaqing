@@ -6,12 +6,23 @@ package com.airAd.yaqinghui.business.model;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.airAd.yaqinghui.common.ApiUtil;
+
 /**
  * CepEvent.java
  * 
  * @author liyuhang
  */
 public class CepEvent {
+	public static final String CEP_EVENT_TYPE_IN = "0";
+	public static final String CEP_EVENT_TYPE_OUT = "1";
+
+	private static final String CEP_EVENT_FLAG_SIGNED_UP = "1";
+	private static final String CEP_EVENT_FLAG_CHECKED_IN = "2";
+	private static final String CEP_EVENT_FLAG_SCORED = "3";
+	private static final String CEP_EVENT_FLAG_SIGNUP_CANCELED = "9"; // 确认取消
+	private static final String CEP_EVENT_FLAG_DEFAULT = "A";
+
 	private String id;
 	private String cepId;
 	private String place;
@@ -22,8 +33,53 @@ public class CepEvent {
 	private Integer maxNum;
 	private Integer attendNum;
 	private String cepPic;
+	private String cepEventType;
 
-
+	public boolean canSignUp() {
+		if (CEP_EVENT_TYPE_IN.equals(cepEventType)) {
+			// 村内
+			if (CEP_EVENT_FLAG_DEFAULT.equals(flag)
+					|| CEP_EVENT_FLAG_SIGNUP_CANCELED.equals(flag)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			// 村外
+			return true;
+		}
+	}
+	public boolean canCheckedIn() {
+		if (CEP_EVENT_TYPE_IN.equals(cepEventType)) {
+			// 村内
+			if (CEP_EVENT_FLAG_SIGNED_UP.equals(flag)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			// 村外
+			if (CEP_EVENT_FLAG_CHECKED_IN.equals(flag)
+					|| CEP_EVENT_FLAG_SCORED.equals(flag)) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+	public boolean canScored() {
+		if (CEP_EVENT_FLAG_CHECKED_IN.equals(flag)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public String getCepEventType() {
+		return cepEventType;
+	}
+	public void setCepEventType(String cepEventType) {
+		this.cepEventType = cepEventType;
+	}
 	public String getCepPic() {
 		return cepPic;
 	}
@@ -98,8 +154,7 @@ public class CepEvent {
 	}
 
 	public Long getStartTimel() {
-		// TODO convert string starttime to long
-		return 1L;
+		return ApiUtil.convertDateStringToDate(startTime).getTime();
 	}
 	public String getEventTimeRangeDescription() {
 		return startTime + "-" + endTime;

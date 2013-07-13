@@ -31,6 +31,7 @@ public class CepService extends BaseService {
 			Log.d("htestGetCeps", jsonObj.toString());
 			return Cep.instanceList(jsonObj);
 		} catch (Exception e) {
+			System.out.println(e);
 			return null;
 		}
 	}

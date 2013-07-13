@@ -53,7 +53,6 @@ public class CepEventItem extends Fragment
 	private RatingBar scoreBar1, scoreBar2, scoreBar3;
 	private View parentView;
 	private CepService cepSerice;
-
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -127,19 +126,45 @@ public class CepEventItem extends Fragment
 		scoreBtn= (Button) v.findViewById(R.id.scoreBtn);
 		TextView locateText= (TextView) v.findViewById(R.id.cep_event_locate);
 		locateText.setText(cepEvent.getPlace());
-		signBtn= (Button) v.findViewById(R.id.signin);
-		signBtn.setOnClickListener(new ScanClick());
-		attendBtn.setOnClickListener(new AttendClick());
-		scoreBtn.setOnClickListener(new ScoreClick());
 		setPopWindow(inflater);
+		if (CepEvent.CEP_EVENT_TYPE_IN.equals(cepEvent.getCepEventType()))
+		{//
+			attendBtn.setVisibility(View.GONE);
+		}
+		if (cepEvent.isCheckedIn())//可报名
+		{//attendBtn
+			attendBtn.setBackgroundResource(R.drawable.prepost_bg);
+			attendBtn.setOnClickListener(new AttendClick());
+		}
+		else
+		{
+			attendBtn.setBackgroundResource(R.drawable.sign_in_bg);
+		}
+		signBtn= (Button) v.findViewById(R.id.signin);
+		if (cepEvent.isSignedUp())//可签到
+		{
+			signBtn.setBackgroundResource(R.drawable.prepost_bg);
+			signBtn.setOnClickListener(new ScanClick());
+		}
+		else
+		{
+			signBtn.setBackgroundResource(R.drawable.sign_in_bg);
+		}
+		if (cepEvent.isScored())//可评分
+		{
+			scoreBtn.setBackgroundResource(R.drawable.prepost_bg);
+			scoreBtn.setOnClickListener(new ScoreClick());
+		}
+		else
+		{
+			scoreBtn.setBackgroundResource(R.drawable.sign_in_bg);
+		}
 		return v;
 	}
-
 	private void setPopWindow(LayoutInflater inflater)
 	{
 		scoreView= inflater.inflate(R.layout.score_pop, null);
-		popWindow= new PopupWindow(scoreView, ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT);
+		popWindow= new PopupWindow(scoreView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		popWindow.setFocusable(true);
 		popWindow.setBackgroundDrawable(new BitmapDrawable());
 		popWindow.setAnimationStyle(R.style.PopupAnimation);
@@ -161,7 +186,6 @@ public class CepEventItem extends Fragment
 			System.out.println(score1 + "," + score2 + "," + score3);
 		}
 	}
-
 	private final class AttendClick implements OnClickListener
 	{
 		@Override

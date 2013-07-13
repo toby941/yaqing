@@ -20,7 +20,7 @@
     <dimen name="icon_item_topmargin">15dp</dimen>
     <dimen name="news_item_pic_width">70dp</dimen>
     <dimen name="news_item_pic_height">70dp</dimen>
-    <dimen name="detail_news_pic_height">210dp</dimen>
+    <dimen name="detail_news_pic_height">180dp</dimen>
     <dimen name="detail_news_tip_height">40dp</dimen>
     <dimen name="detail_news_content_abstract_height">90dp</dimen>
     <dimen name="cep_item_pic_height">350dp</dimen>

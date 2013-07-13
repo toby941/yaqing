@@ -21,12 +21,14 @@ public class NotifyDetailActivity extends BaseActivity
 	private TextView title, time, content;
 	private NoficationMessage mNotificationMessage;
 	private NotificationMessageService notifyService;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.notify_detail);
 		init();
 	}
+
 	private void init()
 	{
 		notifyService= new NotificationMessageService();
@@ -53,9 +55,11 @@ public class NotifyDetailActivity extends BaseActivity
 		{
 			return;
 		}
+		notifyService.markMessageAsRead(mNotificationMessage.getCid());
 		title.setText(mNotificationMessage.getTitle());
 		time.setText(Common.timeNotifyString(mNotificationMessage.getAddTimel()));
 		content.setText(mNotificationMessage.getContent());
+
 	}
 	private final class BackClick implements OnClickListener
 	{

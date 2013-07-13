@@ -34,11 +34,13 @@ public class NotifyList extends Fragment
 	private NotificationMessageService notifyService;
 	private ItemSelectListener selectListener;
 	private List<NoficationMessage> dataList;
+
 	public static NotifyList newInstance()
 	{
 		NotifyList fragment= new NotifyList();
 		return fragment;
 	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
@@ -47,6 +49,7 @@ public class NotifyList extends Fragment
 		mBack= (ImageButton) view.findViewById(R.id.back);
 		mBack.setOnClickListener(new BackClick());
 		listView= (ListView) view.findViewById(R.id.notify_list);
+
 		return view;
 	}
 
@@ -129,6 +132,7 @@ public class NotifyList extends Fragment
 			//			System.out.println(arg2);
 			MyApplication.getCurrentApp().push(dataList.get(index));
 			Intent it= new Intent(getActivity(), NotifyDetailActivity.class);
+			it.putExtra("id", dataList.get(index).getCid());
 			getActivity().startActivity(it);
 		}
 	}//end class

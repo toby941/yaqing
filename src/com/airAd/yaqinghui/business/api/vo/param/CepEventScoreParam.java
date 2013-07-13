@@ -10,6 +10,22 @@ package com.airAd.yaqinghui.business.api.vo.param;
 public class CepEventScoreParam {
 	private String userId;
 	private String score;
+	private String cepId;
+	private String eventId;
+
+
+	public String getCepId() {
+		return cepId;
+	}
+	public void setCepId(String cepId) {
+		this.cepId = cepId;
+	}
+	public String getEventId() {
+		return eventId;
+	}
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
+	}
 	public String getUserId() {
 		return userId;
 	}
