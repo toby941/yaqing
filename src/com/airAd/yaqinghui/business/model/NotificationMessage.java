@@ -13,21 +13,23 @@ import com.airAd.yaqinghui.common.ApiUtil;
  * 
  * @author liyuhang
  */
-public class NoficationMessage {
+public class NotificationMessage {
 	public static final Integer READ = 1;
 	public static final Integer UNREAD = 0;
 
 	public static final Integer TYPE_NOTIFICATION = 1;
-	public static final Integer TYPE_CEPEVENT_HIS = 2;
-	public static final Integer TYPE_BADGE_HIS = 3;
+	public static final Integer TYPE_CEPEVENT_SIGNUP_HIS = 2;
+	public static final Integer TYPE_CEPEVENT_CHECKIN_HIS = 3;
+	public static final Integer TYPE_CEPEVENT_SCORE_HIS = 4;
+
+	public static final String PUSH_TYPE_NOTIFICATION = "2";
+	public static final String PUSH_TYPE_CEPEVENT = "1";
 
 	private Long cid;
 	private String id;
 	private Integer readFlag;
 	private String content;
 	private Integer messageType;
-	private Long addTimel;
-	private Date addTime;
 	private String addTimeStr;
 	private String title;
 	private String cepId;
@@ -78,10 +80,6 @@ public class NoficationMessage {
 		return date.getTime();
 	}
 
-	public void setAddTimel(Long addTimel) {
-		this.addTimel = addTimel;
-	}
-
 	public Long getCid() {
 		return cid;
 	}
@@ -127,22 +125,20 @@ public class NoficationMessage {
 		return date;
 	}
 
-	public void setAddTime(Date addTime) {
-		this.addTime = addTime;
-	}
-
-	public static NoficationMessage instance(String src) {
-		NoficationMessage item = new NoficationMessage();
+	public static NotificationMessage instance(String src) {
+		NotificationMessage item = new NotificationMessage();
 		try {
 			String[] msgs = src.split("==");
 			if (msgs.length != 8)
 				return null;
-			item.setMessageType(Integer.parseInt(msgs[0]));
+			item.setMessageType(PUSH_TYPE_NOTIFICATION.equals(msgs[0])
+					? NotificationMessage.TYPE_NOTIFICATION
+					: NotificationMessage.TYPE_CEPEVENT_SIGNUP_HIS);
 			item.setTitle(msgs[1]);
 			item.setCepId(msgs[2]);
 			item.setEventId(msgs[3]);
 			item.setUserId(msgs[4]);
-			item.setReadFlag(NoficationMessage.UNREAD);
+			item.setReadFlag(NotificationMessage.UNREAD);
 			item.setStatus(msgs[5]);
 			item.setContent(msgs[6]);
 			item.setAddTimeStr(msgs[7]);

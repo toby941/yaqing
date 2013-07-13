@@ -14,10 +14,6 @@ public class InitDatabase extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// CEP事件表
-		db.execSQL("CREATE TABLE cep_events (cid INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "
-                + "cep_id VARCHAR(30), event_id VARCHAR(30), " + "reservation_flag INTEGER, checkin_flag INTEGER, "
-                + "score_flag INTEGER, user_id VARCHAR(30), add_time LONG);");
 		// 勋章记录表
         db.execSQL("CREATE TABLE badges (cid INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL ,"
                 + " badge_id VARCHAR(30), add_time LONG, user_id VARCHAR(30), cep_id VARCHAR(30), "

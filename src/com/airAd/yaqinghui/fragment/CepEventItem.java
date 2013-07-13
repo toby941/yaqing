@@ -131,8 +131,8 @@ public class CepEventItem extends Fragment
 		{//
 			attendBtn.setVisibility(View.GONE);
 		}
-		if (cepEvent.isCheckedIn())//可报名
-		{//attendBtn
+		if (cepEvent.canCheckIn())// 可报名
+		{// attendBtn
 			attendBtn.setBackgroundResource(R.drawable.prepost_bg);
 			attendBtn.setOnClickListener(new AttendClick());
 		}
@@ -141,7 +141,7 @@ public class CepEventItem extends Fragment
 			attendBtn.setBackgroundResource(R.drawable.sign_in_bg);
 		}
 		signBtn= (Button) v.findViewById(R.id.signin);
-		if (cepEvent.isSignedUp())//可签到
+		if (cepEvent.canSignUp())// 可签到
 		{
 			signBtn.setBackgroundResource(R.drawable.prepost_bg);
 			signBtn.setOnClickListener(new ScanClick());
@@ -150,7 +150,7 @@ public class CepEventItem extends Fragment
 		{
 			signBtn.setBackgroundResource(R.drawable.sign_in_bg);
 		}
-		if (cepEvent.isScored())//可评分
+		if (cepEvent.canScored())// 可评分
 		{
 			scoreBtn.setBackgroundResource(R.drawable.prepost_bg);
 			scoreBtn.setOnClickListener(new ScoreClick());
@@ -209,11 +209,11 @@ public class CepEventItem extends Fragment
 		public void onClick(View v)
 		{
 			if (isLocating)
-			{// 当前正在定位 按钮不响应
+ {// 当前正在定位 按钮不响应
 				return;
 			}
 			if (openGPSSettings())
-			{// GPS确保打开
+ {// GPS确保打开
 				locationManager.removeUpdates(locationListener);
 				locationManager.setGpsEnable(true);
 				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);

@@ -130,13 +130,25 @@ public class CepService extends BaseService {
 			res = CepEventCheckinResponse.instance(jsonObj);
 			return res;
 		} catch (Exception e) {
+			Log.e("htest", e.getMessage());
 			return res;
 		}
 	}
 
 	// 打分
 	public CepEventScoreResponse doScoreCepEvent(CepEventScoreParam param) {
-		return null;
+		BasicAPI api = HessianClient.create();
+		CepEventScoreResponse res = new CepEventScoreResponse();
+		try {
+			JSONObject jsonObj = api.CepActiveComment(param.getCepId(),
+					param.getEventId(), param.getUserId(), param.getScore(),
+					User.getLan());
+			Log.d("htestDoScoreCepEvent", jsonObj.toString());
+			res = CepEventScoreResponse.instance(jsonObj);
+			return res;
+		} catch (Exception e) {
+			return res;
+		}
 	}
 
 	// 直接对数据库字段进行修改，与业务无关

@@ -49,7 +49,7 @@ public class CepEvent {
 			return true;
 		}
 	}
-	public boolean canCheckedIn() {
+	public boolean canCheckIn() {
 		if (CEP_EVENT_TYPE_IN.equals(cepEventType)) {
 			// 村内
 			if (CEP_EVENT_FLAG_SIGNED_UP.equals(flag)) {

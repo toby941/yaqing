@@ -30,9 +30,6 @@ public class AccountService extends BaseService {
 		}
 	}
 
-	public void doLogout(String userId) {
-		// TODO
-	}
 
 	//
 

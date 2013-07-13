@@ -20,7 +20,7 @@ import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.NotifyDetailActivity;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.business.NotificationMessageService;
-import com.airAd.yaqinghui.business.model.NoficationMessage;
+import com.airAd.yaqinghui.business.model.NotificationMessage;
 import com.airAd.yaqinghui.common.Common;
 /**
  * 设置Fragment
@@ -33,7 +33,7 @@ public class NotifyList extends Fragment
 	private ListView listView;
 	private NotificationMessageService notifyService;
 	private ItemSelectListener selectListener;
-	private List<NoficationMessage> dataList;
+	private List<NotificationMessage> dataList;
 
 	public static NotifyList newInstance()
 	{
@@ -105,7 +105,7 @@ public class NotifyList extends Fragment
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
-			NoficationMessage data= dataList.get(position);
+			NotificationMessage data= dataList.get(position);
 			if (convertView == null)
 			{
 				convertView= mInflater.inflate(R.layout.notify_list_item, null);
@@ -117,7 +117,7 @@ public class NotifyList extends Fragment
 			date.setText(Common.timeNotifyString(data.getAddTimel()));
 			title.setText(data.getTitle());
 			content.setText(data.getContent());
-			isReadImage.setImageResource(data.getReadFlag() == NoficationMessage.READ
+			isReadImage.setImageResource(data.getReadFlag() == NotificationMessage.READ
 					? R.drawable.msg_read
 					: R.drawable.msg_not_read);
 			return convertView;

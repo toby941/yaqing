@@ -17,7 +17,7 @@ import cn.jpush.android.api.JPushInterface;
 import com.airAd.yaqinghui.NotifyDetailActivity;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.business.NotificationMessageService;
-import com.airAd.yaqinghui.business.model.NoficationMessage;
+import com.airAd.yaqinghui.business.model.NotificationMessage;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.Constants;
@@ -26,7 +26,7 @@ public class PushMsgReceiver extends BroadcastReceiver
 	private NotificationMessageService dbService;
 	private Context mContext;
 	private User mUser;
-	private NoficationMessage message;
+	private NotificationMessage message;
 	long[] vibrate=
 	{0, 100, 200, 300};
 	@Override
@@ -60,7 +60,7 @@ public class PushMsgReceiver extends BroadcastReceiver
 	 */
 	private void getPushMessage(String origin)
 	{
-		message= NoficationMessage.instance(origin);
+		message= NotificationMessage.instance(origin);
 		if (message == null)
 		{
 			return;

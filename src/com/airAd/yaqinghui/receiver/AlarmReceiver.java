@@ -14,7 +14,7 @@ import android.provider.MediaStore.Audio;
 
 import com.airAd.yaqinghui.NotifyDetailActivity;
 import com.airAd.yaqinghui.R;
-import com.airAd.yaqinghui.business.model.NoficationMessage;
+import com.airAd.yaqinghui.business.model.NotificationMessage;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.Constants;
@@ -22,7 +22,7 @@ public class AlarmReceiver extends BroadcastReceiver
 {
 	private Context mContext;
 	private User mUser;
-	private NoficationMessage message;
+	private NotificationMessage message;
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{

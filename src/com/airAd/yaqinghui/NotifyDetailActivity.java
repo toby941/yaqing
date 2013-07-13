@@ -7,7 +7,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.airAd.yaqinghui.business.NotificationMessageService;
-import com.airAd.yaqinghui.business.model.NoficationMessage;
+import com.airAd.yaqinghui.business.model.NotificationMessage;
 import com.airAd.yaqinghui.common.Common;
 
 /**
@@ -19,7 +19,7 @@ public class NotifyDetailActivity extends BaseActivity
 {
 	private ImageButton mBack;
 	private TextView title, time, content;
-	private NoficationMessage mNotificationMessage;
+	private NotificationMessage mNotificationMessage;
 	private NotificationMessageService notifyService;
 
 	@Override
@@ -41,9 +41,9 @@ public class NotifyDetailActivity extends BaseActivity
 		if (id < 0)
 		{
 			Object obj= MyApplication.getCurrentApp().pop();
-			if (obj instanceof NoficationMessage)
+			if (obj instanceof NotificationMessage)
 			{
-				mNotificationMessage= (NoficationMessage) obj;
+				mNotificationMessage= (NotificationMessage) obj;
 			}
 		}
 		else

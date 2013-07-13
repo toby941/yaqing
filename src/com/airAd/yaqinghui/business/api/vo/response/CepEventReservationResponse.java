@@ -32,8 +32,8 @@ public class CepEventReservationResponse {
 	}
 
 	/**
-	 * { "PrecontractSignUp": {
-	 * "sucessmark":"P1","sucesstext":"您已预约成功，请到XXX服务台确认，服务台地址：XXX，联系电话：XXX" }}
+	 * { "PrecontractSignUp":
+	 * {"sucessmark":"P1","sucesstext":"您已预约成功，请到XXX服务台确认，服务台地址：XXX，联系电话：XXX" }}
 	 * 
 	 * @param obj
 	 * @return
