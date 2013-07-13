@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainlayout"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff" >
@@ -38,6 +38,15 @@
             android:layout_marginTop="3dp"
             android:background="@android:color/transparent"
             android:src="@drawable/back_top_btn" />
+        
+        <ImageButton
+            android:id="@+id/weibo_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="3dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/weibo_btn" />
     </RelativeLayout>
 
     <ImageView
@@ -114,34 +123,39 @@
                             android:orientation="horizontal" >
 
                             <ImageView
+                                android:id="@+id/starts_1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5dp"
-                                android:src="@drawable/cep_stars_light" />
+                                android:src="@drawable/cep_stars_shadow" />
 
                             <ImageView
+                                android:id="@+id/starts_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5dp"
-                                android:src="@drawable/cep_stars_light" />
+                                android:src="@drawable/cep_stars_shadow" />
 
                             <ImageView
+                                android:id="@+id/starts_3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5dp"
-                                android:src="@drawable/cep_stars_light" />
+                                android:src="@drawable/cep_stars_shadow" />
 
                             <ImageView
+                                android:id="@+id/starts_4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5dp"
-                                android:src="@drawable/cep_stars_light" />
+                                android:src="@drawable/cep_stars_shadow" />
 
                             <ImageView
+                                android:id="@+id/starts_5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5dp"
-                                android:src="@drawable/cep_stars_light" />
+                                android:src="@drawable/cep_stars_shadow" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

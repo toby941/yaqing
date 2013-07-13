@@ -1,0 +1,139 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E5E5E5" >
+
+    <ImageView
+        android:id="@+id/j_top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/top_banner_bg" />
+
+    <ImageButton
+        android:id="@+id/main_banner_left_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="6dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/back_top_btn" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/show_title" />
+
+    <ImageView
+        android:id="@+id/j_line"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/j_top"
+        android:scaleType="fitXY"
+        android:src="@drawable/colorbar" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/j_line"
+        android:gravity="bottom"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:orientation="vertical" >
+
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true"
+                android:orientation="vertical"
+                android:scrollbars="vertical" >
+
+                <EditText
+                    android:id="@+id/weiboContent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="center_vertical|top"
+                    android:minLines="7"
+                    android:textSize="16sp" >
+
+                    <requestFocus />
+                </EditText>
+            </ScrollView>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="3px"
+                android:background="@drawable/weibo_seq_line" >
+            </View>
+
+            <TextView
+                android:id="@+id/weibo_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微薄分享的内容"
+                android:textColor="#666666" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/weibo_line_bg"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" >
+
+            <ImageButton
+                android:id="@+id/friend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/weibo_friends_bg"
+                android:text="关注" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="50px"
+                android:layout_height="50px"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="#666666"
+                android:paddingBottom="1dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:paddingTop="1dp"
+                android:src="@drawable/weibo_text" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/main_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/weibo_send_bg"
+        android:paddingRight="4dp"
+        android:text="发送"
+        android:textColor="#FFFFFF"
+        android:textSize="12dp" />
+
+</RelativeLayout>

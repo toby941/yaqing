@@ -20,7 +20,7 @@ public class AccountService extends BaseService {
 	public User doLogin(String username, String password) {
 		BasicAPI basicAPI = HessianClient.create();
 		try {
-			// ("00000001", "1236","CHI");
+			// ("200970", "032747","CHI");
 			JSONObject jsonObj = basicAPI.UserLogin(username, password,
 					User.getLan());
 			Log.d("htestDoLogin", jsonObj.toString());

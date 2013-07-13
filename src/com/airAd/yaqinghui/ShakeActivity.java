@@ -19,8 +19,10 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.airAd.yaqinghui.business.model.Cep;
+import com.airAd.yaqinghui.common.Common;
 /**
  * CEP活动
  * 
@@ -30,7 +32,6 @@ public class ShakeActivity extends BaseActivity
 {
 	private ImageButton mBack;
 	private List<Cep> cepList;
-
 	private ImageView mMonkey;
 	private LinearLayout item;
 	private ShakeHandler handler;
@@ -43,7 +44,10 @@ public class ShakeActivity extends BaseActivity
 	private float last_x= 0.0f;
 	private float last_y= 0.0f;
 	private float last_z= 0.0f;
-	private static final int SHAKE_THRESHOLD= 1500;
+	private static final int SHAKE_THRESHOLD= 600;
+	private boolean isRunning= true;
+	private ImageView typeImage;
+	private TextView title, content, time;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -57,7 +61,12 @@ public class ShakeActivity extends BaseActivity
 		handler= new ShakeHandler();
 		mBack= (ImageButton) findViewById(R.id.main_banner_left_btn);
 		mBack.setOnClickListener(new BackClick());
-		//		cepList= (List<Cep>) MyApplication.getCurrentApp().pop();
+		cepList= (List<Cep>) MyApplication.getCurrentApp().pop();
+		typeImage= (ImageView) findViewById(R.id.icon);
+		title= (TextView) findViewById(R.id.title);
+		time= (TextView) findViewById(R.id.time);
+		content= (TextView) findViewById(R.id.content);
+
 		mMonkey= (ImageView) findViewById(R.id.monkey);
 		item= (LinearLayout) findViewById(R.id.item);
 		item.setVisibility(View.INVISIBLE);
@@ -88,6 +97,7 @@ public class ShakeActivity extends BaseActivity
 					float y= event.values[SensorManager.DATA_Y];
 					float z= event.values[SensorManager.DATA_Z];
 					float speed= Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+					//					System.out.println(speed);
 					if (speed > SHAKE_THRESHOLD)
 					{
 						shakeDo(curTime);
@@ -99,13 +109,12 @@ public class ShakeActivity extends BaseActivity
 			}
 		};
 		sm.registerListener(acceleromererListener, acceleromererSensor, SensorManager.SENSOR_DELAY_NORMAL);
+		new ShakeThread().start();
 	}
-
 	private void shakeDo(long time)
 	{
-
+		count= 30;
 	}
-
 	private void shake()
 	{
 		item.setVisibility(View.GONE);
@@ -127,23 +136,32 @@ public class ShakeActivity extends BaseActivity
 			@Override
 			public void onAnimationEnd(Animation animation)
 			{
-				//				showItem();
+				showItem();
 			}
 		});
 		mMonkey.startAnimation(animation);
 	}
-
 	private void showItem()
 	{
+
 		//		TranslateAnimation animation= new TranslateAnimation(0, 25, pivot, 0f, pivot, 0f);
+		int randomIndex= Common.genRand(0, cepList.size());
+		Cep cepItem= cepList.get(randomIndex);
+		typeImage.setImageResource(Common.getCepTypePic(cepItem.getIconType()));
+		title.setText(cepItem.getTitle());
+		content.setText(cepItem.getContent());
 		TranslateAnimation downAnimation= new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
 				Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -2, Animation.RELATIVE_TO_SELF, 0);
 		downAnimation.setDuration(2000);
 		item.setVisibility(View.VISIBLE);
 		item.setAnimation(downAnimation);
 	}
-
-
+	@Override
+	public void onDestroy()
+	{
+		isRunning= false;
+		super.onDestroy();
+	}
 	private final class BackClick implements OnClickListener
 	{
 		@Override
@@ -152,22 +170,25 @@ public class ShakeActivity extends BaseActivity
 			ShakeActivity.this.finish();
 		}
 	}// end inner class
-
 	private final class ShakeThread extends Thread
 	{
 		@Override
 		public void run()
 		{
-			while (true)
+			while (isRunning)
 			{
 				try
 				{
 					count--;
-					if (count < 0)
+					if (count == 20)
+					{
+						handler.sendEmptyMessage(1);
+					}
+					else if (count < 0)
 					{
 						count= 0;
 					}
-					Thread.sleep(50);
+					Thread.sleep(20);
 				}
 				catch (InterruptedException e)
 				{
@@ -176,14 +197,13 @@ public class ShakeActivity extends BaseActivity
 			}//end while
 		}
 	}
-
 	private final class ShakeHandler extends Handler
 	{
 		@Override
 		public void handleMessage(Message msg)
 		{
 			super.handleMessage(msg);
-
+			shake();
 		}
 	}//end inner class
 }// end class

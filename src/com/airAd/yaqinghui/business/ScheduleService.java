@@ -27,25 +27,25 @@ public class ScheduleService extends BaseService {
 	 * @return
 	 */
 	public List<ScheduleItem> getScheduleItemsByDate(String userId, int Date) {
-		ScheduleItem item1 = new ScheduleItem();
+		ScheduleItem item1= new ScheduleItem();
 		item1.setTitle("男子200m花样游泳决赛");
 		item1.setPlace("奥体中心");
 		item1.setItemType(ScheduleItem.TYPE_GAME);
 		item1.setPic("diving.png");
 		item1.setTimeStr(System.currentTimeMillis() + "");
-		ScheduleItem item2 = new ScheduleItem();
+		ScheduleItem item2= new ScheduleItem();
 		item2.setTitle("亚洲文化村");
 		item2.setPlace("亚洲文化村活动中心");
 		item2.setItemType(ScheduleItem.TYPE_CEP_EVENT);
 		item2.setPic("cep_type_red.png");
 		item2.setTimeStr(System.currentTimeMillis() + "");
-		ScheduleItem item3 = new ScheduleItem();
+		ScheduleItem item3= new ScheduleItem();
 		item3.setTitle("亚洲文化村");
 		item3.setPlace("亚洲文化村活动中心");
 		item3.setItemType(ScheduleItem.TYPE_TRAINING);
 		item3.setPic("tennis.png");
 		item3.setTimeStr(System.currentTimeMillis() + "");
-		List<ScheduleItem> ret = new LinkedList<ScheduleItem>();
+		List<ScheduleItem> ret= new LinkedList<ScheduleItem>();
 		ret.add(item1);
 		ret.add(item2);
 		ret.add(item3);

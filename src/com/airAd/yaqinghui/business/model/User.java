@@ -74,13 +74,15 @@ public class User {
         this.types = types;
     }
 
-    public static User instance(String src) throws JSONException {
+	public static User instance(String src) throws JSONException
+	{
         JSONObject jsonObject = null;
         jsonObject = JSONObject.fromObject(src);
         return instance(jsonObject);
     }
 
-    public static User instance(JSONObject jsonObject) throws JSONException {
+	public static User instance(JSONObject jsonObject) throws JSONException
+	{
         User user = new User();
         user.temp = jsonObject.toString();
         JSONObject obj = jsonObject.getJSONObject("UserInfo");

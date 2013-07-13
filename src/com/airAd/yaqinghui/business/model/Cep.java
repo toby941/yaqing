@@ -97,14 +97,15 @@ public class Cep {
 		cep.setId(obj.optString("cepid"));
 		cep.setTitle(obj.getString("ceptitle"));
 		cep.setContent(obj.getString("cepcontent"));
-		ArrayList<String> pics = new ArrayList<String>();
-		String[] picArray = obj.getString("ceppictures").split(",");
-		for (int i = 0; i < picArray.length; i++) {
-			pics.add(picArray[i]);
-		}
-		cep.setPics(pics);
-		cep.setPic(obj.optString("ceppictureone"));
-		cep.setScore(obj.optString("score"));
+		cep.setScore(obj.getString("score"));
+		cep.setIconType(obj.getString("type"));
+		//		ArrayList<String> pics = new ArrayList<String>();
+		//		String[] picArray = obj.getString("ceppictures").split(",");
+		//		for (int i = 0; i < picArray.length; i++) {
+		//			pics.add(picArray[i]);
+		//		}
+		//		cep.setPics(pics);
+		//		cep.setPic(obj.optString("ceppictureone"));
 		// cepevent
 		JSONArray eventsArr = obj.optJSONArray("event");
 		List<CepEvent> events = new ArrayList<CepEvent>();

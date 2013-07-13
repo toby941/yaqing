@@ -1,46 +1,68 @@
 package com.airAd.yaqinghui;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout.LayoutParams;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.airAd.yaqinghui.common.Constants;
-
 /**
  * 基础Activity类
- * 
  * @author panyi a
  */
-public class BaseActivity extends SherlockFragmentActivity {
-	private LayoutInflater mInflater;
+public class BaseActivity extends SherlockFragmentActivity
+{
 	private PushReceiver mPushReceiver;
-	private PopupWindow pop;
-	private View popView;
-
-	public void onCreate(Bundle savedInstanceState) {
+	private LayoutInflater mInflater;
+	private PopupWindow popWindow;
+	private View popContentView;
+	private View parentView;
+	private View close;
+	private TextView titleText;
+	private View scanBtn;
+	public void onCreate(Bundle savedInstanceState)
+	{
 		setTheme(R.style.Theme_Sherlock_Light_NoActionBar);
 		super.onCreate(savedInstanceState);
+		parentView= findViewById(R.id.main);
 		mInflater= (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mPushReceiver = new PushReceiver();
+		setPopWindow();
+		mPushReceiver= new PushReceiver();
 	}
-
-	protected void onResume() {
+	private void setPopWindow()
+	{
+		popContentView= mInflater.inflate(R.layout.push_msg, null);
+		popWindow= new PopupWindow(popContentView, ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.MATCH_PARENT);
+		popWindow.setFocusable(true);
+		//		popWindow.setBackgroundDrawable(new BitmapDrawable());
+		popWindow.setAnimationStyle(R.style.PushPopupAnimation);
+		close= popContentView.findViewById(R.id.cancel);
+		close.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				popWindow.dismiss();
+			}
+		});
+	}
+	protected void onResume()
+	{
 		super.onResume();
-		IntentFilter filter = new IntentFilter(Constants.PUSH_SERVICE);
+		IntentFilter filter= new IntentFilter(Constants.PUSH_SERVICE);
 		registerReceiver(mPushReceiver, filter);
 	}
-
-	protected void onPause() {
+	protected void onPause()
+	{
 		super.onPause();
 		unregisterReceiver(mPushReceiver);
 	}
@@ -49,27 +71,33 @@ public class BaseActivity extends SherlockFragmentActivity {
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			String str= intent.getStringExtra("status");
-			// System.out.println(str);
-			showPop(str);
+			showPop(intent);
 		}
 	} // end inner class
-	protected void showPop(String content)
+	protected void showPop(Intent intent)
 	{
-		if (pop == null)
+		String title= intent.getStringExtra("title");
+		long id= intent.getLongExtra("id", -1);
+		titleText= (TextView) popContentView.findViewById(R.id.content);
+		scanBtn= popContentView.findViewById(R.id.scan);
+		titleText.setText(title);
+		scanBtn.setOnClickListener(new ScanBtn(id));
+		popWindow.showAtLocation(findViewById(R.id.main), Gravity.CENTER, 0, 0);
+	}
+	private final class ScanBtn implements OnClickListener
+	{
+		long id;
+		public ScanBtn(long id)
 		{
-			popView= mInflater.inflate(R.layout.confirm_cep, null);
-			pop= new PopupWindow(popView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			pop.setBackgroundDrawable(new BitmapDrawable());
-			pop.setOutsideTouchable(true);
-			pop.setFocusable(true);
+			this.id= id;
 		}
-		TextView text= (TextView) popView.findViewById(R.id.confitm_text);
-		text.setText(content);
-		pop.setAnimationStyle(R.style.PopupAnimation);
-		if (getParentView() != null)
+		@Override
+		public void onClick(View v)
 		{
-			pop.showAtLocation(getParentView(), Gravity.BOTTOM, 0, 0);
+			popWindow.dismiss();
+			Intent it= new Intent(BaseActivity.this, NotifyDetailActivity.class);
+			it.putExtra("id", id);
+			BaseActivity.this.startActivity(it);
 		}
 	}
 	protected View getParentView()

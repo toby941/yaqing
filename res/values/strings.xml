@@ -1,5 +1,4 @@
 <resources>
-
     <string name="app_name">南京亚青会</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
@@ -28,7 +27,7 @@
     <string name="delete">删除</string>
     <string name="attention_test_text">男子200米花样游泳</string>
     <string name="net_exception">网络异常</string>
-    <string name="order_attend">预约</string>
+    <string name="order_attend">报名</string>
     <string name="order_cancel">取消预约</string>
     <string name="addCommit">添加评论</string>
     <string name="news_detail_title">活动详情</string>
@@ -80,7 +79,6 @@
     <string name="gender">性别</string>
     <string name="attend_items">参赛项目</string>
     <string name="cep_video">CEP视频</string>
-    
     <string name="schedule_my_project">我参加的项目</string>
     <string name="schedule_other_project">其它的项目</string>
     <string name="project_trackfield">田径</string>
@@ -110,4 +108,13 @@
 	<string name="has_order">已预约</string>
 	<string name="is_ordering">预约中</string>
 	<string name="shake_tips">摇一摇查找活动推荐</string>
+	<string name="push_title">推送通知</string>
+	<string name="scan">查看</string>
+	<string name="weibo_send">发送</string>
+	<string name="click_play">点击查看CEP宣传视频</string>
+	<string name="first_tips">点击查询添加按钮即可查询并添加“赛事日程”,“CEP活动”,至功能首页以及查看“CEP宣传视频”</string>
+	<string name="score_title">给活动打分</string>
+	<string name="submit">提交</string>
+	<string name="change_error">密码输入错误</string>
+	<string name="loginout_success">退出成功</string>
 </resources>

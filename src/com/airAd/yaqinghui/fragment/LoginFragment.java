@@ -74,9 +74,8 @@ public class LoginFragment extends Fragment {
                 Info info = new Info();
                 info.user = mUserText.getText().toString().trim();
                 info.pwd = mPwdText.getText().toString().trim();
-
-				info.user= "200970";
-				info.pwd= "095831";
+				//				info.user= "200970";
+				//				info.pwd= "032747";   111111
                 loginTask = new DoLoginTask();
                 loginTask.execute(info);
             }

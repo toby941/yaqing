@@ -20,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +27,7 @@ import com.airAd.framework.worker.ImageFetcher;
 import com.airAd.yaqinghui.business.CepService;
 import com.airAd.yaqinghui.business.model.Cep;
 import com.airAd.yaqinghui.business.model.CepEvent;
+import com.airAd.yaqinghui.common.Common;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.airAd.yaqinghui.fragment.CepEventItem;
@@ -42,14 +42,16 @@ import com.google.zxing.client.android.CaptureActivity;
  */
 public class CepDetailActivity extends BaseActivity
 {
+	public static final int STARS_NUM= 5;
+
 	private ImageButton mBackBtn;
+	private ImageButton mWeiboBtn;
 	private ViewPager mGallery;
 	private ViewPager mCepEventGallery;
 	private ImageFetcher mImageFetcher;
 	private TextView mTitleText;
 	private TextView mContentText;
 	private RelativeLayout progress;
-	private ScrollView mainScroll;
 	private RequestTask mTask;
 	private String cepId;// cep活动ID
 	private LayoutInflater mInflater;
@@ -70,6 +72,8 @@ public class CepDetailActivity extends BaseActivity
 	private int sub_start, sub_end;
 	private int event_length;
 	public String lat, lng;
+	private ImageView typeImage;
+	private ImageView[] starsImg= new ImageView[STARS_NUM];
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -122,69 +126,6 @@ public class CepDetailActivity extends BaseActivity
 		{
 			super.onPostExecute(result);
 			cep= result;
-			cep= new Cep();
-			cep.setContent("为天地立心,为生民立命,为往圣继绝学,为天下开万世太平。爱因斯坦说过“窗外的每一片树叶，都使人类的科学显得那么幼稚无力  “不理睬是最大的轻蔑。”“成吉思汗的骑兵，攻击速度与二十世纪的装甲部队相当；北宋的床弩，射程达一千五百米，与二十世纪的狙击步枪差不多；但这些仍不过是古代的骑兵与弓弩而已，不可能与现代力量抗衡。基础理论决定一切，未来史学派清楚地看到了这一点。而你们，却被回光返照的低级技术蒙住了眼睛。你们躺在现代文明的温床中安于享乐，对即将到来的决定人类命运的终极决战完全没有精神上的准备。”  ”");
-			cep.setId("00001");
-			cep.setPic("http://imgtuku.mingxing.com/upload/attach/2013/05/36797-3YaaYgV.jpg");
-			cep.setScore("123");
-			cep.setTitle("亚青会活动cep");
-			List<CepEvent> cepEvents= new ArrayList<CepEvent>();
-			CepEvent e1= new CepEvent();
-			e1.setCepId("00001");
-			e1.setEndTime("20131002");
-			e1.setFlag("1");
-			e1.setId("00002");
-			e1.setName("第一场");
-			e1.setPlace("黄河大道1");
-			e1.setStartTime("201308151410");
-			CepEvent e2= new CepEvent();
-			e2.setCepId("00001");
-			e2.setEndTime("20131002");
-			e2.setFlag("1");
-			e2.setId("00002");
-			e2.setName("第二场");
-			e2.setPlace("黄河大道2");
-			e2.setStartTime("201308151410");
-			CepEvent e3= new CepEvent();
-			e3.setCepId("00001");
-			e3.setEndTime("20131002");
-			e3.setFlag("1");
-			e3.setId("00002");
-			e3.setName("第三场");
-			e3.setPlace("黄河大道3");
-			e3.setStartTime("201308151410");
-			CepEvent e4= new CepEvent();
-			e4.setCepId("00001");
-			e4.setEndTime("20131002");
-			e4.setFlag("1");
-			e4.setId("00002");
-			e4.setName("第四场");
-			e4.setPlace("黄河大道4");
-			e4.setStartTime("201308151410");
-			CepEvent e5= new CepEvent();
-			e5.setCepId("00001");
-			e5.setEndTime("20131002");
-			e5.setFlag("1");
-			e5.setId("00002");
-			e5.setName("第五场");
-			e5.setPlace("黄河大道5");
-			e5.setStartTime("201308151410");
-			CepEvent e6= new CepEvent();
-			e6.setCepId("00001");
-			e6.setEndTime("20131002");
-			e6.setFlag("1");
-			e6.setId("00002");
-			e6.setName("第六场");
-			e6.setPlace("黄河大道6");
-			e6.setStartTime("201308151410");
-			cepEvents.add(e1);
-			cepEvents.add(e2);
-			cepEvents.add(e3);
-			cepEvents.add(e4);
-			cepEvents.add(e5);
-			cepEvents.add(e6);
-
-			cep.setCepEvents(cepEvents);
 			if (cep == null)
 			{
 				Toast.makeText(CepDetailActivity.this, R.string.net_exception, Toast.LENGTH_SHORT).show();
@@ -193,13 +134,14 @@ public class CepDetailActivity extends BaseActivity
 			List<String> picList= new ArrayList<String>();
 			picList.add(cep.getPic());
 			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this.getSupportFragmentManager(), picList));
+			typeImage.setImageResource(Common.getCepTypePic(cep.getIconType()));
+			setSorce();
 			mTitleText.setText(cep.getTitle());
 			mContentText.setText(cep.getContent());
 			mCepEventGallery.setAdapter(new CepEventAdapter(CepDetailActivity.this.getSupportFragmentManager(), cep
 					.getCepEvents()));
 			setEventComponent();
 			progress.setVisibility(View.GONE);
-			mainScroll.setVisibility(View.VISIBLE);
 		}
 	}// end inner class
 	private void setEventComponent()
@@ -420,14 +362,15 @@ public class CepDetailActivity extends BaseActivity
 		cepId= getIntent().getStringExtra(Config.CEP_ID);
 		mInflater= (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mImageFetcher= ImageFetcherFactory.genImageFetcher(this, R.drawable.ic_launcher);
-		mainLayout= (RelativeLayout) findViewById(R.id.mainlayout);
+		mainLayout= (RelativeLayout) findViewById(R.id.main);
+		mWeiboBtn= (ImageButton) findViewById(R.id.weibo_btn);
+		mWeiboBtn.setOnClickListener(new WeiboClick());
 		mBackBtn= (ImageButton) findViewById(R.id.main_banner_left_btn);
 		mBackBtn.setOnClickListener(new BackClick());
 		mGallery= (ViewPager) findViewById(R.id.gallery);
 		mTitleText= (TextView) findViewById(R.id.detail_title);
 		mContentText= (TextView) findViewById(R.id.cep_content);
 		progress= (RelativeLayout) findViewById(R.id.progressLayout);
-		mainScroll= (ScrollView) findViewById(R.id.main);
 		eventHeaderView= findViewById(R.id.event_head);
 		lineShadow= (ImageView) findViewById(R.id.col_shadow2);
 		mCepEventGallery= (ViewPager) findViewById(R.id.cep_event_gallery);
@@ -436,7 +379,32 @@ public class CepDetailActivity extends BaseActivity
 		eventTop[0]= (CepTextView) findViewById(R.id.cep_event_top1);
 		eventTop[1]= (CepTextView) findViewById(R.id.cep_event_top2);
 		eventTop[2]= (CepTextView) findViewById(R.id.cep_event_top3);
+		typeImage= (ImageView) findViewById(R.id.cep_type);
+		starsImg[0]= (ImageView) findViewById(R.id.starts_1);
+		starsImg[1]= (ImageView) findViewById(R.id.starts_2);
+		starsImg[2]= (ImageView) findViewById(R.id.starts_3);
+		starsImg[3]= (ImageView) findViewById(R.id.starts_4);
+		starsImg[4]= (ImageView) findViewById(R.id.starts_5);
 	}
+
+	private void setSorce()
+	{
+		int score= 0;
+		try
+		{
+			score= Integer.parseInt(cep.getScore());
+		}
+		catch (Exception e)
+		{
+			score= 0;
+		}
+		System.out.println(score);
+		for (int i= 0; i < score && i < STARS_NUM; i++)
+		{
+			starsImg[i].setImageResource(R.drawable.cep_stars_light);
+		}//end for i
+	}
+
 	private class BackClick implements OnClickListener
 	{
 		@Override
@@ -492,7 +460,7 @@ public class CepDetailActivity extends BaseActivity
 		@Override
 		public Fragment getItem(int index)
 		{
-			return CepEventItem.newInstance(listCepEvent.get(index));
+			return CepEventItem.newInstance(listCepEvent.get(index), cep);
 		}
 		@Override
 		public int getCount()
@@ -500,4 +468,13 @@ public class CepDetailActivity extends BaseActivity
 			return listCepEvent.size();
 		}
 	}// end inner class
+	private final class WeiboClick implements OnClickListener
+	{
+		@Override
+		public void onClick(View arg0)
+		{
+			Intent it= new Intent(CepDetailActivity.this, ShareActivity.class);
+			CepDetailActivity.this.startActivity(it);
+		}
+	}//end inner class
 }// end class

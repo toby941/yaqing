@@ -134,6 +134,18 @@
             android:configChanges="locale"
             android:screenOrientation="portrait" >
         </activity>
+          <activity
+            android:name=".ShareActivity"
+            android:configChanges="locale"
+            android:windowSoftInputMode="stateUnchanged"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ShareFriendActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" >
+        </activity>
+        <service android:name="com.weibo.WeiboService" />
         
         <!-- Required -->
         <service
@@ -190,7 +202,7 @@
         </receiver>
         
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="00f91dc1dc34c6d940b9023b"/> 
+        <meta-data android:name="JPUSH_APPKEY" android:value="2da833d46d361e0fc28b9202"/> 
     </application>
 
 </manifest>

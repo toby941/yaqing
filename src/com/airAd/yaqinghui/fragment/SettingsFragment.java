@@ -11,13 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airAd.yaqinghui.ChangePwdActivity;
 import com.airAd.yaqinghui.R;
+import com.airAd.yaqinghui.TutorialActivity;
 import com.airAd.yaqinghui.common.Config;
 /**
  * 设置Fragment
@@ -44,6 +47,8 @@ public class SettingsFragment extends Fragment
 	private View popContentView;
 	private PopupWindow popWindow;
 	private TextView popTitle;
+	private View helpBtn;
+	private Button leaveBtn;
 	public static SettingsFragment newInstance()
 	{
 		SettingsFragment fragment= new SettingsFragment();
@@ -73,6 +78,10 @@ public class SettingsFragment extends Fragment
 		changePassword.setOnClickListener(new ChangePasswordClick());
 		eventRemindView= view.findViewById(R.id.event_remind_btn);
 		dialyRemindView= view.findViewById(R.id.dialy_remind_btn);
+		helpBtn= view.findViewById(R.id.helpBtn);
+		helpBtn.setOnClickListener(new HelpClick());
+		leaveBtn= (Button) view.findViewById(R.id.login_out);
+		leaveBtn.setOnClickListener(new LoginOutClick());
 		initPopWindow(view, inflater);
 		return view;
 	}
@@ -103,6 +112,28 @@ public class SettingsFragment extends Fragment
 		isOpenEventRemind.setOnClickListener(new OpenEventRemind());
 		dialyImage.setOnClickListener(new OpenDialyRemind());
 	}
+	private final class LoginOutClick implements OnClickListener
+	{
+		@Override
+		public void onClick(View v)
+		{
+			SharedPreferences sp= getActivity().getSharedPreferences(Config.PACKAGE, Context.MODE_PRIVATE);
+			Editor editor= sp.edit();
+			editor.putString(Config.USER_INFO_KEY, "");
+			editor.commit();
+			Toast.makeText(getActivity(), R.string.loginout_success, Toast.LENGTH_SHORT).show();
+		}
+	}//end inner class
+	private final class HelpClick implements OnClickListener
+	{
+		@Override
+		public void onClick(View v)
+		{
+			Intent it= new Intent(getActivity(), TutorialActivity.class);
+			it.putExtra("subNum", 2);
+			getActivity().startActivity(it);
+		}
+	}//end inner class
 	/**
 	 * 打开时间段选择工具
 	 * @author Administrator

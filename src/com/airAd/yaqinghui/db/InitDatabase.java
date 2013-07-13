@@ -25,7 +25,7 @@ public class InitDatabase extends SQLiteOpenHelper {
 		// 消息记录表
 		db.execSQL("CREATE TABLE messages (cid INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "
 				+ "message_type INTEGER, title VARCHAR(100), content VARCHAR(1000), add_time LONG,"
-				+ " user_id VARCHAR(30), place VARCHAR(100), read_flag INTEGER);");
+				+ " user_id VARCHAR(30), read_flag INTEGER);");
 		// 日程记录表
 		db.execSQL("CREATE TABLE schedule (cid INTEGER PRIMARY KEY  NOT NULL ,user_id VARCHAR(30) NOT NULL ,"
 				+ "item_type INTEGER,title VARCHAR(100),place VARCHAR(100),icon_type VARCHAR(20),start_time LONG,add_time LONG,"

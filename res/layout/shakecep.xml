@@ -76,34 +76,35 @@
             android:padding="5dp" >
 
             <ImageView
+                android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:src="@drawable/icon" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:padding="15dp" >
 
                 <TextView
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="亚洲文化村"
                     android:textColor="#4D515A"
                     android:textSize="16dp" />
 
                 <TextView
+                    android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="亚洲文化村"
                     android:textColor="#4D515A" />
 
                 <TextView
+                    android:id="@+id/content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="亚洲文化村"
                     android:textColor="#4D515A" />
             </LinearLayout>
 
