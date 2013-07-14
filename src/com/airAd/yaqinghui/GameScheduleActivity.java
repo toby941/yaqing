@@ -11,10 +11,9 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.airAd.framework.worker.ImageFetcher;
 import com.airAd.yaqinghui.business.GameService;
 import com.airAd.yaqinghui.business.model.Game;
-import com.airAd.yaqinghui.core.ImageFetcherFactory;
+import com.airAd.yaqinghui.ui.BackBaseActivity;
 import com.airAd.yaqinghui.ui.EventView;
 
 /**
@@ -22,7 +21,7 @@ import com.airAd.yaqinghui.ui.EventView;
  * 
  * @author pengf
  */
-public class GameScheduleActivity extends BaseActivity {
+public class GameScheduleActivity extends BackBaseActivity {
 	private LinearLayout mainLayout;
 	private GameService gameService;
 	private List<Game> myGameList;

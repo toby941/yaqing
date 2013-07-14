@@ -15,7 +15,6 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ import android.widget.TextView;
 import com.airAd.yaqinghui.business.GameService;
 import com.airAd.yaqinghui.business.model.GameInfo;
 import com.airAd.yaqinghui.common.StringUtil;
+import com.airAd.yaqinghui.ui.BackBaseActivity;
 import com.airAd.yaqinghui.ui.CanCloseListView;
 import com.airAd.yaqinghui.ui.PushClose;
 import com.airAd.yaqinghui.ui.PushClose.OnDateClickListener;
@@ -30,7 +30,7 @@ import com.airAd.yaqinghui.ui.PushClose.OnDateClickListener;
 /**
  * @author Panyi
  */
-public class GameDailyActivity extends BaseActivity {
+public class GameDailyActivity extends BackBaseActivity {
 
 	private PushClose mPushClose;
 	private CanCloseListView listView;
