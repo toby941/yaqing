@@ -27,7 +27,6 @@ import com.airAd.yaqinghui.ui.CustomViewPager;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
-import com.amap.api.location.LocationProviderProxy;
 import com.google.zxing.client.android.CaptureActivity;
 /**
  * 
@@ -225,11 +224,13 @@ public class UserFragment extends Fragment
 			}
 			if (openGPSSettings())
 			{// GPS确保打开
-				locationManager.removeUpdates(locationListener);
-				locationManager.setGpsEnable(true);
-				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);
-				isLocating= true;
-				mProgressDialog.show();
+				//				locationManager.removeUpdates(locationListener);
+			//				locationManager.setGpsEnable(true);
+			//				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);
+			//				isLocating= true;
+			//				mProgressDialog.show();
+				Intent it= new Intent(getActivity(), CaptureActivity.class);
+				getActivity().startActivityForResult(it, SCAN_QRCODE);
 			}
 		}
 	}// end inner class

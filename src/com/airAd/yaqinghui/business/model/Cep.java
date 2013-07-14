@@ -100,7 +100,7 @@ public class Cep {
 		cep.setTitle(obj.getString("ceptitle"));
 		cep.setContent(obj.getString("cepcontent"));
 		cep.setScore(obj.getString("score"));
-		cep.setIconType(obj.getString("type"));
+		cep.setIconType(getIconType(obj.getString("cepid")));
 		ArrayList<String> pics = new ArrayList<String>();
 		String pic = new String();
 		// cepevent
@@ -123,7 +123,6 @@ public class Cep {
 				events.add(event);
 				//
 				pic = eventObj.optString("ceppictureone");
-
 			}
 			cep.setCepEvents(events);
 		}
@@ -147,11 +146,22 @@ public class Cep {
 			cep.setContent(obj.optString("cepcontent"));
 			cep.setPic(obj.optString("ceppicture"));
 			cep.setScore(obj.optString("score"));
-			cep.setIconType(obj.getString("type"));
+			cep.setIconType(getIconType(obj.getString("cepid")));
 			cep.setScore(obj.getString("score"));
 			ceps.add(cep);
 		}// end loop
 		return ceps;
+	}
+
+	private static String getIconType(String id) {
+		if ("1".equals(id)) {
+			return "cep_type_blue";
+		} else if ("2".equals(id) || "3".equals("id")) {
+			return "cep_type_red";
+		} else if ("6".equals(id) || "5".equals(id)) {
+			return "cep_type_green";
+		}
+		return "cep_type_red";
 	}
 	//
 }

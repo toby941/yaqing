@@ -16,4 +16,5 @@ public class BadgeService extends BaseService {
     public List<Badge> getBadges() {
         return null;
     }
+
 }

@@ -1,9 +1,12 @@
 package com.airAd.yaqinghui;
+import java.io.IOException;
 import java.util.List;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,7 +31,6 @@ import com.airAd.yaqinghui.business.api.vo.param.CepEventCheckinParam;
 import com.airAd.yaqinghui.business.api.vo.response.CepEventCheckinResponse;
 import com.airAd.yaqinghui.business.model.Cep;
 import com.airAd.yaqinghui.business.model.CepEvent;
-import com.airAd.yaqinghui.common.Common;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.Constants;
 import com.airAd.yaqinghui.core.ImageFetcherFactory;
@@ -45,7 +47,6 @@ import com.google.zxing.client.android.CaptureActivity;
 public class CepDetailActivity extends BaseActivity
 {
 	public static final int STARS_NUM= 5;
-
 	private ImageButton mBackBtn;
 	private ImageButton mWeiboBtn;
 	private ViewPager mGallery;
@@ -77,7 +78,7 @@ public class CepDetailActivity extends BaseActivity
 	private ImageView typeImage;
 	private ImageView[] starsImg= new ImageView[STARS_NUM];
 	private SigninTask signTask;
-
+	private AssetManager assetManager;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -86,7 +87,6 @@ public class CepDetailActivity extends BaseActivity
 		init();
 		requestDetailData();
 	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
@@ -99,18 +99,16 @@ public class CepDetailActivity extends BaseActivity
 				Log.e("yq", twobarcode);
 				// System.out.println(twobarcode);
 				requestSign(twobarcode, MyApplication.getCurrentApp().getUser().getId(), lng, lat);
-
 			}
 		}
 	}
-	
 	private void requestSign(String twobarcode, String userid, String lng, String lat)
 	{
 		if (signTask != null)
 		{
 			signTask.cancel(true);
 		}
-		signTask = new SigninTask();
+		signTask= new SigninTask();
 		CepEventCheckinParam params= new CepEventCheckinParam();
 		params.setUserId(userid);
 		params.setQrcode(twobarcode);
@@ -118,8 +116,6 @@ public class CepDetailActivity extends BaseActivity
 		params.setLng(lng);
 		signTask.execute(params);
 	}
-	
-	
 	private final class SigninTask extends AsyncTask<CepEventCheckinParam, Void, CepEventCheckinResponse>
 	{
 		@Override
@@ -127,7 +123,6 @@ public class CepDetailActivity extends BaseActivity
 		{
 			super.onPreExecute();
 		}
-
 		@Override
 		protected CepEventCheckinResponse doInBackground(CepEventCheckinParam... param)
 		{
@@ -155,7 +150,6 @@ public class CepDetailActivity extends BaseActivity
 			}
 		}
 	}//end inner class
-
 	/**
 	 * 
 	 * @param service
@@ -170,8 +164,7 @@ public class CepDetailActivity extends BaseActivity
 		@Override
 		protected Cep doInBackground(String... params)
 		{
-			return new CepService().getCep(MyApplication.getCurrentUser()
-					.getId(), params[0]);
+			return new CepService().getCep(MyApplication.getCurrentUser().getId(), params[0]);
 		}
 		@Override
 		protected void onPostExecute(Cep result)
@@ -183,9 +176,21 @@ public class CepDetailActivity extends BaseActivity
 				Toast.makeText(CepDetailActivity.this, R.string.net_exception, Toast.LENGTH_SHORT).show();
 				return;
 			}
-
+			for (int i= 0; i < cep.getCepEvents().size(); i++)
+			{
+				int number= i + 1;
+				cep.getCepEvents().get(i).setName(getString(R.string.number) + number);
+			}//end for i
 			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this.getSupportFragmentManager(), cep.getPics()));
-			typeImage.setImageResource(Common.getCepTypePic(cep.getIconType()));
+			//typeImage.setImageResource(Common.getCepTypePic(cep.getIconType()));
+			try
+			{
+				typeImage.setImageBitmap(BitmapFactory.decodeStream(assetManager.open(cep.getIconType() + ".png")));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 			setSorce();
 			mTitleText.setText(cep.getTitle());
 			mContentText.setText(cep.getContent());
@@ -197,7 +202,6 @@ public class CepDetailActivity extends BaseActivity
 	}// end inner class
 	private void setEventComponent()
 	{
-		//TODO
 		if (cep.getCepEvents().size() == 1)// 仅有一场活动
 		{
 			eventHeaderView.setVisibility(View.GONE);
@@ -414,6 +418,7 @@ public class CepDetailActivity extends BaseActivity
 	}
 	private void init()
 	{
+		assetManager= getAssets();
 		cepId= getIntent().getStringExtra(Config.CEP_ID);
 		mInflater= (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mImageFetcher= ImageFetcherFactory.genImageFetcher(this, R.drawable.ic_launcher);
@@ -441,7 +446,6 @@ public class CepDetailActivity extends BaseActivity
 		starsImg[3]= (ImageView) findViewById(R.id.starts_4);
 		starsImg[4]= (ImageView) findViewById(R.id.starts_5);
 	}
-
 	private void setSorce()
 	{
 		int score= 0;
@@ -459,7 +463,6 @@ public class CepDetailActivity extends BaseActivity
 			starsImg[i].setImageResource(R.drawable.cep_stars_light);
 		}//end for i
 	}
-
 	private class BackClick implements OnClickListener
 	{
 		@Override

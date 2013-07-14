@@ -1,5 +1,9 @@
 package com.airAd.yaqinghui.fragment;
+import java.io.IOException;
+
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,7 +18,6 @@ import com.airAd.framework.worker.ImageFetcher;
 import com.airAd.yaqinghui.CepDetailActivity;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.business.model.Cep;
-import com.airAd.yaqinghui.common.Common;
 import com.airAd.yaqinghui.common.Config;
 /**
  * 
@@ -24,6 +27,7 @@ import com.airAd.yaqinghui.common.Config;
 public class CepItemFragment extends Fragment
 {
 	public static final int STARS_NUM= 5;
+	private AssetManager assertManager;
 	private Cep cep;
 	private ImageFetcher mImageFetcher;
 	private LinearLayout detailBtn;
@@ -38,6 +42,7 @@ public class CepItemFragment extends Fragment
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
+		assertManager= getActivity().getAssets();
 		super.onCreate(savedInstanceState);
 	}
 	@Override
@@ -49,7 +54,15 @@ public class CepItemFragment extends Fragment
 		ImageView img= (ImageView) v.findViewById(R.id.img);
 		ImageView typeImage= (ImageView) v.findViewById(R.id.cep_type);
 		View mainLayout= v.findViewById(R.id.item_main);
-		typeImage.setImageResource(Common.getCepTypePic(cep.getIconType()));
+		//		typeImage.setImageResource(Common.getCepTypePic());
+		try
+		{
+			typeImage.setImageBitmap(BitmapFactory.decodeStream(assertManager.open(cep.getIconType() + ".png")));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 		mainLayout.setOnClickListener(new DetailBtn());
 		titleText.setText(cep.getTitle());
 		mImageFetcher.loadImage(cep.getPic(), img);

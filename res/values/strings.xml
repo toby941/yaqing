@@ -27,7 +27,7 @@
     <string name="delete">删除</string>
     <string name="attention_test_text">男子200米花样游泳</string>
     <string name="net_exception">网络异常</string>
-    <string name="order_attend">报名</string>
+    <string name="order_attend">关注</string>
     <string name="order_cancel">取消预约</string>
     <string name="addCommit">添加评论</string>
     <string name="news_detail_title">活动详情</string>
@@ -118,4 +118,8 @@
 	<string name="change_error">密码输入错误</string>
 	<string name="loginout_success">退出成功</string>
 	<string name="delete_schdule">确认删除此日程吗?</string>
+	<string name="signin_in_failed">签到失败</string>
+	<string name="number">NO.</string>
+	<string name="watch_success">关注成功</string>
+	<string name="watch_failed">关注失败</string>
 </resources>

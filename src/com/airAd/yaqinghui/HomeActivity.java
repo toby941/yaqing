@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,9 +34,13 @@ import android.widget.Toast;
 import cn.jpush.android.api.JPushInterface;
 
 import com.airAd.framework.worker.ImageFetcher;
+import com.airAd.yaqinghui.business.CepService;
 import com.airAd.yaqinghui.business.ScheduleService;
+import com.airAd.yaqinghui.business.api.vo.param.CepEventCheckinParam;
+import com.airAd.yaqinghui.business.api.vo.response.CepEventCheckinResponse;
 import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.common.Config;
+import com.airAd.yaqinghui.common.Constants;
 import com.airAd.yaqinghui.common.StringUtil;
 import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.airAd.yaqinghui.fragment.UserDetailFragment;
@@ -63,10 +68,11 @@ public class HomeActivity extends SlidingBaseActivity
 	private ScheduleService mScheduleService;
 	private List<ScheduleItem> mScheduleItemList;
 	private ListView mSheduleList;
-	private int scheduleDay= -1;
+	public int scheduleDay= -1;
 	private Map<Integer, Integer> allDays;
 	private List<ScheduleItem> mDataList;
 	public String lat, lng;
+	private SignTask signTask;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -98,6 +104,10 @@ public class HomeActivity extends SlidingBaseActivity
 		{// 取消监听
 			this.unregisterReceiver(mChangeThumbReceiver);
 		}
+		if (signTask != null)
+		{
+			signTask.cancel(true);
+		}
 	}
 	public void init()
 	{
@@ -110,9 +120,10 @@ public class HomeActivity extends SlidingBaseActivity
 		getThumbBitmap();// 设置头像位图数据
 		mPushClose.setSheduleListData(scheduleDay);
 	}
-	/**
-	 * 设置时间数据
-	 */
+
+		/**
+	* 设置时间数据
+	*/
 	private void setPushClose()
 	{
 		mScheduleService= new ScheduleService();
@@ -121,13 +132,9 @@ public class HomeActivity extends SlidingBaseActivity
 		View topView= LayoutInflater.from(this).inflate(R.layout.dialy, null);
 		mPushClose.setContent(topView, bottomView);
 		final Calendar calendar= Calendar.getInstance();
-		int year= calendar.get(Calendar.YEAR);
-		int month= calendar.get(Calendar.MONTH) + 1;
 		int day= calendar.get(Calendar.DAY_OF_MONTH);
 		int weekday= calendar.get(Calendar.DAY_OF_WEEK) - 1;
-		TextView bannerText= (TextView) bottomView.findViewById(R.id.home_date_banner);
 		TextView dateText= (TextView) topView.findViewById(R.id.date_banner);
-		bannerText.setText(StringUtil.dateOfDay(month) + "." + year);
 		dateText.setText(day + " " + StringUtil.retWeekName(weekday));
 	}
 	@Override
@@ -341,7 +348,7 @@ public class HomeActivity extends SlidingBaseActivity
 				String twobarcode= data.getStringExtra(CaptureActivity.FLAG);
 				Log.e("yq", twobarcode);
 				// System.out.println(twobarcode);
-				requestSign(twobarcode, MyApplication.getCurrentApp().getUser().getId(), lng, lat);
+				requestSign(twobarcode, MyApplication.getCurrentApp().getUser().getId(), "", "");
 			}
 		}
 	}
@@ -376,7 +383,56 @@ public class HomeActivity extends SlidingBaseActivity
 			progressDialog.setCancelable(true);
 		}
 		progressDialog.show();
+		if (signTask != null)
+		{
+			signTask.cancel(true);
+		}
+		signTask= new SignTask();
+		CepEventCheckinParam params = new CepEventCheckinParam();
+		params.setQrcode(twobarcode);
+		params.setUserId(userid);
+		signTask.execute(params);
 	}
+	
+	private final class SignTask extends AsyncTask<CepEventCheckinParam, Void, CepEventCheckinResponse>
+	{
+
+		@Override
+		protected void onPreExecute()
+		{
+			super.onPreExecute();
+		}
+
+		@Override
+		protected CepEventCheckinResponse doInBackground(CepEventCheckinParam... params)
+		{
+			CepService cepService= new CepService();
+			return cepService.doCheckinCepEvent(params[0]);
+		}
+		@Override
+		protected void onPostExecute(CepEventCheckinResponse result)
+		{
+			super.onPostExecute(result);
+			progressDialog.dismiss();
+			if (result != null)
+			{
+				if (Constants.FLAG_SUCC.equals(result.getFlag()))
+				{
+					//签到成功
+					Toast.makeText(HomeActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+
+				}
+				else
+				{
+					Toast.makeText(HomeActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+				}
+			}
+			else
+			{
+				Toast.makeText(HomeActivity.this, R.string.signin_in_failed, Toast.LENGTH_SHORT).show();
+			}
+		}
+	}//end inner class
 	/**
 	 * 载入头像位图
 	 * 

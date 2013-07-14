@@ -12,6 +12,7 @@
         android:layout_gravity="center"
         android:textColor="#59636F"
         android:textSize="22dp"
+        android:text="08.2013"
         android:textStyle="normal" />
 
     <LinearLayout
@@ -36,7 +37,7 @@
                 android:background="#323F4F"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="@string/sat"
+                android:text="@string/sun"
                 android:textColor="#BABBBB"
                 android:textSize="12dp" />
 
@@ -363,7 +364,7 @@
                 android:background="#323F4F"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="@string/sun"
+                android:text="@string/sat"
                 android:textColor="#BABBBB"
                 android:textSize="12dp" />
 			<View

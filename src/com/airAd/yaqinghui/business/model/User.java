@@ -16,7 +16,7 @@ public class User extends Base {
 	private String id;
 	private String name;
 	private String country;
-	private String flag;
+	private String countryFlag;
 	private String gender;
 	private String[] types;
 
@@ -52,12 +52,12 @@ public class User extends Base {
 		this.country = country;
 	}
 
-	public String getFlag() {
-		return flag;
+	public String getCountryFlag() {
+		return countryFlag;
 	}
 
-	public void setFlag(String flag) {
-		this.flag = flag;
+	public void setCountryFlag(String countryFlag) {
+		this.countryFlag = countryFlag;
 	}
 
 	public String getGender() {
@@ -90,7 +90,7 @@ public class User extends Base {
 			user.setId(obj.getString("id"));
 			user.setName(obj.getString("name"));
 			user.setCountry(obj.getString("country"));
-			user.setFlag(obj.getString("flag"));
+			user.setCountryFlag(obj.getString("flag"));
 			user.setGender(obj.getString("gender"));
 			user.setTypes(obj.getString("type").split(","));
 			user.setFlag(Constants.FLAG_SUCC);

@@ -31,7 +31,6 @@ import com.airAd.yaqinghui.business.model.CepEvent;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
-import com.amap.api.location.LocationProviderProxy;
 import com.google.zxing.client.android.CaptureActivity;
 /**
  * 
@@ -191,8 +190,9 @@ public class CepEventItem extends Fragment
 		@Override
 		public void onClick(View view)
 		{
-			System.out.println("报名参加");
+			//			System.out.println("报名参加");
 			cepSerice.doReservationCepEvent(MyApplication.getCurrentApp().getUser().getId(), cep, cepEvent);
+			Toast.makeText(getActivity(), R.string.watch_success, Toast.LENGTH_SHORT).show();
 		}
 	}//end inner class
 	private final class ScoreClick implements OnClickListener
@@ -209,16 +209,18 @@ public class CepEventItem extends Fragment
 		public void onClick(View v)
 		{
 			if (isLocating)
- {// 当前正在定位 按钮不响应
+			{// 当前正在定位 按钮不响应
 				return;
 			}
 			if (openGPSSettings())
- {// GPS确保打开
-				locationManager.removeUpdates(locationListener);
-				locationManager.setGpsEnable(true);
-				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);
-				isLocating= true;
-				mLocateProgressDialog.show();
+			{// GPS确保打开
+				//				locationManager.removeUpdates(locationListener);
+				//				locationManager.setGpsEnable(true);
+				//				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);
+				//				isLocating= true;
+				//				mLocateProgressDialog.show();
+				Intent it= new Intent(getActivity(), CaptureActivity.class);
+				getActivity().startActivityForResult(it, UserFragment.SCAN_QRCODE);
 			}
 		}
 	}// end inner class
