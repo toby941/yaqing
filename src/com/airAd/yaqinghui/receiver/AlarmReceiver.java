@@ -18,25 +18,19 @@ import com.airAd.yaqinghui.business.model.NotificationMessage;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.Constants;
-public class AlarmReceiver extends BroadcastReceiver
-{
+public class AlarmReceiver extends BroadcastReceiver {
 	private Context mContext;
 	private User mUser;
 	private NotificationMessage message;
 	@Override
-	public void onReceive(Context context, Intent intent)
-	{
-		mContext= context;
-		try
-		{
-			mUser= User.instance(mContext.getSharedPreferences(Config.PACKAGE, Context.MODE_PRIVATE).getString(
-					Config.USER_INFO_KEY,
-					""));
-		}
-		catch (Exception e)
-		{
+	public void onReceive(Context context, Intent intent) {
+		mContext = context;
+		try {
+			mUser = User.instance(mContext.getSharedPreferences(Config.PACKAGE,
+					Context.MODE_PRIVATE).getString(Config.USER_INFO_KEY, ""));
+		} catch (Exception e) {
 			e.printStackTrace();
-			mUser= null;
+			mUser = null;
 			return;
 		}
 		getPushMessage(intent);
@@ -45,54 +39,51 @@ public class AlarmReceiver extends BroadcastReceiver
 	 * 
 	 * @param origin
 	 */
-	private void getPushMessage(Intent intent)
-	{
-		if (isInApp())
-		{
+	private void getPushMessage(Intent intent) {
+		if (isInApp()) {
 
-		}
-		else
-		{
-
+		} else {
+			showPushNotify(intent);
 		}
 	}
 
-	private void showPushNotify(long id)
-	{
-		NotificationManager manager= (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification= new Notification(R.drawable.icon, message.getTitle(), System.currentTimeMillis());
-		Intent it= new Intent(mContext, NotifyDetailActivity.class);
-		it.putExtra("id", id);
-		PendingIntent contentIntent= PendingIntent.getActivity(mContext, 0, it, 0);
-		notification.setLatestEventInfo(mContext, message.getTitle(), message.getContent(), contentIntent);
-		notification.defaults|= Notification.DEFAULT_SOUND;
-		notification.defaults|= Notification.DEFAULT_VIBRATE;
-		notification.flags= Notification.FLAG_AUTO_CANCEL;
-		notification.sound= Uri.withAppendedPath(Audio.Media.INTERNAL_CONTENT_URI, "6");
+	private void showPushNotify(Intent intent) {
+		NotificationManager manager = (NotificationManager) mContext
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		Notification notification = new Notification(R.drawable.icon,
+				message.getTitle(), System.currentTimeMillis());
+		Intent it = new Intent(mContext, NotifyDetailActivity.class);
+		PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
+				it, 0);
+		notification.setLatestEventInfo(mContext, "",
+				intent.getStringExtra("content"), contentIntent);
+		notification.defaults |= Notification.DEFAULT_SOUND;
+		notification.defaults |= Notification.DEFAULT_VIBRATE;
+		notification.flags = Notification.FLAG_AUTO_CANCEL;
+		notification.sound = Uri.withAppendedPath(
+				Audio.Media.INTERNAL_CONTENT_URI, "6");
 		manager.notify(R.drawable.icon, notification);
 	}
-	private void showPushMsgWithPop(long id)
-	{
-		Intent intent= new Intent();
+	private void showPushMsgWithPop(long id) {
+		Intent intent = new Intent();
 		intent.setAction(Constants.PUSH_SERVICE);
 		intent.putExtra("title", message.getContent());
 		intent.putExtra("id", id);
 		mContext.sendBroadcast(intent);
 	}
-	public boolean isInApp()
-	{
-		boolean ret= false;
-		ActivityManager am= (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-		List<RunningTaskInfo> list= am.getRunningTasks(100);
-		for (RunningTaskInfo info : list)
-		{
+	public boolean isInApp() {
+		boolean ret = false;
+		ActivityManager am = (ActivityManager) mContext
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningTaskInfo> list = am.getRunningTasks(100);
+		for (RunningTaskInfo info : list) {
 			if (info.topActivity.getPackageName().equals(Config.PACKAGE)
-					&& info.baseActivity.getPackageName().equals(Config.PACKAGE))
-			{
-				ret= true;
+					&& info.baseActivity.getPackageName()
+							.equals(Config.PACKAGE)) {
+				ret = true;
 				break;
 			}
 		}
 		return ret;
 	}
-}//end class
+}// end class
