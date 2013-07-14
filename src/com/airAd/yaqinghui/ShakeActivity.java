@@ -152,7 +152,6 @@ public class ShakeActivity extends BaseActivity
 		cep= cepItem;
 		typeImage.setImageResource(Common.getCepTypePic(cepItem.getIconType()));
 		title.setText(cepItem.getTitle());
-		content.setText(cepItem.getTitle());
 		TranslateAnimation downAnimation= new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
 				Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -2, Animation.RELATIVE_TO_SELF, 0);
 		downAnimation.setDuration(2000);

@@ -48,7 +48,7 @@
     <string name="temp1">今天</string>
     <string name="temp2">23℃/9℃</string>
     <string name="cep_item_icon_attend">人报名参加</string>
-    <string name="cep_item_icon_commit">条评论</string>
+    <string name="cep_score_failed">评论失败</string>
     <string name="jifeng">积分:120</string>
     <string name="activity_willstart">活动即将开始, 请做好准备</string>
     <string name="dialog_title">提示</string>

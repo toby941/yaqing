@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.airAd.yaqinghui.ChangePwdActivity;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.TutorialActivity;
+import com.airAd.yaqinghui.WelcomeActivity;
 import com.airAd.yaqinghui.common.Config;
 /**
  * 设置Fragment
@@ -122,6 +123,9 @@ public class SettingsFragment extends Fragment
 			editor.putString(Config.USER_INFO_KEY, "");
 			editor.commit();
 			Toast.makeText(getActivity(), R.string.loginout_success, Toast.LENGTH_SHORT).show();
+			Intent it= new Intent(getActivity(), WelcomeActivity.class);
+			getActivity().startActivity(it);
+			getActivity().finish();
 		}
 	}//end inner class
 	private final class HelpClick implements OnClickListener

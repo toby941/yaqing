@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -26,8 +27,12 @@ import com.airAd.yaqinghui.CepDetailActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.business.CepService;
+import com.airAd.yaqinghui.business.api.vo.param.CepEventScoreParam;
+import com.airAd.yaqinghui.business.api.vo.response.CepEventScoreResponse;
 import com.airAd.yaqinghui.business.model.Cep;
 import com.airAd.yaqinghui.business.model.CepEvent;
+import com.airAd.yaqinghui.common.ApiUtil;
+import com.airAd.yaqinghui.common.Constants;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
@@ -52,6 +57,9 @@ public class CepEventItem extends Fragment
 	private RatingBar scoreBar1, scoreBar2, scoreBar3;
 	private View parentView;
 	private CepService cepSerice;
+	private ScoreTask scoreTask;
+	private ProgressDialog progressDialog;
+
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -102,6 +110,7 @@ public class CepEventItem extends Fragment
 	{
 		super.onCreate(savedInstanceState);
 		cepSerice= new CepService();
+		progressDialog= new ProgressDialog(getActivity());
 		locationManager= LocationManagerProxy.getInstance(getActivity());
 		mLocateProgressDialog= new ProgressDialog(getActivity());
 		mLocateProgressDialog.setTitle(R.string.dialog_title);
@@ -115,12 +124,13 @@ public class CepEventItem extends Fragment
 		final View v= inflater.inflate(R.layout.cep_event, container, false);
 		TextView timeText= (TextView) v.findViewById(R.id.cep_event_time);
 		long startTimeLong= Long.parseLong(cepEvent.getStartTime());
-		SimpleDateFormat sdfStart= new SimpleDateFormat("MM.dd.yyyy HH:mm");
-		String startStr= sdfStart.format(new Date(startTimeLong));
+		String startStr= ApiUtil.convertDateToDateString(new Date(startTimeLong));
+
 		long endTimeLong= Long.parseLong(cepEvent.getEndTime());
 		SimpleDateFormat sdfEnd= new SimpleDateFormat("HH:mm");
 		String endStr= sdfEnd.format(new Date(endTimeLong));
-		timeText.setText(startStr + "-" + endStr);
+
+		timeText.setText(cepEvent.getEventTimeRangeDescription());
 		attendBtn= (Button) v.findViewById(R.id.attendBtn);
 		scoreBtn= (Button) v.findViewById(R.id.scoreBtn);
 		TextView locateText= (TextView) v.findViewById(R.id.cep_event_locate);
@@ -182,9 +192,59 @@ public class CepEventItem extends Fragment
 			int score1= scoreBar1.getProgress();
 			int score2= scoreBar2.getProgress();
 			int score3= scoreBar3.getProgress();
-			System.out.println(score1 + "," + score2 + "," + score3);
+
+			CepService cep = new CepService();
+			CepEventScoreParam params = new CepEventScoreParam();
+			params.setUserId(MyApplication.getCurrentApp().getUser().getId());
+			params.setEventId(cepEvent.getId());
+			params.setCepId(cepEvent.getCepId());
+			params.setScore(score1 + "," + score2 + "," + score3);
+			if (scoreTask != null)
+			{
+				scoreTask.cancel(true);
+			}
+			scoreTask= new ScoreTask();
+			scoreTask.execute(params);
 		}
 	}
+
+	private final class ScoreTask extends AsyncTask<CepEventScoreParam, Void, CepEventScoreResponse>
+	{
+		@Override
+		protected CepEventScoreResponse doInBackground(CepEventScoreParam... params)
+		{
+			return (new CepService()).doScoreCepEvent(params[0]);
+		}
+
+		@Override
+		protected void onPreExecute()
+		{
+			super.onPreExecute();
+			progressDialog.show();
+		}
+		@Override
+		protected void onPostExecute(CepEventScoreResponse result)
+		{
+			super.onPostExecute(result);
+			progressDialog.dismiss();
+			if (result != null)
+			{
+				if (Constants.FLAG_SUCC.equals(result.getFlag()))//签到成功
+				{
+					Toast.makeText(getActivity(), result.getMsg(), Toast.LENGTH_SHORT).show();
+					//勋章操作
+				}
+				else
+				{
+					Toast.makeText(getActivity(), result.getMsg(), Toast.LENGTH_SHORT).show();
+				}
+			}
+			else
+			{
+				Toast.makeText(getActivity(), R.string.cep_score_failed, Toast.LENGTH_SHORT).show();
+			}
+		}
+	}//end inner class
 	private final class AttendClick implements OnClickListener
 	{
 		@Override
@@ -248,6 +308,10 @@ public class CepEventItem extends Fragment
 	{
 		super.onDestroy();
 		locationManager.removeUpdates(locationListener);
+		if (scoreTask != null)
+		{
+			scoreTask.cancel(true);
+		}
 		System.gc();
 	}
 }// end class

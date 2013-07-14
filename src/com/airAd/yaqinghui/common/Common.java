@@ -6,6 +6,36 @@ import java.util.Random;
 
 import com.airAd.yaqinghui.R;
 public class Common {
+	public static String genBannerText(int day)
+	{
+		int weekOfDay= (day + 1) % 7;
+		String week= "";
+		switch (weekOfDay)
+		{
+			case 0 :
+				week= "Sun";
+				break;
+			case 1 :
+				week= "Mon";
+				break;
+			case 2 :
+				week= "Tue";
+				break;
+			case 3 :
+				week= "Wed";
+				break;
+			case 4 :
+				week= "Thu";
+				break;
+			case 5 :
+				week= "Fri";
+				break;
+			case 6 :
+				week= "Sat";
+				break;
+		}
+		return day + "  " + week;
+	}
 	public static int getCepTypePic(String iconType)
 	{
 		if ("0".equals(iconType))
