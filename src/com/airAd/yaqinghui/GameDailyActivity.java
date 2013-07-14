@@ -76,11 +76,13 @@ public class GameDailyActivity extends BackBaseActivity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				int pos = (Integer) buttonView.getTag();
-
+				
 				if (isChecked) {
+					storedInfoIdList.add(gameInfoList.get(pos).getId());
 					gameService
 							.addtoSchedule(gameInfoList.get(pos), gamePicUrl);
 				} else {
+					storedInfoIdList.remove(gameInfoList.get(pos).getId());
 					gameService.deleteFromSchedule(gameInfoList.get(pos)
 							.getId());
 				}
