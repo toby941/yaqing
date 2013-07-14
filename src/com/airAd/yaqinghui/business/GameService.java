@@ -35,6 +35,7 @@ public class GameService extends BaseService {
 		BasicAPI api = HessianClient.create();
 		try {
 			JSONObject jsonObj = api.GetGameInfo(MyApplication.getCurrentUser().getId(), User.getLan());
+			Log.i("GameService", jsonObj.toString());
 			return Game.instanceList(jsonObj);
 		} catch (Exception e) {
 			return null;
@@ -44,6 +45,7 @@ public class GameService extends BaseService {
 	public List<GameInfo> getGameInfo(String typeId, Date date) {
 		BasicAPI api = HessianClient.create();
 		try {
+			Log.i("GameService", typeId + "," + sdf.format(date) + User.getLan());
 			JSONObject jsonObj = api.GetGameDetailInfo(typeId, sdf.format(date), User.getLan());
 			Log.i("GameService", jsonObj.toString());
 			return GameInfo.instanceList(jsonObj);

@@ -73,6 +73,8 @@ public class PushClose extends RelativeLayout
 	private LocationManagerProxy locationManager;
 	private boolean isLocating= false;
 	private ProgressDialog mProgressDialog;
+	private OnDateClickListener onDateClickListener;
+	
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -364,7 +366,19 @@ public class PushClose extends RelativeLayout
 			selectedDate= dateText;
 			int day= Integer.parseInt(selectedDate.getText().toString());
 			close();
-			setSheduleListData(day);
+			
+			if(onDateClickListener != null)
+			{
+				Calendar date = Calendar.getInstance();
+				date.set(Calendar.YEAR, 2013);
+				date.set(Calendar.MONTH, Calendar.AUGUST);
+				date.set(Calendar.DAY_OF_MONTH, day);
+				onDateClickListener.onDateClick(date);
+			}
+			else
+			{
+				setSheduleListData(day);
+			}
 			// if(dateText.isHaveActivity){
 			// dateText.setNoneActivity();
 			// }else{
@@ -457,5 +471,26 @@ public class PushClose extends RelativeLayout
 				break;
 		}
 		return true;
+	}
+	
+	public OnDateClickListener getOnDateClickListener() {
+		return onDateClickListener;
+	}
+	public void setOnDateClickListener(OnDateClickListener onDateClickListener) {
+		this.onDateClickListener = onDateClickListener;
+	}
+	//切换时间的监听器
+	public static interface OnDateClickListener
+	{
+		public void onDateClick(Calendar calendar);
+	}
+	
+	public Calendar getFirstDate()
+	{
+		Calendar date = Calendar.getInstance();
+		date.set(Calendar.YEAR, 2013);
+		date.set(Calendar.MONTH, Calendar.AUGUST);
+		date.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dates[0].getText().toString()));
+		return date;
 	}
 }// end class
