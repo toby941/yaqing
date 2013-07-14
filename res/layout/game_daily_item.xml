@@ -11,43 +11,46 @@
     	android:layout_marginLeft="10dp"
     	android:textColor="@color/game_daily_date"
     	android:textStyle="bold"
-    	android:textSize="15sp"
-    	android:text="08:30 am">
+    	android:textSize="15sp">
 	</TextView>
 	<RelativeLayout 
+	    android:id="@+id/daily_item"
 	    android:layout_width="match_parent"
     	android:layout_height="wrap_content"
     	android:layout_marginLeft="15dp"
     	android:layout_marginRight="15dp"
     	android:layout_marginBottom="15dp"
     	android:layout_marginTop="8dp"
-    	android:padding="15dp"
     	android:background="@android:color/white">
-	    <Button 
+	    <CheckBox 
 	        android:id="@+id/game_add_btn"
 	        android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:layout_alignParentRight="true"
     		android:layout_marginRight="15dp"
-    		android:layout_centerVertical="true"/>
+    		android:layout_centerVertical="true"
+    		android:button="@drawable/game_daily_checkbox"/>
 	    
 	    <TextView 
 	        android:id="@+id/game_title"
 	        android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
-    		android:layout_marginLeft="10dp"
     		android:layout_alignParentLeft="true"
     		android:layout_toLeftOf="@+id/game_add_btn"
-    		android:text="男子游泳"
     		android:textColor="@color/game_daily_title"
+    		android:singleLine="true"
+    		android:layout_marginTop="15dp"
+    		android:layout_marginLeft="15dp"
     		android:textSize="15sp"/>
 	    
 	    <ImageView
 	        android:id="@+id/game_loc_icon"
 	        android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
+    		android:layout_marginLeft="15dp"
     		android:layout_marginTop="10dp"
     		android:layout_marginRight="5dp"
+    		android:src="@drawable/game_daily_loc"
     		android:layout_below="@+id/game_title"/>
 	        
 	    <TextView 
@@ -57,12 +60,15 @@
     		android:layout_below="@+id/game_title"
     		android:layout_toRightOf="@+id/game_loc_icon"
     		android:layout_toLeftOf="@+id/game_add_btn"
-    	 	android:layout_marginLeft="10dp"
     		android:layout_marginTop="10dp"
     		android:textColor="@color/game_daily_loc"
-    		android:textSize="13sp"
-    		android:text="南京奥体中心"/>
+    		android:singleLine="true"
+    		android:textSize="13sp"/>
 	    
+	    <View 
+	        android:layout_below="@+id/game_loc_icon"
+	        android:layout_width="1dp"
+    		android:layout_height="15dp"/>	    
 	    
 	</RelativeLayout>
 </LinearLayout>

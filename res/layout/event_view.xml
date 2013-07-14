@@ -3,7 +3,9 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp">
 
     <ImageView
         android:id="@+id/icon"
@@ -15,6 +17,8 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp" 
+        android:lines="2"
+        android:gravity="center"/>
 
 </LinearLayout>

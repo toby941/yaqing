@@ -75,6 +75,18 @@ public class GameService extends BaseService {
 	}
 	
 	/**
+	 * 
+	 * 从日程删除
+	 * @param gameInfo
+	 * @param picURL
+	 */
+	public void deleteFromSchedule(String gameId)
+	{
+		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
+		db.delete("schedule", "ref_id = ?", new String[]{gameId});
+	}
+	
+	/**
 	 * 获取schedule的全部id
 	 * @return
 	 */

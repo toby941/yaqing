@@ -13,7 +13,7 @@ import net.sf.json.JSONObject;
 
 /**
  * GameInfo.java
- *
+ * 
  * @author liyuhang
  */
 public class GameInfo {
@@ -24,9 +24,11 @@ public class GameInfo {
 	private String time;
 	private String content;
 	private String pic;
-	
-	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm");
-	
+	private boolean game;
+
+	private static final SimpleDateFormat sdf = new SimpleDateFormat(
+			"yyyyMMdd HH:mm");
+
 	/**
 	 * 
 	 * @param jsonObj
@@ -43,6 +45,7 @@ public class GameInfo {
 			gameInfo.setPlace(obj.getString("place"));
 			gameInfo.setTitle(obj.getString("title"));
 			gameInfo.setContent(obj.getString("content"));
+			gameInfo.setIsGame(obj.getString("flag"));
 			games.add(gameInfo);
 		}
 		return games;
@@ -95,9 +98,21 @@ public class GameInfo {
 	public void setPic(String pic) {
 		this.pic = pic;
 	}
+
+	public void setIsGame(String flag) {
+		if ("1".equals(flag)) {
+			game = true;
+		} else {
+			game = false;
+		}
+	}
 	
-	public long getStartTime()
+	public boolean isGame()
 	{
+		return game;
+	}
+
+	public long getStartTime() {
 		try {
 			return sdf.parse(time.substring(0, time.indexOf("-"))).getTime();
 		} catch (ParseException e) {

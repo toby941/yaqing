@@ -25,7 +25,6 @@ import com.airAd.yaqinghui.ui.EventView;
 public class GameScheduleActivity extends BaseActivity {
 	private LinearLayout mainLayout;
 	private GameService gameService;
-	private ImageFetcher mImageFetcher;
 	private List<Game> myGameList;
 
 	@Override
@@ -36,7 +35,6 @@ public class GameScheduleActivity extends BaseActivity {
 		//int myLastPos = addMyProjects();
 		//addEvents(myLastPos + 1, 10);
 		gameService = new GameService();
-		mImageFetcher = ImageFetcherFactory.genImageFetcher(this);
 		new GameTask().execute();
 	}
 

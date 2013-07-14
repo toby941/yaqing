@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airAd.yaqinghui.business.GameService;
@@ -34,12 +38,15 @@ public class GameDailyActivity extends BaseActivity {
 	private GameService gameService;
 	private List<GameInfo> gameInfoList = new ArrayList<GameInfo>();
 	private DailyAdapter dailyAdapter;
-	private OnClickListener addScheduleListener;
+	// private OnClickListener addScheduleListener;
+	private OnCheckedChangeListener scheduleChangeListener;
 	private List<String> storedInfoIdList;// 已经持久化的gameInfolist
 
 	private GameDailyTask task;
 	private String gameId;
 	private String gamePicUrl;
+	private int checkboxWidth, checkboxHeight;
+	
 	public static final String GAME_ID = "game_id";
 	public static final String GAME_PIC_URL = "game_pic_url";
 
@@ -49,6 +56,9 @@ public class GameDailyActivity extends BaseActivity {
 		setContentView(R.layout.schedule_daily);
 		gameId = getIntent().getStringExtra(GAME_ID);
 		gamePicUrl = getIntent().getStringExtra(GAME_PIC_URL);
+		Drawable checkboxDrawable = getResources().getDrawable(R.drawable.game_daily_delete);
+		checkboxWidth = checkboxDrawable.getIntrinsicWidth();
+		checkboxHeight = checkboxDrawable.getIntrinsicHeight();
 		init();
 	}
 
@@ -60,13 +70,20 @@ public class GameDailyActivity extends BaseActivity {
 		doDailyTask(mPushClose.getFirstDate());
 		storedInfoIdList = gameService.queryScheduleIds();
 		Log.i("storedInfoIdList", storedInfoIdList.toString());
-		addScheduleListener = new OnClickListener() {
+		scheduleChangeListener = new OnCheckedChangeListener() {
 
 			@Override
-			public void onClick(View v) {
-				int pos = (Integer) v.getTag();
-				gameService.addtoSchedule(gameInfoList.get(pos), gamePicUrl);
-				v.setEnabled(false);
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				int pos = (Integer) buttonView.getTag();
+
+				if (isChecked) {
+					gameService
+							.addtoSchedule(gameInfoList.get(pos), gamePicUrl);
+				} else {
+					gameService.deleteFromSchedule(gameInfoList.get(pos)
+							.getId());
+				}
 			}
 		};
 		mPushClose.setOnDateClickListener(new OnDateClickListener() {
@@ -132,23 +149,36 @@ public class GameDailyActivity extends BaseActivity {
 						.findViewById(R.id.game_loc);
 				viewHolder.dateView = (TextView) convertView
 						.findViewById(R.id.date);
-				viewHolder.addBtn = (Button) convertView
+				viewHolder.addCheckBox = (CheckBox) convertView
 						.findViewById(R.id.game_add_btn);
+				viewHolder.itemView = convertView.findViewById(R.id.daily_item);
 				convertView.setTag(viewHolder);
 			}
 			ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+			if (gameInfoList.get(position).isGame()) {
+				viewHolder.itemView
+						.setBackgroundResource(R.drawable.game_daily_match_bg);
+			} else {
+				viewHolder.itemView
+						.setBackgroundResource(R.drawable.game_daily_tran_bg);
+			}
 			viewHolder.titleView.setText(gameInfoList.get(position).getTitle());
 			viewHolder.locView.setText(gameInfoList.get(position).getPlace());
 			viewHolder.dateView.setText(formatTime(gameInfoList.get(position)
 					.getTime()));
+			RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams)viewHolder.addCheckBox.getLayoutParams();
+			rlp.width = checkboxWidth;
+			rlp.height = checkboxHeight;
+			viewHolder.addCheckBox.setLayoutParams(rlp);
+			viewHolder.addCheckBox.setTag(position);
+			viewHolder.addCheckBox.setOnCheckedChangeListener(null);
 			if (storedInfoIdList.contains(gameInfoList.get(position).getId())) {
-				viewHolder.addBtn.setEnabled(false);
+				viewHolder.addCheckBox.setChecked(true);
 			} else {
-				viewHolder.addBtn.setEnabled(true);
-				viewHolder.addBtn.setTag(position);
-				viewHolder.addBtn.setOnClickListener(addScheduleListener);
+				viewHolder.addCheckBox.setChecked(false);
 			}
-
+			viewHolder.addCheckBox
+					.setOnCheckedChangeListener(scheduleChangeListener);
 			return convertView;
 		}
 	}
@@ -171,7 +201,8 @@ public class GameDailyActivity extends BaseActivity {
 		public TextView titleView;
 		public TextView locView;
 		public TextView dateView;
-		public Button addBtn;
+		public CheckBox addCheckBox;
+		public View itemView;
 	}
 
 	private class GameDailyTask extends
@@ -185,9 +216,6 @@ public class GameDailyActivity extends BaseActivity {
 		@Override
 		protected List<GameInfo> doInBackground(Calendar... params) {
 			Calendar c = params[0];
-			/*
-			 * Calendar c = Calendar.getInstance(); c.set(2013, 7, 12);
-			 */
 			return gameService.getGameInfo(gameId, c.getTime());
 		}
 
