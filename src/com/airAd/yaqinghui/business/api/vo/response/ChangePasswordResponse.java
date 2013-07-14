@@ -6,6 +6,7 @@ package com.airAd.yaqinghui.business.api.vo.response;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
+import com.airAd.yaqinghui.business.model.Base;
 import com.airAd.yaqinghui.common.Constants;
 
 /**
@@ -13,27 +14,9 @@ import com.airAd.yaqinghui.common.Constants;
  * 
  * @author liyuhang
  */
-public class ChangePasswordResponse {
+public class ChangePasswordResponse extends Base {
 
-    private String flag;
-    private String msg;
     private String temp;
-
-    public String getFlag() {
-        return flag;
-    }
-
-    public void setFlag(String flag) {
-        this.flag = flag;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 
     public String getTemp() {
         return temp;
@@ -55,13 +38,13 @@ public class ChangePasswordResponse {
 
     public static ChangePasswordResponse instance(JSONObject obj) throws JSONException {
         ChangePasswordResponse res = new ChangePasswordResponse();
-        JSONObject result = obj.optJSONObject(Constants.FLAG_SUCC);
+		JSONObject result = obj.optJSONObject("PasswordModify");
         if (result != null) {
             res.setFlag(Constants.FLAG_SUCC);
-            res.setMsg(result.optString("msg"));
+			res.setMsg(result.optString("info"));
         }
         else {
-            result = obj.optJSONObject(Constants.FLAG_ERR);
+			result = obj.optJSONObject("ApiErrorInfo");
             if (result != null) {
                 res.setFlag(Constants.FLAG_ERR);
                 res.setMsg(result.optString("msg"));

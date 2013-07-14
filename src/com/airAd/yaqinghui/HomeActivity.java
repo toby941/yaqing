@@ -73,7 +73,6 @@ public class HomeActivity extends SlidingBaseActivity
 		super.onCreate(savedInstanceState);
 		setTheme(R.style.Theme_Sherlock_NoActionBar);
 		setContentView(R.layout.main);
-
 		JPushInterface.init(this);
 		JPushInterface.setAliasAndTags(this, MyApplication.getCurrentApp().getUser().getId(), null);
 		init();
@@ -109,6 +108,7 @@ public class HomeActivity extends SlidingBaseActivity
 		initComponent();
 		setPushClose();
 		getThumbBitmap();// 设置头像位图数据
+		mPushClose.setSheduleListData(scheduleDay);
 	}
 	/**
 	 * 设置时间数据
@@ -140,6 +140,7 @@ public class HomeActivity extends SlidingBaseActivity
 			final Calendar calendar= Calendar.getInstance();
 			int day= calendar.get(Calendar.DAY_OF_MONTH);
 		}
+
 		mPushClose.setSheduleListData(scheduleDay);
 	}
 	private void registerBroadcast()

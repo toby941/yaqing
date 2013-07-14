@@ -10,6 +10,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Cep.java
  * 
@@ -99,13 +101,8 @@ public class Cep {
 		cep.setContent(obj.getString("cepcontent"));
 		cep.setScore(obj.getString("score"));
 		cep.setIconType(obj.getString("type"));
-		//		ArrayList<String> pics = new ArrayList<String>();
-		//		String[] picArray = obj.getString("ceppictures").split(",");
-		//		for (int i = 0; i < picArray.length; i++) {
-		//			pics.add(picArray[i]);
-		//		}
-		//		cep.setPics(pics);
-		//		cep.setPic(obj.optString("ceppictureone"));
+		ArrayList<String> pics = new ArrayList<String>();
+		String pic = new String();
 		// cepevent
 		JSONArray eventsArr = obj.optJSONArray("event");
 		List<CepEvent> events = new ArrayList<CepEvent>();
@@ -121,9 +118,18 @@ public class Cep {
 				event.setMaxNum(Integer.parseInt(eventObj.optString("joinnum")));
 				event.setAttendNum(Integer.parseInt(eventObj
 						.optString("signupnum")));
+				event.setCepEventType(obj.optString("type"));
+				event.setFlag(obj.optString("flag"));
 				events.add(event);
+				//
+				pic = eventObj.optString("ceppictureone");
+
 			}
 			cep.setCepEvents(events);
+		}
+		if (StringUtils.isNotBlank(pic)) {
+			pics.add(pic);
+			cep.setPics(pics);
 		}
 		//
 		return cep;

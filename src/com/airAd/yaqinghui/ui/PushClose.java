@@ -4,8 +4,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -104,7 +107,6 @@ public class PushClose extends RelativeLayout
 				locationManager.removeUpdates(this);
 				parentActivity.lat= geoLat + "";
 				parentActivity.lng= geoLng + "";
-
 				Intent it= new Intent(parentActivity, CaptureActivity.class);
 				parentActivity.startActivityForResult(it, UserFragment.SCAN_QRCODE);
 				isLocating= false;
@@ -216,6 +218,7 @@ public class PushClose extends RelativeLayout
 		private LayoutInflater mInflater;
 		private String itemRemind;
 		private AssetManager assertManager;
+		private View cancelSchdule;
 		public ScheduleItemAdapter()
 		{
 			mInflater= LayoutInflater.from(mContext);
@@ -264,6 +267,8 @@ public class PushClose extends RelativeLayout
 			title.setText(data.getTitle());
 			place.setText(data.getPlace());
 			View banner= convertView.findViewById(R.id.banner);
+			cancelSchdule= convertView.findViewById(R.id.cancelSchduleBtn);
+			cancelSchdule.setOnClickListener(new CancelSchdule(data));
 			ImageView iconImage= (ImageView) convertView.findViewById(R.id.icon);
 			try
 			{
@@ -290,6 +295,31 @@ public class PushClose extends RelativeLayout
 				banner.setBackgroundColor(Color.parseColor(mContext.getString(R.color.schedule_training)));
 			}
 			return convertView;
+		}
+	}//end inner class
+	private final class CancelSchdule implements OnClickListener
+	{
+		private ScheduleItem item;
+		public CancelSchdule(ScheduleItem item)
+		{
+			this.item= item;
+		}
+		@Override
+		public void onClick(View view)
+		{
+			AlertDialog.Builder builder= new AlertDialog.Builder(mContext);
+			builder.setTitle(R.string.delete_schdule);
+			builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
+			{
+				public void onClick(DialogInterface dialog, int whichButton)
+				{
+					System.out.println(item.getTitle() + "," + item.getCepId());
+					AlarmManager am= (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+
+				}
+			});
+			builder.setNegativeButton(R.string.cancel, null);
+			builder.create().show();
 		}
 	}//end inner class
 	private final class ScanClick implements OnClickListener
@@ -386,7 +416,6 @@ public class PushClose extends RelativeLayout
 			// }
 		}
 	}// end inner class
-
 	public Calendar getSelectDateInt()
 	{
 		Calendar calender= Calendar.getInstance();
@@ -397,7 +426,6 @@ public class PushClose extends RelativeLayout
 		calender.set(Calendar.DAY_OF_MONTH, Integer.parseInt(selectedDate.getText().toString()));
 		return calender;
 	}
-
 	@Override
 	public void computeScroll()
 	{

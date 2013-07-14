@@ -10,31 +10,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.MediaStore.Audio;
-import cn.jpush.android.api.JPushInterface;
 
 import com.airAd.yaqinghui.NotifyDetailActivity;
 import com.airAd.yaqinghui.R;
-import com.airAd.yaqinghui.business.NotificationMessageService;
 import com.airAd.yaqinghui.business.model.NotificationMessage;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.Constants;
-public class PushMsgReceiver extends BroadcastReceiver
+public class AlarmReceiver extends BroadcastReceiver
 {
-	private NotificationMessageService dbService;
 	private Context mContext;
 	private User mUser;
 	private NotificationMessage message;
-	long[] vibrate=
-	{0, 100, 200, 300};
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
 		mContext= context;
-		dbService= new NotificationMessageService();
-		Bundle bundle= intent.getExtras();
 		try
 		{
 			mUser= User.instance(mContext.getSharedPreferences(Config.PACKAGE, Context.MODE_PRIVATE).getString(
@@ -47,35 +39,24 @@ public class PushMsgReceiver extends BroadcastReceiver
 			mUser= null;
 			return;
 		}
-		if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction()))
-		{// 推送的消息
-			//			System.out.println("接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
-			String orignJson= bundle.getString(JPushInterface.EXTRA_MESSAGE);
-			getPushMessage(orignJson);
-		}
+		getPushMessage(intent);
 	}
 	/**
 	 * 
 	 * @param origin
 	 */
-	private void getPushMessage(String origin)
+	private void getPushMessage(Intent intent)
 	{
-		message= NotificationMessage.instance(origin);
-		if (message == null)
-		{
-			return;
-		}
-		long notifyId= dbService.addMessage(message);
-		//		System.out.println("--->" + notifyId);
 		if (isInApp())
 		{
-			showPushMsgWithPop(notifyId);
+
 		}
 		else
 		{
-			showPushNotify(notifyId);
+
 		}
 	}
+
 	private void showPushNotify(long id)
 	{
 		NotificationManager manager= (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -88,7 +69,6 @@ public class PushMsgReceiver extends BroadcastReceiver
 		notification.defaults|= Notification.DEFAULT_VIBRATE;
 		notification.flags= Notification.FLAG_AUTO_CANCEL;
 		notification.sound= Uri.withAppendedPath(Audio.Media.INTERNAL_CONTENT_URI, "6");
-		notification.vibrate= vibrate;
 		manager.notify(R.drawable.icon, notification);
 	}
 	private void showPushMsgWithPop(long id)

@@ -7,7 +7,7 @@ public class ScheduleItem {
     public static final int TYPE_CEP_EVENT = 2;
 	public static final int TYPE_TRAINING= 3;
 
-    private Integer cid;
+	private Long cid;
     private String title;
     private String timeStr;
     private String place;
@@ -25,13 +25,22 @@ public class ScheduleItem {
     private Date addTime;
     private Long startTimel;
     private Date startTime;
+	private String iconType;
     //
 
-    public Integer getCid() {
+	public Long getCid() {
         return cid;
     }
 
-    public Long getStartTimel() {
+	public String getIconType() {
+		return iconType;
+	}
+
+	public void setIconType(String iconType) {
+		this.iconType = iconType;
+	}
+
+	public Long getStartTimel() {
         return startTimel;
     }
 
@@ -47,7 +56,7 @@ public class ScheduleItem {
         this.startTime = startTime;
     }
 
-    public void setCid(Integer cid) {
+	public void setCid(Long cid) {
         this.cid = cid;
     }
 

@@ -8,5 +8,5 @@ public class Constants {
     //
     public static final String FLAG_SUCC = "succ";
     public static final String FLAG_ERR = "err";
-    public static final String FLAG_ERR_MSG = "network error";
+	public static final String FLAG_ERR_MSG = "error";
 }//end class

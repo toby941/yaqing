@@ -3,8 +3,9 @@
  */
 package com.airAd.yaqinghui.business;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,34 +28,32 @@ public class ScheduleService extends BaseService {
 	 * @return
 	 */
 	public List<ScheduleItem> getScheduleItemsByDate(String userId, int Date) {
-		ScheduleItem item1= new ScheduleItem();
-		item1.setTitle("男子200m花样游泳决赛");
-		item1.setPlace("奥体中心");
-		item1.setItemType(ScheduleItem.TYPE_GAME);
-		item1.setPic("diving.png");
-		item1.setTimeStr(System.currentTimeMillis() + "");
-		ScheduleItem item2= new ScheduleItem();
-		item2.setTitle("亚洲文化村");
-		item2.setPlace("亚洲文化村活动中心");
-		item2.setItemType(ScheduleItem.TYPE_CEP_EVENT);
-		item2.setPic("cep_type_red.png");
-		item2.setTimeStr(System.currentTimeMillis() + "");
-		ScheduleItem item3= new ScheduleItem();
-		item3.setTitle("亚洲文化村");
-		item3.setPlace("亚洲文化村活动中心");
-		item3.setItemType(ScheduleItem.TYPE_TRAINING);
-		item3.setPic("tennis.png");
-		item3.setTimeStr(System.currentTimeMillis() + "");
-		List<ScheduleItem> ret= new LinkedList<ScheduleItem>();
-		ret.add(item1);
-		ret.add(item2);
-		ret.add(item3);
-		ret.add(item1);
-		ret.add(item1);
-		ret.add(item2);
-		ret.add(item3);
-		//
-		return ret;
+		List<ScheduleItem> scheduleItems = new ArrayList<ScheduleItem>();
+		SQLiteDatabase db = MyApplication.getCurrentReadDB();
+		Cursor cur = db.rawQuery(
+						"select cid, user_id, item_type,title, place, icon_type, start_time, add_time, ref_id ,day, cep_id from schedule where user_id = ? and day = ?",
+				new String[]{userId, Date + ""});
+		cur.moveToFirst();
+		while (!cur.isAfterLast()) {
+			ScheduleItem item = new ScheduleItem();
+			item.setCid(cur.getLong(0));
+			item.setUserId(cur.getString(1));
+			item.setItemType(cur.getInt(2));
+			item.setTitle(cur.getString(3));
+			item.setPlace(cur.getString(4));
+			item.setIconType(cur.getString(5));
+			item.setStartTime(new Date(cur.getLong(6)));
+			item.setStartTimel(cur.getLong(6));
+			item.setAddTime(new Date(cur.getLong(7)));
+			item.setRefId(cur.getString(8));
+			item.setDay(cur.getInt(9));
+			item.setCepId(cur.getString(10));
+			scheduleItems.add(item);
+			//
+			cur.moveToNext();
+		}
+		cur.close();
+		return scheduleItems;
 	}
 
 	/**
@@ -85,5 +84,23 @@ public class ScheduleService extends BaseService {
 			int scheduleItemId) {
 		Map<String, Object> errMap = new HashMap<String, Object>();
 		return errMap;
+	}
+	//
+	public ScheduleItem getCepEventScheduleItem(String cepId, String eventId) {
+		ScheduleItem scheduleItem = null;
+		SQLiteDatabase db = MyApplication.getCurrentReadDB();
+		Cursor cur = db
+				.rawQuery(
+						"select cid, user_id, item_type, title,place,icon_type from schedule where cep_id = ? and ref_id = ?",
+						new String[]{cepId, eventId});
+		cur.moveToFirst();
+		while (!cur.isAfterLast()) {
+			scheduleItem = new ScheduleItem();
+			scheduleItem.setCid(cur.getLong(0));
+			//
+			cur.moveToNext();
+		}
+		cur.close();
+		return scheduleItem;
 	}
 }

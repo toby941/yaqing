@@ -46,7 +46,6 @@ public class ChangePwdActivity extends BaseActivity
 	{
 		accountService= new AccountService();
 		progress= new ProgressBar(this);
-		task= new ChangePassTask();
 		mBackBtn= (ImageButton) findViewById(R.id.back_btn);
 		mBackBtn.setOnClickListener(new BackClick());
 		oldPassword= (EditText) findViewById(R.id.origin_password);
@@ -55,8 +54,6 @@ public class ChangePwdActivity extends BaseActivity
 		changeBtn= (Button) findViewById(R.id.changeBtn);
 		changeBtn.setOnClickListener(new ChangeClick());
 	}
-
-
 	private final class ChangeClick implements OnClickListener
 	{
 		@Override
@@ -65,7 +62,6 @@ public class ChangePwdActivity extends BaseActivity
 			doChangePwd();
 		}
 	}//end inner
-
 	private void doChangePwd()
 	{
 		orginPwd= oldPassword.getText().toString().trim();
@@ -76,6 +72,11 @@ public class ChangePwdActivity extends BaseActivity
 			Toast.makeText(this, R.string.change_error, Toast.LENGTH_SHORT).show();
 			return;
 		}
+		if (task != null)
+		{
+			task.cancel(true);
+		}
+		task= new ChangePassTask();
 		task.execute(0);
 	}
 	private final class ChangePassTask extends AsyncTask<Integer, Void, ChangePasswordResponse>
@@ -84,7 +85,6 @@ public class ChangePwdActivity extends BaseActivity
 		protected void onPreExecute()
 		{
 			super.onPreExecute();
-
 		}
 		@Override
 		protected ChangePasswordResponse doInBackground(Integer... params)
@@ -99,17 +99,27 @@ public class ChangePwdActivity extends BaseActivity
 		protected void onPostExecute(ChangePasswordResponse result)
 		{
 			super.onPostExecute(result);
-			Toast.makeText(ChangePwdActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
-			if (Constants.FLAG_SUCC.equalsIgnoreCase(result.getFlag()))//修改成功  下次登录
+			if (result != null)
 			{
-				SharedPreferences sp= getSharedPreferences(Config.PACKAGE, Context.MODE_PRIVATE);
-				Editor editor= sp.edit();
-				editor.putString(Config.USER_INFO_KEY, "");
-				editor.commit();
+				if (Constants.FLAG_SUCC.equals(result.getFlag()))
+				{
+					SharedPreferences sp= getSharedPreferences(Config.PACKAGE, Context.MODE_PRIVATE);
+					Editor editor= sp.edit();
+					editor.putString(Config.USER_INFO_KEY, "");
+					editor.commit();
+					Toast.makeText(ChangePwdActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+				}
+				else
+				{
+					Toast.makeText(ChangePwdActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+				}
+			}
+			else
+			{
+				Toast.makeText(ChangePwdActivity.this, R.string.login_failed, Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
-
 	private final class BackClick implements OnClickListener
 	{
 		@Override
@@ -118,15 +128,13 @@ public class ChangePwdActivity extends BaseActivity
 			ChangePwdActivity.this.finish();
 		}
 	}// end inner class
-
 	@Override
 	public void onDestroy()
 	{
 		super.onDestroy();
-
 		if (task != null)
 		{
-			task.execute(0);
+			task.cancel(true);
 		}
 	}
 }// end class
