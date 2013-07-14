@@ -68,8 +68,9 @@ public class GameService extends BaseService {
 		cValue.put("title", gameInfo.getTitle());
 		cValue.put("place", gameInfo.getPlace());
 		cValue.put("add_time", new Date().getTime());
-		cValue.put("time_str", gameInfo.getStartTime() + "");
+		cValue.put("start_time", gameInfo.getStartTime());
 		cValue.put("icon_type", picURL);
+		cValue.put("day", gameInfo.getDay());
 		//
 		db.insert("schedule", null, cValue);
 	}

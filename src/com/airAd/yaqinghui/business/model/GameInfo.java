@@ -6,6 +6,7 @@ package com.airAd.yaqinghui.business.model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -119,5 +120,17 @@ public class GameInfo {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+	
+	public int getDay()
+	{
+		Calendar c = Calendar.getInstance(); 
+		try {
+			c.setTime(sdf.parse(time.substring(0, time.indexOf("-"))));
+			return c.get(Calendar.DAY_OF_MONTH);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }
