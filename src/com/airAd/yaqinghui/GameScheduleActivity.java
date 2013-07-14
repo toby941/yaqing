@@ -45,14 +45,20 @@ public class GameScheduleActivity extends BaseActivity {
 	 */
 	private int addMyProjects() {
 		findViewBy(R.id.myProjectTitle).setVisibility(View.VISIBLE);
-		return addEvents(1);
+		return addEvents(1, 0, 1);
+	}
+	
+	private int addOtherProjects() {
+		return addEvents(3, 1, -1);
 	}
 
-	public int addEvents(int startPos) {
+	public int addEvents(int startPos, int gameStartPos, int length) {
 		LinearLayout rowLayout = null;
 		int row = 0;
-		for (int i = 0; i < myGameList.size(); i++) {
-			if (i % 4 == 0) {
+		if(length < 0)
+			length = myGameList.size();
+		for (int i = gameStartPos,count = 0; i < length; i++, count++) {
+			if (count % 4 == 0) {
 				if (rowLayout != null) {
 					mainLayout.addView(rowLayout, startPos + row - 1);
 				}
@@ -75,7 +81,6 @@ public class GameScheduleActivity extends BaseActivity {
 			lp.weight = 1;
 			eventView.setLayoutParams(lp);
 			rowLayout.addView(eventView);
-			eventView.load(mImageFetcher);
 		}
 		if (rowLayout != null && rowLayout.getChildCount() < 4) {
 			View spaceView = new View(this);
@@ -113,6 +118,7 @@ public class GameScheduleActivity extends BaseActivity {
 				Log.i("schedule", game.toString());
 			}
 			addMyProjects();
+			addOtherProjects();
 		}
 	}
 }// end class

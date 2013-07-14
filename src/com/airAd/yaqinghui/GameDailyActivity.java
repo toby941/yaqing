@@ -21,6 +21,7 @@ import com.airAd.yaqinghui.business.model.GameInfo;
 import com.airAd.yaqinghui.common.StringUtil;
 import com.airAd.yaqinghui.ui.CanCloseListView;
 import com.airAd.yaqinghui.ui.PushClose;
+import com.airAd.yaqinghui.ui.PushClose.OnDateClickListener;
 
 /**
  * @author Panyi
@@ -36,6 +37,7 @@ public class GameDailyActivity extends BaseActivity {
 	private OnClickListener addScheduleListener;
 	private List<String> storedInfoIdList;// 已经持久化的gameInfolist
 
+	private GameDailyTask task;
 	private String gameId;
 	private String gamePicUrl;
 	public static final String GAME_ID = "game_id";
@@ -55,7 +57,7 @@ public class GameDailyActivity extends BaseActivity {
 		setPushClose();
 		dailyAdapter = new DailyAdapter();
 		listView.setAdapter(dailyAdapter);
-		new GameDailyTask().execute(gameId);
+		doDailyTask(mPushClose.getFirstDate());
 		storedInfoIdList = gameService.queryScheduleIds();
 		Log.i("storedInfoIdList", storedInfoIdList.toString());
 		addScheduleListener = new OnClickListener() {
@@ -67,6 +69,13 @@ public class GameDailyActivity extends BaseActivity {
 				v.setEnabled(false);
 			}
 		};
+		mPushClose.setOnDateClickListener(new OnDateClickListener() {
+
+			@Override
+			public void onDateClick(Calendar calendar) {
+				doDailyTask(calendar);
+			}
+		});
 	}
 
 	/**
@@ -144,6 +153,16 @@ public class GameDailyActivity extends BaseActivity {
 		}
 	}
 
+	public void doDailyTask(Calendar calendar) {
+		gameInfoList.clear();
+		dailyAdapter.notifyDataSetChanged();
+		if (task != null && !task.isCancelled()) {
+			task.cancel(true);
+		}
+		task = new GameDailyTask();
+		task.execute(calendar);
+	}
+
 	public String formatTime(String time) {
 		return time.substring(time.indexOf(" ") + 1);
 	}
@@ -155,7 +174,8 @@ public class GameDailyActivity extends BaseActivity {
 		public Button addBtn;
 	}
 
-	private class GameDailyTask extends AsyncTask<String, Void, List<GameInfo>> {
+	private class GameDailyTask extends
+			AsyncTask<Calendar, Void, List<GameInfo>> {
 		@Override
 		protected void onPreExecute() {
 			progressbar.setVisibility(View.VISIBLE);
@@ -163,16 +183,12 @@ public class GameDailyActivity extends BaseActivity {
 		}
 
 		@Override
-		protected List<GameInfo> doInBackground(String... params) {
-			String gameId = params[0];
-			Calendar c = Calendar.getInstance();
-			c.set(2013, 7, 12);
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			return gameService.getGameInfo("00001", c.getTime());
+		protected List<GameInfo> doInBackground(Calendar... params) {
+			Calendar c = params[0];
+			/*
+			 * Calendar c = Calendar.getInstance(); c.set(2013, 7, 12);
+			 */
+			return gameService.getGameInfo(gameId, c.getTime());
 		}
 
 		@Override
