@@ -74,6 +74,7 @@ public class PushClose extends RelativeLayout
 	private boolean isLocating= false;
 	private ProgressDialog mProgressDialog;
 	private OnDateClickListener onDateClickListener;
+	private TextView bannerText;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -149,6 +150,7 @@ public class PushClose extends RelativeLayout
 	{
 		mBottomView= (LinearLayout) findViewById(R.id.bottom);
 		mTopView= (LinearLayout) findViewById(R.id.top);
+		bannerText= (TextView) top.findViewById(R.id.date_banner);
 		mBottomView.addView(bottom);
 		mTopView.addView(top);
 		mListView= (CanCloseListView) mTopView.findViewById(R.id.date_list);
@@ -184,6 +186,10 @@ public class PushClose extends RelativeLayout
 	 */
 	public void setDateHaveItems(Map<Integer, Integer> params)
 	{
+		for (int i= 0; i < dates.length; i++)
+		{
+			dates[i].setNoneActivity();
+		}//end for
 		if (params == null)
 			return;
 		for (int i= 0; i < dates.length; i++)
@@ -206,12 +212,10 @@ public class PushClose extends RelativeLayout
 		{
 			((HomeActivity) mContext).scheduleDay= day;
 		}
-
 		User user= MyApplication.getCurrentApp().getUser();
 		allDays= mScheduleService.getCalendlarScheduleData(user.getId());
 		mDataList= mScheduleService.getScheduleItemsByDate(user.getId(), day);
 		setDateHaveItems(allDays);
-		System.out.println("--->" + mDataList.size());
 		if (scheduleAdapter == null)
 		{
 			scheduleAdapter= new ScheduleItemAdapter();
@@ -219,6 +223,8 @@ public class PushClose extends RelativeLayout
 			return;
 		}
 		scheduleAdapter.notifyDataSetChanged();
+		if (day > 0)
+			bannerText.setText(Common.genBannerText(day));
 	}
 	private final class ScheduleItemAdapter extends BaseAdapter
 	{
@@ -279,7 +285,6 @@ public class PushClose extends RelativeLayout
 				cancelSchdule= convertView.findViewById(R.id.cancelSchduleBtn);
 				cancelSchdule.setOnClickListener(new CancelSchdule(data));
 				ImageView iconImage= (ImageView) convertView.findViewById(R.id.icon);
-				System.out.println("pic-->" + data.getIconType());
 				if (ScheduleItem.TYPE_GAME == data.getItemType())
 				{
 					banner.setBackgroundColor(Color.parseColor(mContext.getString(R.color.schedule_game)));
@@ -322,6 +327,14 @@ public class PushClose extends RelativeLayout
 				public void onClick(DialogInterface dialog, int whichButton)
 				{
 					System.out.println(item.getTitle() + "," + item.getCepId());
+					int ret= mScheduleService.doDelScheduleItem("" + item.getUserId(), item.getCid());
+					System.out.println(ret);
+					Context obj= mContext;
+					if (obj instanceof HomeActivity)
+					{
+						setSheduleListData(((HomeActivity) mContext).scheduleDay);
+						close();
+					}
 				}
 			});
 			builder.setNegativeButton(R.string.cancel, null);
@@ -340,10 +353,10 @@ public class PushClose extends RelativeLayout
 			if (openGPSSettings())
 			{// GPS确保打开
 				//				locationManager.removeUpdates(locationListener);
-			//				locationManager.setGpsEnable(true);
-			//				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);
-			//				isLocating= true;
-			//				mProgressDialog.show();
+				//				locationManager.setGpsEnable(true);
+				//				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);
+				//				isLocating= true;
+				//				mProgressDialog.show();
 				Intent it= new Intent(parentActivity, CaptureActivity.class);
 				parentActivity.startActivityForResult(it, UserFragment.SCAN_QRCODE);
 			}

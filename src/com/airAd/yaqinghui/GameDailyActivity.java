@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.airAd.yaqinghui.business.GameService;
 import com.airAd.yaqinghui.business.model.GameInfo;
+import com.airAd.yaqinghui.common.Common;
 import com.airAd.yaqinghui.common.StringUtil;
 import com.airAd.yaqinghui.ui.BackBaseActivity;
 import com.airAd.yaqinghui.ui.CanCloseListView;
@@ -46,6 +47,7 @@ public class GameDailyActivity extends BackBaseActivity {
 	private String gameId;
 	private String gamePicUrl;
 	private int checkboxWidth, checkboxHeight;
+	private TextView bannerText;
 	
 	public static final String GAME_ID = "game_id";
 	public static final String GAME_PIC_URL = "game_pic_url";
@@ -93,6 +95,7 @@ public class GameDailyActivity extends BackBaseActivity {
 			@Override
 			public void onDateClick(Calendar calendar) {
 				doDailyTask(calendar);
+				bannerText.setText(Common.genBannerText(calendar.get(Calendar.DAY_OF_MONTH)));
 			}
 		});
 	}
@@ -105,18 +108,16 @@ public class GameDailyActivity extends BackBaseActivity {
 		View bottomView = LayoutInflater.from(this)
 				.inflate(R.layout.date, null);
 		View topView = LayoutInflater.from(this).inflate(R.layout.dialy, null);
+		bannerText= (TextView) topView.findViewById(R.id.date_banner);
 		progressbar = (ProgressBar) topView.findViewById(R.id.progressBar);
 		listView = (CanCloseListView) topView.findViewById(R.id.date_list);
 		mPushClose.setContent(topView, bottomView);
 		final Calendar calendar = Calendar.getInstance();
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH) + 1;
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
 		int weekday = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 		TextView bannerText = (TextView) bottomView
 				.findViewById(R.id.home_date_banner);
 		TextView dateText = (TextView) topView.findViewById(R.id.date_banner);
-		bannerText.setText(StringUtil.dateOfDay(month) + "." + year);
 		dateText.setText(day + " " + StringUtil.retWeekName(weekday));
 	}
 

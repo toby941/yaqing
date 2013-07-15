@@ -3,6 +3,7 @@
  */
 package com.airAd.yaqinghui.business.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -20,7 +21,7 @@ public class CepEvent {
 	private static final String CEP_EVENT_FLAG_SIGNED_UP = "1";
 	private static final String CEP_EVENT_FLAG_CHECKED_IN = "2";
 	private static final String CEP_EVENT_FLAG_SCORED = "3";
-	private static final String CEP_EVENT_FLAG_SIGNUP_CANCELED = "9"; // 确认取消
+	private static final String CEP_EVENT_FLAG_SIGNUP_CANCELED= "9"; // 确认取消
 	private static final String CEP_EVENT_FLAG_DEFAULT = "A";
 
 	private String id;
@@ -157,7 +158,10 @@ public class CepEvent {
 		return ApiUtil.convertDateStringToDate(startTime).getTime();
 	}
 	public String getEventTimeRangeDescription() {
-		return startTime + "-" + endTime;
+		Date s= ApiUtil.convertDateStringToDate(startTime);
+		Date e= ApiUtil.convertDateStringToDate(endTime);
+		SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return df.format(s) + "-" + df.format(e).split(" ")[1];
 	}
 
 	public int getStartDayOfMonth() {

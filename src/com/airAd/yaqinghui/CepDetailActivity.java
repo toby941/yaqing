@@ -79,6 +79,7 @@ public class CepDetailActivity extends BaseActivity
 	private ImageView[] starsImg= new ImageView[STARS_NUM];
 	private SigninTask signTask;
 	private AssetManager assetManager;
+	private ProgressDialog proDialog;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -114,6 +115,7 @@ public class CepDetailActivity extends BaseActivity
 		params.setQrcode(twobarcode);
 		params.setLat(lat);
 		params.setLng(lng);
+		proDialog.show();
 		signTask.execute(params);
 	}
 	private final class SigninTask extends AsyncTask<CepEventCheckinParam, Void, CepEventCheckinResponse>
@@ -132,6 +134,7 @@ public class CepDetailActivity extends BaseActivity
 		protected void onPostExecute(CepEventCheckinResponse result)
 		{
 			super.onPostExecute(result);
+			proDialog.dismiss();
 			if (result != null)
 			{
 				if (Constants.FLAG_SUCC.equals(result.getFlag()))//签到成功
@@ -419,6 +422,7 @@ public class CepDetailActivity extends BaseActivity
 	private void init()
 	{
 		assetManager= getAssets();
+		proDialog= new ProgressDialog(this);
 		cepId= getIntent().getStringExtra(Config.CEP_ID);
 		mInflater= (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mImageFetcher= ImageFetcherFactory.genImageFetcher(this, R.drawable.ic_launcher);

@@ -2,7 +2,6 @@
  * Copyright 2013 Mitian Technology, Co., Ltd. All rights reserved.
  */
 package com.airAd.yaqinghui.business;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,28 +13,32 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.business.model.ScheduleItem;
-
 /**
  * ScheduleService.java
  * 
  * @author liyuhang
  */
-public class ScheduleService extends BaseService {
+public class ScheduleService extends BaseService
+{
 	/**
 	 * @param userId
 	 * @param Date
 	 *            传12 就是 12号
 	 * @return
 	 */
-	public List<ScheduleItem> getScheduleItemsByDate(String userId, int Date) {
-		List<ScheduleItem> scheduleItems = new ArrayList<ScheduleItem>();
-		SQLiteDatabase db = MyApplication.getCurrentReadDB();
-		Cursor cur = db.rawQuery(
+	public List<ScheduleItem> getScheduleItemsByDate(String userId, int Date)
+	{
+		List<ScheduleItem> scheduleItems= new ArrayList<ScheduleItem>();
+		SQLiteDatabase db= MyApplication.getCurrentReadDB();
+		Cursor cur= db
+				.rawQuery(
 						"select cid, user_id, item_type,title, place, icon_type, start_time, add_time, ref_id ,day, cep_id from schedule where user_id = ? and day = ?",
-				new String[]{userId, Date + ""});
+						new String[]
+						{userId, Date + ""});
 		cur.moveToFirst();
-		while (!cur.isAfterLast()) {
-			ScheduleItem item = new ScheduleItem();
+		while (!cur.isAfterLast())
+		{
+			ScheduleItem item= new ScheduleItem();
 			item.setCid(cur.getLong(0));
 			item.setUserId(cur.getString(1));
 			item.setItemType(cur.getInt(2));
@@ -55,22 +58,22 @@ public class ScheduleService extends BaseService {
 		cur.close();
 		return scheduleItems;
 	}
-
 	/**
 	 * @param userId
 	 * @return {13 => 1, 14 => 2}
 	 */
-	public Map<Integer, Integer> getCalendlarScheduleData(String userId) {
-		Map<Integer, Integer> ret = new HashMap<Integer, Integer>();
-		SQLiteDatabase db = MyApplication.getCurrentReadDB();
+	public Map<Integer, Integer> getCalendlarScheduleData(String userId)
+	{
+		Map<Integer, Integer> ret= new HashMap<Integer, Integer>();
+		SQLiteDatabase db= MyApplication.getCurrentReadDB();
 		//
-		Cursor cur = db.rawQuery(
-						"select day, count(1) num from schedule where user_id = ? group by day",
-				new String[]{userId});
+		Cursor cur= db.rawQuery("select day, count(1) num from schedule where user_id = ? group by day", new String[]
+		{userId});
 		cur.moveToFirst();
-		while(!cur.isAfterLast()){
-			int day = cur.getInt(0);
-			int num = cur.getInt(1);
+		while (!cur.isAfterLast())
+		{
+			int day= cur.getInt(0);
+			int num= cur.getInt(1);
 			ret.put(day, num);
 			cur.moveToNext();
 		}
@@ -78,24 +81,28 @@ public class ScheduleService extends BaseService {
 		//
 		return ret;
 	}
-
 	// 删除个人行程
-	public Map<String, Object> doDelScheduleItem(String userId,
-			int scheduleItemId) {
-		Map<String, Object> errMap = new HashMap<String, Object>();
-		return errMap;
+	public int doDelScheduleItem(String userId, long scheduleItemId)
+	{
+		Map<String, Object> errMap= new HashMap<String, Object>();
+		SQLiteDatabase db= MyApplication.getCurrentWirteDB();
+		int cur= db.delete("schedule", "cid = ? and user_id= ?", new String[]
+		{scheduleItemId + "", userId});
+		return cur;
 	}
 	//
-	public ScheduleItem getCepEventScheduleItem(String cepId, String eventId) {
-		ScheduleItem scheduleItem = null;
-		SQLiteDatabase db = MyApplication.getCurrentReadDB();
-		Cursor cur = db
-				.rawQuery(
-						"select cid, user_id, item_type, title,place,icon_type from schedule where cep_id = ? and ref_id = ?",
-						new String[]{cepId, eventId});
+	public ScheduleItem getCepEventScheduleItem(String cepId, String eventId)
+	{
+		ScheduleItem scheduleItem= null;
+		SQLiteDatabase db= MyApplication.getCurrentReadDB();
+		Cursor cur= db.rawQuery(
+				"select cid, user_id, item_type, title,place,icon_type from schedule where cep_id = ? and ref_id = ?",
+				new String[]
+				{cepId, eventId});
 		cur.moveToFirst();
-		while (!cur.isAfterLast()) {
-			scheduleItem = new ScheduleItem();
+		while (!cur.isAfterLast())
+		{
+			scheduleItem= new ScheduleItem();
 			scheduleItem.setCid(cur.getLong(0));
 			//
 			cur.moveToNext();

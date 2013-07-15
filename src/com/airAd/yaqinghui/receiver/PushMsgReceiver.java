@@ -66,7 +66,6 @@ public class PushMsgReceiver extends BroadcastReceiver
 			return;
 		}
 		long notifyId= dbService.addMessage(message);
-		//		System.out.println("--->" + notifyId);
 		if (isInApp())
 		{
 			showPushMsgWithPop(notifyId);
