@@ -122,4 +122,9 @@
 	<string name="number">NO.</string>
 	<string name="watch_success">关注成功</string>
 	<string name="watch_failed">关注失败</string>
+	<string name="get_medal">获得CEP活动勋章一枚</string>
+	<string name="OK">OK !</string>
+	<string name="cep_socre1">整体评价</string>
+	<string name="cep_socre2">组织水平 </string>
+	<string name="cep_socre3">个人收获 </string>	
 </resources>

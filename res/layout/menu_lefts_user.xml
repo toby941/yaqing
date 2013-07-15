@@ -211,6 +211,7 @@
                             android:src="@drawable/baoming_none" />
 
                         <TextView
+                            android:id="@+id/order_num"
                             android:visibility="invisible"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -238,6 +239,7 @@
                             android:src="@drawable/qiandao_none" />
                         
                          <TextView
+                             android:id="@+id/signin_num"
                               android:visibility="invisible"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -265,6 +267,7 @@
                             android:src="@drawable/pinlun_none" />
                         
                          <TextView
+                            android:id="@+id/comment_num"
                             android:visibility="invisible"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

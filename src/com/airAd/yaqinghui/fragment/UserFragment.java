@@ -22,6 +22,8 @@ import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.MyCepActivity;
 import com.airAd.yaqinghui.R;
+import com.airAd.yaqinghui.business.NotificationMessageService;
+import com.airAd.yaqinghui.business.model.NotificationMessage;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.ui.CustomViewPager;
 import com.amap.api.location.AMapLocation;
@@ -51,6 +53,7 @@ public class UserFragment extends Fragment
 	private SettingsFragment settingFragment;
 	private ProgressDialog mProgressDialog;
 	private ImageView myCepOrder, myCepSingn, myCepComment;
+	private TextView orderNumText, signNumText, commentNumText;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -120,6 +123,9 @@ public class UserFragment extends Fragment
 		final View view= inflater.inflate(R.layout.menu_lefts_user, container, false);
 		// TODO
 		setThumbImage(view);
+		orderNumText= (TextView) view.findViewById(R.id.order_num);
+		signNumText= (TextView) view.findViewById(R.id.signin_num);
+		commentNumText= (TextView) view.findViewById(R.id.comment_num);
 		thumbImage= (ImageView) view.findViewById(R.id.headpic);
 		thumbImage.setOnClickListener(new ThumbClick());
 		signImage= (Button) view.findViewById(R.id.sign);
@@ -135,11 +141,54 @@ public class UserFragment extends Fragment
 		{
 			TextView userName= (TextView) view.findViewById(R.id.username);
 			userName.setText(user.getName());// 设置用户名
-			myCepOrder.setOnClickListener(new GotoMyCep(MYCEP_ORDER));
-			myCepSingn.setOnClickListener(new GotoMyCep(MYCEP_SIGNIN));
-			myCepComment.setOnClickListener(new GotoMyCep(MYCEP_COMMENT));
+			myCepOrder.setOnClickListener(new GotoMyCep(NotificationMessage.TYPE_CEPEVENT_SIGNUP_HIS));
+			myCepSingn.setOnClickListener(new GotoMyCep(NotificationMessage.TYPE_CEPEVENT_CHECKIN_HIS));
+			myCepComment.setOnClickListener(new GotoMyCep(NotificationMessage.TYPE_CEPEVENT_SCORE_HIS));
 		}
 		return view;
+	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		NotificationMessageService service= new NotificationMessageService();
+		int ordernum= 0;
+		int signnum= 1;
+		int commentnum= 2;
+		if (ordernum > 0)
+		{
+			myCepOrder.setImageResource(R.drawable.baoming);
+			orderNumText.setVisibility(View.VISIBLE);
+			orderNumText.setText(ordernum + "");
+		}
+		else
+		{
+			myCepOrder.setImageResource(R.drawable.baoming_none);
+			orderNumText.setVisibility(View.INVISIBLE);
+		}
+		if (signnum > 0)
+		{
+			myCepSingn.setImageResource(R.drawable.qiandao);
+			signNumText.setVisibility(View.VISIBLE);
+			signNumText.setText(signnum + "");
+		}
+		else
+		{
+			myCepSingn.setImageResource(R.drawable.qiandao_none);
+			signNumText.setVisibility(View.INVISIBLE);
+		}
+		if (commentnum > 0)
+		{
+			myCepComment.setImageResource(R.drawable.pinlun);
+			commentNumText.setVisibility(View.VISIBLE);
+			commentNumText.setText(commentnum + "");
+		}
+		else
+		{
+			myCepComment.setImageResource(R.drawable.pinlun_none);
+			commentNumText.setVisibility(View.INVISIBLE);
+		}
 	}
 	private void setThumbImage(View view)
 	{
@@ -150,11 +199,6 @@ public class UserFragment extends Fragment
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
-	}
-	@Override
-	public void onResume()
-	{
-		super.onResume();
 	}
 	@Override
 	public void onPause()
@@ -225,10 +269,10 @@ public class UserFragment extends Fragment
 			if (openGPSSettings())
 			{// GPS确保打开
 				//				locationManager.removeUpdates(locationListener);
-			//				locationManager.setGpsEnable(true);
-			//				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);
-			//				isLocating= true;
-			//				mProgressDialog.show();
+				//				locationManager.setGpsEnable(true);
+				//				locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 5000, 10, locationListener);
+				//				isLocating= true;
+				//				mProgressDialog.show();
 				Intent it= new Intent(getActivity(), CaptureActivity.class);
 				getActivity().startActivityForResult(it, SCAN_QRCODE);
 			}

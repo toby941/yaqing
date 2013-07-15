@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ShareActivity extends BaseActivity {
 	public static Oauth2AccessToken accessToken;
@@ -62,6 +63,7 @@ public class ShareActivity extends BaseActivity {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Toast.makeText(ShareActivity.this, "程序错误，检查是否插入sd卡", Toast.LENGTH_SHORT).show();
 		}
 
 	}
@@ -182,12 +184,14 @@ public class ShareActivity extends BaseActivity {
 		@Override
 		public void onError(WeiboException arg0) {
 			// TODO Auto-generated method stub
+			Toast.makeText(ShareActivity.this, "发送失败，检查网络", Toast.LENGTH_SHORT).show();
 
 		}
 
 		@Override
 		public void onIOException(IOException arg0) {
 			// TODO Auto-generated method stub
+			Toast.makeText(ShareActivity.this, "发送失败，检查是否插入sd卡", Toast.LENGTH_SHORT).show();
 
 		}
 
@@ -202,6 +206,7 @@ public class ShareActivity extends BaseActivity {
 			fOut = new FileOutputStream(f);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			Toast.makeText(ShareActivity.this, "发送失败，检查是否插入sd卡", Toast.LENGTH_SHORT).show();
 		}
 		mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
 		try {

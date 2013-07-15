@@ -136,6 +136,7 @@ public class HomeActivity extends SlidingBaseActivity
 		int weekday= calendar.get(Calendar.DAY_OF_WEEK) - 1;
 		TextView dateText= (TextView) topView.findViewById(R.id.date_banner);
 		dateText.setText(day + " " + StringUtil.retWeekName(weekday));
+		//		mPushClose.setSelectedDay(day);
 	}
 	@Override
 	protected void onResume()
@@ -348,7 +349,8 @@ public class HomeActivity extends SlidingBaseActivity
 				String twobarcode= data.getStringExtra(CaptureActivity.FLAG);
 				Log.e("yq", twobarcode);
 				// System.out.println(twobarcode);
-				requestSign(twobarcode, MyApplication.getCurrentApp().getUser().getId(), "", "");
+				//199.8888,46.8897的
+				requestSign(twobarcode, MyApplication.getCurrentApp().getUser().getId(), "199.8888", "46.8897");
 			}
 		}
 	}

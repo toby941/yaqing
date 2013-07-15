@@ -11,6 +11,10 @@ import java.util.Date;
  * @author liyuhang
  */
 public class Badge {
+	public static final int BADGE_1 = 1;
+	public static final int BADGE_2 = 2;
+	public static final int BADGE_3 = 3;
+
     private Integer cid;
     private String id;
     private Long addTimel;
@@ -75,4 +79,14 @@ public class Badge {
         this.eventId = eventId;
     }
 
+	public static int getBadgeId(String cepId) {
+    	if("1".equals(cepId)){
+    		return BADGE_1;
+    	}else if("2".equals(cepId) || "3".equals(cepId)){
+    		return BADGE_2;
+		} else if ("6".equals(cepId) || "5".equals(cepId)) {
+    		return BADGE_3;
+    	}
+		return BADGE_1;
+    }
 }

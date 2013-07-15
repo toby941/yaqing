@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,8 @@ import com.airAd.framework.worker.ImageFetcher;
 import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
+import com.airAd.yaqinghui.business.BadgeService;
+import com.airAd.yaqinghui.business.model.Badge;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.FileUtils;
@@ -70,6 +73,12 @@ public class UserDetailFragment extends Fragment
 	private Button mConfirmSet;
 	private Button mCancelSet;
 	private AssetManager assertManager;
+	private ImageView redMedalImg;
+	private ImageView blueMedalImg;
+	private ImageView greenMedalImg;
+	private TextView redMedalNum;
+	private TextView blueMedalNum;
+	private TextView greenMedalNum;
 	/* 拍照的照片存储位置 */
 	private static final File PHOTO_DIR= new File(Environment.getExternalStorageDirectory() + "/dcim/Camera");
 	public static UserDetailFragment newInstance(CustomViewPager gallery, ImageFetcher imageFetcher)
@@ -98,6 +107,12 @@ public class UserDetailFragment extends Fragment
 	{
 		final View view= inflater.inflate(R.layout.menu_lefts_userdetail, container, false);
 		// TODO
+		redMedalImg= (ImageView) view.findViewById(R.id.red_medal_icon);
+		blueMedalImg= (ImageView) view.findViewById(R.id.blue_medal_icon);
+		greenMedalImg= (ImageView) view.findViewById(R.id.green_medal_icon);
+		redMedalNum= (TextView) view.findViewById(R.id.red_num);
+		blueMedalNum= (TextView) view.findViewById(R.id.blue_num);
+		greenMedalNum= (TextView) view.findViewById(R.id.green_num);
 		parentView= view.findViewById(R.id.main);
 		setPopWindow(view, inflater);
 		setConfirmWindow(view, inflater);
@@ -129,6 +144,63 @@ public class UserDetailFragment extends Fragment
 			}
 		}
 		return view;
+	}
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		BadgeService badgeService= new BadgeService();
+		Map<Integer, Integer> map= badgeService.getBadgesMapData(MyApplication.getCurrentApp().getUser().getId());
+		if (map == null)
+		{
+			return;
+		}
+		Integer blue= map.get(Badge.BADGE_1);
+		Integer red= map.get(Badge.BADGE_2);
+		Integer green= map.get(Badge.BADGE_3);
+
+		if (red == null)
+		{
+			redMedalImg.setImageResource(R.drawable.medal_red_none);
+			redMedalNum.setVisibility(View.INVISIBLE);
+		}
+		else
+		{
+			redMedalImg.setImageResource(R.drawable.medal_red);
+			redMedalNum.setVisibility(View.VISIBLE);
+			if (red.intValue() > 0)
+			{
+				redMedalNum.setText(red + "");
+			}
+		}
+		if (blue == null)
+		{
+			blueMedalImg.setImageResource(R.drawable.medal_blue_none);
+			blueMedalNum.setVisibility(View.INVISIBLE);
+		}
+		else
+		{
+			blueMedalImg.setImageResource(R.drawable.medal_blue);
+			blueMedalNum.setVisibility(View.VISIBLE);
+			if (blue.intValue() > 0)
+			{
+				blueMedalNum.setText(blue + "");
+			}
+		}
+		if (green == null)
+		{
+			greenMedalImg.setImageResource(R.drawable.medal_green_none);
+			greenMedalNum.setVisibility(View.INVISIBLE);
+		}
+		else
+		{
+			greenMedalImg.setImageResource(R.drawable.medal_green);
+			greenMedalNum.setVisibility(View.VISIBLE);
+			if (green.intValue() > 0)
+			{
+				greenMedalNum.setText(green + "");
+			}
+		}
 	}
 	private void setPopWindow(View view, LayoutInflater inflater)
 	{
@@ -221,11 +293,6 @@ public class UserDetailFragment extends Fragment
 		super.onActivityCreated(savedInstanceState);
 	}
 	@Override
-	public void onResume()
-	{
-		super.onResume();
-	}
-	@Override
 	public void onPause()
 	{
 		super.onPause();
@@ -236,7 +303,6 @@ public class UserDetailFragment extends Fragment
 		super.onDestroy();
 		System.gc();
 	}
-
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{

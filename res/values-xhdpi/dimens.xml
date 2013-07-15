@@ -16,4 +16,5 @@
     <dimen name="cep_item_type_bottom">85dp</dimen>
     <dimen name="cep_item_type_left">40dp</dimen>
     <dimen name="cep_shake_offset">33dp</dimen>
+     <dimen name="cep_top_pic_height">180dp</dimen>
 </resources>

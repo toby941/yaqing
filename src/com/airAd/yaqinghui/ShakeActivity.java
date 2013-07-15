@@ -46,7 +46,7 @@ public class ShakeActivity extends BaseActivity
 	private float last_x= 0.0f;
 	private float last_y= 0.0f;
 	private float last_z= 0.0f;
-	private static final int SHAKE_THRESHOLD= 600;
+	private static final int SHAKE_THRESHOLD= 500;
 	private boolean isRunning= true;
 	private ImageView typeImage;
 	private TextView title, content;
