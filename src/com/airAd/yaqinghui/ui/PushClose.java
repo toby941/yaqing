@@ -296,7 +296,7 @@ public class PushClose extends RelativeLayout
 				{
 					banner.setBackgroundColor(Color.parseColor(mContext.getString(R.color.schedule_training)));
 				}
-				iconImage.setImageBitmap(BitmapFactory.decodeStream(assertManager.open(data.getIconType() + ".png")));
+				
 			}
 			catch (Exception e)
 			{
