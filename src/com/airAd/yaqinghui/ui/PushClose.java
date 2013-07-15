@@ -35,6 +35,7 @@ import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.business.ScheduleService;
+import com.airAd.yaqinghui.business.model.Game;
 import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Common;
@@ -224,7 +225,18 @@ public class PushClose extends RelativeLayout
 		}
 		scheduleAdapter.notifyDataSetChanged();
 		if (day > 0)
+		{
 			bannerText.setText(Common.genBannerText(day));
+		}
+	}
+	public void setSelectedDay(int day)
+	{
+		int index = day-DAYS;
+		if(index>=0 && index<=dates.length){
+			dates[index].setTextColor(SELECTED_COLOR);
+			dates[index].setBackgroundColor(UNSELECTED_COLOR);
+			selectedDate= dates[index];
+		}
 	}
 	private final class ScheduleItemAdapter extends BaseAdapter
 	{
@@ -288,20 +300,24 @@ public class PushClose extends RelativeLayout
 				if (ScheduleItem.TYPE_GAME == data.getItemType())
 				{
 					banner.setBackgroundColor(Color.parseColor(mContext.getString(R.color.schedule_game)));
+					iconImage.setImageResource(Game.getResourceId(data.getIconType()));
 				}
 				else if (ScheduleItem.TYPE_CEP_EVENT == data.getItemType())
 				{
 					banner.setBackgroundColor(Color.parseColor(mContext.getString(R.color.schedule_cep)));
 					gotos.setVisibility(View.VISIBLE);
 					cepZone.setVisibility(View.VISIBLE);
+					iconImage
+							.setImageBitmap(BitmapFactory.decodeStream(assertManager.open(data.getIconType() + ".png")));
 					mainInfo.setOnClickListener(new GotoCep(data.getCepId()));
 					signBtn.setOnClickListener(new ScanClick());
 				}
 				else if (ScheduleItem.TYPE_TRAINING == data.getItemType())
 				{
 					banner.setBackgroundColor(Color.parseColor(mContext.getString(R.color.schedule_training)));
+					iconImage.setImageResource(Game.getResourceId(data.getIconType()));
 				}
-				iconImage.setImageBitmap(BitmapFactory.decodeStream(assertManager.open(data.getIconType() + ".png")));
+
 			}
 			catch (Exception e)
 			{

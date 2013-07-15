@@ -150,7 +150,10 @@ public class NotificationMessage {
 	}
 
 	@Override
-	public String toString() {
-		return "title:" + title + " \r\ncontent:" + content;
+	public String toString()
+	{
+		return "NotificationMessage [cid=" + cid + ", id=" + id + ", readFlag=" + readFlag + ", content=" + content
+				+ ", messageType=" + messageType + ", addTimeStr=" + addTimeStr + ", title=" + title + ", cepId="
+				+ cepId + ", eventId=" + eventId + ", userId=" + userId + ", status=" + status + "]";
 	}
 }

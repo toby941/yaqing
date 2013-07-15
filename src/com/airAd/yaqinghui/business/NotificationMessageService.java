@@ -55,33 +55,37 @@ public class NotificationMessageService extends BaseService {
 	public long addMessage(NotificationMessage message) {
 		long result = -1;
 		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
-		ContentValues cValue = new ContentValues();
-		//
-		cValue.put("user_id", message.getUserId());
-		cValue.put("title", message.getTitle());
-		cValue.put("content", message.getContent());
-		cValue.put("message_type", message.getMessageType());
-		cValue.put("read_flag", message.getReadFlag());
-		cValue.put("add_time", message.getAddTimel());
-		//
-		result = db.insert("messages", null, cValue);
-		// 如果是活动，则插入个人行程
-		if (NotificationMessage.TYPE_CEPEVENT_SIGNUP_HIS.equals(message
+		if (NotificationMessage.TYPE_NOTIFICATION.equals(message
 				.getMessageType())) {
+			ContentValues cValue = new ContentValues();
+			//
+			cValue.put("user_id", message.getUserId());
+			cValue.put("title", message.getTitle());
+			cValue.put("content", message.getContent());
+			cValue.put("message_type", message.getMessageType());
+			cValue.put("read_flag", message.getReadFlag());
+			cValue.put("add_time", message.getAddTimel());
+			//
+			result = db.insert("messages", null, cValue);
+		} else if (NotificationMessage.TYPE_CEPEVENT_SIGNUP_HIS.equals(message
+				.getMessageType())) {
+			// 如果是活动，则插入个人行程
 			ScheduleItem si = new ScheduleService().getCepEventScheduleItem(
 					message.getCepId(), message.getEventId());
-			if (si == null) {
-				Cep cep = new CepService().getCep(message.getUserId(),
-						message.getCepId());
-				CepEvent cepEvent = null;
-				List<CepEvent> events = cep.getCepEvents();
-				for(CepEvent event : events)
-				{
-					if(message.getEventId().equals(event.getId())){
-						cepEvent = event;
-						break;
-					}
+			// 查出对应的cepId
+			Cep cep = new CepService().getCep(message.getUserId(),
+					message.getCepId());
+			CepEvent cepEvent = null;
+			List<CepEvent> events = cep.getCepEvents();
+			for (CepEvent event : events) {
+				if (message.getEventId().equals(event.getId())) {
+					cepEvent = event;
+					break;
 				}
+			}
+			// 如果个人行程中已经有则不重复插入
+			if (si == null) {
+
 				// 村外活动，数据库里本来没记录，插入
 				ContentValues params = new ContentValues();
 				//
@@ -98,10 +102,24 @@ public class NotificationMessageService extends BaseService {
 				//
 				db.insert("schedule", null, params);
 			}
+			// 插入报名历史记录
+			ContentValues cValue = new ContentValues();
+			//
+			cValue.put("user_id", message.getUserId());
+			cValue.put("title", message.getTitle());
+			cValue.put("content", message.getContent());
+			cValue.put("message_type", message.getMessageType());
+			cValue.put("read_flag", message.getReadFlag());
+			cValue.put("add_time", message.getAddTimel());
+			cValue.put("cep_id", cep.getId());
+			cValue.put("cep_title", cep.getTitle());
+			cValue.put("cep_place", cepEvent.getPlace());
+			// TODO
+			//
+			result = db.insert("messages", null, cValue);
 		}
 		return result;
 	}
-
 	public NotificationMessage getMessage(long id) {
 		NotificationMessage message = new NotificationMessage();
 		SQLiteDatabase db = MyApplication.getCurrentReadDB();

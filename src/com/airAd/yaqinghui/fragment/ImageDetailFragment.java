@@ -1,10 +1,5 @@
 package com.airAd.yaqinghui.fragment;
 
-import com.airAd.framework.worker.ImageFetcher;
-import com.airAd.framework.worker.ImageWorker;
-import com.airAd.yaqinghui.HomeActivity;
-import com.airAd.yaqinghui.R;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,8 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.airAd.framework.worker.ImageFetcher;
+import com.airAd.framework.worker.ImageWorker;
+import com.airAd.yaqinghui.R;
+import com.airAd.yaqinghui.business.model.Cep;
+
 /**
- * 展示图片的Fragment
+ * 展示图片锟斤拷Fragment
  * 
  * @author Panyi
  * 
@@ -23,10 +23,13 @@ public class ImageDetailFragment extends Fragment {
 	private String mImageUrl;
 	private ImageView mImageView;
 	public ImageFetcher mImageFetcher;
+	public Cep cep;
 
-	public static ImageDetailFragment newInstance(String imageUrl) {
+	public static ImageDetailFragment newInstance(String imageUrl, Cep cep)
+	{
 		final ImageDetailFragment f = new ImageDetailFragment();
 		final Bundle args = new Bundle();
+		f.cep= cep;
 		args.putString(IMAGE_DATA_EXTRA, imageUrl);
 		f.setArguments(args);
 		return f;
@@ -64,12 +67,16 @@ public class ImageDetailFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		if(mImageFetcher==null){
-			if (HomeActivity.class.isInstance(getActivity())) {
-				mImageFetcher = ((HomeActivity) getActivity()).getImageFetcher();
-				mImageFetcher.loadImage(mImageUrl, mImageView);
-			}
+			mImageView.setImageResource(Cep.getCepSmallPicRes(cep.getId()));
+			//			if (HomeActivity.class.isInstance(getActivity())) {
+			//				mImageFetcher = ((HomeActivity) getActivity()).getImageFetcher();
+			//				mImageFetcher.loadImage(mImageUrl, mImageView);
+			//				//				img.setImageResource(Cep.getCepBigPicRes(cep.getId()));
+			//				mImageView.setImageResource(Cep.getCepSmallPicRes(cep.getId()));
+			//			}
 		}else{
-			mImageFetcher.loadImage(mImageUrl, mImageView);
+			//			mImageFetcher.loadImage(mImageUrl, mImageView);
+			mImageView.setImageResource(Cep.getCepSmallPicRes(cep.getId()));
 		}
 	}
 

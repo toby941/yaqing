@@ -1,11 +1,19 @@
 <resources>
+
     <style name="AppTheme" parent="android:Theme.Light" />
-    <style name="PopupAnimation" parent="android:Animation" mce_bogus="1">
-		<item name="android:windowEnterAnimation">@anim/popup_enter</item>   
-        <item name="android:windowExitAnimation">@anim/popup_exit</item>   
-    </style>  
-     <style name="PushPopupAnimation" parent="android:Animation" mce_bogus="1">
-		<item name="android:windowEnterAnimation">@anim/popup_enter</item>   
-        <item name="android:windowExitAnimation">@anim/popup_exit</item>   
-    </style>  
+
+    <style name="PopupAnimation" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>
+    </style>
+
+    <style name="PushPopupAnimation" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/popup_scale_enter</item>
+        <item name="android:windowExitAnimation">@anim/popup_scale_exit</item>
+    </style>
+
+    <style name="myratingbar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable"> @drawable/myratingbar</item>
+    </style>
+
 </resources>

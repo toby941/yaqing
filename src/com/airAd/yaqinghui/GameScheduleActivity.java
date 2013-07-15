@@ -112,7 +112,7 @@ public class GameScheduleActivity extends BackBaseActivity {
 		protected void onPostExecute(List<Game> result) {
 			myGameList = result;
 			for (Game game : result) {
-				Log.i("schedule", game.toString());
+				//Log.i("schedule", game.toString());
 			}
 			addMyProjects();
 			addOtherProjects();

@@ -160,7 +160,7 @@ public class CepEvent {
 	public String getEventTimeRangeDescription() {
 		Date s= ApiUtil.convertDateStringToDate(startTime);
 		Date e= ApiUtil.convertDateStringToDate(endTime);
-		SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		return df.format(s) + "-" + df.format(e).split(" ")[1];
 	}
 

@@ -74,7 +74,8 @@ public class CepDetailActivity extends BaseActivity
 	private int sub_cur;
 	private int sub_start, sub_end;
 	private int event_length;
-	public String lat, lng;
+	public final String lat= "46.8897";
+	public final String lng= "199.8888";
 	private ImageView typeImage;
 	private ImageView[] starsImg= new ImageView[STARS_NUM];
 	private SigninTask signTask;
@@ -140,7 +141,6 @@ public class CepDetailActivity extends BaseActivity
 				if (Constants.FLAG_SUCC.equals(result.getFlag()))//签到成功
 				{
 					Toast.makeText(CepDetailActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
-					//勋章操作
 				}
 				else
 				{
@@ -181,10 +181,11 @@ public class CepDetailActivity extends BaseActivity
 			}
 			for (int i= 0; i < cep.getCepEvents().size(); i++)
 			{
-				int number= i + 1;
+				String number= cep.getCepEvents().get(i).getId();
 				cep.getCepEvents().get(i).setName(getString(R.string.number) + number);
 			}//end for i
-			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this.getSupportFragmentManager(), cep.getPics()));
+			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this.getSupportFragmentManager(),
+					cep.getPics(), cep));
 			//typeImage.setImageResource(Common.getCepTypePic(cep.getIconType()));
 			try
 			{
@@ -204,7 +205,7 @@ public class CepDetailActivity extends BaseActivity
 		}
 	}// end inner class
 	private void setEventComponent()
-	{
+	{
 		if (cep.getCepEvents().size() == 1)// 仅有一场活动
 		{
 			eventHeaderView.setVisibility(View.GONE);
@@ -326,7 +327,7 @@ public class CepDetailActivity extends BaseActivity
 	private void eventToIndex(int index)
 	{
 		if (index >= sub_start && index < sub_end)
-		{
+		{
 			if (sub_start == 0 && sub_end != event_length)// 在头部
 			{
 				if (index == sub_start)
@@ -339,7 +340,7 @@ public class CepDetailActivity extends BaseActivity
 					sub_start= index - 1;
 				}
 			}
-			else if (sub_end == event_length && sub_start != 0)
+			else if (sub_end == event_length && sub_start != 0)
 			{// 在尾部
 				if (index == event_length - 1)
 				{
@@ -481,17 +482,17 @@ public class CepDetailActivity extends BaseActivity
 	private class ImagePagerAdapter extends FragmentStatePagerAdapter
 	{
 		private final List<String> picList;
-		public ImagePagerAdapter(FragmentManager fm, List<String> galleryList)
+		private final Cep itemCep;
+		public ImagePagerAdapter(FragmentManager fm, List<String> galleryList, Cep itemCep)
 		{
 			super(fm);
 			this.picList= galleryList;
+			this.itemCep= itemCep;
 		}
 		@Override
 		public Fragment getItem(int position)
 		{
-			return ImageDetailFragment.newInstance(
-					picList.get(position),
-					ImageFetcherFactory.genImageFetcher(CepDetailActivity.this));
+			return ImageDetailFragment.newInstance(picList.get(position), itemCep);
 		}
 		@Override
 		public int getCount()

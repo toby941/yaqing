@@ -15,8 +15,10 @@ import com.airAd.yaqinghui.business.api.vo.param.CepEventScoreParam;
 import com.airAd.yaqinghui.business.api.vo.response.CepEventCheckinResponse;
 import com.airAd.yaqinghui.business.api.vo.response.CepEventReservationResponse;
 import com.airAd.yaqinghui.business.api.vo.response.CepEventScoreResponse;
+import com.airAd.yaqinghui.business.model.Badge;
 import com.airAd.yaqinghui.business.model.Cep;
 import com.airAd.yaqinghui.business.model.CepEvent;
+import com.airAd.yaqinghui.business.model.NotificationMessage;
 import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Constants;
@@ -123,6 +125,20 @@ public class CepService extends BaseService
 					User.getLan());
 			Log.d("htestDoCheckinCepEvent", jsonObj.toString());
 			res= CepEventCheckinResponse.instance(jsonObj);
+			// 插到签到历史
+			SQLiteDatabase db = MyApplication.getCurrentWirteDB();
+			ContentValues cValue = new ContentValues();
+			//
+			cValue.put("user_id", param.getUserId());
+			cValue.put("title", res.getMsg());
+			cValue.put("content", res.getMsg());
+			cValue.put("message_type",
+					NotificationMessage.TYPE_CEPEVENT_CHECKIN_HIS);
+			cValue.put("read_flag", NotificationMessage.READ);
+			cValue.put("add_time", new Date().getTime());
+			//
+			long messagesId = db.insert("messages", null, cValue);
+			//
 			return res;
 		}
 		catch (Exception e)
@@ -146,6 +162,31 @@ public class CepService extends BaseService
 					User.getLan());
 			Log.d("htestDoScoreCepEvent", jsonObj.toString());
 			res= CepEventScoreResponse.instance(jsonObj);
+			//
+			SQLiteDatabase db = MyApplication.getCurrentWirteDB();
+			if (Constants.FLAG_SUCC.equals(res.getFlag())) {
+				// 评分成功则添加一枚徽章
+				ContentValues cv = new ContentValues();
+				cv.put("add_time", new Date().getTime());
+				cv.put("user_id", param.getUserId());
+				cv.put("cep_id", param.getCepId());
+				cv.put("event_id", param.getEventId());
+				cv.put("badge_id", Badge.getBadgeId(param.getCepId()));
+				long badgeId = db.insert("badges", null, cv);
+			}
+			// 插到评分历史
+
+			ContentValues cValue = new ContentValues();
+			//
+			cValue.put("user_id", param.getUserId());
+			cValue.put("title", res.getMsg());
+			cValue.put("content", res.getMsg());
+			cValue.put("message_type",
+					NotificationMessage.TYPE_CEPEVENT_SCORE_HIS);
+			cValue.put("read_flag", NotificationMessage.READ);
+			cValue.put("add_time", new Date().getTime());
+			//
+			long messagesId = db.insert("messages", null, cValue);
 			return res;
 		}
 		catch (Exception e)

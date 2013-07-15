@@ -1,6 +1,5 @@
 package com.airAd.yaqinghui.fragment;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -31,7 +31,6 @@ import com.airAd.yaqinghui.business.api.vo.param.CepEventScoreParam;
 import com.airAd.yaqinghui.business.api.vo.response.CepEventScoreResponse;
 import com.airAd.yaqinghui.business.model.Cep;
 import com.airAd.yaqinghui.business.model.CepEvent;
-import com.airAd.yaqinghui.common.ApiUtil;
 import com.airAd.yaqinghui.common.Constants;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -44,6 +43,9 @@ import com.google.zxing.client.android.CaptureActivity;
  */
 public class CepEventItem extends Fragment
 {
+	public static final String RED= "cep_type_red";
+	public static final String BLUE= "cep_type_blue";
+	public static final String GREEN= "cep_type_green";
 	private Cep cep;
 	private CepEvent cepEvent;
 	private Button signBtn;
@@ -59,7 +61,11 @@ public class CepEventItem extends Fragment
 	private CepService cepSerice;
 	private ScoreTask scoreTask;
 	private ProgressDialog progressDialog;
-
+	private LayoutInflater mInflater;
+	private View medalView;
+	private PopupWindow medalPop;
+	private ImageView medalTypeImage;
+	private Button okBtn;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -85,11 +91,8 @@ public class CepEventItem extends Fragment
 			{
 				Double geoLat= location.getLatitude();
 				Double geoLng= location.getLongitude();
-				System.out.println("location3--->" + geoLat + "," + geoLng);
 				locationManager.removeUpdates(this);
 				CepDetailActivity cepActivity= (CepDetailActivity) getActivity();
-				cepActivity.lat= geoLat + "";
-				cepActivity.lng= geoLng + "";
 				Intent it= new Intent(getActivity(), CaptureActivity.class);
 				getActivity().startActivityForResult(it, UserFragment.SCAN_QRCODE);
 				isLocating= false;
@@ -109,14 +112,49 @@ public class CepEventItem extends Fragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		mInflater= (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		cepSerice= new CepService();
 		progressDialog= new ProgressDialog(getActivity());
+		progressDialog.setTitle(R.string.dialog_title);
+		progressDialog.setMessage(getResources().getText(R.string.is_locating));
+		progressDialog.setCancelable(true);
 		locationManager= LocationManagerProxy.getInstance(getActivity());
 		mLocateProgressDialog= new ProgressDialog(getActivity());
 		mLocateProgressDialog.setTitle(R.string.dialog_title);
 		mLocateProgressDialog.setMessage(getResources().getText(R.string.is_locating));
 		mLocateProgressDialog.setCancelable(true);
+		initMedalPop();
 	}
+	private void initMedalPop()
+	{
+		medalView= mInflater.inflate(R.layout.getmedal_pop, null);
+		medalPop= new PopupWindow(medalView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+		medalPop.setBackgroundDrawable(new BitmapDrawable());
+		medalPop.setAnimationStyle(R.style.PushPopupAnimation);
+		okBtn= (Button) medalView.findViewById(R.id.ok_btn);
+		okBtn.setOnClickListener(new OkButtonClick());
+		medalTypeImage= (ImageView) medalView.findViewById(R.id.medaltype);
+		if (RED.equalsIgnoreCase(cep.getIconType()))
+		{
+			medalTypeImage.setImageResource(R.drawable.red_medal);
+		}
+		else if (BLUE.equalsIgnoreCase(cep.getIconType()))
+		{
+			medalTypeImage.setImageResource(R.drawable.blue_medal);
+		}
+		else if (GREEN.equalsIgnoreCase(cep.getIconType()))
+		{
+			medalTypeImage.setImageResource(R.drawable.green_medal);
+		}
+	}
+	private final class OkButtonClick implements OnClickListener
+	{
+		@Override
+		public void onClick(View v)
+		{
+			medalPop.dismiss();
+		}
+	}//end inner class
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
@@ -124,12 +162,8 @@ public class CepEventItem extends Fragment
 		final View v= inflater.inflate(R.layout.cep_event, container, false);
 		TextView timeText= (TextView) v.findViewById(R.id.cep_event_time);
 		long startTimeLong= Long.parseLong(cepEvent.getStartTime());
-		String startStr= ApiUtil.convertDateToDateString(new Date(startTimeLong));
-
 		long endTimeLong= Long.parseLong(cepEvent.getEndTime());
 		SimpleDateFormat sdfEnd= new SimpleDateFormat("HH:mm");
-		String endStr= sdfEnd.format(new Date(endTimeLong));
-
 		timeText.setText(cepEvent.getEventTimeRangeDescription());
 		attendBtn= (Button) v.findViewById(R.id.attendBtn);
 		scoreBtn= (Button) v.findViewById(R.id.scoreBtn);
@@ -147,6 +181,7 @@ public class CepEventItem extends Fragment
 		}
 		else
 		{
+			//			attendBtn.setEnabled(false);
 			attendBtn.setBackgroundResource(R.drawable.sign_in_bg);
 		}
 		signBtn= (Button) v.findViewById(R.id.signin);
@@ -157,6 +192,7 @@ public class CepEventItem extends Fragment
 		}
 		else
 		{
+			signBtn.setEnabled(false);
 			signBtn.setBackgroundResource(R.drawable.sign_in_bg);
 		}
 		if (cepEvent.canScored())// 可评分
@@ -166,7 +202,10 @@ public class CepEventItem extends Fragment
 		}
 		else
 		{
+			//			scoreBtn.setEnabled(false);
 			scoreBtn.setBackgroundResource(R.drawable.sign_in_bg);
+			scoreBtn.setBackgroundResource(R.drawable.prepost_bg);
+			scoreBtn.setOnClickListener(new ScoreClick());
 		}
 		return v;
 	}
@@ -192,9 +231,8 @@ public class CepEventItem extends Fragment
 			int score1= scoreBar1.getProgress();
 			int score2= scoreBar2.getProgress();
 			int score3= scoreBar3.getProgress();
-
-			CepService cep = new CepService();
-			CepEventScoreParam params = new CepEventScoreParam();
+			CepService cep= new CepService();
+			CepEventScoreParam params= new CepEventScoreParam();
 			params.setUserId(MyApplication.getCurrentApp().getUser().getId());
 			params.setEventId(cepEvent.getId());
 			params.setCepId(cepEvent.getCepId());
@@ -207,7 +245,18 @@ public class CepEventItem extends Fragment
 			scoreTask.execute(params);
 		}
 	}
-
+	/**
+	 * 获取勋章
+	 */
+	private void getMedal()
+	{
+		medalPop.showAtLocation(parentView, Gravity.CENTER, 0, 0);
+	}
+	/**
+	 * 打分之后勋章操作 
+	 * @author Administrator
+	 *
+	 */
 	private final class ScoreTask extends AsyncTask<CepEventScoreParam, Void, CepEventScoreResponse>
 	{
 		@Override
@@ -215,7 +264,6 @@ public class CepEventItem extends Fragment
 		{
 			return (new CepService()).doScoreCepEvent(params[0]);
 		}
-
 		@Override
 		protected void onPreExecute()
 		{
@@ -233,6 +281,9 @@ public class CepEventItem extends Fragment
 				{
 					Toast.makeText(getActivity(), result.getMsg(), Toast.LENGTH_SHORT).show();
 					//勋章操作
+					getMedal();
+					scoreBtn.setEnabled(false);
+					scoreBtn.setBackgroundResource(R.drawable.sign_in_bg);
 				}
 				else
 				{

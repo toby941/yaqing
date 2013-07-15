@@ -65,7 +65,8 @@ public class CepItemFragment extends Fragment
 		}
 		mainLayout.setOnClickListener(new DetailBtn());
 		titleText.setText(cep.getTitle());
-		mImageFetcher.loadImage(cep.getPic(), img);
+		//mImageFetcher.loadImage(cep.getPic(), img);
+		img.setImageResource(Cep.getCepBigPicRes(cep.getId()));
 		return v;
 	}
 

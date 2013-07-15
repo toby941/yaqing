@@ -28,27 +28,55 @@
             android:layout_margin="5dp"
             android:background="@drawable/shader_line" />
 
-        <RatingBar
-            android:id="@+id/score1"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="@string/cep_socre1"
+            android:textSize="20dp" />
+
+        <RatingBar
+            android:id="@+id/score1"
+            style="@style/myratingbar"
+            android:stepSize="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:numStars="5" >
         </RatingBar>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/cep_socre2"
+            android:textSize="20dp" />
 
         <RatingBar
             android:id="@+id/score2"
+            android:stepSize="1"
+            style="@style/myratingbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
+            android:layout_gravity="center_horizontal"
             android:numStars="5" >
         </RatingBar>
 
-        <RatingBar
-            android:id="@+id/score3"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/cep_socre3"
+            android:textSize="20dp" />
+
+        <RatingBar
+            android:id="@+id/score3"
+            android:stepSize="1"
+            style="@style/myratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:numStars="5" >
         </RatingBar>
 

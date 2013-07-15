@@ -32,6 +32,7 @@
     <dimen name="comment_pic_height">70dp</dimen>
     
     <dimen name="cep_event_title_height">40dp</dimen>
-     <dimen name="detail_event_item_height">240dp</dimen>
+     <dimen name="detail_event_item_height">200dp</dimen>
      <dimen name="cep_shake_offset">13dp</dimen>
+     <dimen name="cep_top_pic_height">180dp</dimen>
 </resources>

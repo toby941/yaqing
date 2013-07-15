@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
     android:background="#333241" >
 
     <RelativeLayout
@@ -58,15 +58,15 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/icon" />
-            
+
             <ImageView
                 android:id="@+id/preview"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/icon" />
+                android:src="@drawable/icon"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/detail_name"
@@ -105,10 +105,25 @@
                     android:layout_weight="1" >
 
                     <ImageView
+                        android:id="@+id/red_medal_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/medal_red" />
+
+                    <TextView
+                        android:id="@+id/red_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="12dp"
+                        android:background="@drawable/cep_num_tips_bg"
+                        android:gravity="center"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:textColor="#ffffff"
+                        android:textSize="10dp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -117,10 +132,25 @@
                     android:layout_weight="1" >
 
                     <ImageView
+                        android:id="@+id/blue_medal_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/medal_blue" />
+
+                    <TextView
+                        android:id="@+id/blue_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="12dp"
+                        android:background="@drawable/cep_num_tips_bg"
+                        android:gravity="center"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:textColor="#ffffff"
+                        android:textSize="10dp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -129,10 +159,25 @@
                     android:layout_weight="1" >
 
                     <ImageView
+                        android:id="@+id/green_medal_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/medal_green_none" />
+                        android:src="@drawable/medal_green" />
+
+                    <TextView
+                        android:id="@+id/green_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="12dp"
+                        android:background="@drawable/cep_num_tips_bg"
+                        android:gravity="center"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:textColor="#ffffff"
+                        android:textSize="10dp" />
                 </RelativeLayout>
             </LinearLayout>
 
