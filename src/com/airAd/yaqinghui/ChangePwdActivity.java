@@ -108,6 +108,7 @@ public class ChangePwdActivity extends BaseActivity
 					editor.putString(Config.USER_INFO_KEY, "");
 					editor.commit();
 					Toast.makeText(ChangePwdActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+					ChangePwdActivity.this.finish();
 				}
 				else
 				{

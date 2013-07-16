@@ -3,6 +3,7 @@
  */
 package com.airAd.yaqinghui.business.model;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -120,8 +121,12 @@ public class Cep
 				event.setMaxNum(Integer.parseInt(eventObj.optString("joinnum")));
 				event.setAttendNum(Integer.parseInt(eventObj.optString("signupnum")));
 				event.setCepEventType(obj.optString("type"));
-				event.setFlag(obj.optString("flag"));
-				events.add(event);
+				System.out.println("cepFlag--->" + eventObj.optString("flag"));
+				event.setFlag(eventObj.optString("flag"));
+				if (new Date().getTime() < event.getStartTimel())
+				{
+					events.add(event);
+				}
 				//
 				pic= eventObj.optString("ceppictureone");
 			}
@@ -171,12 +176,9 @@ public class Cep
 		return "cep_type_red";
 	}
 	/**
-	 * 1	zh_CN	青年的节日
-	2	zh_CN	亚洲文化村
-	3	zh_CN	国际组织展
-	6	zh_CN	南京历史文化风貌观光
-	5	zh_CN	生态环保农业
-
+	 * 1 zh_CN 青年的节日 2 zh_CN 亚洲文化村 3 zh_CN 国际组织展 6 zh_CN 南京历史文化风貌观光 5 zh_CN
+	 * 生态环保农业
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -200,7 +202,6 @@ public class Cep
 				return R.drawable.big_yf;
 		}
 	}
-
 	public static int getCepSmallPicRes(String ids)
 	{
 		int id= Integer.parseInt(ids);
@@ -219,5 +220,29 @@ public class Cep
 			default :
 				return R.drawable.small_yf;
 		}
+	}
+	public static int getIdFromQrcode(String qrcode)
+	{
+		if (qrcode.contains("nanjingyaqinghuicepqingnianjieri6853273921"))//青年的节日
+		{
+			return 1;
+		}
+		else if (qrcode.contains("nanjingyaqinghuicepyazhouwenhuacun275369153"))
+		{
+			return 2;
+		}
+		else if (qrcode.contains("nanjingyaqinghuicepguojizhuzhizhuan734216983"))
+		{
+			return 3;
+		}
+		else if (qrcode.contains("nanjingyaqinghuiceplishiwenhuafenmao294521930"))
+		{
+			return 6;
+		}
+		else if (qrcode.contains("nanjingyaqinghuicepshengtaihuanbaolunye20167389215"))
+		{
+			return 5;
+		}
+		return 1;
 	}
 }

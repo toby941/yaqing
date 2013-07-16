@@ -53,7 +53,7 @@ public class CepDetailActivity extends BaseActivity
 	private ViewPager mCepEventGallery;
 	private ImageFetcher mImageFetcher;
 	private TextView mTitleText;
-	private TextView mContentText;
+	//	private TextView mContentText;
 	private RelativeLayout progress;
 	private RequestTask mTask;
 	private String cepId;// cep活动ID
@@ -81,13 +81,14 @@ public class CepDetailActivity extends BaseActivity
 	private SigninTask signTask;
 	private AssetManager assetManager;
 	private ProgressDialog proDialog;
+	private int eventIndex= 0;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news_detail);
 		init();
-		requestDetailData();
+		requestDetailData(0);
 	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -112,11 +113,11 @@ public class CepDetailActivity extends BaseActivity
 		}
 		signTask= new SigninTask();
 		CepEventCheckinParam params= new CepEventCheckinParam();
+		params.setCepId(Cep.getIdFromQrcode(twobarcode) + "");
 		params.setUserId(userid);
 		params.setQrcode(twobarcode);
 		params.setLat(lat);
 		params.setLng(lng);
-		proDialog.show();
 		signTask.execute(params);
 	}
 	private final class SigninTask extends AsyncTask<CepEventCheckinParam, Void, CepEventCheckinResponse>
@@ -135,7 +136,6 @@ public class CepDetailActivity extends BaseActivity
 		protected void onPostExecute(CepEventCheckinResponse result)
 		{
 			super.onPostExecute(result);
-			proDialog.dismiss();
 			if (result != null)
 			{
 				if (Constants.FLAG_SUCC.equals(result.getFlag()))//签到成功
@@ -157,8 +157,13 @@ public class CepDetailActivity extends BaseActivity
 	 * 
 	 * @param service
 	 */
-	private void requestDetailData()
+	public void requestDetailData(int gotoIndex)
 	{
+		eventIndex= gotoIndex;
+		if (mTask != null)
+		{
+			mTask.cancel(true);
+		}
 		mTask= new RequestTask();
 		mTask.execute(cepId);
 	}
@@ -181,7 +186,7 @@ public class CepDetailActivity extends BaseActivity
 			}
 			for (int i= 0; i < cep.getCepEvents().size(); i++)
 			{
-				String number= cep.getCepEvents().get(i).getId();
+				String number= (i + 1) + "";
 				cep.getCepEvents().get(i).setName(getString(R.string.number) + number);
 			}//end for i
 			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this.getSupportFragmentManager(),
@@ -197,15 +202,47 @@ public class CepDetailActivity extends BaseActivity
 			}
 			setSorce();
 			mTitleText.setText(cep.getTitle());
-			mContentText.setText(cep.getContent());
+			//			mContentText.setText(cep.getContent());
 			mCepEventGallery.setAdapter(new CepEventAdapter(CepDetailActivity.this.getSupportFragmentManager(), cep
 					.getCepEvents()));
 			setEventComponent();
+			System.out.println("index-->" + eventIndex);
+			if (eventIndex > 0 && eventIndex < cep.getCepEvents().size())
+			{
+				//				eventTop[0].unSelected();
+				//				eventTop[1].unSelected();
+				//				eventTop[2].unSelected();
+				selectedEventTop.unSelected();
+				int len= cep.getCepEvents().size();
+				if (eventIndex == 0)
+				{
+					sub_start= eventIndex;
+					selectedEventTop= eventTop[0];
+				}
+				else if (eventIndex == len - 1)
+				{
+					sub_start= eventIndex - 2;
+					selectedEventTop= eventTop[2];
+				}
+				else
+				{
+					sub_start= eventIndex - 1;
+					selectedEventTop= eventTop[1];
+				}
+				mCepEventGallery.setCurrentItem(eventIndex);
+				selectedEventTop.selected();
+			}
+			else
+			{
+				mCepEventGallery.setCurrentItem(0);
+				eventToIndex(0);
+			}
+			eventIndex= 0;
 			progress.setVisibility(View.GONE);
 		}
 	}// end inner class
 	private void setEventComponent()
-	{
+	{
 		if (cep.getCepEvents().size() == 1)// 仅有一场活动
 		{
 			eventHeaderView.setVisibility(View.GONE);
@@ -326,8 +363,9 @@ public class CepDetailActivity extends BaseActivity
 	}
 	private void eventToIndex(int index)
 	{
+		sub_end= sub_start + 3;
 		if (index >= sub_start && index < sub_end)
-		{
+		{
 			if (sub_start == 0 && sub_end != event_length)// 在头部
 			{
 				if (index == sub_start)
@@ -340,7 +378,7 @@ public class CepDetailActivity extends BaseActivity
 					sub_start= index - 1;
 				}
 			}
-			else if (sub_end == event_length && sub_start != 0)
+			else if (sub_end == event_length && sub_start != 0)
 			{// 在尾部
 				if (index == event_length - 1)
 				{
@@ -434,7 +472,7 @@ public class CepDetailActivity extends BaseActivity
 		mBackBtn.setOnClickListener(new BackClick());
 		mGallery= (ViewPager) findViewById(R.id.gallery);
 		mTitleText= (TextView) findViewById(R.id.detail_title);
-		mContentText= (TextView) findViewById(R.id.cep_content);
+		//		mContentText= (TextView) findViewById(R.id.cep_content);
 		progress= (RelativeLayout) findViewById(R.id.progressLayout);
 		eventHeaderView= findViewById(R.id.event_head);
 		lineShadow= (ImageView) findViewById(R.id.col_shadow2);

@@ -23,42 +23,34 @@ import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Constants;
 import com.airAd.yaqinghui.core.HessianClient;
-public class CepService extends BaseService
-{
-	public List<Cep> getCeps(String userId)
-	{
-		BasicAPI api= HessianClient.create();
-		try
-		{
-			JSONObject jsonObj= api.SelectAllCepActive(userId, User.getLan());
+public class CepService extends BaseService {
+	public List<Cep> getCeps(String userId) {
+		BasicAPI api = HessianClient.create();
+		try {
+			JSONObject jsonObj = api.SelectAllCepActive(userId, User.getLan());
 			Log.d("htestGetCeps", jsonObj.toString());
 			return Cep.instanceList(jsonObj);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println(e);
 			return null;
 		}
 	}
-	public Cep getCep(String userId, String cepId)
-	{
-		BasicAPI api= HessianClient.create();
-		try
-		{
-			JSONObject jsonObj= api.SelectTheOneCepActive(cepId, userId, User.getLan());
+	public Cep getCep(String userId, String cepId) {
+		BasicAPI api = HessianClient.create();
+		try {
+			JSONObject jsonObj = api.SelectTheOneCepActive(cepId, userId,
+					User.getLan());
 			Log.d("htestGetCep", jsonObj.toString());
 			return Cep.instance(jsonObj);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			return null;
 		}
 	}
 	// 预约
-	public CepEventReservationResponse doReservationCepEvent(final String userId, final Cep cep, final CepEvent event)
-	{
-		SQLiteDatabase db= MyApplication.getCurrentWirteDB();
-		ContentValues cValue= new ContentValues();
+	public CepEventReservationResponse doReservationCepEvent(
+			final String userId, final Cep cep, final CepEvent event) {
+		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
+		ContentValues cValue = new ContentValues();
 		//
 		cValue.put("user_id", userId);
 		cValue.put("cep_id", cep.getId());
@@ -76,92 +68,93 @@ public class CepService extends BaseService
 		return null;
 	}
 	public CepEventReservationResponse doCancelReservationCepEvent(
-			final String userId,
-			final String cepId,
-			final String eventId)
-	{
-		BasicAPI api= HessianClient.create();
-		CepEventReservationResponse res= new CepEventReservationResponse();
-		try
-		{
-			JSONObject jsonObj= api.PrecontractCancelCepActive(cepId, eventId, userId, User.getLan());
+			final String userId, final String cepId, final String eventId) {
+		BasicAPI api = HessianClient.create();
+		CepEventReservationResponse res = new CepEventReservationResponse();
+		try {
+			JSONObject jsonObj = api.PrecontractCancelCepActive(cepId, eventId,
+					userId, User.getLan());
 			Log.d("htestDoCancelReservationCepEvent", jsonObj.toString());
-			res= CepEventReservationResponse.instanceCancelObj(jsonObj);
+			res = CepEventReservationResponse.instanceCancelObj(jsonObj);
 			// 如果取消成功则删除数据库中相应记录
-			if (Constants.FLAG_SUCC.equals(res))
-			{
-				Thread thread= new Thread(new Runnable()
-				{
+			if (Constants.FLAG_SUCC.equals(res)) {
+				Thread thread = new Thread(new Runnable() {
 					@Override
-					public void run()
-					{
-						SQLiteDatabase db= MyApplication.getCurrentWirteDB();
-						String[] params=
-						{eventId, cepId};
-						db.delete("schedule", "where item_type = 2 and ref_id = ? and cep_id = ?", params);
+					public void run() {
+						SQLiteDatabase db = MyApplication.getCurrentWirteDB();
+						String[] params = {eventId, cepId};
+						db.delete(
+								"schedule",
+								"where item_type = 2 and ref_id = ? and cep_id = ?",
+								params);
 					}
 				});
 				thread.start();
 			}
 			return res;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			return res;
 		}
 	}
 	// 签到
-	public CepEventCheckinResponse doCheckinCepEvent(CepEventCheckinParam param)
-	{
-		BasicAPI api= HessianClient.create();
-		CepEventCheckinResponse res= new CepEventCheckinResponse();
-		try
-		{
-			JSONObject jsonObj= api.SignInCepActive(
-					param.getQrcode(),
-					param.getUserId(),
-					param.getLng(),
-					param.getLat(),
+	public CepEventCheckinResponse doCheckinCepEvent(CepEventCheckinParam param) {
+		BasicAPI api = HessianClient.create();
+		CepEventCheckinResponse res = new CepEventCheckinResponse();
+		try {
+			JSONObject jsonObj = api.SignInCepActive(param.getQrcode(),
+					param.getUserId(), param.getLng(), param.getLat(),
 					User.getLan());
 			Log.d("htestDoCheckinCepEvent", jsonObj.toString());
-			res= CepEventCheckinResponse.instance(jsonObj);
-			// 插到签到历史
-			SQLiteDatabase db = MyApplication.getCurrentWirteDB();
-			ContentValues cValue = new ContentValues();
-			//
-			cValue.put("user_id", param.getUserId());
-			cValue.put("title", res.getMsg());
-			cValue.put("content", res.getMsg());
-			cValue.put("message_type",
-					NotificationMessage.TYPE_CEPEVENT_CHECKIN_HIS);
-			cValue.put("read_flag", NotificationMessage.READ);
-			cValue.put("add_time", new Date().getTime());
-			//
-			long messagesId = db.insert("messages", null, cValue);
+			res = CepEventCheckinResponse.instance(jsonObj);
+			// 成功则插到签到历史
+			if (Constants.FLAG_SUCC.equals(res.getFlag())) {
+				param.setEventId(res.getEventId());
+				SQLiteDatabase db = MyApplication.getCurrentWirteDB();
+				ContentValues cValue = new ContentValues();
+				//
+				cValue.put("user_id", param.getUserId());
+				cValue.put("title", res.getMsg());
+				cValue.put("content", res.getMsg());
+				cValue.put("message_type",
+						NotificationMessage.TYPE_CEPEVENT_CHECKIN_HIS);
+				cValue.put("read_flag", NotificationMessage.READ);
+				cValue.put("add_time", new Date().getTime());
+				// 查出对应的cepId
+				Cep cep = new CepService().getCep(param.getUserId(),
+						param.getCepId());
+				CepEvent cepEvent = null;
+				List<CepEvent> events = cep.getCepEvents();
+				for (CepEvent event : events) {
+					if (param.getEventId().equals(event.getId())) {
+						cepEvent = event;
+						break;
+					}
+				}
+				//
+				cValue.put("cep_id", cep.getId());
+				cValue.put("cep_title", cep.getTitle());
+				cValue.put("cep_place", cepEvent.getPlace());
+				cValue.put("cep_start_time", cepEvent.getStartTimel());
+				//
+				long messagesId = db.insert("messages", null, cValue);
+			}
 			//
 			return res;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			Log.e("htest", e.getMessage());
 			return res;
 		}
 	}
 	// 打分
-	public CepEventScoreResponse doScoreCepEvent(CepEventScoreParam param)
-	{
-		BasicAPI api= HessianClient.create();
-		CepEventScoreResponse res= new CepEventScoreResponse();
-		try
-		{
-			JSONObject jsonObj= api.CepActiveComment(
-					param.getCepId(),
-					param.getEventId(),
-					param.getUserId(),
-					param.getScore(),
+	public CepEventScoreResponse doScoreCepEvent(CepEventScoreParam param) {
+		BasicAPI api = HessianClient.create();
+		CepEventScoreResponse res = new CepEventScoreResponse();
+		try {
+			JSONObject jsonObj = api.CepActiveComment(param.getCepId(),
+					param.getEventId(), param.getUserId(), param.getScore(),
 					User.getLan());
 			Log.d("htestDoScoreCepEvent", jsonObj.toString());
-			res= CepEventScoreResponse.instance(jsonObj);
+			res = CepEventScoreResponse.instance(jsonObj);
 			//
 			SQLiteDatabase db = MyApplication.getCurrentWirteDB();
 			if (Constants.FLAG_SUCC.equals(res.getFlag())) {
@@ -173,30 +166,43 @@ public class CepService extends BaseService
 				cv.put("event_id", param.getEventId());
 				cv.put("badge_id", Badge.getBadgeId(param.getCepId()));
 				long badgeId = db.insert("badges", null, cv);
-			}
-			// 插到评分历史
+				// 如果评分成功则，插到评分历史
 
-			ContentValues cValue = new ContentValues();
-			//
-			cValue.put("user_id", param.getUserId());
-			cValue.put("title", res.getMsg());
-			cValue.put("content", res.getMsg());
-			cValue.put("message_type",
-					NotificationMessage.TYPE_CEPEVENT_SCORE_HIS);
-			cValue.put("read_flag", NotificationMessage.READ);
-			cValue.put("add_time", new Date().getTime());
-			//
-			long messagesId = db.insert("messages", null, cValue);
+				ContentValues cValue = new ContentValues();
+				//
+				cValue.put("user_id", param.getUserId());
+				cValue.put("title", res.getMsg());
+				cValue.put("content", res.getMsg());
+				cValue.put("message_type",
+						NotificationMessage.TYPE_CEPEVENT_SCORE_HIS);
+				cValue.put("read_flag", NotificationMessage.READ);
+				cValue.put("add_time", new Date().getTime());
+				// 查出对应的cepId
+				Cep cep = new CepService().getCep(param.getUserId(),
+						param.getCepId());
+				CepEvent cepEvent = null;
+				List<CepEvent> events = cep.getCepEvents();
+				for (CepEvent event : events) {
+					if (param.getEventId().equals(event.getId())) {
+						cepEvent = event;
+						break;
+					}
+				}
+				//
+				cValue.put("cep_id", cep.getId());
+				cValue.put("cep_title", cep.getTitle());
+				cValue.put("cep_place", cepEvent.getPlace());
+				cValue.put("cep_start_time", cepEvent.getStartTimel());
+				//
+				long messagesId = db.insert("messages", null, cValue);
+			}
 			return res;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			return res;
 		}
 	}
 	// 直接对数据库字段进行修改，与业务无关
-	public Map<String, Object> doUpdateCepEvent(CepEvent cepEvent)
-	{
+	public Map<String, Object> doUpdateCepEvent(CepEvent cepEvent) {
 		return null;
 	}
 }

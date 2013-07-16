@@ -84,7 +84,7 @@
                 android:id="@+id/weibo_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="微薄分享的内容"
+                android:text="@string/weibo01"
                 android:textColor="#666666" />
         </LinearLayout>
 
@@ -119,7 +119,7 @@
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp"
                 android:paddingTop="1dp"
-                android:src="@drawable/weibo_text" />
+                android:src="@drawable/weibo01" />
 
         </RelativeLayout>
     </LinearLayout>

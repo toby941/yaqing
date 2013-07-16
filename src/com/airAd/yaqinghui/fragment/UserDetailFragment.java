@@ -92,9 +92,7 @@ public class UserDetailFragment extends Fragment
 	{
 		return thumb;
 	}
-	private UserDetailFragment()
-	{
-	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{

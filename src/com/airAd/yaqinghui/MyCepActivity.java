@@ -54,7 +54,7 @@ public class MyCepActivity extends BaseActivity
 		System.out.println("type--->" + type);
 		mListView= (ListView) findViewBy(R.id.list);
 		NotificationMessageService notifyService= new NotificationMessageService();
-		dataList= notifyService.getMessagesByType(type);
+		dataList= notifyService.getMessagesByType(MyApplication.getCurrentApp().getUser().getId(), type);
 		if (dataList != null)
 		{
 			itemClickListener= new OnItemClick();
@@ -126,11 +126,11 @@ public class MyCepActivity extends BaseActivity
 	}//end inner class
 	private void setTypeImg(ImageView img)
 	{
-		if (type == NotificationMessage.TYPE_CEPEVENT_CHECKIN_HIS)
+		if (type == NotificationMessage.TYPE_CEPEVENT_SIGNUP_HIS)
 		{
 			img.setImageResource(R.drawable.my_cep_order);
 		}
-		else if (type == NotificationMessage.TYPE_CEPEVENT_SIGNUP_HIS)
+		else if (type == NotificationMessage.TYPE_CEPEVENT_CHECKIN_HIS)
 		{
 			img.setImageResource(R.drawable.my_cep_locate);
 		}
@@ -138,7 +138,6 @@ public class MyCepActivity extends BaseActivity
 		{
 			img.setImageResource(R.drawable.my_cep_comment);
 		}
-
 	}
 	private final class BackClick implements OnClickListener
 	{
@@ -146,5 +145,6 @@ public class MyCepActivity extends BaseActivity
 		public void onClick(View v)
 		{
 			MyCepActivity.this.finish();
-		}	}// end inner class
+		}
+	}// end inner class
 }// end class

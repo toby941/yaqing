@@ -58,6 +58,7 @@
 
     <Button
         android:id="@+id/attendBtn"
+        android:textColor="#ffffff"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -69,29 +70,45 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal" >
-		
+
         <TextView
             android:id="@+id/j_mid"
-            android:layout_centerHorizontal="true"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-        
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
         <Button
             android:id="@+id/signin"
-            android:layout_toLeftOf="@id/j_mid"
+            android:textColor="#ffffff"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/j_mid"
             android:background="@drawable/prepost_bg"
             android:text="@string/sign_in" />
 
         <Button
             android:id="@+id/scoreBtn"
-            android:layout_toRightOf="@id/j_mid"
+            android:textColor="#ffffff"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/sign_in_bg"
+            android:layout_toRightOf="@id/j_mid"
+            android:background="@drawable/prepost_bg"
             android:text="@string/make_socre" />
     </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:layout_margin="5dp"
+        android:background="@drawable/shader_line" />
+
+    <TextView
+        android:id="@+id/cep_content"
+        android:text="dasasads"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="18dp" />
 
 </LinearLayout>

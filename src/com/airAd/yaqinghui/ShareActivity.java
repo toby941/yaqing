@@ -57,9 +57,9 @@ public class ShareActivity extends BaseActivity {
 	private void saveResources() {
 		// TODO Auto-generated method stub
 		Resources res = getResources();
-		Bitmap bf = BitmapFactory.decodeResource(res, R.drawable.badge);
+		Bitmap bf = BitmapFactory.decodeResource(res, R.drawable.weibo01);
 		try {
-			saveMyBitmap("badge",bf);
+			saveMyBitmap("weibo01",bf);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -158,7 +158,7 @@ public class ShareActivity extends BaseActivity {
 		content = content + mWeiboInfo.getText().toString();
 
 		// statuses.update(content, null, null, new SendListener());
-		statuses.upload(content, "/sdcard/badge.png", null, null, new SendListener());
+		statuses.upload(content, "/sdcard/weibo01.png", null, null, new SendListener());
 
 		// statuses.uploadUrlText( content,"", null, null,
 		// new SendListener());

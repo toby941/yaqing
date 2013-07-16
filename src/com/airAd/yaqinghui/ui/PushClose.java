@@ -214,8 +214,12 @@ public class PushClose extends RelativeLayout
 			((HomeActivity) mContext).scheduleDay= day;
 		}
 		User user= MyApplication.getCurrentApp().getUser();
-		allDays= mScheduleService.getCalendlarScheduleData(user.getId());
-		mDataList= mScheduleService.getScheduleItemsByDate(user.getId(), day);
+		mScheduleService= new ScheduleService();
+		if (user != null)
+		{
+			allDays= mScheduleService.getCalendlarScheduleData(user.getId());
+			mDataList= mScheduleService.getScheduleItemsByDate(user.getId(), day);
+		}
 		setDateHaveItems(allDays);
 		if (scheduleAdapter == null)
 		{
