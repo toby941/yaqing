@@ -123,6 +123,7 @@ public class Cep
 				event.setCepEventType(obj.optString("type"));
 				System.out.println("cepFlag--->" + eventObj.optString("flag"));
 				event.setFlag(eventObj.optString("flag"));
+				event.setTabId(i + 1);
 				if (new Date().getTime() < event.getStartTimel())
 				{
 					events.add(event);
@@ -223,7 +224,7 @@ public class Cep
 	}
 	public static int getIdFromQrcode(String qrcode)
 	{
-		if (qrcode.contains("nanjingyaqinghuicepqingnianjieri6853273921"))//青年的节日
+		if (qrcode.contains("nanjingyaqinghuicepqingnianjieri6853273921"))// 青年的节日
 		{
 			return 1;
 		}

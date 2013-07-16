@@ -69,7 +69,6 @@ public class MyCepActivity extends BaseActivity
 		{
 			NotificationMessage item= dataList.get(index);
 			dataList.get(index);
-			System.out.println(item.toString());
 		}
 	}
 	private final class ListAdapter extends BaseAdapter

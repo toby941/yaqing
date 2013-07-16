@@ -179,6 +179,7 @@ public class CepDetailActivity extends BaseActivity
 		{
 			super.onPostExecute(result);
 			cep= result;
+
 			if (cep == null)
 			{
 				Toast.makeText(CepDetailActivity.this, R.string.net_exception, Toast.LENGTH_SHORT).show();
@@ -186,7 +187,7 @@ public class CepDetailActivity extends BaseActivity
 			}
 			for (int i= 0; i < cep.getCepEvents().size(); i++)
 			{
-				String number= (i + 1) + "";
+				String number= cep.getCepEvents().get(i).getTabId() + "";
 				cep.getCepEvents().get(i).setName(getString(R.string.number) + number);
 			}//end for i
 			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this.getSupportFragmentManager(),
