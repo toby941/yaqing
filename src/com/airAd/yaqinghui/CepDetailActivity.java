@@ -113,6 +113,7 @@ public class CepDetailActivity extends BaseActivity
 		}
 		signTask= new SigninTask();
 		CepEventCheckinParam params= new CepEventCheckinParam();
+		params.setCepId(Cep.getIdFromQrcode(twobarcode) + "");
 		params.setUserId(userid);
 		params.setQrcode(twobarcode);
 		params.setLat(lat);
@@ -185,7 +186,7 @@ public class CepDetailActivity extends BaseActivity
 			}
 			for (int i= 0; i < cep.getCepEvents().size(); i++)
 			{
-				String number= cep.getCepEvents().get(i).getId();
+				String number= (i + 1) + "";
 				cep.getCepEvents().get(i).setName(getString(R.string.number) + number);
 			}//end for i
 			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this.getSupportFragmentManager(),
@@ -205,12 +206,43 @@ public class CepDetailActivity extends BaseActivity
 			mCepEventGallery.setAdapter(new CepEventAdapter(CepDetailActivity.this.getSupportFragmentManager(), cep
 					.getCepEvents()));
 			setEventComponent();
+			System.out.println("index-->" + eventIndex);
+			if (eventIndex > 0 && eventIndex < cep.getCepEvents().size())
+			{
+				//				eventTop[0].unSelected();
+				//				eventTop[1].unSelected();
+				//				eventTop[2].unSelected();
+				selectedEventTop.unSelected();
+				int len= cep.getCepEvents().size();
+				if (eventIndex == 0)
+				{
+					sub_start= eventIndex;
+					selectedEventTop= eventTop[0];
+				}
+				else if (eventIndex == len - 1)
+				{
+					sub_start= eventIndex - 2;
+					selectedEventTop= eventTop[2];
+				}
+				else
+				{
+					sub_start= eventIndex - 1;
+					selectedEventTop= eventTop[1];
+				}
+				mCepEventGallery.setCurrentItem(eventIndex);
+				selectedEventTop.selected();
+			}
+			else
+			{
+				mCepEventGallery.setCurrentItem(0);
+				eventToIndex(0);
+			}
+			eventIndex= 0;
 			progress.setVisibility(View.GONE);
-			mCepEventGallery.setCurrentItem(eventIndex);
 		}
 	}// end inner class
 	private void setEventComponent()
-	{
+	{
 		if (cep.getCepEvents().size() == 1)// 仅有一场活动
 		{
 			eventHeaderView.setVisibility(View.GONE);
@@ -331,8 +363,9 @@ public class CepDetailActivity extends BaseActivity
 	}
 	private void eventToIndex(int index)
 	{
+		sub_end= sub_start + 3;
 		if (index >= sub_start && index < sub_end)
-		{
+		{
 			if (sub_start == 0 && sub_end != event_length)// 在头部
 			{
 				if (index == sub_start)
@@ -345,7 +378,7 @@ public class CepDetailActivity extends BaseActivity
 					sub_start= index - 1;
 				}
 			}
-			else if (sub_end == event_length && sub_start != 0)
+			else if (sub_end == event_length && sub_start != 0)
 			{// 在尾部
 				if (index == event_length - 1)
 				{

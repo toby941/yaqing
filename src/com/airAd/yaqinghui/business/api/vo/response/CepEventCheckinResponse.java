@@ -18,6 +18,16 @@ public class CepEventCheckinResponse extends Base {
 	private static String CHECKIN_SUCC = "S1";
 	private static String CHECKIN_ERR = "S0";
 
+	private String eventId;
+
+
+	public String getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
+	}
 
 	public CepEventCheckinResponse() {
 		flag = Constants.FLAG_ERR;
@@ -30,10 +40,13 @@ public class CepEventCheckinResponse extends Base {
 		CepEventCheckinResponse res = new CepEventCheckinResponse();
 		JSONObject result = obj.getJSONObject("SignInCepActive");
 		String statusFlag = result.optString("signinmark");
-		res.setFlag(CHECKIN_SUCC.equals(statusFlag)
+		res.setFlag(statusFlag.contains(CHECKIN_SUCC)
 				? Constants.FLAG_SUCC
 				: Constants.FLAG_ERR);
 		res.setMsg(result.optString("signintext"));
+		if (Constants.FLAG_SUCC.equals(res.getFlag())) {
+			res.setEventId(statusFlag.split(",")[1]);
+		}
 		return res;
 	}
 }

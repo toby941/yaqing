@@ -123,9 +123,6 @@ public class UserDetailFragment extends Fragment
 		{// 载入个人信息
 			ImageView countryImage= (ImageView) view.findViewById(R.id.detail_country_img);
 			mFetcher.loadImage(mUser.getCountryFlag(), countryImage);
-			//			mFetcher.loadImage(
-			//					"http://imgsrc.baidu.com/baike/pic/item/342ac65c1038534327fc37a39213b07eca808805.jpg",
-			//					countryImage);
 			TextView nameText= (TextView) view.findViewById(R.id.detail_name);
 			TextView genderText= (TextView) view.findViewById(R.id.detail_gender);
 			TextView itemText= (TextView) view.findViewById(R.id.detail_attenditem_text);

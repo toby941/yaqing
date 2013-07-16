@@ -33,6 +33,7 @@ import com.airAd.yaqinghui.business.CepService;
 import com.airAd.yaqinghui.business.ScheduleService;
 import com.airAd.yaqinghui.business.api.vo.param.CepEventCheckinParam;
 import com.airAd.yaqinghui.business.api.vo.response.CepEventCheckinResponse;
+import com.airAd.yaqinghui.business.model.Cep;
 import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.Constants;
@@ -68,6 +69,8 @@ public class HomeActivity extends SlidingBaseActivity
 	private List<ScheduleItem> mDataList;
 	public String lat, lng;
 	private SignTask signTask;
+	private LeftMenuFragment leftMenuFragment;
+	private RightMenuFragment rightMenuFragment;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -122,8 +125,7 @@ public class HomeActivity extends SlidingBaseActivity
 		getThumbBitmap();// 设置头像位图数据
 		mPushClose.setSheduleListData(scheduleDay);
 	}
-
-		/**
+	/**
 	* 设置时间数据
 	*/
 	private void setPushClose()
@@ -150,7 +152,6 @@ public class HomeActivity extends SlidingBaseActivity
 			final Calendar calendar= Calendar.getInstance();
 			int day= calendar.get(Calendar.DAY_OF_MONTH);
 		}
-
 		mPushClose.setSheduleListData(scheduleDay);
 	}
 	private void registerBroadcast()
@@ -195,9 +196,17 @@ public class HomeActivity extends SlidingBaseActivity
 		sm.setShadowDrawable(R.drawable.shadow);
 		sm.setSecondaryShadowDrawable(R.drawable.shadowright);
 		setBehindContentView(R.layout.menu_frame);
-		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame, new LeftMenuFragment()).commit();
+		if (leftMenuFragment == null)
+		{
+			leftMenuFragment= new LeftMenuFragment();
+		}
+		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame, leftMenuFragment).commit();
 		sm.setSecondaryMenu(R.layout.menu_frame_two);
-		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_two, new RightMenuFragment()).commit();
+		if (rightMenuFragment == null)
+		{
+			rightMenuFragment= new RightMenuFragment();
+		}
+		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_two, rightMenuFragment).commit();
 	}
 	public void onStop()
 	{
@@ -366,16 +375,21 @@ public class HomeActivity extends SlidingBaseActivity
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			if (userFragment != null)
+			if (leftMenuFragment != null)
 			{
-				userFragment.getThumb().setImageBitmap(prepareThumbImage());
-			}
-			if (userDetailFragment != null)
-			{
-				userDetailFragment.getThumb().setImageBitmap(prepareThumbImage());
+				if (leftMenuFragment.userFragment != null)
+				{
+					leftMenuFragment.userFragment.getThumb().setImageBitmap(prepareThumbImage());
+				}
+
+				if (leftMenuFragment.userDetailFragment != null)
+				{
+					leftMenuFragment.userDetailFragment.getThumb().setImageBitmap(prepareThumbImage());
+				}
 			}
 		}
-	}
+	}//end inner class
+
 	private void requestSign(String twobarcode, String userid, String lng, String lat)
 	{
 		if (progressDialog == null)
@@ -392,23 +406,21 @@ public class HomeActivity extends SlidingBaseActivity
 			signTask.cancel(true);
 		}
 		signTask= new SignTask();
-		CepEventCheckinParam params = new CepEventCheckinParam();
+		CepEventCheckinParam params= new CepEventCheckinParam();
+		params.setCepId(Cep.getIdFromQrcode(twobarcode) + "");
 		params.setLng(lng);
 		params.setLat(lat);
 		params.setQrcode(twobarcode);
 		params.setUserId(userid);
 		signTask.execute(params);
 	}
-	
 	private final class SignTask extends AsyncTask<CepEventCheckinParam, Void, CepEventCheckinResponse>
 	{
-
 		@Override
 		protected void onPreExecute()
 		{
 			super.onPreExecute();
 		}
-
 		@Override
 		protected CepEventCheckinResponse doInBackground(CepEventCheckinParam... params)
 		{
@@ -449,14 +461,14 @@ public class HomeActivity extends SlidingBaseActivity
 		String thumbPath= sp.getString(Config.THUMB_PATH, "");
 		if (StringUtils.isBlank(thumbPath))
 		{// 载入默认头像
-			return BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+			return BitmapFactory.decodeResource(getResources(), R.drawable.touxiang);
 		}
 		else
 		{// 载入自定义头像
 			File thumbFile= new File(thumbPath);
 			if (!thumbFile.exists())
 			{// 若文件不存在 载入默认头像
-				return BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+				return BitmapFactory.decodeResource(getResources(), R.drawable.touxiang);
 			}
 			try
 			{
@@ -465,7 +477,7 @@ public class HomeActivity extends SlidingBaseActivity
 			catch (Exception e)
 			{
 				e.printStackTrace();
-				return BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+				return BitmapFactory.decodeResource(getResources(), R.drawable.touxiang);
 			}
 		}
 	}

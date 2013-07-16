@@ -14,8 +14,8 @@ import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.airAd.yaqinghui.ui.CustomViewPager;
 public class LeftMenuFragment extends Fragment
 {
-	UserFragment userFragment;
-	UserDetailFragment userDetailFragment;
+	public UserFragment userFragment;
+	public UserDetailFragment userDetailFragment;
 	ImageFetcher mImageFetcher;
 	private CustomViewPager leftGalllery;
 

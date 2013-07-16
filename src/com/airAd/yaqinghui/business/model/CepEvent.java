@@ -24,6 +24,7 @@ public class CepEvent {
 	private static final String CEP_EVENT_FLAG_SIGNUP_CANCELED = "9"; // 确认取消
 	private static final String CEP_EVENT_FLAG_DEFAULT = "A";
 
+	private Integer tabId;
 	private String id;
 	private String cepId;
 	private String place;
@@ -36,20 +37,20 @@ public class CepEvent {
 	private String cepPic;
 	private String cepEventType;
 
-	public boolean canSignUp() {
-		if (CEP_EVENT_TYPE_OUT.equals(cepEventType)) {
-			// 村外线下报名
-			if (CEP_EVENT_FLAG_DEFAULT.equals(flag)
-					|| CEP_EVENT_FLAG_SIGNUP_CANCELED.equals(flag)) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			// 村内不用报名
-			return true;
-		}
-	}
+	// public boolean canSignUp() {
+	// if (CEP_EVENT_TYPE_OUT.equals(cepEventType)) {
+	// // 村外线下报名
+	// if (CEP_EVENT_FLAG_DEFAULT.equals(flag)
+	// || CEP_EVENT_FLAG_SIGNUP_CANCELED.equals(flag)) {
+	// return true;
+	// } else {
+	// return false;
+	// }
+	// } else {
+	// // 村内不用报名
+	// return true;
+	// }
+	// }
 	public boolean canCheckIn() {
 		if (CEP_EVENT_TYPE_OUT.equals(cepEventType)) {
 			// 村外报名通过才能签到
@@ -74,6 +75,13 @@ public class CepEvent {
 		} else {
 			return false;
 		}
+	}
+
+	public Integer getTabId() {
+		return tabId;
+	}
+	public void setTabId(Integer tabId) {
+		this.tabId = tabId;
 	}
 	public String getCepEventType() {
 		return cepEventType;

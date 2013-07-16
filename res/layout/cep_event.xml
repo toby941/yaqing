@@ -58,6 +58,7 @@
 
     <Button
         android:id="@+id/attendBtn"
+        android:textColor="#ffffff"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -78,6 +79,7 @@
 
         <Button
             android:id="@+id/signin"
+            android:textColor="#ffffff"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/j_mid"
@@ -86,6 +88,7 @@
 
         <Button
             android:id="@+id/scoreBtn"
+            android:textColor="#ffffff"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

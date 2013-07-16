@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
@@ -183,6 +184,7 @@ public class CepEventItem extends Fragment
 		{
 			signBtn.setBackgroundResource(R.drawable.prepost_bg);
 			signBtn.setOnClickListener(new ScanClick());
+			signBtn.setTextColor(Color.WHITE);
 		}
 		else
 		{
@@ -193,6 +195,7 @@ public class CepEventItem extends Fragment
 		{
 			scoreBtn.setBackgroundResource(R.drawable.prepost_bg);
 			scoreBtn.setOnClickListener(new ScoreClick());
+			scoreBtn.setTextColor(Color.WHITE);
 		}
 		else
 		{
