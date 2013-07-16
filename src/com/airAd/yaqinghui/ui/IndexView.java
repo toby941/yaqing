@@ -89,6 +89,7 @@ public class IndexView extends View
 		{
 			highLightIndex= 0;
 		}
+		invalidate();
 	}
 	public void nextPoint()
 	{

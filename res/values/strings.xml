@@ -86,7 +86,7 @@
 	<string name="event_tips">事项提醒</string>
 	<string name="event_remind_text">开始前%d分钟提醒</string>
 	<string name="dialy_remind">每日提醒</string>	
-	<string name="dialy_remind_text">%s 提醒</string>
+	<string name="dialy_remind_text">%s提醒</string>
 	<string name="about">关于</string>
 	<string name="help">帮助</string>
 	<string name="upgrate_version">升级版本</string>
@@ -105,7 +105,7 @@
 	<string name="open_event_remind">开启事项提醒</string>
 	<string name="schedule_item_tips">活动开始前%d分钟提醒</string>
 	<string name="is_locating">正在定位中...</string>
-	<string name="upload_waiting">正在验证中...</string>
+	<string name="upload_waiting">正在验证中..</string>
 	<string name="has_order">已预约</string>
 	<string name="is_ordering">预约中</string>
 	<string name="shake_tips">摇一摇查找活动推荐</string>
@@ -142,4 +142,5 @@
 	    <item>9:00</item>
 	    <item>12:00</item>
 	</string-array>
+	<string name="empty_box_text">今天暂无更多事项需要查看</string>
 </resources>

@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -78,6 +79,7 @@ public class PushClose extends RelativeLayout
 	private OnDateClickListener onDateClickListener;
 	private TextView bannerText;
 	private ImageView emptyBox;
+	private TextView emptyTitle;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -172,10 +174,12 @@ public class PushClose extends RelativeLayout
 		mTopView= (LinearLayout) findViewById(R.id.top);
 		bannerText= (TextView) top.findViewById(R.id.date_banner);
 		emptyBox= (ImageView) top.findViewById(R.id.empty_box);
+		emptyTitle= (TextView) top.findViewById(R.id.empty_text);
 		mBottomView.addView(bottom);
 		mTopView.addView(top);
 		mListView= (CanCloseListView) mTopView.findViewById(R.id.date_list);
 		mSheduleList= (ListView) top.findViewById(R.id.date_list);
+		mSheduleList.setDivider(new BitmapDrawable());
 		mProgressDialog= new ProgressDialog(mContext);
 		mProgressDialog.setTitle(R.string.dialog_title);
 		mProgressDialog.setMessage(getResources().getText(R.string.is_locating));
@@ -241,11 +245,16 @@ public class PushClose extends RelativeLayout
 			mDataList= mScheduleService.getScheduleItemsByDate(user.getId(), day);
 			if (mDataList.size() > 0)
 			{
+				ScheduleItem item= new ScheduleItem();
+				item.setShowMonkey(1);
+				mDataList.add(item);
 				emptyBox.setVisibility(View.INVISIBLE);
+				emptyTitle.setVisibility(View.INVISIBLE);
 			}
 			else
 			{
 				emptyBox.setVisibility(View.VISIBLE);
+				emptyTitle.setVisibility(View.VISIBLE);
 			}
 		}
 		setDateHaveItems(allDays);
@@ -304,6 +313,16 @@ public class PushClose extends RelativeLayout
 			if (convertView == null)
 			{
 				convertView= mInflater.inflate(R.layout.schedule_item, null);
+			}
+			ImageView monkey= (ImageView) convertView.findViewById(R.id.schdule_bottom);
+			View main= convertView.findViewById(R.id.item_main);
+			main.setVisibility(View.VISIBLE);
+			monkey.setVisibility(View.GONE);
+			if (data.getShowMonkey() == 1)
+			{
+				main.setVisibility(View.GONE);
+				monkey.setVisibility(View.VISIBLE);
+				return convertView;
 			}
 			try
 			{

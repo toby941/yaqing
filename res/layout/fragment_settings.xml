@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#333241" >
+    android:background="@drawable/texture_bg" >
 
     <RelativeLayout
         android:id="@+id/j_detail_banner"
@@ -243,8 +243,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/loginout_bg"
+                android:textSize="16dp"
                 android:text="@string/login_out"
-                android:textColor="#A4A9AD" />
+                android:textColor="#ffffff" />
         </LinearLayout>
     </ScrollView>
 
