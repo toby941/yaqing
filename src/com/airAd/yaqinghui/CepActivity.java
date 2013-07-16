@@ -126,7 +126,7 @@ public class CepActivity extends BaseActivity
 				Toast.makeText(CepActivity.this, R.string.net_exception, Toast.LENGTH_SHORT).show();
 				return;
 			}
-			mIndexView.setNum(ceps.size(), mIndexView.getMeasuredWidth());
+			mIndexView.setNum(ceps.size());
 			mGallery.setAdapter(new PageAdapter(getSupportFragmentManager()));
 			mShakeBtn.setOnClickListener(new DoShakeSearch());
 			mGallery.setOnPageChangeListener(new OnPageChangeListener()

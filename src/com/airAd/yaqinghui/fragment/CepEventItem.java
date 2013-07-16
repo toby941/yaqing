@@ -304,11 +304,11 @@ public class CepEventItem extends Fragment
 		public void onClick(View view)
 		{
 			//			System.out.println("报名参加");
-			cepSerice.doReservationCepEvent(MyApplication.getCurrentApp().getUser().getId(), cep, cepEvent);
-			AlarmService.getInstance().addAlarm(
-					Integer.parseInt(cepEvent.getId()),
-					cepEvent.getStartTimel(),
-					cep.getContent());
+			int cid= (int) cepSerice.doReservationCepEvent(
+					MyApplication.getCurrentApp().getUser().getId(),
+					cep,
+					cepEvent);
+			AlarmService.getInstance().addAlarm(cid, cepEvent.getStartTimel(), cep.getContent());//添加到闹铃
 			Toast.makeText(getActivity(), R.string.watch_success, Toast.LENGTH_SHORT).show();
 		}
 	}//end inner class

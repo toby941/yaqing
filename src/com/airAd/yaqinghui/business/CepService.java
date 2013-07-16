@@ -47,8 +47,9 @@ public class CepService extends BaseService {
 		}
 	}
 	// 预约
-	public CepEventReservationResponse doReservationCepEvent(
+	public long doReservationCepEvent(
 			final String userId, final Cep cep, final CepEvent event) {
+		long ret= -1;
 		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
 		Cursor cur = db
 				.rawQuery(
@@ -79,9 +80,9 @@ public class CepService extends BaseService {
 			cValue.put("time_str", event.getEventTimeRangeDescription());
 			cValue.put("day", event.getStartDayOfMonth());
 			//
-			db.insert("schedule", null, cValue);
+			ret= db.insert("schedule", null, cValue);
 		}
-		return null;
+		return ret;
 	}
 	public CepEventReservationResponse doCancelReservationCepEvent(
 			final String userId, final String cepId, final String eventId) {

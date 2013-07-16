@@ -23,7 +23,7 @@
         android:layout_marginTop="6dp"
         android:background="@android:color/transparent"
         android:src="@drawable/back_top_btn" />
-    
+
     <ImageButton
         android:id="@+id/search_btn"
         android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
         android:layout_below="@id/j_top"
         android:scaleType="fitXY"
         android:src="@drawable/colorbar" />
-    
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -62,19 +62,21 @@
             android:layout_height="fill_parent"
             android:layout_centerHorizontal="true" >
         </android.support.v4.view.ViewPager>
-
-        <com.airAd.yaqinghui.ui.IndexView
-            android:id="@+id/gallery_index"
-            android:layout_width="@dimen/main_pic_index_width"
-            android:layout_height="@dimen/main_pic_index_height"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
     </RelativeLayout>
-	
+
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/j_line"
         android:scaleType="fitXY"
-        android:src="@drawable/lighten"/>
+        android:src="@drawable/lighten" />
+
+    <com.airAd.yaqinghui.ui.IndexView
+        android:id="@+id/gallery_index"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
+
 </RelativeLayout>
