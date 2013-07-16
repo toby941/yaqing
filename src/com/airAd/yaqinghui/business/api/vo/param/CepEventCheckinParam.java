@@ -4,7 +4,7 @@
 package com.airAd.yaqinghui.business.api.vo.param;
 /**
  * CepEventCheckinParam.java
- *
+ * 
  * @author liyuhang
  */
 public class CepEventCheckinParam {
@@ -12,7 +12,21 @@ public class CepEventCheckinParam {
 	private String userId;
 	private String lng;
 	private String lat;
-
+	private String cepId;
+	private String eventId;
+	
+	public String getCepId() {
+		return cepId;
+	}
+	public void setCepId(String cepId) {
+		this.cepId = cepId;
+	}
+	public String getEventId() {
+		return eventId;
+	}
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
+	}
 	public String getQrcode() {
 		return qrcode;
 	}

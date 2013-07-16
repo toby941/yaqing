@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">南京亚青会</string>
+    <string name="app_name">亚青助手</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="left_menu_setting">设置</string>
@@ -127,4 +127,5 @@
 	<string name="cep_socre1">整体评价</string>
 	<string name="cep_socre2">组织水平 </string>
 	<string name="cep_socre3">个人收获 </string>	
+	<string name="weibo01">我正在参加“青年的节日”（第二届亚洲青年运动会的主题活动）。 </string>
 </resources>

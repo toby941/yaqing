@@ -262,19 +262,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/detail_event_item_height" >
             </android.support.v4.view.ViewPager>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2px"
-                android:layout_margin="5dp"
-                android:background="@drawable/shader_line" />
-
-            <TextView
-                android:id="@+id/cep_content"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textSize="18dp" />
         </LinearLayout>
     </com.airAd.yaqinghui.ui.ViewPagerScrollView>
 

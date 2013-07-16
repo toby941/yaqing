@@ -57,7 +57,7 @@ public class NotifyList extends Fragment
 	public void onResume()
 	{
 		super.onResume();
-		dataList= notifyService.getNoficationMessages();
+		dataList= notifyService.getNoficationMessages(MyApplication.getCurrentApp().getUser().getId());
 		selectListener= new ItemSelectListener();
 		listView.setAdapter(new NotifyAdapter());
 		listView.setOnItemClickListener(selectListener);

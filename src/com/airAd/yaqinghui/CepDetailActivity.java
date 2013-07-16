@@ -53,7 +53,7 @@ public class CepDetailActivity extends BaseActivity
 	private ViewPager mCepEventGallery;
 	private ImageFetcher mImageFetcher;
 	private TextView mTitleText;
-	private TextView mContentText;
+	//	private TextView mContentText;
 	private RelativeLayout progress;
 	private RequestTask mTask;
 	private String cepId;// cep活动ID
@@ -81,13 +81,14 @@ public class CepDetailActivity extends BaseActivity
 	private SigninTask signTask;
 	private AssetManager assetManager;
 	private ProgressDialog proDialog;
+	private int eventIndex= 0;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news_detail);
 		init();
-		requestDetailData();
+		requestDetailData(0);
 	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -116,7 +117,6 @@ public class CepDetailActivity extends BaseActivity
 		params.setQrcode(twobarcode);
 		params.setLat(lat);
 		params.setLng(lng);
-		proDialog.show();
 		signTask.execute(params);
 	}
 	private final class SigninTask extends AsyncTask<CepEventCheckinParam, Void, CepEventCheckinResponse>
@@ -135,7 +135,6 @@ public class CepDetailActivity extends BaseActivity
 		protected void onPostExecute(CepEventCheckinResponse result)
 		{
 			super.onPostExecute(result);
-			proDialog.dismiss();
 			if (result != null)
 			{
 				if (Constants.FLAG_SUCC.equals(result.getFlag()))//签到成功
@@ -157,8 +156,13 @@ public class CepDetailActivity extends BaseActivity
 	 * 
 	 * @param service
 	 */
-	private void requestDetailData()
+	public void requestDetailData(int gotoIndex)
 	{
+		eventIndex= gotoIndex;
+		if (mTask != null)
+		{
+			mTask.cancel(true);
+		}
 		mTask= new RequestTask();
 		mTask.execute(cepId);
 	}
@@ -197,11 +201,12 @@ public class CepDetailActivity extends BaseActivity
 			}
 			setSorce();
 			mTitleText.setText(cep.getTitle());
-			mContentText.setText(cep.getContent());
+			//			mContentText.setText(cep.getContent());
 			mCepEventGallery.setAdapter(new CepEventAdapter(CepDetailActivity.this.getSupportFragmentManager(), cep
 					.getCepEvents()));
 			setEventComponent();
 			progress.setVisibility(View.GONE);
+			mCepEventGallery.setCurrentItem(eventIndex);
 		}
 	}// end inner class
 	private void setEventComponent()
@@ -434,7 +439,7 @@ public class CepDetailActivity extends BaseActivity
 		mBackBtn.setOnClickListener(new BackClick());
 		mGallery= (ViewPager) findViewById(R.id.gallery);
 		mTitleText= (TextView) findViewById(R.id.detail_title);
-		mContentText= (TextView) findViewById(R.id.cep_content);
+		//		mContentText= (TextView) findViewById(R.id.cep_content);
 		progress= (RelativeLayout) findViewById(R.id.progressLayout);
 		eventHeaderView= findViewById(R.id.event_head);
 		lineShadow= (ImageView) findViewById(R.id.col_shadow2);

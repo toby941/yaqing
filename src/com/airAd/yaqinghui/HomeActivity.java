@@ -16,18 +16,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,10 +38,10 @@ import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.Constants;
 import com.airAd.yaqinghui.common.StringUtil;
 import com.airAd.yaqinghui.core.ImageFetcherFactory;
+import com.airAd.yaqinghui.fragment.LeftMenuFragment;
+import com.airAd.yaqinghui.fragment.RightMenuFragment;
 import com.airAd.yaqinghui.fragment.UserDetailFragment;
 import com.airAd.yaqinghui.fragment.UserFragment;
-import com.airAd.yaqinghui.ui.CustomViewPager;
-import com.airAd.yaqinghui.ui.IconListItem;
 import com.airAd.yaqinghui.ui.PushClose;
 import com.google.zxing.client.android.CaptureActivity;
 import com.slidingmenu.lib.SlidingMenu;
@@ -79,8 +74,15 @@ public class HomeActivity extends SlidingBaseActivity
 		super.onCreate(savedInstanceState);
 		setTheme(R.style.Theme_Sherlock_NoActionBar);
 		setContentView(R.layout.main);
-		JPushInterface.init(this);
-		JPushInterface.setAliasAndTags(this, MyApplication.getCurrentApp().getUser().getId(), null);
+		try
+		{
+			JPushInterface.init(this);
+			JPushInterface.setAliasAndTags(this, MyApplication.getCurrentApp().getUser().getId(), null);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		init();
 	}
 	public String getIMEI()
@@ -221,122 +223,122 @@ public class HomeActivity extends SlidingBaseActivity
 			return super.onKeyDown(keyCode, event);
 		}
 	}
-	public class RightMenuFragment extends Fragment
-	{
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-		{
-			View view= inflater.inflate(R.layout.menu_rights, null);
-			LinearLayout layout= (LinearLayout) view.findViewById(R.id.menu_list);
-			IconListItem iconListItemSchedule= new IconListItem(HomeActivity.this);
-			iconListItemSchedule.setIcon(
-					R.drawable.icon_schedule_bg,
-					R.drawable.item_dialy_bg,
-					R.string.menu_left_schedule);
-			iconListItemSchedule.setOnClickListener(new OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					Intent intent= new Intent();
-					intent.setClass(HomeActivity.this, GameScheduleActivity.class);
-					HomeActivity.this.startActivity(intent);
-				}
-			});
-			layout.addView(iconListItemSchedule);
-			IconListItem cep= new IconListItem(HomeActivity.this);
-			cep.setIcon(R.drawable.icon_schedule_bg, R.drawable.cep_icon, R.string.cep_menu_title);
-			cep.setOnClickListener(new OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					Intent intent= new Intent();
-					intent.setClass(HomeActivity.this, CepActivity.class);
-					HomeActivity.this.startActivity(intent);
-				}
-			});
-			layout.addView(cep);
-			IconListItem video= new IconListItem(HomeActivity.this);
-			video.setIcon(R.drawable.icon_schedule_bg, R.drawable.video_icon, R.string.cep_video);
-			video.setOnClickListener(new OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					Intent intent= new Intent();
-					intent.setClass(HomeActivity.this, PlayVideoActivity.class);
-					HomeActivity.this.startActivity(intent);
-				}
-			});
-			layout.addView(video);
-			return view;
-		}
-		@Override
-		public void onCreate(Bundle savedInstanceState)
-		{
-			super.onCreate(savedInstanceState);
-		}
-		@Override
-		public void onActivityCreated(Bundle savedInstanceState)
-		{
-			super.onActivityCreated(savedInstanceState);
-		}
-	}
+	//	public class RightMenuFragment extends Fragment
+	//	{
+	//		@Override
+	//		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	//		{
+	//			View view= inflater.inflate(R.layout.menu_rights, null);
+	//			LinearLayout layout= (LinearLayout) view.findViewById(R.id.menu_list);
+	//			IconListItem iconListItemSchedule= new IconListItem(HomeActivity.this);
+	//			iconListItemSchedule.setIcon(
+	//					R.drawable.icon_schedule_bg,
+	//					R.drawable.item_dialy_bg,
+	//					R.string.menu_left_schedule);
+	//			iconListItemSchedule.setOnClickListener(new OnClickListener()
+	//			{
+	//				@Override
+	//				public void onClick(View v)
+	//				{
+	//					Intent intent= new Intent();
+	//					intent.setClass(HomeActivity.this, GameScheduleActivity.class);
+	//					HomeActivity.this.startActivity(intent);
+	//				}
+	//			});
+	//			layout.addView(iconListItemSchedule);
+	//			IconListItem cep= new IconListItem(HomeActivity.this);
+	//			cep.setIcon(R.drawable.icon_schedule_bg, R.drawable.cep_icon, R.string.cep_menu_title);
+	//			cep.setOnClickListener(new OnClickListener()
+	//			{
+	//				@Override
+	//				public void onClick(View v)
+	//				{
+	//					Intent intent= new Intent();
+	//					intent.setClass(HomeActivity.this, CepActivity.class);
+	//					HomeActivity.this.startActivity(intent);
+	//				}
+	//			});
+	//			layout.addView(cep);
+	//			IconListItem video= new IconListItem(HomeActivity.this);
+	//			video.setIcon(R.drawable.icon_schedule_bg, R.drawable.video_icon, R.string.cep_video);
+	//			video.setOnClickListener(new OnClickListener()
+	//			{
+	//				@Override
+	//				public void onClick(View v)
+	//				{
+	//					Intent intent= new Intent();
+	//					intent.setClass(HomeActivity.this, PlayVideoActivity.class);
+	//					HomeActivity.this.startActivity(intent);
+	//				}
+	//			});
+	//			layout.addView(video);
+	//			return view;
+	//		}
+	//		@Override
+	//		public void onCreate(Bundle savedInstanceState)
+	//		{
+	//			super.onCreate(savedInstanceState);
+	//		}
+	//		@Override
+	//		public void onActivityCreated(Bundle savedInstanceState)
+	//		{
+	//			super.onActivityCreated(savedInstanceState);
+	//		}
+	//	}
 	/**
 	 * 左侧菜单
 	 * 
 	 * @author Administrator
 	 */
-	public class LeftMenuFragment extends Fragment
-	{
-		private CustomViewPager leftGalllery;
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-		{
-			View view= inflater.inflate(R.layout.menu_left, null);
-			leftGalllery= (CustomViewPager) view.findViewById(R.id.left_menugallery);
-			leftGalllery.setAdapter(new LeftMenuAdapter(getActivity().getSupportFragmentManager()));
-			return view;
-		}
-		@Override
-		public void onCreate(Bundle savedInstanceState)
-		{
-			super.onCreate(savedInstanceState);
-		}
-		private final class LeftMenuAdapter extends FragmentStatePagerAdapter
-		{
-			public LeftMenuAdapter(FragmentManager fm)
-			{
-				super(fm);
-			}
-			@Override
-			public Fragment getItem(int index)
-			{
-				if (index == 0)
-				{
-					if (userFragment == null)
-					{
-						userFragment= UserFragment.newInstance(leftGalllery);
-					}
-					return userFragment;
-				}
-				else
-				{
-					if (userDetailFragment == null)
-					{
-						userDetailFragment= UserDetailFragment.newInstance(leftGalllery, mImageFetcher);
-					}
-					return userDetailFragment;
-				}
-			}
-			@Override
-			public int getCount()
-			{
-				return 2;
-			}
-		}// end inner class
-	}
+	//	public class LeftMenuFragment extends Fragment
+	//	{
+	//		private CustomViewPager leftGalllery;
+	//		@Override
+	//		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	//		{
+	//			View view= inflater.inflate(R.layout.menu_left, null);
+	//			leftGalllery= (CustomViewPager) view.findViewById(R.id.left_menugallery);
+	//			leftGalllery.setAdapter(new LeftMenuAdapter(getActivity().getSupportFragmentManager()));
+	//			return view;
+	//		}
+	//		@Override
+	//		public void onCreate(Bundle savedInstanceState)
+	//		{
+	//			super.onCreate(savedInstanceState);
+	//		}
+	//		private final class LeftMenuAdapter extends FragmentStatePagerAdapter
+	//		{
+	//			public LeftMenuAdapter(FragmentManager fm)
+	//			{
+	//				super(fm);
+	//			}
+	//			@Override
+	//			public Fragment getItem(int index)
+	//			{
+	//				if (index == 0)
+	//				{
+	//					if (userFragment == null)
+	//					{
+	//						userFragment= UserFragment.newInstance(leftGalllery);
+	//					}
+	//					return userFragment;
+	//				}
+	//				else
+	//				{
+	//					if (userDetailFragment == null)
+	//					{
+	//						userDetailFragment= UserDetailFragment.newInstance(leftGalllery, mImageFetcher);
+	//					}
+	//					return userDetailFragment;
+	//				}
+	//			}
+	//			@Override
+	//			public int getCount()
+	//			{
+	//				return 2;
+	//			}
+	//		}// end inner class
+	//	}
 	// 二维码扫描返回
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -391,6 +393,8 @@ public class HomeActivity extends SlidingBaseActivity
 		}
 		signTask= new SignTask();
 		CepEventCheckinParam params = new CepEventCheckinParam();
+		params.setLng(lng);
+		params.setLat(lat);
 		params.setQrcode(twobarcode);
 		params.setUserId(userid);
 		signTask.execute(params);
@@ -422,7 +426,6 @@ public class HomeActivity extends SlidingBaseActivity
 				{
 					//签到成功
 					Toast.makeText(HomeActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
-
 				}
 				else
 				{

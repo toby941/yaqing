@@ -48,6 +48,7 @@ public class CepEventItem extends Fragment
 	public static final String GREEN= "cep_type_green";
 	private Cep cep;
 	private CepEvent cepEvent;
+	public int index;
 	private Button signBtn;
 	private LocationManagerProxy locationManager;
 	private boolean isLocating= false;
@@ -66,6 +67,7 @@ public class CepEventItem extends Fragment
 	private PopupWindow medalPop;
 	private ImageView medalTypeImage;
 	private Button okBtn;
+	private TextView mContent;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -116,7 +118,6 @@ public class CepEventItem extends Fragment
 		cepSerice= new CepService();
 		progressDialog= new ProgressDialog(getActivity());
 		progressDialog.setTitle(R.string.dialog_title);
-		progressDialog.setMessage(getResources().getText(R.string.is_locating));
 		progressDialog.setCancelable(true);
 		locationManager= LocationManagerProxy.getInstance(getActivity());
 		mLocateProgressDialog= new ProgressDialog(getActivity());
@@ -161,6 +162,7 @@ public class CepEventItem extends Fragment
 		parentView= getActivity().findViewById(R.id.main);
 		final View v= inflater.inflate(R.layout.cep_event, container, false);
 		TextView timeText= (TextView) v.findViewById(R.id.cep_event_time);
+		mContent= (TextView) v.findViewById(R.id.cep_content);
 		long startTimeLong= Long.parseLong(cepEvent.getStartTime());
 		long endTimeLong= Long.parseLong(cepEvent.getEndTime());
 		SimpleDateFormat sdfEnd= new SimpleDateFormat("HH:mm");
@@ -169,20 +171,12 @@ public class CepEventItem extends Fragment
 		scoreBtn= (Button) v.findViewById(R.id.scoreBtn);
 		TextView locateText= (TextView) v.findViewById(R.id.cep_event_locate);
 		locateText.setText(cepEvent.getPlace());
+		mContent.setText(cep.getContent());
 		setPopWindow(inflater);
-		if (CepEvent.CEP_EVENT_TYPE_IN.equals(cepEvent.getCepEventType()))
+		attendBtn.setOnClickListener(new AttendClick());
+		if (CepEvent.CEP_EVENT_TYPE_OUT.equals(cepEvent.getCepEventType()))
 		{//
 			attendBtn.setVisibility(View.GONE);
-		}
-		if (cepEvent.canCheckIn())// 可报名
-		{// attendBtn
-			attendBtn.setBackgroundResource(R.drawable.prepost_bg);
-			attendBtn.setOnClickListener(new AttendClick());
-		}
-		else
-		{
-			//			attendBtn.setEnabled(false);
-			attendBtn.setBackgroundResource(R.drawable.sign_in_bg);
 		}
 		signBtn= (Button) v.findViewById(R.id.signin);
 		if (cepEvent.canSignUp())// 可签到
@@ -202,10 +196,10 @@ public class CepEventItem extends Fragment
 		}
 		else
 		{
-			//			scoreBtn.setEnabled(false);
+			scoreBtn.setEnabled(false);
 			scoreBtn.setBackgroundResource(R.drawable.sign_in_bg);
-			scoreBtn.setBackgroundResource(R.drawable.prepost_bg);
-			scoreBtn.setOnClickListener(new ScoreClick());
+			//			scoreBtn.setBackgroundResource(R.drawable.prepost_bg);
+			//			scoreBtn.setOnClickListener(new ScoreClick());
 		}
 		return v;
 	}
@@ -282,8 +276,8 @@ public class CepEventItem extends Fragment
 					Toast.makeText(getActivity(), result.getMsg(), Toast.LENGTH_SHORT).show();
 					//勋章操作
 					getMedal();
-					scoreBtn.setEnabled(false);
-					scoreBtn.setBackgroundResource(R.drawable.sign_in_bg);
+					CepDetailActivity acy= (CepDetailActivity) getActivity();
+					acy.requestDetailData(0);
 				}
 				else
 				{

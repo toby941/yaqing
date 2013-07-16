@@ -136,6 +136,22 @@ public class CepService extends BaseService
 					NotificationMessage.TYPE_CEPEVENT_CHECKIN_HIS);
 			cValue.put("read_flag", NotificationMessage.READ);
 			cValue.put("add_time", new Date().getTime());
+			// 查出对应的cepId
+			// Cep cep = new CepService().getCep(param.getUserId(),
+			// param.getCepId());
+			// CepEvent cepEvent = null;
+			// List<CepEvent> events = cep.getCepEvents();
+			// for (CepEvent event : events) {
+			// if (param.getEventId().equals(event.getId())) {
+			// cepEvent = event;
+			// break;
+			// }
+			// }
+			// //
+			// cValue.put("cep_id", cep.getId());
+			// cValue.put("cep_title", cep.getTitle());
+			// cValue.put("cep_place", cepEvent.getPlace());
+			// cValue.put("cep_start_time", cepEvent.getStartTimel());
 			//
 			long messagesId = db.insert("messages", null, cValue);
 			//
@@ -185,6 +201,22 @@ public class CepService extends BaseService
 					NotificationMessage.TYPE_CEPEVENT_SCORE_HIS);
 			cValue.put("read_flag", NotificationMessage.READ);
 			cValue.put("add_time", new Date().getTime());
+			// 查出对应的cepId
+			Cep cep = new CepService().getCep(param.getUserId(),
+					param.getCepId());
+			CepEvent cepEvent = null;
+			List<CepEvent> events = cep.getCepEvents();
+			for (CepEvent event : events) {
+				if (param.getEventId().equals(event.getId())) {
+					cepEvent = event;
+					break;
+				}
+			}
+			//
+			cValue.put("cep_id", cep.getId());
+			cValue.put("cep_title", cep.getTitle());
+			cValue.put("cep_place", cepEvent.getPlace());
+			cValue.put("cep_start_time", cepEvent.getStartTimel());
 			//
 			long messagesId = db.insert("messages", null, cValue);
 			return res;

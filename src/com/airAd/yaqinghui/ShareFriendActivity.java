@@ -64,6 +64,8 @@ public class ShareFriendActivity extends BaseActivity {
 		// @动作
 		if(WeiboUtil.friendList.size()>0){
 			writeList();
+		}else{
+			progressDialog.show();
 		}
 		  
         handler = new Handler(){ 

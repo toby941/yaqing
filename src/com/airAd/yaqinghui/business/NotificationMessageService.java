@@ -4,7 +4,9 @@
 package com.airAd.yaqinghui.business;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -22,16 +24,37 @@ import com.airAd.yaqinghui.common.ApiUtil;
  * @author liyuhang
  */
 public class NotificationMessageService extends BaseService {
-	public List<NotificationMessage> getNoficationMessages() {
-		return getMessagesByType(NotificationMessage.TYPE_NOTIFICATION);
+	
+	public Map<Integer, Integer> getHisMapData(String userId) {
+		Map<Integer, Integer> ret = new HashMap<Integer, Integer>();
+		SQLiteDatabase db = MyApplication.getCurrentReadDB();
+		//
+		Cursor cur = db
+				.rawQuery(
+						"select message_type, count(1) num from messages where user_id = ? group by message_type",
+						new String[]{userId});
+		//
+		cur.moveToFirst();
+		while (!cur.isAfterLast()) {
+			int messageType = cur.getInt(0);
+			int num = cur.getInt(1);
+			ret.put(messageType, num);
+			cur.moveToNext();
+		}
+		cur.close();
+		return ret;
 	}
-	public List<NotificationMessage> getMessagesByType(int type) {
+	
+	public List<NotificationMessage> getNoficationMessages(String userId) {
+		return getMessagesByType(userId, NotificationMessage.TYPE_NOTIFICATION);
+	}
+	public List<NotificationMessage> getMessagesByType(String userId, int type) {
 		List<NotificationMessage> messages = new ArrayList<NotificationMessage>();
 		SQLiteDatabase db = MyApplication.getCurrentReadDB();
 		Cursor cur = db
 				.rawQuery(
-						"select cid, title, content,user_id,message_type,add_time,read_flag from messages where message_type = ? order by add_time desc",
-						new String[]{type + ""});
+						"select cid, title, content,user_id,message_type,add_time,read_flag from messages where user_id = ? and message_type = ? order by add_time desc",
+						new String[]{userId, type + ""});
 		cur.moveToFirst();
 		while (!cur.isAfterLast()) {
 			NotificationMessage message = new NotificationMessage();
@@ -114,7 +137,7 @@ public class NotificationMessageService extends BaseService {
 			cValue.put("cep_id", cep.getId());
 			cValue.put("cep_title", cep.getTitle());
 			cValue.put("cep_place", cepEvent.getPlace());
-			// TODO
+			cValue.put("cep_start_time", cepEvent.getStartTimel());
 			//
 			result = db.insert("messages", null, cValue);
 		}

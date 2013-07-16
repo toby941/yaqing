@@ -1,4 +1,6 @@
 package com.airAd.yaqinghui.fragment;
+import java.util.Map;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -103,9 +105,6 @@ public class UserFragment extends Fragment
 	{
 		return thumbImage;
 	}
-	private UserFragment()
-	{
-	}
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -147,42 +146,70 @@ public class UserFragment extends Fragment
 		}
 		return view;
 	}
-
 	@Override
 	public void onResume()
 	{
 		super.onResume();
 		NotificationMessageService service= new NotificationMessageService();
-		int ordernum= 0;
-		int signnum= 1;
-		int commentnum= 2;
-		if (ordernum > 0)
+		Map<Integer, Integer> map= service.getHisMapData(MyApplication.getCurrentApp().getUser().getId());
+		if (map == null)
 		{
-			myCepOrder.setImageResource(R.drawable.baoming);
-			orderNumText.setVisibility(View.VISIBLE);
-			orderNumText.setText(ordernum + "");
+			return;
+		}
+		Integer ordernum= map.get(NotificationMessage.TYPE_CEPEVENT_SIGNUP_HIS);
+		Integer signnum= map.get(NotificationMessage.TYPE_CEPEVENT_CHECKIN_HIS);
+		Integer commentnum= map.get(NotificationMessage.TYPE_CEPEVENT_SCORE_HIS);
+		if (ordernum != null)
+		{
+			if (ordernum > 0)
+			{
+				myCepOrder.setImageResource(R.drawable.baoming);
+				orderNumText.setVisibility(View.VISIBLE);
+				orderNumText.setText(ordernum + "");
+			}
+			else
+			{
+				myCepOrder.setImageResource(R.drawable.baoming_none);
+				orderNumText.setVisibility(View.INVISIBLE);
+			}
 		}
 		else
 		{
 			myCepOrder.setImageResource(R.drawable.baoming_none);
 			orderNumText.setVisibility(View.INVISIBLE);
 		}
-		if (signnum > 0)
+		if (signnum != null)
 		{
-			myCepSingn.setImageResource(R.drawable.qiandao);
-			signNumText.setVisibility(View.VISIBLE);
-			signNumText.setText(signnum + "");
+			if (signnum > 0)
+			{
+				myCepSingn.setImageResource(R.drawable.qiandao);
+				signNumText.setVisibility(View.VISIBLE);
+				signNumText.setText(signnum + "");
+			}
+			else
+			{
+				myCepSingn.setImageResource(R.drawable.qiandao_none);
+				signNumText.setVisibility(View.INVISIBLE);
+			}
 		}
 		else
 		{
 			myCepSingn.setImageResource(R.drawable.qiandao_none);
 			signNumText.setVisibility(View.INVISIBLE);
 		}
-		if (commentnum > 0)
+		if (commentnum != null)
 		{
-			myCepComment.setImageResource(R.drawable.pinlun);
-			commentNumText.setVisibility(View.VISIBLE);
-			commentNumText.setText(commentnum + "");
+			if (commentnum > 0)
+			{
+				myCepComment.setImageResource(R.drawable.pinlun);
+				commentNumText.setVisibility(View.VISIBLE);
+				commentNumText.setText(commentnum + "");
+			}
+			else
+			{
+				myCepComment.setImageResource(R.drawable.pinlun_none);
+				commentNumText.setVisibility(View.INVISIBLE);
+			}
 		}
 		else
 		{
