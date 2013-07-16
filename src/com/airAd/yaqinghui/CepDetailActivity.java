@@ -82,6 +82,7 @@ public class CepDetailActivity extends BaseActivity
 	private AssetManager assetManager;
 	private ProgressDialog proDialog;
 	private int eventIndex= 0;
+	private String requestEventId= "-1";
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -159,6 +160,9 @@ public class CepDetailActivity extends BaseActivity
 	 */
 	public void requestDetailData(int gotoIndex)
 	{
+		eventTop[0].unSelected();
+		eventTop[1].unSelected();
+		eventTop[2].unSelected();
 		eventIndex= gotoIndex;
 		if (mTask != null)
 		{
@@ -179,7 +183,6 @@ public class CepDetailActivity extends BaseActivity
 		{
 			super.onPostExecute(result);
 			cep= result;
-
 			if (cep == null)
 			{
 				Toast.makeText(CepDetailActivity.this, R.string.net_exception, Toast.LENGTH_SHORT).show();
@@ -187,8 +190,14 @@ public class CepDetailActivity extends BaseActivity
 			}
 			for (int i= 0; i < cep.getCepEvents().size(); i++)
 			{
-				String number= cep.getCepEvents().get(i).getTabId() + "";
-				cep.getCepEvents().get(i).setName(getString(R.string.number) + number);
+				CepEvent cepEvent= cep.getCepEvents().get(i);
+				String number= cepEvent.getTabId() + "";
+				cepEvent.setName(getString(R.string.number) + number);
+				if (requestEventId != null && requestEventId.equals(cepEvent.getId()))
+				{
+					eventIndex= i;
+					System.out.println("eventIndex-->" + eventIndex);
+				}
 			}//end for i
 			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this.getSupportFragmentManager(),
 					cep.getPics(), cep));
@@ -207,7 +216,6 @@ public class CepDetailActivity extends BaseActivity
 			mCepEventGallery.setAdapter(new CepEventAdapter(CepDetailActivity.this.getSupportFragmentManager(), cep
 					.getCepEvents()));
 			setEventComponent();
-			System.out.println("index-->" + eventIndex);
 			if (eventIndex > 0 && eventIndex < cep.getCepEvents().size())
 			{
 				//				eventTop[0].unSelected();
@@ -464,6 +472,7 @@ public class CepDetailActivity extends BaseActivity
 		assetManager= getAssets();
 		proDialog= new ProgressDialog(this);
 		cepId= getIntent().getStringExtra(Config.CEP_ID);
+		requestEventId= getIntent().getStringExtra(Config.CEP_EVENT_ID);
 		mInflater= (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mImageFetcher= ImageFetcherFactory.genImageFetcher(this, R.drawable.ic_launcher);
 		mainLayout= (RelativeLayout) findViewById(R.id.main);
@@ -562,7 +571,7 @@ public class CepDetailActivity extends BaseActivity
 		@Override
 		public Fragment getItem(int index)
 		{
-			return CepEventItem.newInstance(listCepEvent.get(index), cep);
+			return CepEventItem.newInstance(listCepEvent.get(index), cep, index);
 		}
 		@Override
 		public int getCount()

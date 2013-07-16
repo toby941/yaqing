@@ -35,7 +35,31 @@ public class NotificationMessage {
 	private String cepId;
 	private String eventId;
 	private String userId;
+
+	private String cepTitle;
+	private String cepPlace;
+	private Long cepStartTime;
+
 	//
+
+	public String getCepTitle() {
+		return cepTitle;
+	}
+	public void setCepTitle(String cepTitle) {
+		this.cepTitle = cepTitle;
+	}
+	public String getCepPlace() {
+		return cepPlace;
+	}
+	public void setCepPlace(String cepPlace) {
+		this.cepPlace = cepPlace;
+	}
+	public Long getCepStartTime() {
+		return cepStartTime;
+	}
+	public void setCepStartTime(Long cepStartTime) {
+		this.cepStartTime = cepStartTime;
+	}
 
 	private String status;
 

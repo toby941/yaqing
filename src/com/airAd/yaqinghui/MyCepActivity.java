@@ -2,6 +2,7 @@ package com.airAd.yaqinghui;
 import java.io.IOException;
 import java.util.List;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import com.airAd.yaqinghui.business.NotificationMessageService;
 import com.airAd.yaqinghui.business.model.Cep;
 import com.airAd.yaqinghui.business.model.NotificationMessage;
 import com.airAd.yaqinghui.business.model.User;
+import com.airAd.yaqinghui.common.ApiUtil;
+import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.fragment.UserFragment;
 /**
  * CEP活动
@@ -37,6 +40,7 @@ public class MyCepActivity extends BaseActivity
 	private int type;
 	private AssetManager assetManager;
 	private OnItemClick itemClickListener;
+	private ListAdapter adapter;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -51,25 +55,26 @@ public class MyCepActivity extends BaseActivity
 		mBack= (ImageButton) findViewById(R.id.main_banner_left_btn);
 		mBack.setOnClickListener(new BackClick());
 		type= getIntent().getIntExtra(UserFragment.MYCEP_TYPE, 0);
-		System.out.println("type--->" + type);
 		mListView= (ListView) findViewBy(R.id.list);
 		NotificationMessageService notifyService= new NotificationMessageService();
 		dataList= notifyService.getMessagesByType(MyApplication.getCurrentApp().getUser().getId(), type);
 		if (dataList != null)
 		{
-			itemClickListener= new OnItemClick();
-			mListView.setAdapter(new ListAdapter());
-			mListView.setOnItemClickListener(itemClickListener);
+			mListView.setFocusable(true);
+			adapter= new ListAdapter();
+			mListView.setAdapter(adapter);
 		}
 	}
 	private final class OnItemClick implements OnItemClickListener
 	{
+
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int index, long arg3)
 		{
-			NotificationMessage item= dataList.get(index);
-			dataList.get(index);
+			NotificationMessage data= dataList.get(index);
+			System.out.println(data.getCepId() + "," + data.getEventId());
 		}
+
 	}
 	private final class ListAdapter extends BaseAdapter
 	{
@@ -110,7 +115,10 @@ public class MyCepActivity extends BaseActivity
 			TextView status= (TextView) convertView.findViewById(R.id.status);
 			TextView dotime= (TextView) convertView.findViewById(R.id.dotime);
 			status.setText(data.getTitle());
-			dotime.setText(data.getAddTimeStr());
+			dotime.setText(ApiUtil.formatDate(data.getAddTimeStr()));
+			title.setText(data.getCepTitle());
+			time.setText(ApiUtil.formatDate(data.getCepStartTime()));
+			place.setText(data.getCepPlace());
 			try
 			{
 				iconImge.setImageBitmap(BitmapFactory.decodeStream(assetManager.open(Cep.getIconType(data.getCepId())
@@ -120,9 +128,30 @@ public class MyCepActivity extends BaseActivity
 			{
 				e.printStackTrace();
 			}
+			View item= convertView.findViewById(R.id.item_main);
+			item.setOnClickListener(new ToDetailClick(data));
 			return convertView;
 		}
 	}//end inner class
+
+	private final class ToDetailClick implements OnClickListener
+	{
+		private NotificationMessage item;
+		public ToDetailClick(NotificationMessage item)
+		{
+			this.item= item;
+		}
+		@Override
+		public void onClick(View v)
+		{
+			Intent it= new Intent(MyCepActivity.this, CepDetailActivity.class);
+			it.putExtra(Config.CEP_ID, item.getCepId());
+			System.out.println("eventId-->" + item.getEventId());
+			it.putExtra(Config.CEP_EVENT_ID, item.getEventId());
+			MyCepActivity.this.startActivity(it);
+		}
+	}//end inner class
+
 	private void setTypeImg(ImageView img)
 	{
 		if (type == NotificationMessage.TYPE_CEPEVENT_SIGNUP_HIS)

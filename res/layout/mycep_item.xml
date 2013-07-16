@@ -8,6 +8,7 @@
     android:paddingTop="10dp" >
 
     <LinearLayout
+        android:id="@+id/item_main"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/mycep_item_bg"
@@ -22,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/icon" />
@@ -51,7 +52,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#4D515A"
-                    android:textSize="19dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/time"
