@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.airAd.yaqinghui.business.AlarmService;
 import com.airAd.yaqinghui.business.GameService;
 import com.airAd.yaqinghui.business.model.GameInfo;
 import com.airAd.yaqinghui.common.Common;
@@ -78,16 +79,19 @@ public class GameDailyActivity extends BackBaseActivity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				int pos = (Integer) buttonView.getTag();
-				
+				GameInfo gameInfo = gameInfoList.get(pos);
 				if (isChecked) {
-					storedInfoIdList.add(gameInfoList.get(pos).getId());
-					gameService
-							.addtoSchedule(gameInfoList.get(pos), gamePicUrl);
+					storedInfoIdList.add(gameInfo.getId());
+					int cid = gameService.addtoSchedule(gameInfoList.get(pos), gamePicUrl);
+					AlarmService.getInstance().addAlarm(cid, gameInfo.getStartTime(), gameInfo.getTitle());
 				} else {
 					storedInfoIdList.remove(gameInfoList.get(pos).getId());
 					gameService.deleteFromSchedule(gameInfoList.get(pos)
 							.getId());
+					AlarmService.getInstance().removeAlarm(Integer.parseInt(gameInfo.getId()));
 				}
+				
+				
 			}
 		};
 		mPushClose.setOnDateClickListener(new OnDateClickListener() {

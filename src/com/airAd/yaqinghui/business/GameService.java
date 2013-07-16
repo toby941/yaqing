@@ -24,41 +24,43 @@ import com.airAd.yaqinghui.core.HessianClient;
 
 /**
  * GameService.java
- *
+ * 
  * @author pengf
  */
 public class GameService extends BaseService {
-	
+
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
 	public List<Game> getGame() {
 		BasicAPI api = HessianClient.create();
 		try {
-			JSONObject jsonObj = api.GetGameInfo(MyApplication.getCurrentUser().getId(), User.getLan());
+			JSONObject jsonObj = api.GetGameInfo(MyApplication.getCurrentUser()
+					.getId(), User.getLan());
 			Log.i("GameService", jsonObj.toString());
 			return Game.instanceList(jsonObj);
 		} catch (Exception e) {
 			return null;
 		}
-    }
-	
+	}
+
 	public List<GameInfo> getGameInfo(String typeId, Date date) {
 		BasicAPI api = HessianClient.create();
 		try {
-			Log.i("GameService", typeId + "," + sdf.format(date) + User.getLan());
-			JSONObject jsonObj = api.GetGameDetailInfo(typeId, sdf.format(date), User.getLan());
+			Log.i("GameService",
+					typeId + "," + sdf.format(date) + User.getLan());
+			JSONObject jsonObj = api.GetGameDetailInfo(typeId,
+					sdf.format(date), User.getLan());
 			Log.i("GameService", jsonObj.toString());
 			return GameInfo.instanceList(jsonObj);
 		} catch (Exception e) {
 			return null;
 		}
-    }
-	
+	}
+
 	/**
 	 * 添加到日程
 	 */
-	public void addtoSchedule(GameInfo gameInfo, String picURL)
-	{
+	public int addtoSchedule(GameInfo gameInfo, String picURL) {
 		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
 		ContentValues cValue = new ContentValues();
 		//
@@ -73,32 +75,39 @@ public class GameService extends BaseService {
 		cValue.put("day", gameInfo.getDay());
 		//
 		db.insert("schedule", null, cValue);
+
+		Cursor cursor = db.query("schedule", new String[] {"cid"}, "ref_id",
+				new String[] { gameInfo.getId() }, null, null, null);
+		cursor.moveToFirst();
+		int cid = cursor.getInt(0);
+		cursor.close();
+		return cid;
 	}
-	
+
 	/**
 	 * 
 	 * 从日程删除
+	 * 
 	 * @param gameInfo
 	 * @param picURL
 	 */
-	public void deleteFromSchedule(String gameId)
-	{
+	public void deleteFromSchedule(String gameId) {
 		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
-		db.delete("schedule", "ref_id = ?", new String[]{gameId});
+		db.delete("schedule", "ref_id = ?", new String[] { gameId });
 	}
-	
+
 	/**
 	 * 获取schedule的全部id
+	 * 
 	 * @return
 	 */
-	public List<String> queryScheduleIds()
-	{
+	public List<String> queryScheduleIds() {
 		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
-		Cursor cursor = db.query("schedule", new String[]{"ref_id"}, null, null, null, null, null);
+		Cursor cursor = db.query("schedule", new String[] { "ref_id" }, null,
+				null, null, null, null);
 		cursor.moveToFirst();
 		List<String> res = new ArrayList<String>();
-		while(!cursor.isAfterLast())
-		{
+		while (!cursor.isAfterLast()) {
 			res.add(cursor.getString(0));
 			cursor.moveToNext();
 		}
