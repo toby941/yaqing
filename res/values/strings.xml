@@ -86,7 +86,7 @@
 	<string name="event_tips">事项提醒</string>
 	<string name="event_remind_text">开始前%d分钟提醒</string>
 	<string name="dialy_remind">每日提醒</string>	
-	<string name="dialy_remind_text">%s提醒</string>
+	<string name="dialy_remind_text">%s 提醒</string>
 	<string name="about">关于</string>
 	<string name="help">帮助</string>
 	<string name="upgrate_version">升级版本</string>
@@ -131,4 +131,15 @@
 	<string name="weibo01">我正在参加“青年的节日”（第二届亚洲青年运动会的主题活动）。 </string>
 	<string name="alarm_title">提醒到时了</string>
 	<string name="update_no_need">已经是最新版本！</string>
+	
+	<string-array name="time_before_array">
+	    <item>提前30分钟提醒</item>
+	    <item>提前1小时提醒</item>
+	    <item>提前2小时提醒</item>
+	</string-array>
+	<string-array name="time_daily_array">
+	    <item>6:30</item>
+	    <item>9:00</item>
+	    <item>12:00</item>
+	</string-array>
 </resources>
