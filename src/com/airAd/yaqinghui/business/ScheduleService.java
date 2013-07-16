@@ -32,7 +32,7 @@ public class ScheduleService extends BaseService
 		SQLiteDatabase db= MyApplication.getCurrentReadDB();
 		Cursor cur= db
 				.rawQuery(
-						"select cid, user_id, item_type,title, place, icon_type, start_time, add_time, ref_id ,day, cep_id from schedule where user_id = ? and day = ?",
+						"select cid, user_id, item_type,title, place, icon_type, start_time, add_time, ref_id ,day, cep_id from schedule where user_id = ? and day = ? order by start_time",
 						new String[]
 						{userId, Date + ""});
 		cur.moveToFirst();

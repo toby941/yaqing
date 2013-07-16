@@ -52,6 +52,10 @@ public class CepEvent {
 	// }
 	// }
 	public boolean canCheckIn() {
+		// 如果cep活动过期，则不能签到
+		if (ApiUtil.convertDateStringToDate(startTime).before(new Date())) {
+			return false;
+		}
 		if (CEP_EVENT_TYPE_OUT.equals(cepEventType)) {
 			// 村外报名通过才能签到
 			if (CEP_EVENT_FLAG_SIGNED_UP.equals(flag)) {

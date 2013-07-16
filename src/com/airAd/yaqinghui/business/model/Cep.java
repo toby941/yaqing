@@ -3,7 +3,6 @@
  */
 package com.airAd.yaqinghui.business.model;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -124,10 +123,10 @@ public class Cep
 				System.out.println("cepFlag--->" + eventObj.optString("flag"));
 				event.setFlag(eventObj.optString("flag"));
 				event.setTabId(i + 1);
-				if (new Date().getTime() < event.getStartTimel())
-				{
+				// if (new Date().getTime() < event.getStartTimel())
+				// {
 					events.add(event);
-				}
+				// }
 				//
 				pic= eventObj.optString("ceppictureone");
 			}

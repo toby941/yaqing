@@ -1,10 +1,10 @@
 package com.airAd.yaqinghui.business;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.json.JSONObject;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -49,22 +49,36 @@ public class CepService extends BaseService {
 	// 预约
 	public CepEventReservationResponse doReservationCepEvent(
 			final String userId, final Cep cep, final CepEvent event) {
-		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
-		ContentValues cValue = new ContentValues();
-		//
-		cValue.put("user_id", userId);
-		cValue.put("cep_id", cep.getId());
-		cValue.put("ref_id", event.getId());
-		cValue.put("item_type", ScheduleItem.TYPE_CEP_EVENT);
-		cValue.put("place", event.getPlace());
-		cValue.put("title", cep.getTitle());
-		cValue.put("icon_type", cep.getIconType());
-		cValue.put("start_time", event.getStartTimel());
-		cValue.put("add_time", new Date().getTime());
-		cValue.put("time_str", event.getEventTimeRangeDescription());
-		cValue.put("day", event.getStartDayOfMonth());
-		//
-		db.insert("schedule", null, cValue);
+		SQLiteDatabase dbReader = MyApplication.getCurrentReadDB();
+		Cursor cur = dbReader
+				.rawQuery(
+						"select count(1) from schedule where user_id = ? and cep_id = ? and ref_id = ?",
+						new String[]{userId, cep.getId(), event.getId()});
+		int count = 0;
+		cur.moveToFirst();
+		while (!cur.isAfterLast()) {
+			count = cur.getInt(0);
+		}
+		cur.close();
+		// 如果个人行程已经关注了该场次则不重复插入
+		if (count == 0) {
+			SQLiteDatabase db = MyApplication.getCurrentWirteDB();
+			ContentValues cValue = new ContentValues();
+			//
+			cValue.put("user_id", userId);
+			cValue.put("cep_id", cep.getId());
+			cValue.put("ref_id", event.getId());
+			cValue.put("item_type", ScheduleItem.TYPE_CEP_EVENT);
+			cValue.put("place", event.getPlace());
+			cValue.put("title", cep.getTitle());
+			cValue.put("icon_type", cep.getIconType());
+			cValue.put("start_time", event.getStartTimel());
+			cValue.put("add_time", new Date().getTime());
+			cValue.put("time_str", event.getEventTimeRangeDescription());
+			cValue.put("day", event.getStartDayOfMonth());
+			//
+			db.insert("schedule", null, cValue);
+		}
 		return null;
 	}
 	public CepEventReservationResponse doCancelReservationCepEvent(
@@ -202,9 +216,5 @@ public class CepService extends BaseService {
 		} catch (Exception e) {
 			return res;
 		}
-	}
-	// 直接对数据库字段进行修改，与业务无关
-	public Map<String, Object> doUpdateCepEvent(CepEvent cepEvent) {
-		return null;
 	}
 }

@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -39,7 +37,6 @@ public class MyCepActivity extends BaseActivity
 	private List<NotificationMessage> dataList;
 	private int type;
 	private AssetManager assetManager;
-	private OnItemClick itemClickListener;
 	private ListAdapter adapter;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -64,17 +61,6 @@ public class MyCepActivity extends BaseActivity
 			adapter= new ListAdapter();
 			mListView.setAdapter(adapter);
 		}
-	}
-	private final class OnItemClick implements OnItemClickListener
-	{
-
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int index, long arg3)
-		{
-			NotificationMessage data= dataList.get(index);
-			System.out.println(data.getCepId() + "," + data.getEventId());
-		}
-
 	}
 	private final class ListAdapter extends BaseAdapter
 	{
@@ -146,8 +132,7 @@ public class MyCepActivity extends BaseActivity
 		{
 			Intent it= new Intent(MyCepActivity.this, CepDetailActivity.class);
 			it.putExtra(Config.CEP_ID, item.getCepId());
-			System.out.println("eventId-->" + item.getEventId());
-			it.putExtra(Config.CEP_EVENT_ID, item.getEventId());
+			it.putExtra(Config.CEP_EVENT_ID, item.getEventId() + "");
 			MyCepActivity.this.startActivity(it);
 		}
 	}//end inner class

@@ -142,6 +142,8 @@ public class CepDetailActivity extends BaseActivity
 				if (Constants.FLAG_SUCC.equals(result.getFlag()))//签到成功
 				{
 					Toast.makeText(CepDetailActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+					int curIndex= mCepEventGallery.getCurrentItem();
+					requestDetailData(curIndex);
 				}
 				else
 				{
