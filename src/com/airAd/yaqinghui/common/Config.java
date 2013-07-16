@@ -42,6 +42,7 @@ public class Config {
 	public static final String CHANGE_THUMB_BROADCAST="thumb_change_broadcast";
 
 	public static final String CEP_ID = "cepid";
+	public static final String CEP_EVENT_ID= "cep_event_id";
 
 	public static final String CEP_USER_ID = "00000001";
 }

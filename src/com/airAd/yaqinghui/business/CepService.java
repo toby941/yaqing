@@ -132,6 +132,7 @@ public class CepService extends BaseService {
 				}
 				//
 				cValue.put("cep_id", cep.getId());
+				cValue.put("event_id", cepEvent.getId());
 				cValue.put("cep_title", cep.getTitle());
 				cValue.put("cep_place", cepEvent.getPlace());
 				cValue.put("cep_start_time", cepEvent.getStartTimel());
@@ -190,6 +191,7 @@ public class CepService extends BaseService {
 				}
 				//
 				cValue.put("cep_id", cep.getId());
+				cValue.put("event_id", cepEvent.getId());
 				cValue.put("cep_title", cep.getTitle());
 				cValue.put("cep_place", cepEvent.getPlace());
 				cValue.put("cep_start_time", cepEvent.getStartTimel());

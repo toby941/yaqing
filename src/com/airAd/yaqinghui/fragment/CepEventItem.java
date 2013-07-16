@@ -104,11 +104,12 @@ public class CepEventItem extends Fragment
 			}
 		}
 	};
-	public static CepEventItem newInstance(CepEvent data, Cep cep)
+	public static CepEventItem newInstance(CepEvent data, Cep cep, int index)
 	{
 		final CepEventItem f= new CepEventItem();
 		f.cepEvent= data;
 		f.cep= cep;
+		f.index= index;
 		return f;
 	}
 	@Override
@@ -280,7 +281,7 @@ public class CepEventItem extends Fragment
 					//勋章操作
 					getMedal();
 					CepDetailActivity acy= (CepDetailActivity) getActivity();
-					acy.requestDetailData(0);
+					acy.requestDetailData(index);
 				}
 				else
 				{

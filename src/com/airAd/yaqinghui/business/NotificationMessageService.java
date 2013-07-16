@@ -53,7 +53,7 @@ public class NotificationMessageService extends BaseService {
 		SQLiteDatabase db = MyApplication.getCurrentReadDB();
 		Cursor cur = db
 				.rawQuery(
-						"select cid, title, content,user_id,message_type,add_time,read_flag from messages where user_id = ? and message_type = ? order by add_time desc",
+						"select cid, title, content,user_id,message_type,add_time,read_flag, cep_id, event_id, cep_title, cep_place, cep_start_time from messages where user_id = ? and message_type = ? order by add_time desc",
 						new String[]{userId, type + ""});
 		cur.moveToFirst();
 		while (!cur.isAfterLast()) {
@@ -67,6 +67,11 @@ public class NotificationMessageService extends BaseService {
 			message.setAddTimeStr(ApiUtil
 					.convertDateToDateString(new Date(time)));
 			message.setReadFlag(cur.getInt(6));
+			message.setCepId(cur.getString(7));
+			message.setEventId(cur.getString(8));
+			message.setCepTitle(cur.getString(9));
+			message.setCepPlace(cur.getString(10));
+			message.setCepStartTime(cur.getLong(11));
 			messages.add(message);
 			//
 			cur.moveToNext();
