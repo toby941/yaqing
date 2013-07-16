@@ -49,8 +49,8 @@ public class CepService extends BaseService {
 	// 预约
 	public CepEventReservationResponse doReservationCepEvent(
 			final String userId, final Cep cep, final CepEvent event) {
-		SQLiteDatabase dbReader = MyApplication.getCurrentReadDB();
-		Cursor cur = dbReader
+		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
+		Cursor cur = db
 				.rawQuery(
 						"select count(1) from schedule where user_id = ? and cep_id = ? and ref_id = ?",
 						new String[]{userId, cep.getId(), event.getId()});
@@ -58,11 +58,13 @@ public class CepService extends BaseService {
 		cur.moveToFirst();
 		while (!cur.isAfterLast()) {
 			count = cur.getInt(0);
+			//
+			cur.moveToNext();
 		}
 		cur.close();
 		// 如果个人行程已经关注了该场次则不重复插入
 		if (count == 0) {
-			SQLiteDatabase db = MyApplication.getCurrentWirteDB();
+
 			ContentValues cValue = new ContentValues();
 			//
 			cValue.put("user_id", userId);

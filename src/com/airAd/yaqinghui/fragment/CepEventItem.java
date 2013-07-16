@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.airAd.yaqinghui.CepDetailActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
+import com.airAd.yaqinghui.business.AlarmService;
 import com.airAd.yaqinghui.business.CepService;
 import com.airAd.yaqinghui.business.api.vo.param.CepEventScoreParam;
 import com.airAd.yaqinghui.business.api.vo.response.CepEventScoreResponse;
@@ -47,6 +48,7 @@ public class CepEventItem extends Fragment
 	public static final String RED= "cep_type_red";
 	public static final String BLUE= "cep_type_blue";
 	public static final String GREEN= "cep_type_green";
+	public static final int GRAY_COLOR= Color.rgb(209, 206, 197);
 	private Cep cep;
 	private CepEvent cepEvent;
 	public int index;
@@ -191,6 +193,7 @@ public class CepEventItem extends Fragment
 		{
 			signBtn.setEnabled(false);
 			signBtn.setBackgroundResource(R.drawable.sign_in_bg);
+			signBtn.setTextColor(GRAY_COLOR);
 		}
 		if (cepEvent.canScored())// 可评分
 		{
@@ -202,6 +205,7 @@ public class CepEventItem extends Fragment
 		{
 			scoreBtn.setEnabled(false);
 			scoreBtn.setBackgroundResource(R.drawable.sign_in_bg);
+			scoreBtn.setTextColor(GRAY_COLOR);
 			//			scoreBtn.setBackgroundResource(R.drawable.prepost_bg);
 			//			scoreBtn.setOnClickListener(new ScoreClick());
 		}
@@ -301,6 +305,10 @@ public class CepEventItem extends Fragment
 		{
 			//			System.out.println("报名参加");
 			cepSerice.doReservationCepEvent(MyApplication.getCurrentApp().getUser().getId(), cep, cepEvent);
+			AlarmService.getInstance().addAlarm(
+					Integer.parseInt(cepEvent.getId()),
+					cepEvent.getStartTimel(),
+					cep.getContent());
 			Toast.makeText(getActivity(), R.string.watch_success, Toast.LENGTH_SHORT).show();
 		}
 	}//end inner class

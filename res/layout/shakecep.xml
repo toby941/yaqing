@@ -92,20 +92,52 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="12121"
                     android:textColor="#4D515A"
                     android:textSize="16dp" />
 
-                <TextView
-                    android:id="@+id/time"
+                <LinearLayout
+                    android:id="@+id/cep_stars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#4D515A" />
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#4D515A" />
+                    <ImageView
+                        android:id="@+id/starts_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/cep_stars_shadow" />
+
+                    <ImageView
+                        android:id="@+id/starts_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/cep_stars_shadow" />
+
+                    <ImageView
+                        android:id="@+id/starts_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/cep_stars_shadow" />
+
+                    <ImageView
+                        android:id="@+id/starts_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/cep_stars_shadow" />
+
+                    <ImageView
+                        android:id="@+id/starts_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/cep_stars_shadow" />
+                </LinearLayout>
             </LinearLayout>
 
             <ImageView

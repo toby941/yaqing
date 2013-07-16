@@ -101,7 +101,6 @@ public class CepDetailActivity extends BaseActivity
 			{
 				String twobarcode= data.getStringExtra(CaptureActivity.FLAG);
 				Log.e("yq", twobarcode);
-				// System.out.println(twobarcode);
 				requestSign(twobarcode, MyApplication.getCurrentApp().getUser().getId(), lng, lat);
 			}
 		}
@@ -198,7 +197,6 @@ public class CepDetailActivity extends BaseActivity
 				if (requestEventId != null && requestEventId.equals(cepEvent.getId()))
 				{
 					eventIndex= i;
-					System.out.println("eventIndex-->" + eventIndex);
 				}
 			}//end for i
 			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this.getSupportFragmentManager(),
@@ -214,15 +212,11 @@ public class CepDetailActivity extends BaseActivity
 			}
 			setSorce();
 			mTitleText.setText(cep.getTitle());
-			//			mContentText.setText(cep.getContent());
 			mCepEventGallery.setAdapter(new CepEventAdapter(CepDetailActivity.this.getSupportFragmentManager(), cep
 					.getCepEvents()));
 			setEventComponent();
 			if (eventIndex > 0 && eventIndex < cep.getCepEvents().size())
 			{
-				//				eventTop[0].unSelected();
-				//				eventTop[1].unSelected();
-				//				eventTop[2].unSelected();
 				selectedEventTop.unSelected();
 				int len= cep.getCepEvents().size();
 				if (eventIndex == 0)

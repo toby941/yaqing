@@ -29,7 +29,7 @@
             android:textSize="15dp"
             android:hint="@string/login_name"
             android:drawableLeft="@drawable/login_use_left"
-             android:background="@drawable/login_text_bg"
+            android:background="@drawable/login_text_bg"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 
@@ -66,7 +66,7 @@
         <Button
             android:id="@+id/login"
             android:layout_marginTop="25dp"
-            android:background="@drawable/btn_login_bg"
+            android:background="@drawable/prepost_bg"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/login_dologin"

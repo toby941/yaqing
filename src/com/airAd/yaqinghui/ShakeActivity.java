@@ -1,8 +1,11 @@
 package com.airAd.yaqinghui;
+import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -32,6 +35,7 @@ import com.airAd.yaqinghui.common.Config;
  */
 public class ShakeActivity extends BaseActivity
 {
+	public static final int STARS_NUM= 5;
 	private ImageButton mBack;
 	private List<Cep> cepList;
 	private ImageView mMonkey;
@@ -51,6 +55,8 @@ public class ShakeActivity extends BaseActivity
 	private ImageView typeImage;
 	private TextView title, content;
 	private Cep cep;
+	private AssetManager assetManager;
+	private ImageView[] starsImg= new ImageView[STARS_NUM];
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -61,6 +67,7 @@ public class ShakeActivity extends BaseActivity
 	}
 	private void init()
 	{
+		assetManager= getAssets();
 		handler= new ShakeHandler();
 		mBack= (ImageButton) findViewById(R.id.main_banner_left_btn);
 		mBack.setOnClickListener(new BackClick());
@@ -69,17 +76,14 @@ public class ShakeActivity extends BaseActivity
 		title= (TextView) findViewById(R.id.title);
 		content= (TextView) findViewById(R.id.content);
 
+		starsImg[0]= (ImageView) findViewById(R.id.starts_1);
+		starsImg[1]= (ImageView) findViewById(R.id.starts_2);
+		starsImg[2]= (ImageView) findViewById(R.id.starts_3);
+		starsImg[3]= (ImageView) findViewById(R.id.starts_4);
+		starsImg[4]= (ImageView) findViewById(R.id.starts_5);
 		mMonkey= (ImageView) findViewById(R.id.monkey);
 		item= (LinearLayout) findViewById(R.id.item);
 		item.setVisibility(View.INVISIBLE);
-		//		mMonkey.setOnClickListener(new OnClickListener()
-		//		{
-		//			@Override
-		//			public void onClick(View v)
-		//			{
-		//				shake();
-		//			}
-		//		});
 		sm= (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		acceleromererSensor= sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		acceleromererListener= new SensorEventListener()
@@ -143,15 +147,38 @@ public class ShakeActivity extends BaseActivity
 		});
 		mMonkey.startAnimation(animation);
 	}
+	private void setSorce(Cep data)
+	{
+		int score= 0;
+		try
+		{
+			score= Integer.parseInt(cep.getScore());
+		}
+		catch (Exception e)
+		{
+			score= 0;
+		}
+		for (int i= 0; i < score && i < STARS_NUM; i++)
+		{
+			starsImg[i].setImageResource(R.drawable.cep_stars_light);
+		}//end for i
+	}
 	private void showItem()
 	{
 
-		//		TranslateAnimation animation= new TranslateAnimation(0, 25, pivot, 0f, pivot, 0f);
 		int randomIndex= Common.genRand(0, cepList.size());
 		Cep cepItem= cepList.get(randomIndex);
 		cep= cepItem;
-		typeImage.setImageResource(Common.getCepTypePic(cepItem.getIconType()));
+		try
+		{
+			typeImage.setImageBitmap(BitmapFactory.decodeStream(assetManager.open(cep.getIconType() + ".png")));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 		title.setText(cepItem.getTitle());
+		setSorce(cep);
 		TranslateAnimation downAnimation= new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
 				Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -2, Animation.RELATIVE_TO_SELF, 0);
 		downAnimation.setDuration(2000);

@@ -34,6 +34,7 @@ import com.airAd.yaqinghui.CepDetailActivity;
 import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
+import com.airAd.yaqinghui.business.AlarmService;
 import com.airAd.yaqinghui.business.ScheduleService;
 import com.airAd.yaqinghui.business.model.Game;
 import com.airAd.yaqinghui.business.model.ScheduleItem;
@@ -313,7 +314,7 @@ public class PushClose extends RelativeLayout
 					cepZone.setVisibility(View.VISIBLE);
 					iconImage
 							.setImageBitmap(BitmapFactory.decodeStream(assertManager.open(data.getIconType() + ".png")));
-					mainInfo.setOnClickListener(new GotoCep(data.getCepId()));
+					mainInfo.setOnClickListener(new GotoCep(data.getCepId(), data.getRefId()));
 					signBtn.setOnClickListener(new ScanClick());
 				}
 				else if (ScheduleItem.TYPE_TRAINING == data.getItemType())
@@ -346,9 +347,8 @@ public class PushClose extends RelativeLayout
 			{
 				public void onClick(DialogInterface dialog, int whichButton)
 				{
-					System.out.println(item.getTitle() + "," + item.getCepId());
-					int ret= mScheduleService.doDelScheduleItem("" + item.getUserId(), item.getCid());
-					System.out.println(ret);
+					mScheduleService.doDelScheduleItem("" + item.getUserId(), item.getCid());
+					AlarmService.getInstance().removeAlarm(Integer.parseInt(item.getCepId()));
 					Context obj= mContext;
 					if (obj instanceof HomeActivity)
 					{
@@ -399,15 +399,18 @@ public class PushClose extends RelativeLayout
 	private final class GotoCep implements OnClickListener
 	{
 		private String cepId;
-		public GotoCep(String cepId)
+		private String eventId;
+		public GotoCep(String cepId, String eventId)
 		{
 			this.cepId= cepId;
+			this.eventId= eventId;
 		}
 		@Override
 		public void onClick(View v)
 		{
 			Intent it= new Intent(mContext, CepDetailActivity.class);
 			it.putExtra(Config.CEP_ID, cepId);
+			it.putExtra(Config.CEP_EVENT_ID, eventId);
 			mContext.startActivity(it);
 		}
 	}//end innner class

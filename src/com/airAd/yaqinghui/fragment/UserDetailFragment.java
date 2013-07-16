@@ -40,6 +40,7 @@ import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.FileUtils;
 import com.airAd.yaqinghui.common.PicProcessUtils;
+import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.airAd.yaqinghui.ui.CustomViewPager;
 /**
  * 
@@ -122,6 +123,10 @@ public class UserDetailFragment extends Fragment
 		if (mUser != null)
 		{// 载入个人信息
 			ImageView countryImage= (ImageView) view.findViewById(R.id.detail_country_img);
+			if (mFetcher == null)
+			{
+				mFetcher= ImageFetcherFactory.genImageFetcher(getActivity());
+			}
 			mFetcher.loadImage(mUser.getCountryFlag(), countryImage);
 			TextView nameText= (TextView) view.findViewById(R.id.detail_name);
 			TextView genderText= (TextView) view.findViewById(R.id.detail_gender);
@@ -307,11 +312,11 @@ public class UserDetailFragment extends Fragment
 		switch (requestCode)
 		{
 			case TAKE_PHOTO :
-				startPhotoZoom(Uri.fromFile(tempFile), 200);
+				startPhotoZoom(Uri.fromFile(tempFile), 150);
 				break;
 			case SELECT_GALLERY :
 				if (data != null)
-					startPhotoZoom(data.getData(), 200);
+					startPhotoZoom(data.getData(), 150);
 				break;
 			case TAKE_CROP :
 				if (data != null)
@@ -424,7 +429,6 @@ public class UserDetailFragment extends Fragment
 		Intent intent= new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
 		// crop为true是设置在开启的intent中设置显示的view可以剪裁
-		intent.putExtra("crop", "true");
 		// aspectX aspectY 是宽高的比例
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
