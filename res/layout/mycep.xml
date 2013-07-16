@@ -42,10 +42,18 @@
 
     <ListView
         android:id="@+id/list"
-        android:scrollingCache="false"
-        android:fadingEdge="none"  
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/j_line" />
+        android:layout_below="@id/j_line"
+        android:fadingEdge="none"
+        android:scrollingCache="false" />
+
+    <ImageView
+        android:id="@+id/box"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/j_line"
+        android:scaleType="center"
+        android:src="@drawable/empty_box_white" />
 
 </RelativeLayout>

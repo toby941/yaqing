@@ -38,6 +38,7 @@ public class MyCepActivity extends BaseActivity
 	private int type;
 	private AssetManager assetManager;
 	private ListAdapter adapter;
+	private ImageView boxImg;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -49,6 +50,7 @@ public class MyCepActivity extends BaseActivity
 	{
 		mUser= MyApplication.getCurrentUser();
 		assetManager= getAssets();
+		boxImg= (ImageView) findViewBy(R.id.box);
 		mBack= (ImageButton) findViewById(R.id.main_banner_left_btn);
 		mBack.setOnClickListener(new BackClick());
 		type= getIntent().getIntExtra(UserFragment.MYCEP_TYPE, 0);
@@ -57,6 +59,10 @@ public class MyCepActivity extends BaseActivity
 		dataList= notifyService.getMessagesByType(MyApplication.getCurrentApp().getUser().getId(), type);
 		if (dataList != null)
 		{
+			if (dataList.size() > 0)
+			{
+				boxImg.setVisibility(View.INVISIBLE);
+			}
 			mListView.setFocusable(true);
 			adapter= new ListAdapter();
 			mListView.setAdapter(adapter);

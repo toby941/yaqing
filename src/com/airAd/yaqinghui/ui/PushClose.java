@@ -77,6 +77,7 @@ public class PushClose extends RelativeLayout
 	private ProgressDialog mProgressDialog;
 	private OnDateClickListener onDateClickListener;
 	private TextView bannerText;
+	private ImageView emptyBox;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -124,6 +125,23 @@ public class PushClose extends RelativeLayout
 		super(context, attrs);
 		init(context);
 	}
+
+	public void setDateDay(int day)
+	{
+		int selected = day-13;
+		if (selected < 0 || selected > DAYS)
+		{
+			return;
+		}
+		if (selectedDate != null)
+		{
+			selectedDate.setTextColor(UNSELECTED_COLOR);
+			selectedDate.setBackgroundColor(SELECTED_COLOR);
+		}
+		dates[selected].setTextColor(SELECTED_COLOR);
+		dates[selected].setBackgroundColor(UNSELECTED_COLOR);
+		selectedDate= dates[selected];
+	}
 	private void init(Context context)
 	{
 		mContext= context;
@@ -153,6 +171,7 @@ public class PushClose extends RelativeLayout
 		mBottomView= (LinearLayout) findViewById(R.id.bottom);
 		mTopView= (LinearLayout) findViewById(R.id.top);
 		bannerText= (TextView) top.findViewById(R.id.date_banner);
+		emptyBox= (ImageView) top.findViewById(R.id.empty_box);
 		mBottomView.addView(bottom);
 		mTopView.addView(top);
 		mListView= (CanCloseListView) mTopView.findViewById(R.id.date_list);
@@ -220,6 +239,14 @@ public class PushClose extends RelativeLayout
 		{
 			allDays= mScheduleService.getCalendlarScheduleData(user.getId());
 			mDataList= mScheduleService.getScheduleItemsByDate(user.getId(), day);
+			if (mDataList.size() > 0)
+			{
+				emptyBox.setVisibility(View.INVISIBLE);
+			}
+			else
+			{
+				emptyBox.setVisibility(View.VISIBLE);
+			}
 		}
 		setDateHaveItems(allDays);
 		if (scheduleAdapter == null)
@@ -348,7 +375,7 @@ public class PushClose extends RelativeLayout
 				public void onClick(DialogInterface dialog, int whichButton)
 				{
 					mScheduleService.doDelScheduleItem("" + item.getUserId(), item.getCid());
-					AlarmService.getInstance().removeAlarm(Integer.parseInt(item.getCepId()));
+					AlarmService.getInstance().removeAlarm(Integer.parseInt(item.getCid() + ""));
 					Context obj= mContext;
 					if (obj instanceof HomeActivity)
 					{

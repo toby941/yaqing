@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/main_top_left_btn_marginLeft"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:background="@android:color/transparent"
             android:src="@drawable/main_right_btn_bg" />
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/main_top_right_btn_marginRight"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:background="@android:color/transparent"
             android:src="@drawable/main_left_btn_bg" />
 

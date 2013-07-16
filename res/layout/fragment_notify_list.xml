@@ -45,4 +45,11 @@
 	    android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 	    />
+	 <ImageView
+        android:id="@+id/box"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/caitiao"
+        android:scaleType="center"
+        android:src="@drawable/empty_box_black" />
 </RelativeLayout>

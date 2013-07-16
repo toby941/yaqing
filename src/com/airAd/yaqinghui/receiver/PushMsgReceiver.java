@@ -11,6 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore.Audio;
 import cn.jpush.android.api.JPushInterface;
 
@@ -29,9 +31,11 @@ public class PushMsgReceiver extends BroadcastReceiver
 	private NotificationMessage message;
 	long[] vibrate=
 	{0, 100, 200, 300};
+	private MyHandler handler;
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
+		handler= new MyHandler();
 		mContext= context;
 		dbService= new NotificationMessageService();
 		Bundle bundle= intent.getExtras();
@@ -48,8 +52,10 @@ public class PushMsgReceiver extends BroadcastReceiver
 			return;
 		}
 		if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction()))
-		{// 推送的消息
-			//			System.out.println("接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
+ {// 推送的消息
+																				// System.out.println("接收到推送下来的自定义消息: "
+																				// +
+																				// bundle.getString(JPushInterface.EXTRA_MESSAGE));
 			String orignJson= bundle.getString(JPushInterface.EXTRA_MESSAGE);
 			getPushMessage(orignJson);
 		}
@@ -65,16 +71,37 @@ public class PushMsgReceiver extends BroadcastReceiver
 		{
 			return;
 		}
-		long notifyId= dbService.addMessage(message);
-		if (isInApp())
+		new Thread(new Runnable()
 		{
-			showPushMsgWithPop(notifyId);
-		}
-		else
-		{
-			showPushNotify(notifyId);
-		}
+			@Override
+			public void run()
+			{
+				long notifyId= dbService.addMessage(message);
+				Message msg= new Message();
+				msg.obj= notifyId;
+				handler.sendMessage(msg);
+			}
+		}).start();
 	}
+	
+	private final class MyHandler extends Handler
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			super.handleMessage(msg);
+			long notifyId = (Long) msg.obj;
+			if (isInApp())
+			{
+				showPushMsgWithPop(notifyId);
+			}
+			else
+			{
+				showPushNotify(notifyId);
+			}
+		}
+		
+	}//end inner class
 	private void showPushNotify(long id)
 	{
 		NotificationManager manager= (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);

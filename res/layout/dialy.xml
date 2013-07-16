@@ -21,7 +21,19 @@
         android:layout_height="fill_parent"
         android:layout_below="@id/date_banner"
         android:background="#E5E5E5" />
-
+	
+     <ImageView
+        android:id="@+id/empty_box"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date_banner"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/empty_box"
+        android:scaleType="center"
+        />
+    
     <com.airAd.yaqinghui.ui.CanCloseListView
         android:id="@+id/date_list"
         android:scrollingCache="false"

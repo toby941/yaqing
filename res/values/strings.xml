@@ -73,7 +73,7 @@
     <string name="thu">Thu</string>
     <string name="fri">Fri</string>
     <string name="sun">Sun</string>
-    <string name="three_badge">3 BADAGE</string>
+    <string name="badge">BADAGE</string>
     <string name="base_information">基本信息</string>
     <string name="country">国籍</string>
     <string name="gender">性别</string>

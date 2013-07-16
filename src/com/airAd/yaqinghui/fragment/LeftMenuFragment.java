@@ -1,5 +1,4 @@
 package com.airAd.yaqinghui.fragment;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +17,6 @@ public class LeftMenuFragment extends Fragment
 	public UserDetailFragment userDetailFragment;
 	ImageFetcher mImageFetcher;
 	private CustomViewPager leftGalllery;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
@@ -26,6 +24,19 @@ public class LeftMenuFragment extends Fragment
 		leftGalllery= (CustomViewPager) view.findViewById(R.id.left_menugallery);
 		leftGalllery.setAdapter(new LeftMenuAdapter(getActivity().getSupportFragmentManager()));
 		return view;
+	}
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		if (userFragment != null)
+		{
+			userFragment.onResume();
+		}
+		if (userDetailFragment != null)
+		{
+			userDetailFragment.onResume();
+		}
 	}
 	@Override
 	public void onCreate(Bundle savedInstanceState)
