@@ -19,7 +19,6 @@ import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.alarm.EventAlarmReceiver;
 import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.common.Config;
-import com.airAd.yaqinghui.fragment.SettingsFragment;
 
 
 /**
@@ -47,13 +46,12 @@ public class AlarmService {
 		    (AlarmManager)MyApplication.getCurrentApp().getSystemService(Activity.ALARM_SERVICE);
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(time);
-		SharedPreferences sp = MyApplication.getCurrentApp().getSharedPreferences(
-				Config.PACKAGE, Context.MODE_PRIVATE);
-		int timeBefore = sp.getInt(Config.EVENT_REMIND_BEFORE, 0);
-		c.add(Calendar.MINUTE, timeBefore * -1);
+		
+		c.add(Calendar.MINUTE, getTimeBefore() * -1);
+		long setTime = SystemClock.elapsedRealtime() + c.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 		//c.set(Calendar.MINUTE, 40);
 		am.cancel(pendingIntent);
-		am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+		am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, setTime, pendingIntent);
 	}
 	
 	public void removeAlarm(int id)
@@ -73,9 +71,7 @@ public class AlarmService {
 		    (AlarmManager)MyApplication.getCurrentApp().getSystemService(Activity.ALARM_SERVICE);
 		Calendar c = Calendar.getInstance();
 		
-		SharedPreferences sp = MyApplication.getCurrentApp().getSharedPreferences(
-				Config.PACKAGE, Context.MODE_PRIVATE);
-		int timeBefore = sp.getInt(Config.EVENT_REMIND_BEFORE, SettingsFragment.DEFAULT_BEFORE_TIME);
+		int timeBefore = getTimeBefore();
 		
 		ScheduleService service = new ScheduleService();
 		List<ScheduleItem> list = service.getScheduleItems(MyApplication.getCurrentUser().getId());
@@ -93,9 +89,30 @@ public class AlarmService {
 			
 			c.setTimeInMillis(time);
 			c.add(Calendar.MINUTE, timeBefore * -1);
+			long setTime = SystemClock.elapsedRealtime() + c.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 			am.cancel(pendingIntent);
-			am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+			am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, setTime, pendingIntent);
 		}
+	}
+	
+	public static int getTimeBefore()
+	{
+		SharedPreferences sp = MyApplication.getCurrentApp().getSharedPreferences(
+				Config.PACKAGE, Context.MODE_PRIVATE);
+		int which = sp.getInt(Config.EVENT_REMIND_BEFORE, 0);
+		int timeBefore = 0;
+		switch (which) {
+		case 0:
+			timeBefore = 30;
+			break;
+		case 1:
+			timeBefore = 60;
+			break;
+		case 2:
+			timeBefore = 120;
+			break;
+		}
+		return timeBefore;
 	}
 	
 	public static AlarmService getInstance()
@@ -118,23 +135,38 @@ public class AlarmService {
 		
 		SharedPreferences sp = MyApplication.getCurrentApp().getSharedPreferences(
 				Config.PACKAGE, Context.MODE_PRIVATE);
-		String dialyRemindString = sp.getString(Config.REGULAR_REMIND_TIME,
-				SettingsFragment.DEFAULT_REGULAR_TIME);
-		String times[] = dialyRemindString.split(":");
+		int which = sp.getInt(Config.REGULAR_REMIND_TIME, 0);
+		
+		int hourOfDay = 6;
+		int minute = 30;
+		switch (which) {
+		case 0:
+			hourOfDay = 6;
+			minute = 30;
+			break;
+		case 1:
+			hourOfDay = 9;
+			minute = 00;
+			break;
+		case 2:
+			hourOfDay = 12;
+			minute = 00;
+			break;
+		}
 		//long firstTime = SystemClock.elapsedRealtime();
 		
 		Calendar c = Calendar.getInstance();
 		//c.add(Calendar.MINUTE, timeBefore * -1);
 		c.add(Calendar.DAY_OF_MONTH, 1);
-		c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(times[0]));
-		c.set(Calendar.MINUTE, Integer.parseInt(times[1]));
+		c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+		c.set(Calendar.MINUTE, minute);
 		c.set(Calendar.SECOND, 0);
 		c.set(Calendar.MILLISECOND, 0);
 		
 		am.cancel(pendingIntent);
-		
+		long setTime = SystemClock.elapsedRealtime() + c.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 		//am.setRepeating(R, triggerAtMillis, intervalMillis, operation)
-		am.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 1000 * 24 * 60 * 60, pendingIntent);
+		am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, setTime, 1000 * 24 * 60 * 60, pendingIntent);
 	}
 	
 	public void cancelDailyRepeatAlarm()

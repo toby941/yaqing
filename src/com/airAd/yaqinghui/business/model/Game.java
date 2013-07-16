@@ -105,6 +105,8 @@ public class Game {
 			return R.drawable.swimming;
 		} else if ("badminton".equals(type)) {
 			return R.drawable.badminton;
+		} else if ("taekwondo".equals(type)) {
+			return R.drawable.taekwondo;
 		}
 		return R.drawable.run;
 	}

@@ -279,9 +279,7 @@ public class PushClose extends RelativeLayout
 		public ScheduleItemAdapter()
 		{
 			mInflater= LayoutInflater.from(mContext);
-			SharedPreferences sp= mContext.getSharedPreferences(Config.PACKAGE, Context.MODE_PRIVATE);
-			int timeValue= sp.getInt(Config.EVENT_REMIND_BEFORE, SettingsFragment.DEFAULT_BEFORE_TIME);
-			itemRemind= mContext.getString(R.string.schedule_item_tips, timeValue);
+			itemRemind= mContext.getString(R.string.schedule_item_tips, AlarmService.getTimeBefore());
 			assertManager= mContext.getAssets();
 		}
 		@Override
