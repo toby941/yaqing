@@ -180,7 +180,7 @@ public class CepEventItem extends Fragment
 			attendBtn.setVisibility(View.GONE);
 		}
 		signBtn= (Button) v.findViewById(R.id.signin);
-		if (cepEvent.canSignUp())// 可签到
+		if (cepEvent.canCheckIn())// 可签到
 		{
 			signBtn.setBackgroundResource(R.drawable.prepost_bg);
 			signBtn.setOnClickListener(new ScanClick());

@@ -33,4 +33,17 @@ public class ApiUtil {
 			return "";
 		}
 	}
+
+	public static String formatDate(String dateStr) {
+		Date date = convertDateStringToDate(dateStr);
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return df.format(date);
+	}
+
+	public static String formatDate(Long ts) {
+		Date date = new Date(ts);
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return df.format(date);
+	}
+
 }

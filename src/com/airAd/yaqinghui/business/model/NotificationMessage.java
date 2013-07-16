@@ -35,6 +35,7 @@ public class NotificationMessage {
 	private String cepId;
 	private String eventId;
 	private String userId;
+	//
 
 	private String status;
 
