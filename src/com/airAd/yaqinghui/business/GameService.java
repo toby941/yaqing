@@ -66,7 +66,11 @@ public class GameService extends BaseService {
 		//
 		cValue.put("user_id", MyApplication.getCurrentUser().getId());
 		cValue.put("ref_id", gameInfo.getId());
-		cValue.put("item_type", ScheduleItem.TYPE_GAME);
+		if (gameInfo.isGame()) {
+			cValue.put("item_type", ScheduleItem.TYPE_GAME);
+		} else {
+			cValue.put("item_type", ScheduleItem.TYPE_TRAINING);
+		}
 		cValue.put("title", gameInfo.getTitle());
 		cValue.put("place", gameInfo.getPlace());
 		cValue.put("add_time", new Date().getTime());
@@ -76,7 +80,7 @@ public class GameService extends BaseService {
 		//
 		db.insert("schedule", null, cValue);
 
-		Cursor cursor = db.query("schedule", new String[] {"cid"}, "ref_id",
+		Cursor cursor = db.query("schedule", new String[] { "cid" }, "ref_id = ?",
 				new String[] { gameInfo.getId() }, null, null, null);
 		cursor.moveToFirst();
 		int cid = cursor.getInt(0);

@@ -54,7 +54,7 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 	private View dialyRemindView;
 	private View popContentView;
 	private PopupWindow popWindow;
-	private TextView popTitle;
+	//private TextView popTitle;
 	private View helpBtn;
 	private Button leaveBtn;
 
@@ -78,7 +78,7 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 		isOpenEventRemind = (ImageView) view
 				.findViewById(R.id.event_remind_isopen);
 		isOpenEventRemind_flag = sp
-				.getBoolean(Config.EVENT_REMIND_ISOPEN, true);
+				.getBoolean(Config.EVENT_REMIND_ISOPEN, false);
 		eventRemindBeforeValue = sp.getInt(Config.EVENT_REMIND_BEFORE,
 				DEFAULT_BEFORE_TIME);
 		isOpenEventRemind
@@ -88,7 +88,7 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 				R.string.event_remind_text, eventRemindBeforeValue));
 		dialyText = (TextView) view.findViewById(R.id.dialy_remind_text);
 		dialyImage = (ImageView) view.findViewById(R.id.dialy_remind_isopen);
-		isDialyReminderOpen = sp.getBoolean(Config.REGULAR_REMIND_ISOPEN, true);
+		isDialyReminderOpen = sp.getBoolean(Config.REGULAR_REMIND_ISOPEN, false);
 		dialyRemindString = sp.getString(Config.REGULAR_REMIND_TIME,
 				DEFAULT_REGULAR_TIME);
 		dialyText.setText(getActivity().getString(R.string.dialy_remind_text,
@@ -241,7 +241,6 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 							: R.drawable.switch_close);
 			String title = isOpenEventRemind_flag ? getString(R.string.open_event_remind)
 					: getString(R.string.close_event_remind);
-			popTitle.setText(title);
 		}
 	}// end inner class
 

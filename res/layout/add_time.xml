@@ -4,15 +4,10 @@
     android:layout_height="match_parent"
     android:padding="20dp">
 
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="请输入："
-        android:layout_marginLeft="15dp"/>
     <EditText 
         android:id="@+id/add_time"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"/>
+        android:inputType="number"/>
 
 </LinearLayout>
