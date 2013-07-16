@@ -51,9 +51,10 @@ public class AlarmService {
 				Config.PACKAGE, Context.MODE_PRIVATE);
 		int timeBefore = sp.getInt(Config.EVENT_REMIND_BEFORE, 0);
 		c.add(Calendar.MINUTE, timeBefore * -1);
+		long setTime = SystemClock.elapsedRealtime() + c.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 		//c.set(Calendar.MINUTE, 40);
 		am.cancel(pendingIntent);
-		am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+		am.set(AlarmManager.RTC_WAKEUP, setTime, pendingIntent);
 	}
 	
 	public void removeAlarm(int id)
@@ -93,8 +94,9 @@ public class AlarmService {
 			
 			c.setTimeInMillis(time);
 			c.add(Calendar.MINUTE, timeBefore * -1);
+			long setTime = SystemClock.elapsedRealtime() + c.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 			am.cancel(pendingIntent);
-			am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+			am.set(AlarmManager.RTC_WAKEUP, setTime, pendingIntent);
 		}
 	}
 	
@@ -132,9 +134,9 @@ public class AlarmService {
 		c.set(Calendar.MILLISECOND, 0);
 		
 		am.cancel(pendingIntent);
-		
+		long setTime = SystemClock.elapsedRealtime() + c.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 		//am.setRepeating(R, triggerAtMillis, intervalMillis, operation)
-		am.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 1000 * 24 * 60 * 60, pendingIntent);
+		am.setRepeating(AlarmManager.RTC_WAKEUP, setTime, 1000 * 24 * 60 * 60, pendingIntent);
 	}
 	
 	public void cancelDailyRepeatAlarm()

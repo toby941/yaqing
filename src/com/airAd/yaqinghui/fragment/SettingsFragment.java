@@ -348,6 +348,8 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 				i.setData(Uri.parse(result));
 				startActivity(i);
 			}
+			
+			Toast.makeText(getActivity().getApplicationContext(), R.string.update_no_need, Toast.LENGTH_LONG).show();
 		}
 	}
 }// end class
