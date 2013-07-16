@@ -82,9 +82,8 @@ public class GameDailyActivity extends BackBaseActivity {
 				GameInfo gameInfo = gameInfoList.get(pos);
 				if (isChecked) {
 					storedInfoIdList.add(gameInfo.getId());
-					AlarmService.getInstance().addAlarm(Integer.parseInt(gameInfo.getId()), gameInfo.getStartTime(), gameInfo.getTitle());
-					gameService
-							.addtoSchedule(gameInfoList.get(pos), gamePicUrl);
+					int cid = gameService.addtoSchedule(gameInfoList.get(pos), gamePicUrl);
+					AlarmService.getInstance().addAlarm(cid, gameInfo.getStartTime(), gameInfo.getTitle());
 				} else {
 					storedInfoIdList.remove(gameInfoList.get(pos).getId());
 					gameService.deleteFromSchedule(gameInfoList.get(pos)

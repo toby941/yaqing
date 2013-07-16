@@ -111,7 +111,7 @@ public class GameScheduleActivity extends BackBaseActivity {
 		@Override
 		protected void onPostExecute(List<Game> result) {
 			
-			if(myGameList != null && !result.isEmpty())
+			if(result != null && !result.isEmpty())
 			{
 				myGameList = result;
 				addMyProjects();

@@ -58,6 +58,46 @@ public class ScheduleService extends BaseService
 		cur.close();
 		return scheduleItems;
 	}
+	
+	/**
+	 * @param userId
+	 * @param Date
+	 *            传12 就是 12号
+	 * @return
+	 */
+	public List<ScheduleItem> getScheduleItems(String userId)
+	{
+		List<ScheduleItem> scheduleItems= new ArrayList<ScheduleItem>();
+		SQLiteDatabase db= MyApplication.getCurrentReadDB();
+		Cursor cur= db
+				.rawQuery(
+						"select cid, user_id, item_type,title, place, icon_type, start_time, " +
+						"add_time, ref_id ,day, cep_id from schedule where user_id = ?",
+						new String[]
+						{userId});
+		cur.moveToFirst();
+		while (!cur.isAfterLast())
+		{
+			ScheduleItem item= new ScheduleItem();
+			item.setCid(cur.getLong(0));
+			item.setUserId(cur.getString(1));
+			item.setItemType(cur.getInt(2));
+			item.setTitle(cur.getString(3));
+			item.setPlace(cur.getString(4));
+			item.setIconType(cur.getString(5));
+			item.setStartTime(new Date(cur.getLong(6)));
+			item.setStartTimel(cur.getLong(6));
+			item.setAddTime(new Date(cur.getLong(7)));
+			item.setRefId(cur.getString(8));
+			item.setDay(cur.getInt(9));
+			item.setCepId(cur.getString(10));
+			scheduleItems.add(item);
+			//
+			cur.moveToNext();
+		}
+		cur.close();
+		return scheduleItems;
+	}
 	/**
 	 * @param userId
 	 * @return {13 => 1, 14 => 2}

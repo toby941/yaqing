@@ -27,6 +27,7 @@ import com.airAd.yaqinghui.ChangePwdActivity;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.TutorialActivity;
 import com.airAd.yaqinghui.WelcomeActivity;
+import com.airAd.yaqinghui.business.AlarmService;
 import com.airAd.yaqinghui.common.Config;
 
 /**
@@ -109,50 +110,66 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 
 	private void initPopWindow(View parentView, LayoutInflater inflater) {
 		eventRemindView.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						getActivity());
 				LayoutInflater inflater = getActivity().getLayoutInflater();
 				View myView = inflater.inflate(R.layout.add_time, null);
-				notifyTimeEditText = (EditText)myView.findViewById(R.id.add_time);
+				notifyTimeEditText = (EditText) myView
+						.findViewById(R.id.add_time);
 				notifyTimeEditText.setText(eventRemindBeforeValue + "");
-				builder
-				.setTitle(R.string.left_menu_setting)
-				.setView(myView)
-				.setPositiveButton(R.string.confirm,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int id) {
-								try {
-									eventRemindBeforeValue = Integer.parseInt(notifyTimeEditText.getText().toString());
-									eventRemindText.setText(getActivity().getString(
-											R.string.event_remind_text, eventRemindBeforeValue));
-									SharedPreferences sp = getActivity().getSharedPreferences(
-											Config.PACKAGE, Context.MODE_PRIVATE);
-									sp.edit().putInt(Config.EVENT_REMIND_BEFORE, eventRemindBeforeValue).commit();
-								} catch (NumberFormatException e) {
-								}
-							}
-						});
-				
+				builder.setTitle(R.string.left_menu_setting)
+						.setView(myView)
+						.setPositiveButton(R.string.confirm,
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int id) {
+										try {
+											eventRemindBeforeValue = Integer
+													.parseInt(notifyTimeEditText
+															.getText()
+															.toString());
+											eventRemindText
+													.setText(getActivity()
+															.getString(
+																	R.string.event_remind_text,
+																	eventRemindBeforeValue));
+											SharedPreferences sp = getActivity()
+													.getSharedPreferences(
+															Config.PACKAGE,
+															Context.MODE_PRIVATE);
+											sp.edit()
+													.putInt(Config.EVENT_REMIND_BEFORE,
+															eventRemindBeforeValue)
+													.commit();
+											// 重设全部闹铃
+											AlarmService.getInstance()
+													.resetAllAlarm();
+										} catch (NumberFormatException e) {
+										}
+									}
+								});
+
 				builder.create().show();
 			}
 		});
 		dialyRemindView.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				String[] times = dialyRemindString.split(":");
 				int hourOfDay = Integer.parseInt(times[0]);
 				int minute = Integer.parseInt(times[1]);
-				TimePickerDialog tpDialog = new TimePickerDialog(getActivity(), SettingsFragment.this, hourOfDay, minute, true);
+				TimePickerDialog tpDialog = new TimePickerDialog(getActivity(),
+						SettingsFragment.this, hourOfDay, minute, true);
 				tpDialog.show();
 			}
 		});
 	}
-	
+
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 		dialyRemindString = hourOfDay + ":" + minute;
@@ -160,7 +177,9 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 				dialyRemindString));
 		SharedPreferences sp = getActivity().getSharedPreferences(
 				Config.PACKAGE, Context.MODE_PRIVATE);
-		sp.edit().putString(Config.REGULAR_REMIND_TIME, dialyRemindString).commit();
+		sp.edit().putString(Config.REGULAR_REMIND_TIME, dialyRemindString)
+				.commit();
+		AlarmService.getInstance().setDailyRepeatAlarm();
 	}
 
 	@Override
@@ -235,6 +254,12 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 			Editor ed = sp.edit();
 			ed.putBoolean(Config.REGULAR_REMIND_ISOPEN, isDialyReminderOpen);
 			ed.commit();
+			//根据选择舍去或者添加 闹铃
+			if (isDialyReminderOpen) {
+				AlarmService.getInstance().setDailyRepeatAlarm();
+			} else {
+				AlarmService.getInstance().cancelDailyRepeatAlarm();
+			}
 			dialyImage
 					.setImageResource(isDialyReminderOpen ? R.drawable.switch_open
 							: R.drawable.switch_close);
@@ -249,8 +274,4 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 		}
 	}// end inner class
 
-	/* (non-Javadoc)
-	 * @see android.app.TimePickerDialog.OnTimeSetListener#onTimeSet(android.widget.TimePicker, int, int)
-	 */
-	
 }// end class
