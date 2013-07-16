@@ -105,6 +105,7 @@
 	<string name="open_event_remind">开启事项提醒</string>
 	<string name="schedule_item_tips">活动开始前%d分钟提醒</string>
 	<string name="is_locating">正在定位中...</string>
+	<string name="upload_waiting">正在验证中..</string>
 	<string name="has_order">已预约</string>
 	<string name="is_ordering">预约中</string>
 	<string name="shake_tips">摇一摇查找活动推荐</string>

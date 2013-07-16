@@ -1,6 +1,8 @@
 package com.airAd.yaqinghui.fragment;
 
+import net.sf.json.JSONObject;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
@@ -8,8 +10,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +35,8 @@ import com.airAd.yaqinghui.TutorialActivity;
 import com.airAd.yaqinghui.WelcomeActivity;
 import com.airAd.yaqinghui.business.AlarmService;
 import com.airAd.yaqinghui.common.Config;
+import com.airAd.yaqinghui.net.HttpRequest;
+import com.airAd.yaqinghui.net.HttpRequest.HttpRequestException;
 
 /**
  * 设置Fragment
@@ -57,10 +65,16 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 	//private TextView popTitle;
 	private View helpBtn;
 	private Button leaveBtn;
+	private CheckUpdateTask task;
 
 	public static SettingsFragment newInstance() {
 		SettingsFragment fragment = new SettingsFragment();
 		return fragment;
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -104,11 +118,18 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 		helpBtn.setOnClickListener(new HelpClick());
 		leaveBtn = (Button) view.findViewById(R.id.login_out);
 		leaveBtn.setOnClickListener(new LoginOutClick());
+		view.findViewById(R.id.upload_item_view).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				checkUpdate();
+			}
+		});
 		initPopWindow(view, inflater);
 		return view;
 	}
 
 	private void initPopWindow(View parentView, LayoutInflater inflater) {
+		
 		eventRemindView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -273,4 +294,60 @@ public class SettingsFragment extends Fragment implements OnTimeSetListener {
 		}
 	}// end inner class
 
+	private void checkUpdate()
+	{
+		if(task != null)
+		{
+			task.cancel(true);
+		}
+		task = new CheckUpdateTask();
+		task.execute();
+	}
+	
+	private class CheckUpdateTask extends AsyncTask<Void, Void, String>
+	{
+		ProgressDialog progressDialog;
+		
+		@Override
+		protected void onPreExecute() {
+			progressDialog = new ProgressDialog(getActivity());
+			progressDialog.setMessage(getActivity().getText(R.string.upload_waiting));
+			progressDialog.show();
+		}
+
+		@Override
+		protected String doInBackground(Void... params) {
+			try {
+				String response = HttpRequest.get("http://192.168.1.247:8860/yaqing/android").body();
+				JSONObject json = JSONObject.fromObject(response);
+				Log.i("uploadFragment", json.toString());
+				int netVersion = json.optInt("version", -1);
+				int localVersion = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionCode;
+				if(netVersion > 0 && netVersion > localVersion)
+				{
+					return json.optString("download_url");
+				}
+			} catch (HttpRequestException e) {
+				e.printStackTrace();
+			} catch (NameNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			if(progressDialog.isShowing() && !getActivity().isFinishing())
+			{
+				progressDialog.dismiss();
+			}
+			if(result != null)
+			{
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(result));
+				startActivity(i);
+			}
+		}
+	}
 }// end class
