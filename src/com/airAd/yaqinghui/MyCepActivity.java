@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ public class MyCepActivity extends BaseActivity
 	private int type;
 	private AssetManager assetManager;
 	private ListAdapter adapter;
+	private ImageView boxImg;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -49,14 +51,20 @@ public class MyCepActivity extends BaseActivity
 	{
 		mUser= MyApplication.getCurrentUser();
 		assetManager= getAssets();
+		boxImg= (ImageView) findViewBy(R.id.box);
 		mBack= (ImageButton) findViewById(R.id.main_banner_left_btn);
 		mBack.setOnClickListener(new BackClick());
 		type= getIntent().getIntExtra(UserFragment.MYCEP_TYPE, 0);
 		mListView= (ListView) findViewBy(R.id.list);
+		mListView.setDivider(new BitmapDrawable());
 		NotificationMessageService notifyService= new NotificationMessageService();
 		dataList= notifyService.getMessagesByType(MyApplication.getCurrentApp().getUser().getId(), type);
 		if (dataList != null)
 		{
+			if (dataList.size() > 0)
+			{
+				boxImg.setVisibility(View.INVISIBLE);
+			}
 			mListView.setFocusable(true);
 			adapter= new ListAdapter();
 			mListView.setAdapter(adapter);
@@ -95,7 +103,7 @@ public class MyCepActivity extends BaseActivity
 			ImageView iconImge= (ImageView) convertView.findViewById(R.id.icon);
 			TextView title= (TextView) convertView.findViewById(R.id.title);
 			TextView time= (TextView) convertView.findViewById(R.id.time);
-			TextView place= (TextView) convertView.findViewById(R.id.place);
+			//			TextView place= (TextView) convertView.findViewById(R.id.place);
 			ImageView typeImage= (ImageView) convertView.findViewById(R.id.typeicon);
 			setTypeImg(typeImage);
 			TextView status= (TextView) convertView.findViewById(R.id.status);
@@ -104,7 +112,7 @@ public class MyCepActivity extends BaseActivity
 			dotime.setText(ApiUtil.formatDate(data.getAddTimeStr()));
 			title.setText(data.getCepTitle());
 			time.setText(ApiUtil.formatDate(data.getCepStartTime()));
-			place.setText(data.getCepPlace());
+			//			place.setText(data.getCepPlace());
 			try
 			{
 				iconImge.setImageBitmap(BitmapFactory.decodeStream(assetManager.open(Cep.getIconType(data.getCepId())

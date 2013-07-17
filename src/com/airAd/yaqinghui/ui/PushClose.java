@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -77,6 +78,8 @@ public class PushClose extends RelativeLayout
 	private ProgressDialog mProgressDialog;
 	private OnDateClickListener onDateClickListener;
 	private TextView bannerText;
+	private ImageView emptyBox;
+	private TextView emptyTitle;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -124,6 +127,23 @@ public class PushClose extends RelativeLayout
 		super(context, attrs);
 		init(context);
 	}
+
+	public void setDateDay(int day)
+	{
+		int selected = day-13;
+		if (selected < 0 || selected > DAYS)
+		{
+			return;
+		}
+		if (selectedDate != null)
+		{
+			selectedDate.setTextColor(UNSELECTED_COLOR);
+			selectedDate.setBackgroundColor(SELECTED_COLOR);
+		}
+		dates[selected].setTextColor(SELECTED_COLOR);
+		dates[selected].setBackgroundColor(UNSELECTED_COLOR);
+		selectedDate= dates[selected];
+	}
 	private void init(Context context)
 	{
 		mContext= context;
@@ -153,10 +173,13 @@ public class PushClose extends RelativeLayout
 		mBottomView= (LinearLayout) findViewById(R.id.bottom);
 		mTopView= (LinearLayout) findViewById(R.id.top);
 		bannerText= (TextView) top.findViewById(R.id.date_banner);
+		emptyBox= (ImageView) top.findViewById(R.id.empty_box);
+		emptyTitle= (TextView) top.findViewById(R.id.empty_text);
 		mBottomView.addView(bottom);
 		mTopView.addView(top);
 		mListView= (CanCloseListView) mTopView.findViewById(R.id.date_list);
 		mSheduleList= (ListView) top.findViewById(R.id.date_list);
+		mSheduleList.setDivider(new BitmapDrawable());
 		mProgressDialog= new ProgressDialog(mContext);
 		mProgressDialog.setTitle(R.string.dialog_title);
 		mProgressDialog.setMessage(getResources().getText(R.string.is_locating));
@@ -220,6 +243,19 @@ public class PushClose extends RelativeLayout
 		{
 			allDays= mScheduleService.getCalendlarScheduleData(user.getId());
 			mDataList= mScheduleService.getScheduleItemsByDate(user.getId(), day);
+			if (mDataList.size() > 0)
+			{
+				ScheduleItem item= new ScheduleItem();
+				item.setShowMonkey(1);
+				mDataList.add(item);
+				emptyBox.setVisibility(View.INVISIBLE);
+				emptyTitle.setVisibility(View.INVISIBLE);
+			}
+			else
+			{
+				emptyBox.setVisibility(View.VISIBLE);
+				emptyTitle.setVisibility(View.VISIBLE);
+			}
 		}
 		setDateHaveItems(allDays);
 		if (scheduleAdapter == null)
@@ -277,6 +313,16 @@ public class PushClose extends RelativeLayout
 			if (convertView == null)
 			{
 				convertView= mInflater.inflate(R.layout.schedule_item, null);
+			}
+			ImageView monkey= (ImageView) convertView.findViewById(R.id.schdule_bottom);
+			View main= convertView.findViewById(R.id.item_main);
+			main.setVisibility(View.VISIBLE);
+			monkey.setVisibility(View.GONE);
+			if (data.getShowMonkey() == 1)
+			{
+				main.setVisibility(View.GONE);
+				monkey.setVisibility(View.VISIBLE);
+				return convertView;
 			}
 			try
 			{
@@ -346,7 +392,7 @@ public class PushClose extends RelativeLayout
 				public void onClick(DialogInterface dialog, int whichButton)
 				{
 					mScheduleService.doDelScheduleItem("" + item.getUserId(), item.getCid());
-					AlarmService.getInstance().removeAlarm(Integer.parseInt(item.getCepId()));
+					AlarmService.getInstance().removeAlarm(Integer.parseInt(item.getCid() + ""));
 					Context obj= mContext;
 					if (obj instanceof HomeActivity)
 					{

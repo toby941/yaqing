@@ -24,7 +24,9 @@ import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.MyCepActivity;
 import com.airAd.yaqinghui.R;
+import com.airAd.yaqinghui.business.BadgeService;
 import com.airAd.yaqinghui.business.NotificationMessageService;
+import com.airAd.yaqinghui.business.model.Badge;
 import com.airAd.yaqinghui.business.model.NotificationMessage;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.ui.CustomViewPager;
@@ -56,6 +58,8 @@ public class UserFragment extends Fragment
 	private ProgressDialog mProgressDialog;
 	private ImageView myCepOrder, myCepSingn, myCepComment;
 	private TextView orderNumText, signNumText, commentNumText;
+	private TextView notifyNumText;
+	private TextView medalNum;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -136,6 +140,8 @@ public class UserFragment extends Fragment
 		myCepOrder= (ImageView) view.findViewById(R.id.mycep_order);
 		myCepSingn= (ImageView) view.findViewById(R.id.mycep_signin);
 		myCepComment= (ImageView) view.findViewById(R.id.mycep_comment);
+		notifyNumText= (TextView) view.findViewById(R.id.notify_num);
+		medalNum= (TextView) view.findViewById(R.id.medalNum);
 		if (user != null)
 		{
 			TextView userName= (TextView) view.findViewById(R.id.username);
@@ -144,7 +150,28 @@ public class UserFragment extends Fragment
 			myCepSingn.setOnClickListener(new GotoMyCep(NotificationMessage.TYPE_CEPEVENT_CHECKIN_HIS));
 			myCepComment.setOnClickListener(new GotoMyCep(NotificationMessage.TYPE_CEPEVENT_SCORE_HIS));
 		}
+		setNotifyNum();
 		return view;
+	}
+	private void setNotifyNum()
+	{
+		NotificationMessageService notifyService= new NotificationMessageService();
+		int unReadNum= notifyService.getUnReadMsg(MyApplication.getCurrentApp().getUser().getId());
+		if (unReadNum > 0)
+		{
+			if (notifyNumText != null)
+			{
+				notifyNumText.setVisibility(View.VISIBLE);
+				notifyNumText.setText(unReadNum + "");
+			}
+		}
+		else
+		{
+			if (notifyNumText != null)
+			{
+				notifyNumText.setVisibility(View.INVISIBLE);
+			}
+		}
 	}
 	@Override
 	public void onResume()
@@ -152,6 +179,7 @@ public class UserFragment extends Fragment
 		super.onResume();
 		NotificationMessageService service= new NotificationMessageService();
 		Map<Integer, Integer> map= service.getHisMapData(MyApplication.getCurrentApp().getUser().getId());
+		System.out.println(map);
 		if (map == null)
 		{
 			return;
@@ -216,6 +244,30 @@ public class UserFragment extends Fragment
 			myCepComment.setImageResource(R.drawable.pinlun_none);
 			commentNumText.setVisibility(View.INVISIBLE);
 		}
+		BadgeService badgeService= new BadgeService();
+		Map<Integer, Integer> maps= badgeService.getBadgesMapData(MyApplication.getCurrentApp().getUser().getId());
+		if (maps == null)
+		{
+			return;
+		}
+		Integer blue= maps.get(Badge.BADGE_1);
+		Integer red= maps.get(Badge.BADGE_2);
+		Integer green= maps.get(Badge.BADGE_3);
+		int total= 0;
+		if (blue != null)
+		{
+			total+= blue;
+		}
+		if (red != null)
+		{
+			total+= red;
+		}
+		if (green != null)
+		{
+			total+= green;
+		}
+		medalNum.setText(total + " " + getString(R.string.badge));
+		setNotifyNum();
 	}
 	private void setThumbImage(View view)
 	{

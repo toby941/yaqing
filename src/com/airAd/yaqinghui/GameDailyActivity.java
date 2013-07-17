@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -119,6 +120,10 @@ public class GameDailyActivity extends BackBaseActivity {
 		bannerText = (TextView) topView.findViewById(R.id.date_banner);
 		progressbar = (ProgressBar) topView.findViewById(R.id.progressBar);
 		listView = (CanCloseListView) topView.findViewById(R.id.date_list);
+		ImageView box= (ImageView) topView.findViewById(R.id.empty_box);
+		TextView boxText= (TextView) topView.findViewById(R.id.empty_text);
+		box.setVisibility(View.INVISIBLE);
+		boxText.setVisibility(View.INVISIBLE);
 		mPushClose.setContent(topView, bottomView);
 		final Calendar calendar = Calendar.getInstance();
 		int day = calendar.get(Calendar.DAY_OF_MONTH);

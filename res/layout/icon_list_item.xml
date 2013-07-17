@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/queren_bg"
     android:paddingLeft="20dp"
     android:paddingTop="2dp"
     android:layout_width="fill_parent"
@@ -30,18 +31,8 @@
             android:textSize="19dp" />
     </RelativeLayout>
 
-
-    <ImageView
-        android:id="@+id/glare"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/glare" />
     <View
-        android:layout_below="@id/glare"
         android:layout_width="match_parent"
         android:layout_height="3px"
-        android:layout_marginTop="2dp"
         android:background="@drawable/siglines2" />
 </RelativeLayout>

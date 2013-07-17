@@ -27,7 +27,15 @@ public class ScheduleItem {
     private Date startTime;
 	private String iconType;
     //
-
+	private int showMonkey;
+	public int getShowMonkey()
+	{
+		return showMonkey;
+	}
+	public void setShowMonkey(int showMonkey)
+	{
+		this.showMonkey= showMonkey;
+	}
 	public Long getCid() {
         return cid;
     }

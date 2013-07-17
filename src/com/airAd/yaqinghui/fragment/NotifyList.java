@@ -34,6 +34,7 @@ public class NotifyList extends Fragment
 	private NotificationMessageService notifyService;
 	private ItemSelectListener selectListener;
 	private List<NotificationMessage> dataList;
+	private ImageView box;
 
 	public static NotifyList newInstance()
 	{
@@ -49,7 +50,7 @@ public class NotifyList extends Fragment
 		mBack= (ImageButton) view.findViewById(R.id.back);
 		mBack.setOnClickListener(new BackClick());
 		listView= (ListView) view.findViewById(R.id.notify_list);
-
+		box= (ImageView) view.findViewById(R.id.box);
 		return view;
 	}
 
@@ -58,6 +59,10 @@ public class NotifyList extends Fragment
 	{
 		super.onResume();
 		dataList= notifyService.getNoficationMessages(MyApplication.getCurrentApp().getUser().getId());
+		if (dataList.size() > 0)
+		{
+			box.setVisibility(View.INVISIBLE);
+		}
 		selectListener= new ItemSelectListener();
 		listView.setAdapter(new NotifyAdapter());
 		listView.setOnItemClickListener(selectListener);

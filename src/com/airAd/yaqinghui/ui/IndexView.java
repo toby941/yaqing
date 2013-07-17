@@ -12,7 +12,7 @@ import android.view.View;
  */
 public class IndexView extends View
 {
-	private static final int SPACE= 24;
+	private static final int SPACE= 20;
 	private static final int RADIUS= 5;
 	private static final float SELECT_RADIUS= 6;
 	private static final int COLOR_NORMAL= Color.rgb(176, 179, 186), COLOR_HIGHTLIGHT= Color.rgb(231, 76, 60);
@@ -89,6 +89,7 @@ public class IndexView extends View
 		{
 			highLightIndex= 0;
 		}
+		invalidate();
 	}
 	public void nextPoint()
 	{

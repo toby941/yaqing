@@ -312,6 +312,7 @@ public class CepEventItem extends Fragment
 			Toast.makeText(getActivity(), R.string.watch_success, Toast.LENGTH_SHORT).show();
 		}
 	}//end inner class
+
 	private final class ScoreClick implements OnClickListener
 	{
 		@Override

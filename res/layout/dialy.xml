@@ -22,18 +22,40 @@
         android:layout_below="@id/date_banner"
         android:background="#E5E5E5" />
 
+    <ImageView
+        android:id="@+id/empty_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/date_banner"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:scaleType="center"
+        android:src="@drawable/empty_box" />
+
+    <TextView
+        android:id="@+id/empty_text"
+        android:visibility="invisible"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/empty_box"
+        android:layout_centerHorizontal="true"
+        android:text="@string/empty_box_text" />
+
     <com.airAd.yaqinghui.ui.CanCloseListView
         android:id="@+id/date_list"
-        android:scrollingCache="false"
-        android:fadingEdge="none"  
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/date_banner" />
+        android:layout_below="@id/date_banner"
+        android:fadingEdge="none"
+        android:scrollingCache="false" />
 
-    <ProgressBar 
+    <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
+
 </RelativeLayout>

@@ -120,7 +120,6 @@ public class Cep
 				event.setMaxNum(Integer.parseInt(eventObj.optString("joinnum")));
 				event.setAttendNum(Integer.parseInt(eventObj.optString("signupnum")));
 				event.setCepEventType(obj.optString("type"));
-				System.out.println("cepFlag--->" + eventObj.optString("flag"));
 				event.setFlag(eventObj.optString("flag"));
 				event.setTabId(i + 1);
 				// if (new Date().getTime() < event.getStartTimel())
