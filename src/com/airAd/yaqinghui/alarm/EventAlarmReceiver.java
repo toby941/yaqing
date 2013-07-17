@@ -16,6 +16,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
+import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.WelcomeActivity;
@@ -64,7 +65,7 @@ public class EventAlarmReceiver extends BroadcastReceiver {
 									R.string.alarm_title))
 					.setContentText(content);
 
-			Intent startMain = new Intent(context, WelcomeActivity.class);
+			Intent startMain = new Intent(context, HomeActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 					| Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
