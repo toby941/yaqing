@@ -8,30 +8,41 @@ import com.airAd.yaqinghui.R;
 public class Common {
 	public static String genBannerText(int day)
 	{
-		int weekOfDay= (day + 1) % 7;
 		String week= "";
-		switch (weekOfDay)
+		switch (day)
 		{
-			case 0 :
-				week= "Sun";
-				break;
-			case 1 :
-				week= "Mon";
-				break;
-			case 2 :
+			case 13 :
 				week= "Tue";
 				break;
-			case 3 :
+			case 14 :
 				week= "Wed";
 				break;
-			case 4 :
+			case 15 :
 				week= "Thu";
 				break;
-			case 5 :
+			case 16 :
 				week= "Fri";
 				break;
-			case 6 :
+			case 17 :
 				week= "Sat";
+				break;
+			case 18 :
+				week= "Sun";
+				break;
+			case 19 :
+				week= "Mon";
+				break;
+			case 20 :
+				week= "Tue";
+				break;
+			case 21 :
+				week= "Wed";
+				break;
+			case 22 :
+				week= "Thu";
+				break;
+			case 23 :
+				week= "Fri";
 				break;
 		}
 		return day + "  " + week;
