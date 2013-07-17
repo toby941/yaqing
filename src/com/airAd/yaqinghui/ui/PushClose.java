@@ -9,7 +9,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -43,7 +42,6 @@ import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Common;
 import com.airAd.yaqinghui.common.Config;
-import com.airAd.yaqinghui.fragment.SettingsFragment;
 import com.airAd.yaqinghui.fragment.UserFragment;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -362,7 +360,6 @@ public class PushClose extends RelativeLayout {
 					iconImage.setImageResource(Game.getResourceId(data
 							.getIconType()));
 				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

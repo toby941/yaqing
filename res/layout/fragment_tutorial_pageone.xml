@@ -10,40 +10,60 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:src="@drawable/welcome" />
-    
-    
-     <ImageView
+
+    <ImageView
+        android:id="@+id/j_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:src="@drawable/yindao_1" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        android:layout_below="@id/j_pic"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/yindao_1" />
-     
-     <TextView
+            android:src="@drawable/pic2" />
+
+        <ImageView
+            android:layout_marginLeft="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pic1" />
+    </LinearLayout>
+
+    <TextView
         android:id="@+id/j_playvideo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        android:visibility="invisible"
         android:background="@android:color/transparent"
-        android:src="@drawable/video_btn" />
-    
+        android:src="@drawable/video_btn"
+        android:visibility="invisible" />
+
     <TextView
-        android:text="@string/first_tips"
         android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/j_playvideo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/j_playvideo" />
+        android:text="@string/first_tips" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="10dp"
         android:background="@drawable/yindao_bottom_bg"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:padding="10dp" >
 
         <ImageView
             android:layout_width="wrap_content"

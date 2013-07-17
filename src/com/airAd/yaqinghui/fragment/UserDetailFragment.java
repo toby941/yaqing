@@ -37,6 +37,7 @@ import com.airAd.yaqinghui.R;
 import com.airAd.yaqinghui.business.BadgeService;
 import com.airAd.yaqinghui.business.model.Badge;
 import com.airAd.yaqinghui.business.model.User;
+import com.airAd.yaqinghui.common.ApiUtil;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.FileUtils;
 import com.airAd.yaqinghui.common.PicProcessUtils;
@@ -135,7 +136,8 @@ public class UserDetailFragment extends Fragment
 			ImageView itemIcon= (ImageView) view.findViewById(R.id.detail_attenditem_icon);
 			nameText.setText(mUser.getName());
 			genderText.setText(mUser.getGender());
-			itemText.setText(mUser.getTypes()[0]);
+			String str_eg= ApiUtil.getSportsNameByType(mUser.getTypes()[0]).split(",")[1];
+			itemText.setText(str_eg);
 			try
 			{
 				itemIcon.setImageBitmap(BitmapFactory.decodeStream(assertManager.open(mUser.getTypes()[0].toLowerCase()

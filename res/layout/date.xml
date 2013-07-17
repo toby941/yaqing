@@ -37,7 +37,7 @@
                 android:background="#323F4F"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="@string/sun"
+                android:text="@string/tue"
                 android:textColor="#BABBBB"
                 android:textSize="12dp" />
 
@@ -97,7 +97,7 @@
                 android:background="#323F4F"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="@string/mon"
+                android:text="@string/wed"
                 android:textColor="#BABBBB"
                 android:textSize="12dp" />
 
@@ -156,7 +156,7 @@
                 android:background="#323F4F"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="@string/tue"
+                android:text="@string/thu"
                 android:textColor="#BABBBB"
                 android:textSize="12dp" />
 
@@ -213,7 +213,7 @@
                 android:background="#323F4F"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="@string/wed"
+                android:text="@string/fri"
                 android:textColor="#BABBBB"
                 android:textSize="12dp" />
 			<View
@@ -264,7 +264,7 @@
                 android:background="#323F4F"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="@string/thu"
+                android:text="@string/sat"
                 android:textColor="#BABBBB"
                 android:textSize="12dp" />
 			<View
@@ -314,7 +314,7 @@
                 android:background="#323F4F"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="@string/fri"
+                android:text="@string/sun"
                 android:textColor="#BABBBB"
                 android:textSize="12dp" />
 			<View
@@ -364,7 +364,7 @@
                 android:background="#323F4F"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="@string/sat"
+                android:text="@string/mon"
                 android:textColor="#BABBBB"
                 android:textSize="12dp" />
 			<View

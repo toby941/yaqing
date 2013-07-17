@@ -60,6 +60,7 @@ public class UserFragment extends Fragment
 	private TextView orderNumText, signNumText, commentNumText;
 	private TextView notifyNumText;
 	private TextView medalNum;
+	private View homeView;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -126,6 +127,16 @@ public class UserFragment extends Fragment
 		final View view= inflater.inflate(R.layout.menu_lefts_user, container, false);
 		// TODO
 		setThumbImage(view);
+		homeView= view.findViewById(R.id.homeLayout);
+		homeView.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				HomeActivity acy= (HomeActivity) getActivity();
+				acy.showContent();
+			}
+		});
 		orderNumText= (TextView) view.findViewById(R.id.order_num);
 		signNumText= (TextView) view.findViewById(R.id.signin_num);
 		commentNumText= (TextView) view.findViewById(R.id.comment_num);
