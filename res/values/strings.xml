@@ -142,5 +142,6 @@
 	    <item>9:00</item>
 	    <item>12:00</item>
 	</string-array>
+	<string name="game_detail_info_empty">该日没有赛事</string>
 	<string name="empty_box_text">今天暂无更多事项需要查看</string>
 </resources>

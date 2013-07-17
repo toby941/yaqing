@@ -3,7 +3,7 @@
     android:id="@+id/popMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#80000000"
+    android:background="#F0EBE7"
     android:padding="5dp" >
 
     <LinearLayout
@@ -85,7 +85,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/take_photo_btn_bg"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/prepost_bg"
             android:text="@string/submit" />
     </LinearLayout>
 

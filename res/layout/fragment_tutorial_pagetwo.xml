@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/j_pic"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="-10dp"
         android:orientation="horizontal" >
 
         <ImageView
@@ -32,9 +33,9 @@
             android:src="@drawable/pic1" />
 
         <ImageView
-            android:layout_marginLeft="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
             android:src="@drawable/pic2" />
     </LinearLayout>
 

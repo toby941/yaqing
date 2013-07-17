@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airAd.yaqinghui.business.AlarmService;
 import com.airAd.yaqinghui.business.GameService;
@@ -50,7 +51,7 @@ public class GameDailyActivity extends BackBaseActivity {
 	private String gamePicUrl;
 	private int checkboxWidth, checkboxHeight;
 	private TextView bannerText;
-	
+
 	public static final String GAME_ID = "game_id";
 	public static final String GAME_PIC_URL = "game_pic_url";
 
@@ -60,7 +61,8 @@ public class GameDailyActivity extends BackBaseActivity {
 		setContentView(R.layout.schedule_daily);
 		gameId = getIntent().getStringExtra(GAME_ID);
 		gamePicUrl = getIntent().getStringExtra(GAME_PIC_URL);
-		Drawable checkboxDrawable = getResources().getDrawable(R.drawable.game_daily_delete);
+		Drawable checkboxDrawable = getResources().getDrawable(
+				R.drawable.game_daily_delete);
 		checkboxWidth = checkboxDrawable.getIntrinsicWidth();
 		checkboxHeight = checkboxDrawable.getIntrinsicHeight();
 		init();
@@ -71,7 +73,8 @@ public class GameDailyActivity extends BackBaseActivity {
 		setPushClose();
 		dailyAdapter = new DailyAdapter();
 		listView.setAdapter(dailyAdapter);
-		doDailyTask(mPushClose.getFirstDate());
+		// doDailyTask(mPushClose.getFirstDate());
+		new InitGameDailyTask().execute();
 		storedInfoIdList = gameService.queryScheduleIds();
 		Log.i("storedInfoIdList", storedInfoIdList.toString());
 		scheduleChangeListener = new OnCheckedChangeListener() {
@@ -83,16 +86,18 @@ public class GameDailyActivity extends BackBaseActivity {
 				GameInfo gameInfo = gameInfoList.get(pos);
 				if (isChecked) {
 					storedInfoIdList.add(gameInfo.getId());
-					int cid = gameService.addtoSchedule(gameInfoList.get(pos), gamePicUrl);
-					AlarmService.getInstance().addAlarm(cid, gameInfo.getStartTime(), gameInfo.getTitle());
+					int cid = gameService.addtoSchedule(gameInfoList.get(pos),
+							gamePicUrl);
+					AlarmService.getInstance().addAlarm(cid,
+							gameInfo.getStartTime(), gameInfo.getTitle());
 				} else {
 					storedInfoIdList.remove(gameInfoList.get(pos).getId());
 					gameService.deleteFromSchedule(gameInfoList.get(pos)
 							.getId());
-					AlarmService.getInstance().removeAlarm(Integer.parseInt(gameInfo.getId()));
+					AlarmService.getInstance().removeAlarm(
+							Integer.parseInt(gameInfo.getId()));
 				}
-				
-				
+
 			}
 		};
 		mPushClose.setOnDateClickListener(new OnDateClickListener() {
@@ -100,7 +105,8 @@ public class GameDailyActivity extends BackBaseActivity {
 			@Override
 			public void onDateClick(Calendar calendar) {
 				doDailyTask(calendar);
-				bannerText.setText(Common.genBannerText(calendar.get(Calendar.DAY_OF_MONTH)));
+				bannerText.setText(Common.genBannerText(calendar
+						.get(Calendar.DAY_OF_MONTH)));
 			}
 		});
 	}
@@ -113,11 +119,11 @@ public class GameDailyActivity extends BackBaseActivity {
 		View bottomView = LayoutInflater.from(this)
 				.inflate(R.layout.date, null);
 		View topView = LayoutInflater.from(this).inflate(R.layout.dialy, null);
-		bannerText= (TextView) topView.findViewById(R.id.date_banner);
+		bannerText = (TextView) topView.findViewById(R.id.date_banner);
 		progressbar = (ProgressBar) topView.findViewById(R.id.progressBar);
 		listView = (CanCloseListView) topView.findViewById(R.id.date_list);
-		ImageView box= (ImageView) topView.findViewById(R.id.empty_box);
-		TextView boxText= (TextView) topView.findViewById(R.id.empty_text);
+		ImageView box = (ImageView) topView.findViewById(R.id.empty_box);
+		TextView boxText = (TextView) topView.findViewById(R.id.empty_text);
 		box.setVisibility(View.INVISIBLE);
 		boxText.setVisibility(View.INVISIBLE);
 		mPushClose.setContent(topView, bottomView);
@@ -178,7 +184,8 @@ public class GameDailyActivity extends BackBaseActivity {
 			viewHolder.locView.setText(gameInfoList.get(position).getPlace());
 			viewHolder.dateView.setText(formatTime(gameInfoList.get(position)
 					.getTime()));
-			RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams)viewHolder.addCheckBox.getLayoutParams();
+			RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) viewHolder.addCheckBox
+					.getLayoutParams();
 			rlp.width = checkboxWidth;
 			rlp.height = checkboxHeight;
 			viewHolder.addCheckBox.setLayoutParams(rlp);
@@ -236,9 +243,86 @@ public class GameDailyActivity extends BackBaseActivity {
 			if (list != null) {
 				gameInfoList = list;
 			}
+			if (gameInfoList.isEmpty()) {
+				Toast.makeText(GameDailyActivity.this,
+						R.string.game_detail_info_empty, Toast.LENGTH_SHORT)
+						.show();
+			}
 			progressbar.setVisibility(View.GONE);
 			listView.setVisibility(View.VISIBLE);
 			dailyAdapter.notifyDataSetChanged();
 		}
 	}
+
+	private static class DailyGameInfo {
+		public int day;
+		public List<GameInfo> list = new ArrayList<GameInfo>();
+	}
+
+	private class InitGameDailyTask extends
+			AsyncTask<Void, Void, DailyGameInfo> {
+
+		@Override
+		protected void onPreExecute() {
+			progressbar.setVisibility(View.VISIBLE);
+			listView.setVisibility(View.GONE);
+		}
+
+		@Override
+		protected DailyGameInfo doInBackground(Void... arg0) {
+			Calendar lastDay = Calendar.getInstance();
+			lastDay.set(2013, Calendar.AUGUST, 24);
+
+			Calendar firstDay = Calendar.getInstance();
+			firstDay.set(2013, Calendar.AUGUST, 13);
+			// 如果今天在8月13日之前，则设为8月13日
+			Calendar today = Calendar.getInstance();
+			if (today.before(firstDay)) {
+				today = firstDay;
+			}
+			// 从第一天一直遍历到最后一天
+			DailyGameInfo info = new DailyGameInfo();
+			for (Calendar c = today; c.before(lastDay); c.add(
+					Calendar.DAY_OF_MONTH, 1)) {
+				List<GameInfo> list = gameService.getGameInfo(gameId,
+						c.getTime());
+				if (list != null && list.size() > 0) {
+					if (list.size() > 0) {
+						info.day = c.get(Calendar.DAY_OF_MONTH);
+						info.list = list;
+						return info;
+					}
+				}
+				Log.i("Daily Gameinfo",
+						(c.get(Calendar.MONTH) + 1) + ","
+								+ c.get(Calendar.DAY_OF_MONTH) + ":"
+								+ String.valueOf(list));
+			}
+			return info;
+		}
+
+		@Override
+		protected void onPostExecute(DailyGameInfo info) {
+
+			progressbar.setVisibility(View.GONE);
+			listView.setVisibility(View.VISIBLE);
+			if (info != null && info.list != null) {
+				gameInfoList = info.list;
+				dailyAdapter.notifyDataSetChanged();
+				if (!gameInfoList.isEmpty()) {
+					mPushClose.setDateDay(info.day);
+				} else {
+					Toast.makeText(GameDailyActivity.this,
+							R.string.game_detail_info_empty, Toast.LENGTH_SHORT)
+							.show();
+				}
+			} else {
+				Toast.makeText(GameDailyActivity.this,
+						R.string.game_detail_info_empty, Toast.LENGTH_SHORT)
+						.show();
+			}
+		}
+
+	}
+
 }
