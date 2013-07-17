@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,7 +32,7 @@ public class NotificationMessageService extends BaseService
 		SQLiteDatabase db= MyApplication.getCurrentReadDB();
 		Cursor cur = db
 				.rawQuery(
-						"select count(1) from messages where user_id = ? and message_type = 1 and read_flag=?",
+						"select count(1) from messages where (user_id = ? or user_id = '-1') and message_type = 1 and read_flag=?",
 						new String[]
 		{userId, NotificationMessage.UNREAD + ""});
 		cur.moveToFirst();
@@ -75,7 +77,7 @@ public class NotificationMessageService extends BaseService
 		SQLiteDatabase db= MyApplication.getCurrentReadDB();
 		Cursor cur= db
 				.rawQuery(
-						"select cid, title, content,user_id,message_type,add_time,read_flag, cep_id, event_id, cep_title, cep_place, cep_start_time from messages where user_id = ? and message_type = ? order by add_time desc",
+						"select cid, title, content,user_id,message_type,add_time,read_flag, cep_id, event_id, cep_title, cep_place, cep_start_time from messages where (user_id = ? or user_id = '-1') and message_type = ? order by add_time desc",
 						new String[]
 						{userId, type + ""});
 		cur.moveToFirst();
@@ -111,7 +113,9 @@ public class NotificationMessageService extends BaseService
 		{
 			ContentValues cValue= new ContentValues();
 			//
-			cValue.put("user_id", message.getUserId());
+			cValue.put("user_id", StringUtils.isBlank(message.getUserId())
+					? "-1"
+					: message.getUserId());
 			cValue.put("title", message.getTitle());
 			cValue.put("content", message.getContent());
 			cValue.put("message_type", message.getMessageType());

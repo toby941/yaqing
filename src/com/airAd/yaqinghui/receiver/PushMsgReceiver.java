@@ -52,8 +52,8 @@ public class PushMsgReceiver extends BroadcastReceiver
 			return;
 		}
 		if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction()))
- {// 推送的消息
-																				// System.out.println("接收到推送下来的自定义消息: "
+		{// 推送的消息
+			// System.out.println("接收到推送下来的自定义消息: "
 																				// +
 																				// bundle.getString(JPushInterface.EXTRA_MESSAGE));
 			String orignJson= bundle.getString(JPushInterface.EXTRA_MESSAGE);
@@ -99,6 +99,9 @@ public class PushMsgReceiver extends BroadcastReceiver
 			{
 				showPushNotify(notifyId);
 			}
+			Intent intent= new Intent();
+			intent.setAction(Constants.NOTIFY_BROADCASTS);
+			mContext.sendBroadcast(intent);
 		}
 		
 	}//end inner class

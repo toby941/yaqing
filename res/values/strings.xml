@@ -142,6 +142,7 @@
 	    <item>9:00</item>
 	    <item>12:00</item>
 	</string-array>
-	<string name="game_detail_info_empty">该比赛已结束</string>
+	<string name="game_detail_info_empty">该比赛项目已结束</string>
 	<string name="empty_box_text">今天暂无更多事项需要查看</string>
+	<string name="cancel_attention">确认删除此项?</string>
 </resources>

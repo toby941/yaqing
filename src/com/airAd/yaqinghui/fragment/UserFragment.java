@@ -2,8 +2,10 @@ package com.airAd.yaqinghui.fragment;
 import java.util.Map;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import com.airAd.yaqinghui.business.NotificationMessageService;
 import com.airAd.yaqinghui.business.model.Badge;
 import com.airAd.yaqinghui.business.model.NotificationMessage;
 import com.airAd.yaqinghui.business.model.User;
+import com.airAd.yaqinghui.common.Constants;
 import com.airAd.yaqinghui.ui.CustomViewPager;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -61,6 +64,8 @@ public class UserFragment extends Fragment
 	private TextView notifyNumText;
 	private TextView medalNum;
 	private View homeView;
+	private NotifyBroadcast notifyBroadcast;
+
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -120,6 +125,9 @@ public class UserFragment extends Fragment
 		mProgressDialog.setTitle(R.string.dialog_title);
 		mProgressDialog.setMessage(getResources().getText(R.string.is_locating));
 		mProgressDialog.setCancelable(true);
+		notifyBroadcast= new NotifyBroadcast();
+		IntentFilter filter= new IntentFilter(Constants.NOTIFY_BROADCASTS);
+		getActivity().registerReceiver(notifyBroadcast, filter);
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -300,6 +308,7 @@ public class UserFragment extends Fragment
 	{
 		super.onDestroy();
 		locationManager.removeUpdates(locationListener);
+		getActivity().unregisterReceiver(notifyBroadcast);
 		System.gc();
 	}
 	private final class GotoMyCep implements OnClickListener
@@ -382,4 +391,12 @@ public class UserFragment extends Fragment
 			return false;
 		}
 	}
+	private final class NotifyBroadcast extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			setNotifyNum();
+		}
+	}//end inner class
 }// end class

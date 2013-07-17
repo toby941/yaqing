@@ -151,6 +151,7 @@ public class HomeActivity extends SlidingBaseActivity
 		}
 		mPushClose.setSheduleListData(scheduleDay);
 	}
+
 	private void registerBroadcast()
 	{
 		mChangeThumbReceiver= new ChangeThumbReceiver();

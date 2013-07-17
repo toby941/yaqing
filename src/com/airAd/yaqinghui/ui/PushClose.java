@@ -3,10 +3,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
@@ -17,14 +15,17 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
@@ -285,11 +286,34 @@ public class PushClose extends RelativeLayout
 		private String itemRemind;
 		private AssetManager assertManager;
 		private View cancelSchdule;
+		private PopupWindow popWindow;
+		private View popContentView;
+		private Button cancelBtn;
+		private Button deleteBtn;
+		private void setPopWindow()
+		{
+			popContentView= mInflater.inflate(R.layout.delete_pop, null);
+			popWindow= new PopupWindow(popContentView, ViewGroup.LayoutParams.MATCH_PARENT,
+					ViewGroup.LayoutParams.MATCH_PARENT);
+			popWindow.setFocusable(true);
+			popWindow.setAnimationStyle(R.style.PushPopupAnimation);
+			cancelBtn= (Button) popContentView.findViewById(R.id.cancel);
+			deleteBtn= (Button) popContentView.findViewById(R.id.dodelete);
+			cancelBtn.setOnClickListener(new OnClickListener()
+			{
+				@Override
+				public void onClick(View v)
+				{
+					popWindow.dismiss();
+				}
+			});
+		}
 		public ScheduleItemAdapter()
 		{
 			mInflater= LayoutInflater.from(mContext);
 			itemRemind= mContext.getString(R.string.schedule_item_tips, AlarmService.getTimeBefore());
 			assertManager= mContext.getAssets();
+			setPopWindow();
 		}
 		@Override
 		public int getCount()
@@ -381,36 +405,36 @@ public class PushClose extends RelativeLayout
 			}
 			return convertView;
 		}
-	}// end inner class
-	private final class CancelSchdule implements OnClickListener
-	{
-		private ScheduleItem item;
-		public CancelSchdule(ScheduleItem item)
+		private final class CancelSchdule implements OnClickListener
 		{
-			this.item= item;
-		}
-		@Override
-		public void onClick(View view)
-		{
-			AlertDialog.Builder builder= new AlertDialog.Builder(mContext);
-			builder.setTitle(R.string.delete_schdule);
-			builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
+			private ScheduleItem item;
+			public CancelSchdule(ScheduleItem item)
 			{
-				public void onClick(DialogInterface dialog, int whichButton)
+				this.item= item;
+			}
+			@Override
+			public void onClick(View view)
+			{
+				popWindow.showAtLocation(mSheduleList, Gravity.CENTER, 0, 0);
+				ScheduleItem deleteItem= item;
+				deleteBtn.setOnClickListener(new OnClickListener()
 				{
-					mScheduleService.doDelScheduleItem("" + item.getUserId(), item.getCid());
-					AlarmService.getInstance().removeAlarm(Integer.parseInt(item.getCid() + ""));
-					Context obj= mContext;
-					if (obj instanceof HomeActivity)
+					@Override
+					public void onClick(View v)
 					{
-						setSheduleListData(((HomeActivity) mContext).scheduleDay);
-						close();
+						mScheduleService.doDelScheduleItem("" + item.getUserId(), item.getCid());
+						AlarmService.getInstance().removeAlarm(Integer.parseInt(item.getCid() + ""));
+						Context obj= mContext;
+						if (obj instanceof HomeActivity)
+						{
+							setSheduleListData(((HomeActivity) mContext).scheduleDay);
+							close();
+						}
+						popWindow.dismiss();
 					}
-				}
-			});
-			builder.setNegativeButton(R.string.cancel, null);
-			builder.create().show();
-		}
+				});
+			}
+		}// end inner class
 	}// end inner class
 	private final class ScanClick implements OnClickListener
 	{
