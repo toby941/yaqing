@@ -4,8 +4,7 @@
     android:layout_height="fill_parent" >
 	<ImageView 
 	    android:id="@+id/schdule_bottom"
-	    android:visibility="invisible"
-	    android:layout_marginTop="30dp"
+	    android:layout_marginTop="80dp"
 	    android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"

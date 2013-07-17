@@ -10,7 +10,7 @@ import android.util.Log;
 
 /**
  * ApiUtil.java
- *
+ * 
  * @author liyuhang
  */
 public class ApiUtil {
@@ -44,6 +44,47 @@ public class ApiUtil {
 		Date date = new Date(ts);
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		return df.format(date);
+	}
+
+	public static String getSportsNameByType(String type)
+	{
+		if ("athletic".equals(type)) {
+			return "田径,Atheltics";
+		} else if ("squash".equals(type)) {
+			return "壁球,Squash";
+		} else if ("rugby".equals(type)) {
+			return "橄榄球,Rugby";
+		} else if ("golf".equals(type)) {
+			return "高尔夫球,Golf";
+		} else if ("fencing".equals(type)) {
+			return "击剑,Fencing";
+		} else if ("weightlifing".equals(type)) {
+			return "举重,Weightlifting";
+		} else if ("basketba".equals(type)) {
+			return "篮球,Basketball";
+		} else if ("table-tennis".equals(type)) {
+			return "乒乓球,Table Tennis";
+		} else if ("judo".equals(type)) {
+			return "柔道,Judo";
+		} else if ("shoutting".equals(type)) {
+			return "射击,Shooting";
+		} else if ("handball".equals(type)) {
+			return "手球,Handball";
+		} else if ("diving".equals(type)) {
+			return "跳水,Diving";
+		} else if ("tennis".equals(type)) {
+			return "网球,Tennis";
+		} else if ("swimming".equals(type)) {
+			return "游泳,Swimming";
+		} else if ("badminton".equals(type)) {
+			return "羽毛球,Badminton";
+		} else if ("footb".equals(type)) {
+			return "足球,Football";
+		} else if ("taekwondo".equals(type)) {
+			return "跆拳道,aekwondo";
+		}
+
+		return "亚青,Sports";
 	}
 
 }

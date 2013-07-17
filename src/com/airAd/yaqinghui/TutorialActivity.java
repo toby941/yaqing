@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import com.airAd.yaqinghui.fragment.LoginFragment;
 import com.airAd.yaqinghui.fragment.TutorialOne;
 import com.airAd.yaqinghui.fragment.TutorialVedio;
+import com.airAd.yaqinghui.ui.IndexView;
 /**
  * 教学页面
  * 
@@ -17,13 +18,15 @@ import com.airAd.yaqinghui.fragment.TutorialVedio;
 public class TutorialActivity extends BaseActivity
 {
 	private ViewPager mGallery;
+	private IndexView mIndexView;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tutorial);
 		mGallery= (ViewPager) findViewById(R.id.gallery);
-		int subNum= getIntent().getIntExtra("subNum", 1);// 确定显示何种页面
+		mIndexView= (IndexView) findViewById(R.id.gallery_index);
+		final int subNum= getIntent().getIntExtra("subNum", 1);// 确定显示何种页面
 		if (subNum == 3)
 		{// 显示引导页面
 			mGallery.setAdapter(new TutorialAdapter(this.getSupportFragmentManager()));
@@ -36,6 +39,11 @@ public class TutorialActivity extends BaseActivity
 		{// 仅仅显示登陆功能页面
 			mGallery.setAdapter(new LoginAdapter(this.getSupportFragmentManager()));
 		}
+	}
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState)
+	{
+		super.onPostCreate(savedInstanceState);
 	}
 	private final class HelpAdapter extends FragmentStatePagerAdapter
 	{

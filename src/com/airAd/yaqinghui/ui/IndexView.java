@@ -12,6 +12,14 @@ import android.view.View;
  */
 public class IndexView extends View
 {
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+	{
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		//		int measuredHeight = measureHeight(heightMeasureSpec);
+		//		int measuredWidth = measureWidth(widthMeasureSpec);
+		//		setMeasuredDimension(measuredHeight, measuredWidth);
+	}
 	private static final int SPACE= 20;
 	private static final int RADIUS= 5;
 	private static final float SELECT_RADIUS= 6;

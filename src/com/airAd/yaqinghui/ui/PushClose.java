@@ -42,7 +42,6 @@ import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.business.model.User;
 import com.airAd.yaqinghui.common.Common;
 import com.airAd.yaqinghui.common.Config;
-import com.airAd.yaqinghui.fragment.SettingsFragment;
 import com.airAd.yaqinghui.fragment.UserFragment;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -80,6 +79,7 @@ public class PushClose extends RelativeLayout
 	private TextView bannerText;
 	private ImageView emptyBox;
 	private TextView emptyTitle;
+	private boolean isOpenEventRemind_flag;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -127,10 +127,9 @@ public class PushClose extends RelativeLayout
 		super(context, attrs);
 		init(context);
 	}
-
 	public void setDateDay(int day)
 	{
-		int selected = day-13;
+		int selected= day - 13;
 		if (selected < 0 || selected > DAYS)
 		{
 			return;
@@ -142,7 +141,9 @@ public class PushClose extends RelativeLayout
 		}
 		dates[selected].setTextColor(SELECTED_COLOR);
 		dates[selected].setBackgroundColor(UNSELECTED_COLOR);
+		close();
 		selectedDate= dates[selected];
+
 	}
 	private void init(Context context)
 	{
@@ -258,6 +259,8 @@ public class PushClose extends RelativeLayout
 			}
 		}
 		setDateHaveItems(allDays);
+		SharedPreferences sp= mContext.getSharedPreferences(Config.PACKAGE, Context.MODE_PRIVATE);
+		isOpenEventRemind_flag= sp.getBoolean(Config.EVENT_REMIND_ISOPEN, false);
 		if (scheduleAdapter == null)
 		{
 			scheduleAdapter= new ScheduleItemAdapter();
@@ -272,8 +275,9 @@ public class PushClose extends RelativeLayout
 	}
 	public void setSelectedDay(int day)
 	{
-		int index = day-DAYS;
-		if(index>=0 && index<=dates.length){
+		int index= day - DAYS;
+		if (index >= 0 && index <= dates.length)
+		{
 			dates[index].setTextColor(SELECTED_COLOR);
 			dates[index].setBackgroundColor(UNSELECTED_COLOR);
 			selectedDate= dates[index];
@@ -339,7 +343,15 @@ public class PushClose extends RelativeLayout
 				gotos.setVisibility(View.GONE);
 				cepZone.setVisibility(View.GONE);
 				timeText.setText(Common.timeString(data.getStartTimel() + ""));
-				tips.setText(itemRemind);
+				if (isOpenEventRemind_flag)
+				{
+					tips.setVisibility(View.VISIBLE);
+					tips.setText(itemRemind);
+				}
+				else
+				{
+					tips.setVisibility(View.GONE);
+				}
 				title.setText(data.getTitle());
 				place.setText(data.getPlace());
 				View banner= convertView.findViewById(R.id.banner);
@@ -366,7 +378,6 @@ public class PushClose extends RelativeLayout
 					banner.setBackgroundColor(Color.parseColor(mContext.getString(R.color.schedule_training)));
 					iconImage.setImageResource(Game.getResourceId(data.getIconType()));
 				}
-
 			}
 			catch (Exception e)
 			{

@@ -17,21 +17,22 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/banner"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:padding="10dp" >
 
         <EditText
             android:id="@+id/user_text"
-            android:padding="4dp"
-            android:textSize="15dp"
-            android:hint="@string/login_name"
-            android:drawableLeft="@drawable/login_use_left"
-            android:background="@drawable/login_text_bg"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_text_bg"
+            android:drawableLeft="@drawable/login_use_left"
+            android:hint="@string/login_name"
+            android:padding="4dp"
+            android:textColorHint="#DCE1E8"
+            android:textSize="15dp" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -44,15 +45,16 @@
 
         <EditText
             android:id="@+id/pwd_text"
-            android:padding="4dp"
-            android:textSize="15dp"
-            android:hint="@string/login_pwd"
-            android:drawableLeft="@drawable/login_pwd_left"
-            android:background="@drawable/login_text_bg"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_text_bg"
+            android:drawableLeft="@drawable/login_pwd_left"
+            android:hint="@string/login_pwd"
             android:inputType="textPassword"
-            android:layout_marginTop="10dp" />
+            android:padding="4dp"
+            android:textColorHint="#DCE1E8"
+            android:textSize="15dp" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -65,13 +67,12 @@
 
         <Button
             android:id="@+id/login"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/prepost_bg"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/prepost_bg"
             android:text="@string/login_dologin"
             android:textColor="#ffffff" />
-        
     </LinearLayout>
 
 </RelativeLayout>
