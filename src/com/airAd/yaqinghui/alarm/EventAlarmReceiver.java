@@ -3,7 +3,6 @@
  */
 package com.airAd.yaqinghui.alarm;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,7 +18,6 @@ import android.util.Log;
 import com.airAd.yaqinghui.HomeActivity;
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
-import com.airAd.yaqinghui.WelcomeActivity;
 import com.airAd.yaqinghui.business.AlarmService;
 import com.airAd.yaqinghui.common.Config;
 
@@ -59,7 +57,7 @@ public class EventAlarmReceiver extends BroadcastReceiver {
 		if (show) {
 			NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 					context)
-					.setSmallIcon(R.drawable.game_daily_loc)
+					.setSmallIcon(R.drawable.icon)
 					.setContentTitle(
 							context.getResources().getString(
 									R.string.alarm_title))
