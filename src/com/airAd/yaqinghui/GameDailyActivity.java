@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airAd.yaqinghui.business.AlarmService;
 import com.airAd.yaqinghui.business.GameService;
@@ -72,7 +73,8 @@ public class GameDailyActivity extends BackBaseActivity {
 		setPushClose();
 		dailyAdapter = new DailyAdapter();
 		listView.setAdapter(dailyAdapter);
-		doDailyTask(mPushClose.getFirstDate());
+		// doDailyTask(mPushClose.getFirstDate());
+		new InitGameDailyTask().execute();
 		storedInfoIdList = gameService.queryScheduleIds();
 		Log.i("storedInfoIdList", storedInfoIdList.toString());
 		scheduleChangeListener = new OnCheckedChangeListener() {
@@ -120,8 +122,8 @@ public class GameDailyActivity extends BackBaseActivity {
 		bannerText = (TextView) topView.findViewById(R.id.date_banner);
 		progressbar = (ProgressBar) topView.findViewById(R.id.progressBar);
 		listView = (CanCloseListView) topView.findViewById(R.id.date_list);
-		ImageView box= (ImageView) topView.findViewById(R.id.empty_box);
-		TextView boxText= (TextView) topView.findViewById(R.id.empty_text);
+		ImageView box = (ImageView) topView.findViewById(R.id.empty_box);
+		TextView boxText = (TextView) topView.findViewById(R.id.empty_text);
 		box.setVisibility(View.INVISIBLE);
 		boxText.setVisibility(View.INVISIBLE);
 		mPushClose.setContent(topView, bottomView);
@@ -241,6 +243,11 @@ public class GameDailyActivity extends BackBaseActivity {
 			if (list != null) {
 				gameInfoList = list;
 			}
+			if (gameInfoList.isEmpty()) {
+				Toast.makeText(GameDailyActivity.this,
+						R.string.game_detail_info_empty, Toast.LENGTH_SHORT)
+						.show();
+			}
 			progressbar.setVisibility(View.GONE);
 			listView.setVisibility(View.VISIBLE);
 			dailyAdapter.notifyDataSetChanged();
@@ -248,7 +255,7 @@ public class GameDailyActivity extends BackBaseActivity {
 	}
 
 	private static class DailyGameInfo {
-		public Calendar date;
+		public int day;
 		public List<GameInfo> list = new ArrayList<GameInfo>();
 	}
 
@@ -265,48 +272,55 @@ public class GameDailyActivity extends BackBaseActivity {
 		protected DailyGameInfo doInBackground(Void... arg0) {
 			Calendar lastDay = Calendar.getInstance();
 			lastDay.set(2013, Calendar.AUGUST, 24);
-			
+
 			Calendar firstDay = Calendar.getInstance();
 			firstDay.set(2013, Calendar.AUGUST, 13);
-			//如果今天在8月13日之前，则设为8月13日
+			// 如果今天在8月13日之前，则设为8月13日
 			Calendar today = Calendar.getInstance();
-			if(today.before(firstDay))
-			{
+			if (today.before(firstDay)) {
 				today = firstDay;
 			}
-			//从第一天一直遍历到最后一天
+			// 从第一天一直遍历到最后一天
 			DailyGameInfo info = new DailyGameInfo();
-			for(Calendar c = today; c.before(lastDay) ; c.add(Calendar.DAY_OF_MONTH, 1))
-			{
-				List<GameInfo> list = gameService.getGameInfo(gameId, c.getTime());
-				if(list != null)
-				{
-					Log.i("Daily Gameinfo",(c.get(Calendar.MONTH) + 1) + "," + c.get(Calendar.DAY_OF_MONTH) + ":" 
-							+ list.size()); 
-							
-					if(list.size() > 0)
-					{
-						info.date = c;
+			for (Calendar c = today; c.before(lastDay); c.add(
+					Calendar.DAY_OF_MONTH, 1)) {
+				List<GameInfo> list = gameService.getGameInfo(gameId,
+						c.getTime());
+				if (list != null && list.size() > 0) {
+					if (list.size() > 0) {
+						info.day = c.get(Calendar.DAY_OF_MONTH);
 						info.list = list;
 						return info;
 					}
 				}
-				else
-				{
-					return null;
-				}
+				Log.i("Daily Gameinfo",
+						(c.get(Calendar.MONTH) + 1) + ","
+								+ c.get(Calendar.DAY_OF_MONTH) + ":"
+								+ String.valueOf(list));
 			}
 			return info;
 		}
-		
+
 		@Override
 		protected void onPostExecute(DailyGameInfo info) {
-			if (info.list != null) {
-				gameInfoList = info.list;
-			}
+
 			progressbar.setVisibility(View.GONE);
 			listView.setVisibility(View.VISIBLE);
-			dailyAdapter.notifyDataSetChanged();
+			if (info != null && info.list != null) {
+				gameInfoList = info.list;
+				dailyAdapter.notifyDataSetChanged();
+				if (!gameInfoList.isEmpty()) {
+					mPushClose.setDateDay(info.day);
+				} else {
+					Toast.makeText(GameDailyActivity.this,
+							R.string.game_detail_info_empty, Toast.LENGTH_SHORT)
+							.show();
+				}
+			} else {
+				Toast.makeText(GameDailyActivity.this,
+						R.string.game_detail_info_empty, Toast.LENGTH_SHORT)
+						.show();
+			}
 		}
 
 	}

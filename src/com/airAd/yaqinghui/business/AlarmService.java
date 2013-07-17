@@ -95,6 +95,13 @@ public class AlarmService {
 		}
 	}
 	
+	public static boolean isEventAlarmOpen()
+	{
+		SharedPreferences sp = MyApplication.getCurrentApp().getSharedPreferences(Config.PACKAGE,
+				Context.MODE_PRIVATE);
+		return sp.getBoolean(Config.EVENT_REMIND_ISOPEN, true);
+	}
+	
 	public static int getTimeBefore()
 	{
 		SharedPreferences sp = MyApplication.getCurrentApp().getSharedPreferences(
