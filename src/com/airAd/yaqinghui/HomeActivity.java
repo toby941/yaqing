@@ -37,7 +37,6 @@ import com.airAd.yaqinghui.business.model.Cep;
 import com.airAd.yaqinghui.business.model.ScheduleItem;
 import com.airAd.yaqinghui.common.Config;
 import com.airAd.yaqinghui.common.Constants;
-import com.airAd.yaqinghui.common.StringUtil;
 import com.airAd.yaqinghui.core.ImageFetcherFactory;
 import com.airAd.yaqinghui.fragment.LeftMenuFragment;
 import com.airAd.yaqinghui.fragment.RightMenuFragment;
@@ -137,9 +136,7 @@ public class HomeActivity extends SlidingBaseActivity
 		mPushClose.setContent(topView, bottomView);
 		final Calendar calendar= Calendar.getInstance();
 		int day= calendar.get(Calendar.DAY_OF_MONTH);
-		int weekday= calendar.get(Calendar.DAY_OF_WEEK) - 1;
-		TextView dateText= (TextView) topView.findViewById(R.id.date_banner);
-		dateText.setText(day + " " + StringUtil.retWeekName(weekday));
+		mPushClose.setDateDay(day);
 		//		mPushClose.setSelectedDay(day);
 	}
 	@Override
@@ -150,7 +147,7 @@ public class HomeActivity extends SlidingBaseActivity
 		if (scheduleDay == -1)// 首次进入选择当前天的日程安排
 		{
 			final Calendar calendar= Calendar.getInstance();
-			int day= calendar.get(Calendar.DAY_OF_MONTH);
+			scheduleDay= calendar.get(Calendar.DAY_OF_MONTH);
 		}
 		mPushClose.setSheduleListData(scheduleDay);
 	}
