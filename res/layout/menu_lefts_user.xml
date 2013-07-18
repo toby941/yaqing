@@ -8,7 +8,7 @@
         android:id="@+id/j_mainscroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/signbtn"
+        android:layout_above="@+id/sign"
         android:layout_alignParentTop="true"
         android:fadingEdge="none"
         android:fadingEdgeLength="0dp"

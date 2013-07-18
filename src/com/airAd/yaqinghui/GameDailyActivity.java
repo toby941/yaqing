@@ -129,11 +129,12 @@ public class GameDailyActivity extends BackBaseActivity {
 		mPushClose.setContent(topView, bottomView);
 		final Calendar calendar = Calendar.getInstance();
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
-		int weekday = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-		TextView bannerText = (TextView) bottomView
-				.findViewById(R.id.home_date_banner);
+		// int weekday = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+		// TextView bannerText = (TextView) bottomView
+		// .findViewById(R.id.home_date_banner);
 		TextView dateText = (TextView) topView.findViewById(R.id.date_banner);
-		dateText.setText(day + " " + StringUtil.retWeekName(weekday));
+		dateText.setText(Common.genBannerText(day));
+		// mPushClose.setSelectedDay(day);
 	}
 
 	private class DailyAdapter extends BaseAdapter {
@@ -315,6 +316,9 @@ public class GameDailyActivity extends BackBaseActivity {
 					Toast.makeText(GameDailyActivity.this,
 							R.string.game_detail_info_empty, Toast.LENGTH_SHORT)
 							.show();
+					final Calendar calendar = Calendar.getInstance();
+					int day = calendar.get(Calendar.DAY_OF_MONTH);
+					mPushClose.setDateDay(day);
 				}
 			} else {
 				Toast.makeText(GameDailyActivity.this,
