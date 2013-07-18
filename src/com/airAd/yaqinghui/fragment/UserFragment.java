@@ -65,7 +65,7 @@ public class UserFragment extends Fragment
 	private TextView medalNum;
 	private View homeView;
 	private NotifyBroadcast notifyBroadcast;
-
+	private MyCepActivityBroadcast myCepActivityBroadcast;
 	public AMapLocationListener locationListener= new AMapLocationListener()
 	{
 		@Override
@@ -128,6 +128,9 @@ public class UserFragment extends Fragment
 		notifyBroadcast= new NotifyBroadcast();
 		IntentFilter filter= new IntentFilter(Constants.NOTIFY_BROADCASTS);
 		getActivity().registerReceiver(notifyBroadcast, filter);
+		myCepActivityBroadcast= new MyCepActivityBroadcast();
+		IntentFilter filterBroadcast= new IntentFilter(Constants.CEP_ACTIVITY_BROADCAST);
+		getActivity().registerReceiver(myCepActivityBroadcast, filterBroadcast);
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -196,9 +199,13 @@ public class UserFragment extends Fragment
 	public void onResume()
 	{
 		super.onResume();
+		setMyCepsAndMedal();
+		setNotifyNum();
+	}
+	private void setMyCepsAndMedal()
+	{
 		NotificationMessageService service= new NotificationMessageService();
 		Map<Integer, Integer> map= service.getHisMapData(MyApplication.getCurrentApp().getUser().getId());
-		System.out.println(map);
 		if (map == null)
 		{
 			return;
@@ -286,7 +293,6 @@ public class UserFragment extends Fragment
 			total+= green;
 		}
 		medalNum.setText(total + " " + getString(R.string.badge));
-		setNotifyNum();
 	}
 	private void setThumbImage(View view)
 	{
@@ -309,6 +315,7 @@ public class UserFragment extends Fragment
 		super.onDestroy();
 		locationManager.removeUpdates(locationListener);
 		getActivity().unregisterReceiver(notifyBroadcast);
+		getActivity().unregisterReceiver(myCepActivityBroadcast);
 		System.gc();
 	}
 	private final class GotoMyCep implements OnClickListener
@@ -397,6 +404,14 @@ public class UserFragment extends Fragment
 		public void onReceive(Context context, Intent intent)
 		{
 			setNotifyNum();
+		}
+	}//end inner class
+	private final class MyCepActivityBroadcast extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			setMyCepsAndMedal();
 		}
 	}//end inner class
 }// end class

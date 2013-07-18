@@ -70,6 +70,7 @@ public class HomeActivity extends SlidingBaseActivity
 	private SignTask signTask;
 	private LeftMenuFragment leftMenuFragment;
 	private RightMenuFragment rightMenuFragment;
+	private SehduleListRefreshReceiver schduleReceiver;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -86,6 +87,10 @@ public class HomeActivity extends SlidingBaseActivity
 			e.printStackTrace();
 		}
 		init();
+		schduleReceiver= new SehduleListRefreshReceiver();
+		IntentFilter filter= new IntentFilter();
+		filter.addAction(Constants.SCHDULE_LIST_REFRESH);
+		this.registerReceiver(schduleReceiver, filter);
 	}
 	public String getIMEI()
 	{
@@ -107,6 +112,10 @@ public class HomeActivity extends SlidingBaseActivity
 		if (mChangeThumbReceiver != null)
 		{// 取消监听
 			this.unregisterReceiver(mChangeThumbReceiver);
+		}
+		if (schduleReceiver != null)
+		{
+			this.unregisterReceiver(schduleReceiver);
 		}
 		if (signTask != null)
 		{
@@ -151,7 +160,6 @@ public class HomeActivity extends SlidingBaseActivity
 		}
 		mPushClose.setSheduleListData(scheduleDay);
 	}
-
 	private void registerBroadcast()
 	{
 		mChangeThumbReceiver= new ChangeThumbReceiver();
@@ -379,7 +387,6 @@ public class HomeActivity extends SlidingBaseActivity
 				{
 					leftMenuFragment.userFragment.getThumb().setImageBitmap(prepareThumbImage());
 				}
-
 				if (leftMenuFragment.userDetailFragment != null)
 				{
 					leftMenuFragment.userDetailFragment.getThumb().setImageBitmap(prepareThumbImage());
@@ -387,7 +394,6 @@ public class HomeActivity extends SlidingBaseActivity
 			}
 		}
 	}//end inner class
-
 	private void requestSign(String twobarcode, String userid, String lng, String lat)
 	{
 		if (progressDialog == null)
@@ -504,4 +510,12 @@ public class HomeActivity extends SlidingBaseActivity
 		bitmap= BitmapFactory.decodeFile(path, options);
 		return bitmap;
 	}
+	private final class SehduleListRefreshReceiver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			mPushClose.setSheduleListData(scheduleDay);
+		}
+	}//end innner class
 }// end class

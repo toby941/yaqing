@@ -10,6 +10,7 @@ public class Config {
 	// public static final String REMOTE =
 	// "http://192.168.2.107:8083/XuanR_YogAppProject/InfoSelectServer";
 //	public static final String REMOTE = "http://weimp.sinaapp.com/api.do";
+	public static final String UPDATE_URL= "http://emms.airad.com/yaqing/android";
 	public static final String REMOTE= "http://180.96.38.219/XuanR_YogAppProject/InfoSelectServer";
 	public static final String DEMO_UID = "00000001";
 	public static final String DEMO_QR = "abcdefghijklmnopqrstuvwxyz";

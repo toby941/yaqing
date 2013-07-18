@@ -153,6 +153,8 @@ public class NotificationMessage {
 	public static NotificationMessage instance(String src) {
 		NotificationMessage item = new NotificationMessage();
 		try {
+			// JSONObject obj = JSONObject.fromObject(objStr);
+			// String src = obj.optJSONObject("aps").optString("content");
 			String[] msgs = src.split("==");
 			if (msgs.length != 8)
 				return null;
@@ -175,10 +177,11 @@ public class NotificationMessage {
 	}
 
 	@Override
-	public String toString()
-	{
-		return "NotificationMessage [cid=" + cid + ", id=" + id + ", readFlag=" + readFlag + ", content=" + content
-				+ ", messageType=" + messageType + ", addTimeStr=" + addTimeStr + ", title=" + title + ", cepId="
-				+ cepId + ", eventId=" + eventId + ", userId=" + userId + ", status=" + status + "]";
+	public String toString() {
+		return "NotificationMessage [cid=" + cid + ", id=" + id + ", readFlag="
+				+ readFlag + ", content=" + content + ", messageType="
+				+ messageType + ", addTimeStr=" + addTimeStr + ", title="
+				+ title + ", cepId=" + cepId + ", eventId=" + eventId
+				+ ", userId=" + userId + ", status=" + status + "]";
 	}
 }

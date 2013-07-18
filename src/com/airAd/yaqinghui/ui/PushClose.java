@@ -334,9 +334,10 @@ public class PushClose extends RelativeLayout
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
 			ScheduleItem data= mDataList.get(position);
+			convertView= null;
 			if (convertView == null)
 			{
-				convertView= mInflater.inflate(R.layout.schedule_item, null);
+				convertView= mInflater.inflate(R.layout.schedule_item, null, true);
 			}
 			ImageView monkey= (ImageView) convertView.findViewById(R.id.schdule_bottom);
 			View main= convertView.findViewById(R.id.item_main);
@@ -348,13 +349,17 @@ public class PushClose extends RelativeLayout
 				monkey.setVisibility(View.VISIBLE);
 				return convertView;
 			}
+
 			try
 			{
+				itemRemind= mContext.getString(R.string.schedule_item_tips, AlarmService.getTimeBefore());
+
 				View gotos= convertView.findViewById(R.id.gotos);
 				View cepZone= convertView.findViewById(R.id.schedule_item_cep);
 				TextView title= (TextView) convertView.findViewById(R.id.title);
 				TextView place= (TextView) convertView.findViewById(R.id.place);
 				TextView tips= (TextView) convertView.findViewById(R.id.tips);
+				tips.setVisibility(View.GONE);
 				TextView timeText= (TextView) convertView.findViewById(R.id.schedule_item_time);
 				View mainInfo= convertView.findViewById(R.id.maininfo);
 				View signBtn= convertView.findViewById(R.id.signin);// 签到按钮
@@ -363,6 +368,7 @@ public class PushClose extends RelativeLayout
 				gotos.setVisibility(View.GONE);
 				cepZone.setVisibility(View.GONE);
 				timeText.setText(Common.timeString(data.getStartTimel() + ""));
+				System.out.println("isopen--->" + AlarmService.isEventAlarmOpen() + "," + itemRemind);
 				if (AlarmService.isEventAlarmOpen())
 				{
 					tips.setText(itemRemind);
