@@ -18,6 +18,7 @@ import com.weibo.sdk.android.api.FriendshipsAPI;
 import com.weibo.sdk.android.api.StatusesAPI;
 import com.weibo.sdk.android.net.RequestListener;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -43,6 +44,8 @@ public class ShareActivity extends BaseActivity {
 	private Button mSend;
 	private PropertiesService pro;
 
+	private ProgressDialog progressDialog;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,11 +62,12 @@ public class ShareActivity extends BaseActivity {
 		Resources res = getResources();
 		Bitmap bf = BitmapFactory.decodeResource(res, R.drawable.weibo01);
 		try {
-			saveMyBitmap("weibo01",bf);
+			saveMyBitmap("weibo01", bf);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Toast.makeText(ShareActivity.this, "程序错误，检查是否插入sd卡", Toast.LENGTH_SHORT).show();
+			Toast.makeText(ShareActivity.this, "程序错误，检查是否插入sd卡",
+					Toast.LENGTH_SHORT).show();
 		}
 
 	}
@@ -76,16 +80,43 @@ public class ShareActivity extends BaseActivity {
 		EditText tv1 = (EditText) findViewById(R.id.weiboContent);
 		if (extras != null) {
 			temp = extras.getString("uName");
-			weiboContent += "@" + temp;
-			tv1.setText(weiboContent);
-			tv1.setSelection(weiboContent.length());
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.showSoftInput(tv1, InputMethodManager.RESULT_SHOWN);
-			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-					InputMethodManager.HIDE_IMPLICIT_ONLY);
+			Integer channel = extras.getInt("channel");
+			if (temp != null) {
+				weiboContent += "@" + temp;
+				tv1.setText(weiboContent);
+				tv1.setSelection(weiboContent.length());
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(tv1, InputMethodManager.RESULT_SHOWN);
+				imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+						InputMethodManager.HIDE_IMPLICIT_ONLY);
+			}
+			if (channel != null) {
+				TextView tv2 = (TextView) findViewById(R.id.weibo_content);
+				switch (channel) {
+				case 1:
+					tv2.setText(R.string.weibo01);
+					break;
+				case 2:
+					tv2.setText(R.string.weibo02);
+					break;
+				case 3:
+					tv2.setText(R.string.weibo03);
+					break;
+				case 4:
+					tv2.setText(R.string.weibo04);
+					break;
+				case 5:
+					tv2.setText(R.string.weibo05);
+					break;
+				default:
+					break;
+				}
+
+			}
+
 		}
-		// mBack = (ImageButton) findViewById(R.id.main_banner_left_btn);
-		// mBack.setOnClickListener(new BackClick());
+		mBack = (ImageButton) findViewById(R.id.main_banner_left_btn);
+		mBack.setOnClickListener(new BackClick());
 		mSend = (Button) findViewById(R.id.main_send);
 		mSend.setOnClickListener(new SendClick());
 		mFriend = (ImageButton) findViewById(R.id.friend);
@@ -121,6 +152,9 @@ public class ShareActivity extends BaseActivity {
 	private final class BackClick implements OnClickListener {
 		@Override
 		public void onClick(View v) {
+			EditText tv1 = (EditText) findViewById(R.id.weiboContent);
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(tv1.getWindowToken(), 0);
 			ShareActivity.this.finish();
 		}
 	}// end inner class
@@ -131,20 +165,27 @@ public class ShareActivity extends BaseActivity {
 
 			// 设置切换动画，从右边进入，左边退出
 			EditText tv1 = (EditText) findViewById(R.id.weiboContent);
-			weiboContent = tv1.getText().toString();
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(tv1.getWindowToken(), 0);
 
 			Intent intent = new Intent();
 			intent.setClass(ShareActivity.this, ShareFriendActivity.class);
 			startActivity(intent);
+			ShareActivity.this.finish();
 			overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+			weiboContent = tv1.getText().toString();
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(tv1.getWindowToken(), 0);
 		}
 	}// end inner class
 
 	private final class SendClick implements OnClickListener {
 		@Override
 		public void onClick(View v) {
+			progressDialog = new ProgressDialog(ShareActivity.this);
+			progressDialog.setTitle(R.string.dialog_title);
+			progressDialog.setMessage(getResources().getText(
+					R.string.weibo_sending));
+			progressDialog.setCancelable(true);
+			progressDialog.show();
 			sendInfo();
 		}
 
@@ -158,7 +199,8 @@ public class ShareActivity extends BaseActivity {
 		content = content + mWeiboInfo.getText().toString();
 
 		// statuses.update(content, null, null, new SendListener());
-		statuses.upload(content, "/sdcard/weibo01.png", null, null, new SendListener());
+		statuses.upload(content, "/sdcard/weibo01.png", null, null,
+				new SendListener());
 
 		// statuses.uploadUrlText( content,"", null, null,
 		// new SendListener());
@@ -171,6 +213,7 @@ public class ShareActivity extends BaseActivity {
 			// TODO Auto-generated method stub
 			String a = arg0;
 			JSONObject jsonObj;
+			progressDialog.dismiss();
 			try {
 				jsonObj = new JSONObject(a);
 				// f.friends(screen_name, count, cursor, trim_status, listener);
@@ -184,14 +227,16 @@ public class ShareActivity extends BaseActivity {
 		@Override
 		public void onError(WeiboException arg0) {
 			// TODO Auto-generated method stub
-			Toast.makeText(ShareActivity.this, "发送失败，检查网络", Toast.LENGTH_SHORT).show();
+			Toast.makeText(ShareActivity.this, "发送失败，检查网络", Toast.LENGTH_SHORT)
+					.show();
 
 		}
 
 		@Override
 		public void onIOException(IOException arg0) {
 			// TODO Auto-generated method stub
-			Toast.makeText(ShareActivity.this, "发送失败，检查是否插入sd卡", Toast.LENGTH_SHORT).show();
+			Toast.makeText(ShareActivity.this, "发送失败，检查是否插入sd卡",
+					Toast.LENGTH_SHORT).show();
 
 		}
 
@@ -206,7 +251,8 @@ public class ShareActivity extends BaseActivity {
 			fOut = new FileOutputStream(f);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			Toast.makeText(ShareActivity.this, "发送失败，检查是否插入sd卡", Toast.LENGTH_SHORT).show();
+			Toast.makeText(ShareActivity.this, "发送失败，检查是否插入sd卡",
+					Toast.LENGTH_SHORT).show();
 		}
 		mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
 		try {

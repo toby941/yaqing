@@ -55,6 +55,7 @@ public class ShareFriendActivity extends BaseActivity {
 			intent.setClass(ShareFriendActivity.this, ShareActivity.class);
 			ShareFriendActivity.this.startActivity(intent);
 			overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+			ShareFriendActivity.this.finish();
 
 		}
 	}// end inner class
@@ -97,6 +98,7 @@ public class ShareFriendActivity extends BaseActivity {
 			intent.putExtra("uName", map.getText());
 			ShareFriendActivity.this.startActivity(intent);
 			overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+			ShareFriendActivity.this.finish();
 
 		}
 

@@ -129,6 +129,11 @@
 	<string name="cep_socre2">组织水平 </string>
 	<string name="cep_socre3">个人收获 </string>	
 	<string name="weibo01">我正在参加“青年的节日”（第二届亚洲青年运动会的主题活动）。 </string>
+	<string name="weibo02">我正在参加“亚洲文化村”（第二届亚洲青年运动会的主题活动）。 </string>
+	<string name="weibo03">我正在参加“国际组织展”（第二届亚洲青年运动会的主题活动）。 </string>
+	<string name="weibo04">我正在参加“生态环保农业”（第二届亚洲青年运动会的主题活动）。 </string>
+	<string name="weibo05">我正在参加“南京历史文化风貌观光”（第二届亚洲青年运动会的主题活动）。 </string>
+	<string name="weibo_sending">微博发送中...... </string>
 	<string name="alarm_title">提醒到时了</string>
 	<string name="update_no_need">已经是最新版本！</string>
 	

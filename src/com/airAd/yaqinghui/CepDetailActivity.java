@@ -1,6 +1,7 @@
 package com.airAd.yaqinghui;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -39,6 +40,9 @@ import com.airAd.yaqinghui.fragment.ImageDetailFragment;
 import com.airAd.yaqinghui.fragment.UserFragment;
 import com.airAd.yaqinghui.ui.CepTextView;
 import com.google.zxing.client.android.CaptureActivity;
+import com.weibo.PropertiesService;
+import com.weibo.WeiboService;
+import com.weibo.WeiboUtil;
 /**
  * 
  * @author Panyi
@@ -580,8 +584,36 @@ public class CepDetailActivity extends BaseActivity
 		@Override
 		public void onClick(View arg0)
 		{
-			Intent it= new Intent(CepDetailActivity.this, ShareActivity.class);
-			CepDetailActivity.this.startActivity(it);
+			//微博授权
+			PropertiesService pro = new PropertiesService(getBaseContext());
+			Properties prop = pro.getProperties();
+
+			if (prop != null) {
+				WeiboUtil.token = prop.getProperty("token");
+				WeiboUtil.expires_in = prop.getProperty("expires_in");
+				WeiboUtil util = new WeiboUtil();
+				if (WeiboUtil.token != null && WeiboUtil.expires_in != null) {
+					util.initToken(WeiboUtil.token, WeiboUtil.expires_in);
+				}
+			}
+
+			if (WeiboUtil.accessToken == null
+					|| !WeiboUtil.accessToken.isSessionValid()) {
+
+				WeiboUtil weiboUtil = new WeiboUtil();
+				weiboUtil.login(CepDetailActivity.this, pro);
+
+			} else {
+				CepDetailActivity.this.startService(new Intent(CepDetailActivity.this,
+						WeiboService.class));
+				Intent it= new Intent(CepDetailActivity.this, ShareActivity.class);
+				
+				//it.putExtra("channel", 3);
+				it.putExtra("channel", Cep.getChannelFromCepId(Integer.parseInt(cep.getId())));
+				CepDetailActivity.this.startActivity(it);
+			}
+			
+			
 		}
 	}//end inner class
 }// end class

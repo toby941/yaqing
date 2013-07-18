@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.airAd.yaqinghui.BaseActivity;
+import com.airAd.yaqinghui.CepDetailActivity;
+import com.airAd.yaqinghui.ShareActivity;
+import com.airAd.yaqinghui.ShareFriendActivity;
 import com.airAd.yaqinghui.util.MethodObject;
 import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.Weibo;
@@ -66,6 +69,8 @@ public class WeiboUtil {
 				pro.putString("expires_in", WeiboUtil.expires_in);
 				pro.saveConfig();
 				hand.startService(new Intent(hand, WeiboService.class));
+				Intent it= new Intent(hand, ShareActivity.class);
+				hand.startActivity(it);
 			}
 		}
 

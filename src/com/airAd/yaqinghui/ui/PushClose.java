@@ -53,7 +53,7 @@ public class PushClose extends RelativeLayout {
 	public static final int UNSELECTED_COLOR = Color.rgb(254, 102, 97);
 	public static final int SELECTED_COLOR = Color.rgb(50, 63, 78);
 	public static final int TEXT_NORMAL_COLOR = Color.rgb(177, 179, 184);
-	public static final int DAYS = 11;
+	public static final int DAYS = 12;
 	public boolean isClosed = true;
 	private LinearLayout mBottomView;
 	private LinearLayout mTopView;
@@ -80,6 +80,8 @@ public class PushClose extends RelativeLayout {
 	private TextView bannerText;
 	private ImageView emptyBox;
 	private TextView emptyTitle;
+	private View mask;
+
 	public AMapLocationListener locationListener = new AMapLocationListener() {
 		@Override
 		public void onLocationChanged(Location location) {
@@ -125,6 +127,16 @@ public class PushClose extends RelativeLayout {
 		super(context, attrs);
 		init(context);
 	}
+	
+	public void setToday(){
+		final Calendar calendar= Calendar.getInstance();
+		int day= calendar.get(Calendar.DAY_OF_MONTH);
+		int selected = day - 13;
+		if (selected < 0 || selected > DAYS) {
+			return;
+		}
+		dates[selected].setToday();
+	}
 
 	public void setDateDay(int day) {
 		int selected = day - 13;
@@ -157,6 +169,7 @@ public class PushClose extends RelativeLayout {
 		smoothScrollTo(0, 0);
 		isClosed = true;
 		mListView.isHead = false;
+		mask.setVisibility(View.VISIBLE);
 	}
 
 	public void open() {
@@ -164,6 +177,7 @@ public class PushClose extends RelativeLayout {
 		smoothScrollTo(0, -bottomHeight);
 		isClosed = false;
 		mListView.isHead = true;
+		mask.setVisibility(View.GONE);
 	}
 
 	public void setContent(View top, View bottom) {
@@ -174,6 +188,7 @@ public class PushClose extends RelativeLayout {
 		emptyTitle = (TextView) top.findViewById(R.id.empty_text);
 		mBottomView.addView(bottom);
 		mTopView.addView(top);
+		mask = top.findViewById(R.id.mask);
 		mListView = (CanCloseListView) mTopView.findViewById(R.id.date_list);
 		mSheduleList = (ListView) top.findViewById(R.id.date_list);
 		mSheduleList.setDivider(new BitmapDrawable());
@@ -198,6 +213,7 @@ public class PushClose extends RelativeLayout {
 		dates[8] = (DateTextView) mBottomView.findViewById(R.id.date_day9);
 		dates[9] = (DateTextView) mBottomView.findViewById(R.id.date_day10);
 		dates[10] = (DateTextView) mBottomView.findViewById(R.id.date_day11);
+		dates[11] = (DateTextView)mBottomView.findViewById(R.id.date_day12);
 		for (int i = 0; i < dates.length; i++) {
 			dates[i].setOnClickListener(dateClick);
 		}// end for i
@@ -358,8 +374,6 @@ public class PushClose extends RelativeLayout {
 				gotos.setVisibility(View.GONE);
 				cepZone.setVisibility(View.GONE);
 				timeText.setText(Common.timeString(data.getStartTimel() + ""));
-				System.out.println("isopen--->"
-						+ AlarmService.isEventAlarmOpen() + "," + itemRemind);
 				if (AlarmService.isEventAlarmOpen()) {
 					tips.setText(itemRemind);
 					tips.setVisibility(VISIBLE);
@@ -538,6 +552,11 @@ public class PushClose extends RelativeLayout {
 			if (mScroller.computeScrollOffset()) {
 				mTopView.scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
 				postInvalidate();
+				if (mScroller.getCurrY() >= 0) {
+					mask.setVisibility(View.INVISIBLE);
+				} else {
+					mask.setVisibility(View.VISIBLE);
+				}
 			}
 		}
 	}

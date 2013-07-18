@@ -285,14 +285,16 @@
                 android:layout_width="fill_parent"
                 android:layout_height="2px"
                 android:background="#59636F" />
-            <TextView
+			
+			<com.airAd.yaqinghui.ui.DateTextView
+                android:id="@+id/date_day12"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="#323F4F"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="24"
-                android:textColor="#58626E"
+                android:textColor="#BABBBB"
                 android:textSize="15dp" />
         </LinearLayout>
 		<View

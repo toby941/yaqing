@@ -135,6 +135,7 @@ public class GameDailyActivity extends BackBaseActivity {
 		TextView dateText = (TextView) topView.findViewById(R.id.date_banner);
 		dateText.setText(Common.genBannerText(day));
 		// mPushClose.setSelectedDay(day);
+		mPushClose.setToday();
 	}
 
 	private class DailyAdapter extends BaseAdapter {
@@ -304,7 +305,7 @@ public class GameDailyActivity extends BackBaseActivity {
 
 		@Override
 		protected void onPostExecute(DailyGameInfo info) {
-
+			
 			progressbar.setVisibility(View.GONE);
 			listView.setVisibility(View.VISIBLE);
 			if (info != null && info.list != null) {

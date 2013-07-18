@@ -48,17 +48,11 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/j_line" >
 
-        <com.airAd.yaqinghui.ui.IndexView
-            android:id="@+id/gallery_index"
-            android:layout_width="@dimen/main_pic_index_width"
-            android:layout_height="@dimen/main_pic_index_height"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
-
+       
         <ListView
             android:id="@+id/findList"
             android:layout_width="match_parent"
-            android:layout_height="456dp" >
+            android:layout_height="fill_parent" >
         </ListView>
     </RelativeLayout>
 

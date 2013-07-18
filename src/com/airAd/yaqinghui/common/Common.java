@@ -44,6 +44,9 @@ public class Common {
 			case 23 :
 				week= "Fri";
 				break;
+			case 24 :
+				week= "Sat";
+				break;
 		}
 		return day + "  " + week;
 	}
