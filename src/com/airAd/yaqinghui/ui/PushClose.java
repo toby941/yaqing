@@ -186,6 +186,8 @@ public class PushClose extends RelativeLayout {
 		bannerText = (TextView) top.findViewById(R.id.date_banner);
 		emptyBox = (ImageView) top.findViewById(R.id.empty_box);
 		emptyTitle = (TextView) top.findViewById(R.id.empty_text);
+		DateContainer dateContainer=(DateContainer)bottom.findViewById(R.id.date_container);
+		dateContainer.setPushClose(this);
 		mBottomView.addView(bottom);
 		mTopView.addView(top);
 		mask = top.findViewById(R.id.mask);

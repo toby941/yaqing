@@ -1,8 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.airAd.yaqinghui.ui.DateContainer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#323F4F"
+    android:id="@+id/date_container"
     android:orientation="vertical" >
 
     <TextView
@@ -399,4 +400,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</com.airAd.yaqinghui.ui.DateContainer>

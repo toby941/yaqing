@@ -51,9 +51,6 @@ public class ShareFriendActivity extends BaseActivity {
 	private final class BackClick implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			Intent intent = new Intent();
-			intent.setClass(ShareFriendActivity.this, ShareActivity.class);
-			ShareFriendActivity.this.startActivity(intent);
 			overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
 			ShareFriendActivity.this.finish();
 
@@ -94,11 +91,12 @@ public class ShareFriendActivity extends BaseActivity {
 			ImageAndText map = (ImageAndText) fristList
 					.getItemAtPosition(position);
 			Intent intent = new Intent();
-			intent.setClass(ShareFriendActivity.this, ShareActivity.class);
+			//intent.setClass(ShareFriendActivity.this, ShareActivity.class);
 			intent.putExtra("uName", map.getText());
-			ShareFriendActivity.this.startActivity(intent);
-			overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
-			ShareFriendActivity.this.finish();
+			setResult(CONTEXT_RESTRICTED, intent);
+			//startActivity(intent);
+			//overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+			finish();
 
 		}
 
@@ -111,5 +109,6 @@ public class ShareFriendActivity extends BaseActivity {
 				WeiboUtil.friendList, mListView);
 		mListView.setAdapter(arr);
 	}
+	
 
 }

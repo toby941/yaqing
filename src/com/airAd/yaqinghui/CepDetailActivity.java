@@ -540,10 +540,12 @@ public class CepDetailActivity extends BaseActivity {
 				Intent it = new Intent(CepDetailActivity.this,
 						ShareActivity.class);
 
-				// it.putExtra("channel", 3);
 				it.putExtra("channel",
 						Cep.getChannelFromCepId(Integer.parseInt(cep.getId())));
-				CepDetailActivity.this.startActivity(it);
+				startActivity(it);
+				CepDetailActivity.this.startService(new Intent(
+						CepDetailActivity.this, WeiboService.class));
+
 			}
 
 		}
