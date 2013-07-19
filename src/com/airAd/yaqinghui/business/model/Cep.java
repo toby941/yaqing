@@ -267,4 +267,15 @@ public class Cep {
 		}
 		return 1;
 	}
+
+	public static int getTypeResId(String iconType) {
+		if ("cep_type_red".equalsIgnoreCase(iconType)) {
+			return R.drawable.cep_type_red;
+		} else if ("cep_type_blue".equalsIgnoreCase(iconType)) {
+			return R.drawable.cep_type_blue;
+		} else if ("cep_type_green".equalsIgnoreCase(iconType)) {
+			return R.drawable.cep_type_green;
+		}
+		return R.drawable.cep_type_red;
+	}
 }

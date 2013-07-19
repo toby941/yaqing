@@ -127,10 +127,10 @@ public class PushClose extends RelativeLayout {
 		super(context, attrs);
 		init(context);
 	}
-	
-	public void setToday(){
-		final Calendar calendar= Calendar.getInstance();
-		int day= calendar.get(Calendar.DAY_OF_MONTH);
+
+	public void setToday() {
+		final Calendar calendar = Calendar.getInstance();
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
 		int selected = day - 13;
 		if (selected < 0 || selected > DAYS) {
 			return;
@@ -169,7 +169,7 @@ public class PushClose extends RelativeLayout {
 		smoothScrollTo(0, 0);
 		isClosed = true;
 		mListView.isHead = false;
-		mask.setVisibility(View.VISIBLE);
+		mask.setVisibility(View.GONE);
 	}
 
 	public void open() {
@@ -177,7 +177,7 @@ public class PushClose extends RelativeLayout {
 		smoothScrollTo(0, -bottomHeight);
 		isClosed = false;
 		mListView.isHead = true;
-		mask.setVisibility(View.GONE);
+		mask.setVisibility(View.VISIBLE);
 	}
 
 	public void setContent(View top, View bottom) {
@@ -213,7 +213,7 @@ public class PushClose extends RelativeLayout {
 		dates[8] = (DateTextView) mBottomView.findViewById(R.id.date_day9);
 		dates[9] = (DateTextView) mBottomView.findViewById(R.id.date_day10);
 		dates[10] = (DateTextView) mBottomView.findViewById(R.id.date_day11);
-		dates[11] = (DateTextView)mBottomView.findViewById(R.id.date_day12);
+		dates[11] = (DateTextView) mBottomView.findViewById(R.id.date_day12);
 		for (int i = 0; i < dates.length; i++) {
 			dates[i].setOnClickListener(dateClick);
 		}// end for i
@@ -253,9 +253,11 @@ public class PushClose extends RelativeLayout {
 			mDataList = mScheduleService.getScheduleItemsByDate(user.getId(),
 					day);
 			if (mDataList.size() > 0) {
-				ScheduleItem item = new ScheduleItem();
-				item.setShowMonkey(1);
-				mDataList.add(item);
+				if(mDataList.size()>=3){
+					ScheduleItem item = new ScheduleItem();
+					item.setShowMonkey(1);
+					mDataList.add(item);
+				}
 				emptyBox.setVisibility(View.INVISIBLE);
 				emptyTitle.setVisibility(View.INVISIBLE);
 			} else {
@@ -552,7 +554,8 @@ public class PushClose extends RelativeLayout {
 			if (mScroller.computeScrollOffset()) {
 				mTopView.scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
 				postInvalidate();
-				if (mScroller.getCurrY() >= 0) {
+				int bottomHeight = mBottomView.getChildAt(0).getHeight();
+				if (mScroller.getCurrY() >= -bottomHeight / 2) {
 					mask.setVisibility(View.INVISIBLE);
 				} else {
 					mask.setVisibility(View.VISIBLE);

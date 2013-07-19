@@ -55,14 +55,7 @@ public class CepItemFragment extends Fragment
 		ImageView typeImage= (ImageView) v.findViewById(R.id.cep_type);
 		View mainLayout= v.findViewById(R.id.item_main);
 		//		typeImage.setImageResource(Common.getCepTypePic());
-		try
-		{
-			typeImage.setImageBitmap(BitmapFactory.decodeStream(assertManager.open(cep.getIconType() + ".png")));
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		typeImage.setImageResource(Cep.getTypeResId(cep.getIconType()));
 		mainLayout.setOnClickListener(new DetailBtn());
 		titleText.setText(cep.getTitle());
 		//mImageFetcher.loadImage(cep.getPic(), img);

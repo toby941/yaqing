@@ -169,14 +169,7 @@ public class ShakeActivity extends BaseActivity
 		int randomIndex= Common.genRand(0, cepList.size());
 		Cep cepItem= cepList.get(randomIndex);
 		cep= cepItem;
-		try
-		{
-			typeImage.setImageBitmap(BitmapFactory.decodeStream(assetManager.open(cep.getIconType() + ".png")));
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		typeImage.setImageResource(Cep.getTypeResId(cep.getIconType()));
 		title.setText(cepItem.getTitle());
 		setSorce(cep);
 		TranslateAnimation downAnimation= new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
