@@ -12,6 +12,7 @@ import com.airAd.yaqinghui.CepActivity;
 import com.airAd.yaqinghui.GameScheduleActivity;
 import com.airAd.yaqinghui.PlayVideoActivity;
 import com.airAd.yaqinghui.R;
+import com.airAd.yaqinghui.SurroundingActivity;
 public class RightMenuFragment extends Fragment
 {
 	@Override
@@ -48,6 +49,17 @@ public class RightMenuFragment extends Fragment
 			{
 				Intent intent= new Intent();
 				intent.setClass(getActivity(), PlayVideoActivity.class);
+				getActivity().startActivity(intent);
+			}
+		});
+		View equip= view.findViewById(R.id.equip);
+		equip.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Intent intent= new Intent();
+				intent.setClass(getActivity(), SurroundingActivity.class);
 				getActivity().startActivity(intent);
 			}
 		});
