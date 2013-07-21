@@ -56,6 +56,20 @@ public class GameService extends BaseService {
 			return null;
 		}
 	}
+	
+	public List<GameInfo> getGameInfoDetailByPlace(String place, Date date) {
+		BasicAPI api = HessianClient.create();
+		try {
+			Log.i("getGameInfoDetailByPlace",
+					place + "," + sdf.format(date) + User.getLan());
+			JSONObject jsonObj = api.GetGameDetailInfoPlace(place,
+					sdf.format(date), User.getLan());
+			Log.i("getGameInfoDetailByPlace", jsonObj.toString());
+			return GameInfo.instanceList(jsonObj);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	/**
 	 * 添加到日程
