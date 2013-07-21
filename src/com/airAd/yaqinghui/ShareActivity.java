@@ -79,17 +79,7 @@ public class ShareActivity extends BaseActivity {
 		Bundle extras = getIntent().getExtras();
 		EditText tv1 = (EditText) findViewById(R.id.weiboContent);
 		if (extras != null) {
-			temp = extras.getString("uName");
 			Integer channel = extras.getInt("channel");
-			if (temp != null) {
-				weiboContent += "@" + temp;
-				tv1.setText(weiboContent);
-				tv1.setSelection(weiboContent.length());
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(tv1, InputMethodManager.RESULT_SHOWN);
-				imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-						InputMethodManager.HIDE_IMPLICIT_ONLY);
-			}
 			if (channel != null) {
 				TextView tv2 = (TextView) findViewById(R.id.weibo_content);
 				switch (channel) {
@@ -168,8 +158,7 @@ public class ShareActivity extends BaseActivity {
 
 			Intent intent = new Intent();
 			intent.setClass(ShareActivity.this, ShareFriendActivity.class);
-			startActivity(intent);
-			ShareActivity.this.finish();
+			startActivityForResult(intent,CONTEXT_RESTRICTED);
 			overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
 			weiboContent = tv1.getText().toString();
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -266,5 +255,22 @@ public class ShareActivity extends BaseActivity {
 			e.printStackTrace();
 		}
 	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		  super.onActivityResult(requestCode, resultCode, data);
+		  if(data!=null){
+			  EditText tv1 = (EditText) findViewById(R.id.weiboContent);
+			  Bundle bundle = data.getExtras();
+			  String temp = bundle.getString("uName");
+			  weiboContent += "@" + temp;
+				tv1.setText(weiboContent);
+				tv1.setSelection(weiboContent.length());
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInputFromInputMethod(tv1.getWindowToken(), 0);
+		  }
+		 
+
+		}
 
 }

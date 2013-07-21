@@ -31,12 +31,14 @@ public class CanCloseListView extends ListView {
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 			}
+
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
-				if(CanCloseListView.this.getChildAt(0)!=null){
-					if(firstVisibleItem==0 && 
-							Math.abs(CanCloseListView.this.getChildAt(0).getTop())<=2){
+				if (CanCloseListView.this.getChildAt(0) != null) {
+					if (firstVisibleItem == 0
+							&& Math.abs(CanCloseListView.this.getChildAt(0)
+									.getTop()) <= 2) {
 						isHead = true;
 					}
 				}
@@ -51,8 +53,7 @@ public class CanCloseListView extends ListView {
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		if (isHead)
-		{
+		if (isHead) {
 			return false;
 		}
 

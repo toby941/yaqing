@@ -80,9 +80,6 @@ public class HomeActivity extends SlidingBaseActivity {
 		setTheme(R.style.Theme_Sherlock_NoActionBar);
 		setContentView(R.layout.main);
 
-		// DisplayMetrics mDisplayMetrics = new DisplayMetrics();
-		// getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
-		// System.out.println("--->"+mDisplayMetrics.densityDpi);
 		try {
 			JPushInterface.init(this);
 			JPushInterface.setAliasAndTags(this, MyApplication.getCurrentApp()
@@ -208,7 +205,9 @@ public class HomeActivity extends SlidingBaseActivity {
 	private void initSlidingMenu() {
 		SlidingMenu sm = getSlidingMenu();
 		sm.setShadowWidth(30);
-		sm.setBehindOffset(100);
+		DisplayMetrics mDisplayMetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
+		sm.setBehindOffset(mDisplayMetrics.widthPixels / 4);
 		sm.setFadeDegree(0.35f);
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 		sm.setMode(SlidingMenu.LEFT_RIGHT);
