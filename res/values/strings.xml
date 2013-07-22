@@ -118,6 +118,4 @@
 	<string name="cep_menu_title">CEP活动</string>
 	<string name="cep_score_failed">评分失败</string>
 	<string name="change_error">修改失败</string>
-	<string name="place_introduce">场馆介绍</string>
-	<string name="place_empty_game">今日场馆无赛事</string>
 </resources>

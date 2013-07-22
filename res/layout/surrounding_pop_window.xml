@@ -12,11 +12,11 @@
         android:background="#ffffff" />
 
     <TextView
+        android:id="@+id/titleView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:text="@string/place_introduce"
         android:textColor="#797979"
         android:textSize="20dp" />
 
