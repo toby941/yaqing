@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateUtils;
+
 import com.airAd.yaqinghui.common.ApiUtil;
 
 /**
@@ -53,9 +55,14 @@ public class CepEvent {
 	// }
 	public boolean canCheckIn() {
 		// 如果cep活动过期，则不能签到
-		if (ApiUtil.convertDateStringToDate(startTime).before(new Date())) {
+		Date now = new Date();
+		Date today00 = DateUtils.truncate(now, Calendar.DATE);
+		//
+		Date gameStartAt = DateUtils.truncate(ApiUtil.convertDateStringToDate(startTime), Calendar.DATE);
+		if (gameStartAt.compareTo(today00) != 0) {
 			return false;
 		}
+		//
 		if (CEP_EVENT_TYPE_OUT.equals(cepEventType)) {
 			// 村外报名通过才能签到
 			if (CEP_EVENT_FLAG_SIGNED_UP.equals(flag)) {
@@ -168,6 +175,10 @@ public class CepEvent {
 
 	public Long getStartTimel() {
 		return ApiUtil.convertDateStringToDate(startTime).getTime();
+	}
+	
+	public Long getEndTimel(){
+		return ApiUtil.convertDateStringToDate(endTime).getTime();
 	}
 	public String getEventTimeRangeDescription() {
 		Date s= ApiUtil.convertDateStringToDate(startTime);

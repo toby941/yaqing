@@ -4,6 +4,7 @@
 package com.airAd.yaqinghui.business.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -28,6 +29,15 @@ public class Cep {
 	private String score;
 	private List<String> pics;
 	private List<CepEvent> cepEvents;
+	private Integer index;
+
+	public Integer getIndex() {
+		return index;
+	}
+
+	public void setIndex(Integer index) {
+		this.index = index;
+	}
 
 	//
 	public String getId() {
@@ -106,6 +116,7 @@ public class Cep {
 		String pic = new String();
 		// cepevent
 		JSONArray eventsArr = obj.optJSONArray("event");
+		int index = 0;
 		List<CepEvent> events = new ArrayList<CepEvent>();
 		if (eventsArr != null) {
 			for (int i = 0; i < eventsArr.size(); i++) {
@@ -126,11 +137,15 @@ public class Cep {
 				// {
 				events.add(event);
 				// }
+				if(new Date().getTime() < event.getEndTimel() && index == 0){
+					index = i;
+				}
 				//
 				pic = eventObj.optString("ceppictureone");
 			}
 			cep.setCepEvents(events);
 		}
+		cep.setIndex(index);
 		if (StringUtils.isNotBlank(pic)) {
 			pics.add(pic);
 			cep.setPics(pics);

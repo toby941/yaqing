@@ -4,7 +4,7 @@
     <string name="right_menu_join_entry">参赛项目</string>
     <string name="login_title">登录</string>
     <string name="login_hint_username">请输入运动员ID</string>
-    <string name="login_hint_pwd">请输入护照的后6位数字</string>
+    <string name="login_hint_pwd">请输入证件号的后6位数字</string>
     <string name="login_dologin">登录</string>
     <string name="login_name">账号</string>
     <string name="login_pwd">密码</string>
@@ -120,4 +120,5 @@
 	<string name="change_error">修改失败</string>
 	<string name="place_introduce">场馆介绍</string>
 	<string name="place_empty_game">今日场馆无赛事</string>
+	<string name="cur_version">v.alpha-20130722-1</string>
 </resources>

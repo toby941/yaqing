@@ -56,11 +56,11 @@
         android:layout_centerInParent="true"
         android:visibility="gone" />
 	<View
-	    android:id="@+id/mask"
 	    android:visibility="gone"
+	    android:id="@+id/mask"
 	    android:layout_below="@id/date_banner"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
-	    android:background="#50000000" 
+	    android:background="#29000000" 
 	    />
 </RelativeLayout>

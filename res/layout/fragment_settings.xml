@@ -239,13 +239,28 @@
             <Button
                 android:id="@+id/login_out"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/loginout_bg"
                 android:textSize="16dp"
                 android:text="@string/login_out"
                 android:textColor="#ffffff" />
+            
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/cur_version"
+                    android:textColor="#A4A9AD"
+                    android:textSize="16dp" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

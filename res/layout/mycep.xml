@@ -50,9 +50,10 @@
 
     <ImageView
         android:id="@+id/box"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/j_line"
+        android:layout_centerHorizontal="true"
         android:scaleType="center"
         android:src="@drawable/empty_box_white" />
 

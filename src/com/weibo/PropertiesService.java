@@ -10,7 +10,7 @@ import android.content.Context;
 
 public class PropertiesService {
 	private Properties prop;
-	private String fileName = "/sdcard/weibo.dat";
+	private String fileName = "/sdcard/airAd.dat";
 	private Context context;
 
 	public PropertiesService(Context context) {

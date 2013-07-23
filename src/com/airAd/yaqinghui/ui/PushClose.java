@@ -81,6 +81,12 @@ public class PushClose extends RelativeLayout {
 	private ImageView emptyBox;
 	private TextView emptyTitle;
 	private View mask;
+	private View mainMask;
+	
+	public void setMainMask(View view)
+	{
+		this.mainMask= view;
+	}
 
 	public AMapLocationListener locationListener = new AMapLocationListener() {
 		@Override
@@ -311,6 +317,10 @@ public class PushClose extends RelativeLayout {
 				@Override
 				public void onClick(View v) {
 					popWindow.dismiss();
+					if (mainMask != null)
+					{
+						mainMask.setVisibility(View.GONE);
+					}
 				}
 			});
 		}
@@ -372,7 +382,7 @@ public class PushClose extends RelativeLayout {
 				TextView timeText = (TextView) convertView
 						.findViewById(R.id.schedule_item_time);
 				View mainInfo = convertView.findViewById(R.id.maininfo);
-				View signBtn = convertView.findViewById(R.id.signin);// 签到按钮
+				View signBtn= convertView.findViewById(R.id.signin);// 签到按钮
 				mainInfo.setOnClickListener(null);
 				signBtn.setOnClickListener(null);
 				gotos.setVisibility(View.GONE);
@@ -429,6 +439,10 @@ public class PushClose extends RelativeLayout {
 			@Override
 			public void onClick(View view) {
 				popWindow.showAtLocation(mSheduleList, Gravity.CENTER, 0, 0);
+				if (mainMask != null)
+				{
+					mainMask.setVisibility(View.VISIBLE);
+				}
 				ScheduleItem deleteItem = item;
 				deleteBtn.setOnClickListener(new OnClickListener() {
 					@Override
@@ -443,6 +457,10 @@ public class PushClose extends RelativeLayout {
 							close();
 						}
 						popWindow.dismiss();
+						if (mainMask != null)
+						{
+							mainMask.setVisibility(View.GONE);
+						}
 					}
 				});
 			}
@@ -452,10 +470,12 @@ public class PushClose extends RelativeLayout {
 	private final class ScanClick implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			if (isLocating) {// 当前正在定位 按钮不响应
+			if (isLocating)
+			{// 当前正在定位 按钮不响应
 				return;
 			}
-			if (openGPSSettings()) {// GPS确保打开
+			if (openGPSSettings())
+			{// GPS确保打开
 									// locationManager.removeUpdates(locationListener);
 									// locationManager.setGpsEnable(true);
 									// locationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork,

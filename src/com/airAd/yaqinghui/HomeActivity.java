@@ -73,6 +73,7 @@ public class HomeActivity extends SlidingBaseActivity {
 	private LeftMenuFragment leftMenuFragment;
 	private RightMenuFragment rightMenuFragment;
 	private SehduleListRefreshReceiver schduleReceiver;
+	private View mainMask;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -96,12 +97,12 @@ public class HomeActivity extends SlidingBaseActivity {
 			@Override
 			public void run() {
 				mPushClose.open();
-				mPushClose.postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						mPushClose.smoothScrollTo(0, 0);
-					}
-				}, 1000);
+				//				mPushClose.postDelayed(new Runnable() {
+				//					@Override
+				//					public void run() {
+				//						mPushClose.smoothScrollTo(0, 0);
+				//					}
+				//				}, 1000);
 			}
 		});
 	}
@@ -123,7 +124,8 @@ public class HomeActivity extends SlidingBaseActivity {
 	public void onDestroy() {
 		super.onDestroy();
 		mImageFetcher.closeCache();
-		if (mChangeThumbReceiver != null) {// 取消监听
+		if (mChangeThumbReceiver != null)
+		{// 取消监听
 			this.unregisterReceiver(mChangeThumbReceiver);
 		}
 		if (schduleReceiver != null) {
@@ -149,8 +151,10 @@ public class HomeActivity extends SlidingBaseActivity {
 	 * 设置时间数据
 	 */
 	private void setPushClose() {
+		mainMask= findViewById(R.id.mainMask);
 		mScheduleService = new ScheduleService();
 		mPushClose = (PushClose) this.findViewById(R.id.pushClose);
+		mPushClose.setMainMask(mainMask);
 		View bottomView = LayoutInflater.from(this)
 				.inflate(R.layout.date, null);
 		View topView = LayoutInflater.from(this).inflate(R.layout.dialy, null);
@@ -181,7 +185,7 @@ public class HomeActivity extends SlidingBaseActivity {
 	}
 
 	public Bitmap getThumbBitmap() {
-		mThumbBitmap = prepareThumbImage();// 设置头像位图数据
+		mThumbBitmap= prepareThumbImage();// 设置头像位图数据
 		return mThumbBitmap;
 	}
 
@@ -476,12 +480,16 @@ public class HomeActivity extends SlidingBaseActivity {
 		SharedPreferences sp = getSharedPreferences(Config.PACKAGE,
 				Context.MODE_PRIVATE);
 		String thumbPath = sp.getString(Config.THUMB_PATH, "");
-		if (StringUtils.isBlank(thumbPath)) {// 载入默认头像
+		if (StringUtils.isBlank(thumbPath))
+		{// 载入默认头像
 			return BitmapFactory.decodeResource(getResources(),
 					R.drawable.touxiang);
-		} else {// 载入自定义头像
-			File thumbFile = new File(thumbPath);
-			if (!thumbFile.exists()) {// 若文件不存在 载入默认头像
+		}
+		else
+		{// 载入自定义头像
+			File thumbFile= new File(thumbPath);
+			if (!thumbFile.exists())
+			{// 若文件不存在 载入默认头像
 				return BitmapFactory.decodeResource(getResources(),
 						R.drawable.touxiang);
 			}
@@ -504,11 +512,11 @@ public class HomeActivity extends SlidingBaseActivity {
 	 */
 	private Bitmap loadBitmap(String path) throws Exception {
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		Bitmap bitmap = BitmapFactory.decodeFile(path, options); // 此时返回bm为空
+		Bitmap bitmap= BitmapFactory.decodeFile(path, options); // 此时返回bm为空
 		// 计算缩放比
-		int be = (int) (options.outHeight / (float) 300);
-		int ys = options.outHeight % 300;// 求余数
-		float fe = ys / (float) 300;
+		int be= (int) (options.outHeight / (float) 300);
+		int ys= options.outHeight % 300;// 求余数
+		float fe= ys / (float) 300;
 		if (fe >= 0.5)
 			be = be + 1;
 		if (be <= 0)

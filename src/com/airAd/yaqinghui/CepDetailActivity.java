@@ -191,15 +191,26 @@ public class CepDetailActivity extends BaseActivity {
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
-			for (int i = 0; i < cep.getCepEvents().size(); i++) {
-				CepEvent cepEvent = cep.getCepEvents().get(i);
-				String number = cepEvent.getTabId() + "";
-				cepEvent.setName(getString(R.string.number) + number);
-				if (requestEventId != null
-						&& requestEventId.equals(cepEvent.getId())) {
-					eventIndex = i;
+			if (requestEventId != null) {
+				for (int i = 0; i < cep.getCepEvents().size(); i++) {
+					CepEvent cepEvent = cep.getCepEvents().get(i);
+					String number = cepEvent.getTabId() + "";
+					cepEvent.setName(getString(R.string.number) + number);
+					if (requestEventId != null
+							&& requestEventId.equals(cepEvent.getId())) {
+						eventIndex = i;
+					}
+				}// end for i
+			} else {
+				for (int i = 0; i < cep.getCepEvents().size(); i++) {
+					CepEvent cepEvent = cep.getCepEvents().get(i);
+					String number = cepEvent.getTabId() + "";
+					cepEvent.setName(getString(R.string.number) + number);
+				}// end for i
+				if (cep.getIndex() != null && cep.getIndex() >= 0) {
+					eventIndex = cep.getIndex();
 				}
-			}// end for i
+			}
 			mGallery.setAdapter(new ImagePagerAdapter(CepDetailActivity.this
 					.getSupportFragmentManager(), cep.getPics(), cep));
 			// typeImage.setImageResource(Common.getCepTypePic(cep.getIconType()));

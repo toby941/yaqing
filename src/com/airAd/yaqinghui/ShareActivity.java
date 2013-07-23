@@ -33,7 +33,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ShareActivity extends BaseActivity {
 	public static Oauth2AccessToken accessToken;
@@ -62,12 +61,10 @@ public class ShareActivity extends BaseActivity {
 		Resources res = getResources();
 		Bitmap bf = BitmapFactory.decodeResource(res, R.drawable.weibo01);
 		try {
-			saveMyBitmap("weibo01", bf);
+			saveMyBitmap("weibo_a", bf);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Toast.makeText(ShareActivity.this, "程序错误，检查是否插入sd卡",
-					Toast.LENGTH_SHORT).show();
 		}
 
 	}
@@ -188,7 +185,7 @@ public class ShareActivity extends BaseActivity {
 		content = content + mWeiboInfo.getText().toString();
 
 		// statuses.update(content, null, null, new SendListener());
-		statuses.upload(content, "/sdcard/weibo01.png", null, null,
+		statuses.upload(content, "/sdcard/weibo_a.jpg", null, null,
 				new SendListener());
 
 		// statuses.uploadUrlText( content,"", null, null,
@@ -216,16 +213,12 @@ public class ShareActivity extends BaseActivity {
 		@Override
 		public void onError(WeiboException arg0) {
 			// TODO Auto-generated method stub
-			Toast.makeText(ShareActivity.this, "发送失败，检查网络", Toast.LENGTH_SHORT)
-					.show();
 
 		}
 
 		@Override
 		public void onIOException(IOException arg0) {
 			// TODO Auto-generated method stub
-			Toast.makeText(ShareActivity.this, "发送失败，检查是否插入sd卡",
-					Toast.LENGTH_SHORT).show();
 
 		}
 
@@ -233,17 +226,15 @@ public class ShareActivity extends BaseActivity {
 
 	private void saveMyBitmap(String bitName, Bitmap mBitmap)
 			throws IOException {
-		File f = new File("/sdcard/" + bitName + ".png");
+		File f = new File("/sdcard/" + bitName + ".jpg");
 		f.createNewFile();
 		FileOutputStream fOut = null;
 		try {
 			fOut = new FileOutputStream(f);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			Toast.makeText(ShareActivity.this, "发送失败，检查是否插入sd卡",
-					Toast.LENGTH_SHORT).show();
 		}
-		mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+		mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
 		try {
 			fOut.flush();
 		} catch (IOException e) {

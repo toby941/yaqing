@@ -90,5 +90,11 @@
         android:layout_below="@id/j_line"
         android:scaleType="fitXY"
         android:src="@drawable/shader_line" />
-
+    <View
+        android:id="@+id/mainMask"
+        android:visibility="gone"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:background="#70000000" 
+	    />
 </RelativeLayout>

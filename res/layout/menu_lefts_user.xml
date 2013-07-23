@@ -75,6 +75,7 @@
 
                 <ImageView
                     android:id="@+id/j_notifyimg"
+                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -109,6 +110,7 @@
 
                 <ImageView
                     android:id="@+id/j_notifyimg"
+                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -174,6 +176,7 @@
 
                 <ImageView
                     android:id="@+id/j_activityimg"
+                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -313,6 +316,7 @@
 
                 <ImageView
                     android:id="@+id/j_activityimg"
+                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
