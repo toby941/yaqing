@@ -216,20 +216,24 @@ public class SurroundingActivity extends BackBaseActivity implements OnInfoWindo
 
 		@Override
 		protected void onPostExecute(List<LocMarker> result) {
-			com.amap.api.maps.model.LatLngBounds.Builder builer = new LatLngBounds.Builder();
-			markers = result;
-			for (LocMarker locMarker : result) {
-				LatLng ll = new LatLng(locMarker.getLat(), locMarker.getLon());
-				builer.include(ll);
-				aMap.addMarker(new MarkerOptions()
-						.position(ll)
-						.snippet(locMarker.getId())
-						.title(locMarker.getName())
-						.icon(BitmapDescriptorFactory
-								.fromResource(R.drawable.surrounding_map_mark)));
+			if(result != null)
+			{
+				com.amap.api.maps.model.LatLngBounds.Builder builer = new LatLngBounds.Builder();
+				markers = result;
+				for (LocMarker locMarker : result) {
+					LatLng ll = new LatLng(locMarker.getLat(), locMarker.getLon());
+					builer.include(ll);
+					aMap.addMarker(new MarkerOptions()
+							.position(ll)
+							.snippet(locMarker.getId())
+							.title(locMarker.getName())
+							.icon(BitmapDescriptorFactory
+									.fromResource(R.drawable.surrounding_map_mark)));
+				}
+				aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builer.build(),
+						20));
 			}
-			aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builer.build(),
-					20));
+			
 		}
 
 	}
