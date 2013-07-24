@@ -171,6 +171,7 @@ public class AlarmService {
 		c.set(Calendar.MILLISECOND, 0);
 		
 		am.cancel(pendingIntent);
+		//提醒时间由当前RTC时间差+SystemClock.elapsedRealtime()组成
 		long setTime = SystemClock.elapsedRealtime() + c.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 		//am.setRepeating(R, triggerAtMillis, intervalMillis, operation)
 		am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, setTime, 1000 * 24 * 60 * 60, pendingIntent);
