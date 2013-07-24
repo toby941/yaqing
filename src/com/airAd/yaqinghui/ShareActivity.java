@@ -26,6 +26,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -44,6 +48,8 @@ public class ShareActivity extends BaseActivity {
 	private PropertiesService pro;
 
 	private ProgressDialog progressDialog;
+	
+	MyHandler myHandler;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,7 @@ public class ShareActivity extends BaseActivity {
 	private void init() {
 		String temp = null;
 		// TODO Auto-generated method stub
+		 myHandler = new MyHandler();
 
 		Bundle extras = getIntent().getExtras();
 		EditText tv1 = (EditText) findViewById(R.id.weiboContent);
@@ -155,7 +162,7 @@ public class ShareActivity extends BaseActivity {
 
 			Intent intent = new Intent();
 			intent.setClass(ShareActivity.this, ShareFriendActivity.class);
-			startActivityForResult(intent,CONTEXT_RESTRICTED);
+			startActivityForResult(intent, CONTEXT_RESTRICTED);
 			overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
 			weiboContent = tv1.getText().toString();
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -193,13 +200,18 @@ public class ShareActivity extends BaseActivity {
 	}
 
 	class SendListener implements RequestListener {
-
+		 Message msg = new Message();
+		  Bundle b = new Bundle();// 存放数据
 		@Override
 		public void onComplete(String arg0) {
 			// TODO Auto-generated method stub
 			String a = arg0;
 			JSONObject jsonObj;
-			progressDialog.dismiss();
+			 b.putString("mess", "secc");
+	            msg.setData(b);
+
+	            ShareActivity.this.myHandler.sendMessage(msg); 
+			
 			try {
 				jsonObj = new JSONObject(a);
 				// f.friends(screen_name, count, cursor, trim_status, listener);
@@ -246,22 +258,44 @@ public class ShareActivity extends BaseActivity {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		  super.onActivityResult(requestCode, resultCode, data);
-		  if(data!=null){
-			  EditText tv1 = (EditText) findViewById(R.id.weiboContent);
-			  Bundle bundle = data.getExtras();
-			  String temp = bundle.getString("uName");
-			  weiboContent += "@" + temp;
-				tv1.setText(weiboContent);
-				tv1.setSelection(weiboContent.length());
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInputFromInputMethod(tv1.getWindowToken(), 0);
-		  }
-		 
-
+		super.onActivityResult(requestCode, resultCode, data);
+		if (data != null) {
+			EditText tv1 = (EditText) findViewById(R.id.weiboContent);
+			Bundle bundle = data.getExtras();
+			String temp = bundle.getString("uName");
+			weiboContent += "@" + temp;
+			tv1.setText(weiboContent);
+			tv1.setSelection(weiboContent.length());
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.showSoftInputFromInputMethod(tv1.getWindowToken(), 0);
 		}
+
+	}
+    class MyHandler extends Handler {
+        public MyHandler() {
+        }
+
+        public MyHandler(Looper L) {
+            super(L);
+        }
+
+        // 子类必须重写此方法,接受数据
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            Log.d("MyHandler", "handleMessage......");
+            super.handleMessage(msg);
+            // 此处可以更新UI
+            progressDialog.setMessage(getResources().getText(
+					R.string.weibo_secc));
+			progressDialog.dismiss();
+			finish();
+
+        }
+    }
 
 }

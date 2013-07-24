@@ -77,6 +77,7 @@ public class EventAlarmReceiver extends BroadcastReceiver {
 			// mId allows you to update the notification later on.
 			Notification notification = mBuilder.build();
 			setAlarmParams(notification);
+			notification.flags |= Notification.FLAG_AUTO_CANCEL;
 			mNotificationManager.notify(id, notification);
 		}
 	}

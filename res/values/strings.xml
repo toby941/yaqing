@@ -1,16 +1,22 @@
 <resources>
     <string name="app_name">亚青助手</string>
-    <string name="left_menu_setting">设置</string>
-    <string name="right_menu_join_entry">参赛项目</string>
+    <!-- guiding page -->
+	 <string name="first_tips">点击“查询/添加”按钮即可查询并添加“赛事日程”、“CEP活动”</string>
+	 <string name="click_play">查看CEP宣传片</string>
+	 
+	 <!-- login -->
     <string name="login_title">登录</string>
     <string name="login_hint_username">请输入运动员ID</string>
-    <string name="login_hint_pwd">请输入证件号的后6位数字</string>
+    <string name="login_hint_pwd">请输入身份证号码的后6位数字</string>
     <string name="login_dologin">登录</string>
     <string name="login_name">账号</string>
     <string name="login_pwd">密码</string>
-    <string name="name_or_pwd_isempty">用户名或密码为空</string>
+    <string name="name_or_pwd_isempty">密码错误，请到CEP服务台重置密码。</string>
     <string name="pro_exit_cofirm">再按一次返回退出</string>
-    <string name="login_failed">登录失败</string>
+    <string name="login_failed">密码错误，请到CEP服务台重置密码。</string>
+
+    <string name="left_menu_setting">设置</string>
+    <string name="right_menu_join_entry">参赛项目</string>
     <string name="menu_left_home">首页</string>
     <string name="menu_left_schedule">赛事日程</string>
     <string name="menu_left_equip">周边设施</string>
@@ -77,9 +83,9 @@
 	<string name="upload_waiting">正在验证中..</string>
 	<string name="shake_tips">摇一摇查找活动推荐</string>
 	<string name="push_title">推送消息</string>
+	<string name="scan">查看</string>
 	<string name="weibo_send">发送</string>
-	<string name="click_play">查看CEP宣传片</string>
-	<string name="first_tips">点击“查询/添加”按钮即可查询并添加“赛事日程”、“CEP活动”</string>
+	
 	<string name="score_title">给活动打分</string>
 	<string name="submit">提交</string>
 	<string name="loginout_success">退出成功</string>
@@ -99,6 +105,8 @@
 	<string name="weibo04">我正在参加“生态环保农业”（第二届亚洲青年运动会的主题活动）。 </string>
 	<string name="weibo05">我正在参加“南京历史文化风貌观光”（第二届亚洲青年运动会的主题活动）。 </string>
 	<string name="weibo_sending">微博发送中...... </string>
+	<string name="weibo_secc">发送成功</string>
+	<string name="weibo_err">操作失败，请稍后重新尝试。</string>
 	<string name="alarm_title">提醒到时了</string>
 	<string name="update_no_need">已经是最新版本！</string>
 	
@@ -120,5 +128,5 @@
 	<string name="change_error">修改失败</string>
 	<string name="place_introduce">场馆介绍</string>
 	<string name="place_empty_game">今日场馆无赛事</string>
-	<string name="cur_version">v.alpha-20130722-1</string>
+	<string name="cur_version">v.alpha-20130723-2</string>
 </resources>

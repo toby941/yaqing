@@ -38,7 +38,7 @@
     		android:layout_alignParentLeft="true"
     		android:layout_toLeftOf="@+id/game_add_btn"
     		android:textColor="@color/game_daily_title"
-    		android:singleLine="true"
+    		android:maxLines="2"
     		android:layout_marginTop="15dp"
     		android:layout_marginLeft="15dp"
     		android:textSize="15sp"/>
@@ -62,7 +62,7 @@
     		android:layout_toLeftOf="@+id/game_add_btn"
     		android:layout_marginTop="10dp"
     		android:textColor="@color/game_daily_loc"
-    		android:singleLine="true"
+    		android:maxLines="2"
     		android:textSize="13sp"/>
 	    
 	    <View 

@@ -21,7 +21,6 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.airAd.yaqinghui.business.GameService;
 import com.airAd.yaqinghui.business.LocService;
@@ -32,6 +31,7 @@ import com.airAd.yaqinghui.ui.BackBaseActivity;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMap.InfoWindowAdapter;
 import com.amap.api.maps.AMap.OnInfoWindowClickListener;
+import com.amap.api.maps.AMap.OnMapClickListener;
 import com.amap.api.maps.AMap.OnMapLoadedListener;
 import com.amap.api.maps.AMap.OnMarkerClickListener;
 import com.amap.api.maps.CameraUpdateFactory;
@@ -48,9 +48,8 @@ import com.amap.api.maps.model.MarkerOptions;
  * 
  * @author pengf
  */
-public class SurroundingActivity extends BackBaseActivity implements
-		OnMarkerClickListener, OnInfoWindowClickListener, OnMapLoadedListener,
-		InfoWindowAdapter {
+public class SurroundingActivity extends BackBaseActivity implements OnInfoWindowClickListener,
+		InfoWindowAdapter, OnMapClickListener, OnMarkerClickListener{
 
 	private LocService locService;
 	private GameService gameService;
@@ -62,10 +61,13 @@ public class SurroundingActivity extends BackBaseActivity implements
 	private View mInfoWindow;
 	private View mContents;
 	private View mParentView;
+	
 	private PopupWindow popWindow;
+	private TextView titleView;
 	private ListView listView;
 	private DailyAdapter adapter;
 	private ProgressBar progressBar;
+	private Marker mCurrentMarker;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -98,11 +100,10 @@ public class SurroundingActivity extends BackBaseActivity implements
 	private void setUpMap() {
 
 		aMap.getUiSettings().setZoomControlsEnabled(false);// 隐藏缩放按钮
-
-		aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
 		aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
 		aMap.setInfoWindowAdapter(this);// 设置自定义InfoWindow样式
-		aMap.setOnMapLoadedListener(this);// 设置amap加载成功事件监听器
+		aMap.setOnMapClickListener(this);
+		aMap.setOnMarkerClickListener(this);
 		// addMarkersToMap();// 往地图上添加marker
 	}
 
@@ -118,6 +119,7 @@ public class SurroundingActivity extends BackBaseActivity implements
 		popWindow.setBackgroundDrawable(new BitmapDrawable());
 		popWindow.setAnimationStyle(R.style.PopupAnimation);
 		listView = (ListView) popContentView.findViewById(R.id.listView);
+		titleView = (TextView) popContentView.findViewById(R.id.titleView);
 		adapter = new DailyAdapter();
 		listView.setAdapter(adapter);
 	}
@@ -144,6 +146,7 @@ public class SurroundingActivity extends BackBaseActivity implements
 	@Override
 	public View getInfoWindow(Marker marker) {
 		final String id = marker.getSnippet();
+		mCurrentMarker = marker;
 		LocMarker locMarker = findMarker(id);
 		if (locMarker != null) {
 			TextView textView = (TextView) mInfoWindow.findViewById(R.id.title);
@@ -151,17 +154,27 @@ public class SurroundingActivity extends BackBaseActivity implements
 		}
 		return mInfoWindow;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.amap.api.maps.AMap.OnMapLoadedListener#onMapLoaded()
+	
+	/* (non-Javadoc)
+	 * @see com.amap.api.maps.AMap.OnMapClickListener#onMapClick(com.amap.api.maps.model.LatLng)
 	 */
 	@Override
-	public void onMapLoaded() {
-
+	public void onMapClick(LatLng arg0) {
+		if(mCurrentMarker != null)
+		{
+			mCurrentMarker.hideInfoWindow();
+		}
 	}
+	
 
+	/* (non-Javadoc)
+	 * @see com.amap.api.maps.AMap.OnMarkerClickListener#onMarkerClick(com.amap.api.maps.model.Marker)
+	 */
+	@Override
+	public boolean onMarkerClick(Marker arg0) {
+		return false;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -174,7 +187,9 @@ public class SurroundingActivity extends BackBaseActivity implements
 		final String id = marker.getSnippet();
 		LocMarker locMarker = findMarker(id);
 		new ListAsyncTask().execute(locMarker.getId());
+		titleView.setText(locMarker.getName());
 		popWindow.showAtLocation(mParentView, Gravity.BOTTOM, 0, 0);
+		marker.hideInfoWindow();
 	}
 
 	private LocMarker findMarker(String id) {
@@ -186,17 +201,6 @@ public class SurroundingActivity extends BackBaseActivity implements
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.amap.api.maps.AMap.OnMarkerClickListener#onMarkerClick(com.amap.api
-	 * .maps.model.Marker)
-	 */
-	@Override
-	public boolean onMarkerClick(Marker arg0) {
-		return false;
-	}
 
 	private class LocAsyncTask extends AsyncTask<Void, Void, List<LocMarker>> {
 
@@ -212,12 +216,9 @@ public class SurroundingActivity extends BackBaseActivity implements
 
 		@Override
 		protected void onPostExecute(List<LocMarker> result) {
-			boolean isMoved = false;
 			com.amap.api.maps.model.LatLngBounds.Builder builer = new LatLngBounds.Builder();
 			markers = result;
-
 			for (LocMarker locMarker : result) {
-				Log.i("locMarker", locMarker.toString());
 				LatLng ll = new LatLng(locMarker.getLat(), locMarker.getLon());
 				builer.include(ll);
 				aMap.addMarker(new MarkerOptions()
@@ -226,12 +227,6 @@ public class SurroundingActivity extends BackBaseActivity implements
 						.title(locMarker.getName())
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.surrounding_map_mark)));
-				if (!isMoved) {
-					CameraPosition cp = new CameraPosition.Builder().target(ll)
-							.zoom(12).build();
-					aMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
-					isMoved = true;
-				}
 			}
 			aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builer.build(),
 					20));
@@ -253,7 +248,6 @@ public class SurroundingActivity extends BackBaseActivity implements
 		protected List<GameInfo> doInBackground(String... params) {
 			String placeId = params[0];
 			Calendar c = Calendar.getInstance();
-			c.set(2013, Calendar.AUGUST, 17);
 			return gameService.getGameInfoDetailByPlace(placeId, c.getTime());
 		}
 
@@ -262,11 +256,7 @@ public class SurroundingActivity extends BackBaseActivity implements
 			if (result != null) {
 				gameInfoList = result;
 				adapter.notifyDataSetChanged();
-			} else {
-				popWindow.dismiss();
-				Toast.makeText(SurroundingActivity.this,
-						R.string.place_empty_game, Toast.LENGTH_SHORT).show();
-			}
+			} 
 			listView.setVisibility(View.VISIBLE);
 			progressBar.setVisibility(View.GONE);
 		}
@@ -336,4 +326,5 @@ public class SurroundingActivity extends BackBaseActivity implements
 		public CheckBox addCheckBox;
 		public View itemView;
 	}
+	
 }

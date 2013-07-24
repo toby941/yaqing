@@ -117,6 +117,7 @@ public class Cep {
 		// cepevent
 		JSONArray eventsArr = obj.optJSONArray("event");
 		int index = 0;
+		int flag=-1;
 		List<CepEvent> events = new ArrayList<CepEvent>();
 		if (eventsArr != null) {
 			for (int i = 0; i < eventsArr.size(); i++) {
@@ -137,8 +138,9 @@ public class Cep {
 				// {
 				events.add(event);
 				// }
-				if(new Date().getTime() < event.getEndTimel() && index == 0){
+				if(new Date().getTime() < event.getEndTimel() && index == 0 && flag == -1){
 					index = i;
+					flag = 0;
 				}
 				//
 				pic = eventObj.optString("ceppictureone");

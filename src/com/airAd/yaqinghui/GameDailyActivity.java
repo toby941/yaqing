@@ -25,7 +25,6 @@ import com.airAd.yaqinghui.business.AlarmService;
 import com.airAd.yaqinghui.business.GameService;
 import com.airAd.yaqinghui.business.model.GameInfo;
 import com.airAd.yaqinghui.common.Common;
-import com.airAd.yaqinghui.common.StringUtil;
 import com.airAd.yaqinghui.ui.BackBaseActivity;
 import com.airAd.yaqinghui.ui.CanCloseListView;
 import com.airAd.yaqinghui.ui.PushClose;
@@ -78,7 +77,6 @@ public class GameDailyActivity extends BackBaseActivity {
 		storedInfoIdList = gameService.queryScheduleIds();
 		Log.i("storedInfoIdList", storedInfoIdList.toString());
 		scheduleChangeListener = new OnCheckedChangeListener() {
-
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
@@ -107,6 +105,14 @@ public class GameDailyActivity extends BackBaseActivity {
 				doDailyTask(calendar);
 				bannerText.setText(Common.genBannerText(calendar
 						.get(Calendar.DAY_OF_MONTH)));
+			}
+		});
+		mPushClose.post(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				mPushClose.open();
 			}
 		});
 	}
@@ -278,12 +284,12 @@ public class GameDailyActivity extends BackBaseActivity {
 			Calendar firstDay = Calendar.getInstance();
 			firstDay.set(2013, Calendar.AUGUST, 13);
 			// 如果今天在8月13日之前，则设为8月13日
-			Calendar today = Calendar.getInstance();
+			Calendar today= Calendar.getInstance();
 			if (today.before(firstDay)) {
 				today = firstDay;
 			}
 			// 从第一天一直遍历到最后一天
-			DailyGameInfo info = new DailyGameInfo();
+			DailyGameInfo info= new DailyGameInfo();
 			for (Calendar c = today; c.before(lastDay); c.add(
 					Calendar.DAY_OF_MONTH, 1)) {
 				List<GameInfo> list = gameService.getGameInfo(gameId,

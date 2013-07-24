@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name"></string>
     <string name="left_menu_setting">Setup</string>
     <string name="right_menu_join_entry">参赛项目</string>
     <string name="login_title">Login</string>

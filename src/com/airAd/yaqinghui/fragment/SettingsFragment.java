@@ -94,14 +94,14 @@ public class SettingsFragment extends Fragment
 		mBack.setOnClickListener(new BackClick());
 		eventRemindText= (TextView) view.findViewById(R.id.event_remind_text);
 		isOpenEventRemind= (ImageView) view.findViewById(R.id.event_remind_isopen);
-		isOpenEventRemind_flag= sp.getBoolean(Config.EVENT_REMIND_ISOPEN, false);
+		isOpenEventRemind_flag= sp.getBoolean(Config.EVENT_REMIND_ISOPEN, true);
 		isOpenEventRemind.setImageResource(isOpenEventRemind_flag ? R.drawable.switch_open : R.drawable.switch_close);
 		eventRemindBeforeIndex= sp.getInt(Config.EVENT_REMIND_BEFORE, 0);
 		eventRemindText
 				.setText(getActivity().getResources().getStringArray(R.array.time_before_array)[eventRemindBeforeIndex]);
 		dialyText= (TextView) view.findViewById(R.id.dialy_remind_text);
 		dialyImage= (ImageView) view.findViewById(R.id.dialy_remind_isopen);
-		isDialyReminderOpen= sp.getBoolean(Config.REGULAR_REMIND_ISOPEN, false);
+		isDialyReminderOpen= sp.getBoolean(Config.REGULAR_REMIND_ISOPEN, true);
 		dialyRemindIndex= sp.getInt(Config.REGULAR_REMIND_TIME, 0);
 		dialyText.setText(getActivity().getResources().getStringArray(R.array.time_daily_array)[dialyRemindIndex]);
 		dialyImage.setImageResource(isDialyReminderOpen ? R.drawable.switch_open : R.drawable.switch_close);
@@ -122,6 +122,27 @@ public class SettingsFragment extends Fragment
 			}
 		});
 		initPopWindow(view, inflater);
+
+		if (isOpenEventRemind_flag)
+		{
+			eventRemindView.setEnabled(true);
+		}
+		else
+		{
+			eventRemindView.setEnabled(false);
+		}
+
+		if (isDialyReminderOpen)
+		{
+			AlarmService.getInstance().setDailyRepeatAlarm();
+			dialyRemindView.setEnabled(true);
+		}
+		else
+		{
+			AlarmService.getInstance().cancelDailyRepeatAlarm();
+			dialyRemindView.setEnabled(false);
+		}
+
 		return view;
 	}
 	private void initPopWindow(View parentView, LayoutInflater inflater)
