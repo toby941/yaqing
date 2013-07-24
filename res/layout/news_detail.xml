@@ -14,12 +14,12 @@
         android:src="@drawable/top_banner_bg" />
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="@string/news_detail_title"
         android:textColor="#ffffff"
         android:textSize="20dp" />
 

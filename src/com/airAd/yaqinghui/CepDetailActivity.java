@@ -88,6 +88,7 @@ public class CepDetailActivity extends BaseActivity {
 	private ProgressDialog proDialog;
 	private int eventIndex = 0;
 	private String requestEventId = "-1";
+	private TextView titleView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -191,6 +192,7 @@ public class CepDetailActivity extends BaseActivity {
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
+			titleView.setText(cep.getTitle());
 			if (requestEventId != null) {
 				for (int i = 0; i < cep.getCepEvents().size(); i++) {
 					CepEvent cepEvent = cep.getCepEvents().get(i);
@@ -423,6 +425,7 @@ public class CepDetailActivity extends BaseActivity {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mImageFetcher = ImageFetcherFactory.genImageFetcher(this,
 				R.drawable.ic_launcher);
+		titleView = (TextView)findViewById(R.id.title);
 		mainLayout = (RelativeLayout) findViewById(R.id.main);
 		mWeiboBtn = (ImageButton) findViewById(R.id.weibo_btn);
 		mWeiboBtn.setOnClickListener(new WeiboClick());

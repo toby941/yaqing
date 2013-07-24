@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="cep_item_pic_height">5400dp</dimen>
+     <dimen name="cep_item_type_bottom">70dp</dimen>
+</resources>

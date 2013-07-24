@@ -48,8 +48,9 @@ import com.amap.api.maps.model.MarkerOptions;
  * 
  * @author pengf
  */
-public class SurroundingActivity extends BackBaseActivity implements OnInfoWindowClickListener,
-		InfoWindowAdapter, OnMapClickListener, OnMarkerClickListener{
+public class SurroundingActivity extends BackBaseActivity implements
+		OnInfoWindowClickListener, InfoWindowAdapter, OnMapClickListener,
+		OnMarkerClickListener {
 
 	private LocService locService;
 	private GameService gameService;
@@ -61,13 +62,14 @@ public class SurroundingActivity extends BackBaseActivity implements OnInfoWindo
 	private View mInfoWindow;
 	private View mContents;
 	private View mParentView;
-	
+
 	private PopupWindow popWindow;
 	private TextView titleView;
 	private ListView listView;
 	private DailyAdapter adapter;
 	private ProgressBar progressBar;
 	private Marker mCurrentMarker;
+	private LocAsyncTask task;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,20 @@ public class SurroundingActivity extends BackBaseActivity implements OnInfoWindo
 		locService = new LocService();
 		gameService = new GameService();
 		init();
-		new LocAsyncTask().execute();
+		if (task != null) {
+			task.cancel(true);
+		}
+		task = new LocAsyncTask();
+		task.execute();
+		// new LocAsyncTask().execute();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (task != null) {
+			task.cancel(true);
+		}
 	}
 
 	/**
@@ -154,27 +169,33 @@ public class SurroundingActivity extends BackBaseActivity implements OnInfoWindo
 		}
 		return mInfoWindow;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.amap.api.maps.AMap.OnMapClickListener#onMapClick(com.amap.api.maps.model.LatLng)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.amap.api.maps.AMap.OnMapClickListener#onMapClick(com.amap.api.maps
+	 * .model.LatLng)
 	 */
 	@Override
 	public void onMapClick(LatLng arg0) {
-		if(mCurrentMarker != null)
-		{
+		if (mCurrentMarker != null) {
 			mCurrentMarker.hideInfoWindow();
 		}
 	}
-	
 
-	/* (non-Javadoc)
-	 * @see com.amap.api.maps.AMap.OnMarkerClickListener#onMarkerClick(com.amap.api.maps.model.Marker)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.amap.api.maps.AMap.OnMarkerClickListener#onMarkerClick(com.amap.api
+	 * .maps.model.Marker)
 	 */
 	@Override
 	public boolean onMarkerClick(Marker arg0) {
 		return false;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -201,7 +222,6 @@ public class SurroundingActivity extends BackBaseActivity implements OnInfoWindo
 		return null;
 	}
 
-
 	private class LocAsyncTask extends AsyncTask<Void, Void, List<LocMarker>> {
 
 		/*
@@ -216,12 +236,12 @@ public class SurroundingActivity extends BackBaseActivity implements OnInfoWindo
 
 		@Override
 		protected void onPostExecute(List<LocMarker> result) {
-			if(result != null)
-			{
+			if (result != null) {
 				com.amap.api.maps.model.LatLngBounds.Builder builer = new LatLngBounds.Builder();
 				markers = result;
 				for (LocMarker locMarker : result) {
-					LatLng ll = new LatLng(locMarker.getLat(), locMarker.getLon());
+					LatLng ll = new LatLng(locMarker.getLat(),
+							locMarker.getLon());
 					builer.include(ll);
 					aMap.addMarker(new MarkerOptions()
 							.position(ll)
@@ -230,10 +250,10 @@ public class SurroundingActivity extends BackBaseActivity implements OnInfoWindo
 							.icon(BitmapDescriptorFactory
 									.fromResource(R.drawable.surrounding_map_mark)));
 				}
-				aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builer.build(),
-						20));
+				aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
+						builer.build(), 20));
 			}
-			
+
 		}
 
 	}
@@ -260,7 +280,7 @@ public class SurroundingActivity extends BackBaseActivity implements OnInfoWindo
 			if (result != null) {
 				gameInfoList = result;
 				adapter.notifyDataSetChanged();
-			} 
+			}
 			listView.setVisibility(View.VISIBLE);
 			progressBar.setVisibility(View.GONE);
 		}
@@ -330,5 +350,5 @@ public class SurroundingActivity extends BackBaseActivity implements OnInfoWindo
 		public CheckBox addCheckBox;
 		public View itemView;
 	}
-	
+
 }

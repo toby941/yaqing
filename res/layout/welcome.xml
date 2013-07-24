@@ -5,20 +5,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/welcome_bg" >
 
-    <!--
-         <ImageView
-	    android:id="@+id/loadImage"
-	    android:src="@drawable/loading_bg"
-	    android:scaleType="fitXY"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent" 
-	    />
-    -->
-
     <ImageView
         android:id="@+id/light"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/lun_height"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:scaleType="fitXY"
         android:src="@drawable/welcome_light" />
     

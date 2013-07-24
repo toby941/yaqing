@@ -1,7 +1,6 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">AYG Assistant</string>
     <string name="left_menu_setting">Setup</string>
-    <string name="right_menu_join_entry">参赛项目</string>
     <string name="login_title">Login</string>
     <string name="login_hint_username">Enter athlete ID</string>
     <string name="login_hint_pwd">Enter the last 6 digits of passport No.</string>
@@ -9,32 +8,22 @@
     <string name="login_name">Account No.</string>
     <string name="login_pwd">Password</string>
     <string name="name_or_pwd_isempty">Null user name or password</string>
-    <string name="pro_exit_cofirm">再按一次返回退出</string>
+    <string name="pro_exit_cofirm">Press again to exit</string>
     <string name="login_failed">Failed login</string>
     <string name="menu_left_home">Homepage</string>
     <string name="menu_left_schedule">Events Schedule</string>
-    <string name="menu_left_equip">周边设施</string>
-    <string name="name">用户名</string>
+    <string name="menu_left_equip">Search in neighborhood</string>
     <string name="notify">Notice</string>
     <string name="activity">My CEP</string>
-    <string name="attention_item">关注的赛事</string>
-    <string name="attend_schdule">参赛项目日程</string>
-    <string name="delete">删除</string>
-    <string name="net_exception">Network anomaly</string>
-    <string name="order_attend">关注</string>
-    <string name="news_detail_title">活动详情</string>
-    <string name="my_activity">我的活动</string>
-    <string name="has_attend_activity">已报名活动</string>
-    <string name="activity_notify">&#160;活动通知&#160;</string>
+    <string name="delete">Delete</string>
+    <string name="net_exception">Network anomaly </string>
+    <string name="order_attend">Concern</string>
     <string name="sign_in">Sign in</string>
-    <string name="activity_search">活动查询</string>
-    <string name="schedule_banner_text">竞赛日程</string>
-    <string name="signin_record">签到记录</string>
-    <string name="dialog_title">提示</string>
-    <string name="dialog_msg">正在加载，请稍后</string>
-    <string name="no_sd_card">No SD card</string>
-    <string name="islogining">登录中，请稍等</string>
-    <string name="opengps">请先打开GPS定位功能,否则无法签到</string>
+    <string name="dialog_title">Prompt</string>
+    <string name="dialog_msg">Loading</string>
+    <string name="no_sd_card">Scanning 2D code</string>
+    <string name="islogining">Loading</string>
+    <string name="opengps">Turn on GPS</string>
     <string name="sat">Sat</string>
     <string name="mon">Mon</string>
     <string name="tue">Tue</string>
@@ -46,74 +35,75 @@
     <string name="base_information">Basic information</string>
     <string name="country">Nationality</string>
     <string name="gender">Sex</string>
-    <string name="attend_items">参赛项目</string>
-    <string name="cep_video">CEP视频</string>
-    <string name="schedule_my_project">我参加的项目</string>
-    <string name="schedule_other_project">其它的项目</string>
-    <string name="project_trackfield">田径</string>
+    <string name="attend_items">My events</string>
+    <string name="cep_video">Watch advertising film</string>
+    <string name="schedule_my_project">My events</string>
+    <string name="schedule_other_project">Other events</string>
 	<string name="make_socre">Score</string>
 	<string name="event_tips">Reminders</string>
 	<string name="event_remind_text">%d-minute early reminder</string>
 	<string name="dialy_remind">Everyday reminder</string>	
-	<string name="dialy_remind_text">%s提醒</string>
-	<string name="about">关于</string>
+	<string name="dialy_remind_text">%sreminder</string>
 	<string name="help">Aid</string>
-	<string name="upgrate_version">升级版本</string>
+	<string name="upgrate_version">software update</string>
 	<string name="reset_password">Change password</string>
 	<string name="login_out">Quit</string>
 	<string name="change_thumb">Change the image</string>
 	<string name="take_photo">Image by photographing</string>
 	<string name="select_from_album">Image from photo album</string>
-	<string name="confirm_thumb">确认使用此头像?</string>
+	<string name="confirm_thumb">Use this image? </string>
 	<string name="confirm">Confirm</string>
 	<string name="cancel">Cancel</string>
 	<string name="account_init_password">Initial password</string>
 	<string name="new_passwod">New password</string>
 	<string name="new_confirm_password">Confirm new password</string>
-	<string name="close_event_remind">关闭事项提醒</string>
-	<string name="open_event_remind">开启事项提醒</string>
 	<string name="schedule_item_tips">%d-minute early reminder</string>
-	<string name="is_locating">正在定位中...</string>
-	<string name="upload_waiting">正在验证中..</string>
-	<string name="shake_tips">摇一摇查找活动推荐</string>
+	<string name="is_locating">Positioning...</string>
+	<string name="upload_waiting">Verifying...</string>
+	<string name="shake_tips">Shake for event recommendation</string>
 	<string name="push_title">Advertising message</string>
-	<string name="scan">查看</string>
-	<string name="weibo_send">发送</string>
+	<string name="scan">Details</string>
+	<string name="weibo_send">Send</string>
 	<string name="click_play">Watch advertising film</string>
-	<string name="first_tips">Click “query/add" button to query and add "events schedule" , "CEP programme“</string>
-	<string name="score_title">给活动打分</string>
-	<string name="submit">提交</string>
-	<string name="loginout_success">退出成功</string>
-	<string name="delete_schdule">确认删除此日程吗?</string>
-	<string name="signin_in_failed">签到失败</string>
+	<string name="first_tips">Click “query/add" button to query and add "events schedule" , "CEP programme"</string>
+	<string name="score_title">Scoring by stars</string>
+	<string name="submit">Submit scores</string>
+	<string name="loginout_success">Exit Success</string>
+	<string name="delete_schdule">Delete or not?</string>
+	<string name="signin_in_failed">Failed signing in, please retry. </string>
 	<string name="number">NO.</string>
-	<string name="watch_success">关注成功</string>
-	<string name="watch_failed">关注失败</string>
+	<string name="watch_success">Success</string>
+	<string name="watch_failed">Fail</string>
 	<string name="get_medal">Get badge</string>
 	<string name="OK">OK !</string>
-	<string name="cep_socre1">整体评价</string>
-	<string name="cep_socre2">组织水平 </string>
-	<string name="cep_socre3">个人收获 </string>	
-	<string name="weibo01">我正在参加“青年的节日”（第二届亚洲青年运动会的主题活动）。 </string>
-	<string name="weibo02">我正在参加“亚洲文化村”（第二届亚洲青年运动会的主题活动）。 </string>
-	<string name="weibo03">我正在参加“国际组织展”（第二届亚洲青年运动会的主题活动）。 </string>
-	<string name="weibo04">我正在参加“生态环保农业”（第二届亚洲青年运动会的主题活动）。 </string>
-	<string name="weibo05">我正在参加“南京历史文化风貌观光”（第二届亚洲青年运动会的主题活动）。 </string>
-	<string name="weibo_sending">微博发送中...... </string>
-	<string name="alarm_title">提醒到时了</string>
-	<string name="update_no_need">已经是最新版本！</string>
+	<string name="cep_socre1">General evaluation</string>
+	<string name="cep_socre2">Organization level</string>
+	<string name="cep_socre3">Personal awards</string>	
+	<string name="weibo01">I am participating in the "Youth Festival" (2nd Asian Youth Games).</string>
+	<string name="weibo02">I am participating in the "Asian Culture Village" (2nd Asian Youth Games).</string>
+	<string name="weibo03">I am participating in the "Global Issues" (2nd Asian Youth Games).</string>
+	<string name="weibo04">I am participating in the "Eco-friendly Agriculture" (2nd Asian Youth Games).</string>
+	<string name="weibo05">I am participating in the "Nanjing Historical and Cultural Sightseeing" (2nd Asian Youth Games).</string>
+	<string name="weibo_sending">Sending...</string>
+	<string name="weibo_secc">Success</string>
+	<string name="weibo_err">Fail</string>
+	<string name="alarm_title">Reminder</string>
+	<string name="update_no_need">It is the lastest version!</string>
 	
 	<string-array name="time_before_array">
-	    <item>提前30分钟提醒</item>
-	    <item>提前1小时提醒</item>
-	    <item>提前2小时提醒</item>
+	    <item>30-minute early reminder</item>
+	    <item>60-minute early reminder</item>
+	    <item>120-minute early reminder</item>
 	</string-array>
 	<string-array name="time_daily_array">
 	    <item>6:30</item>
 	    <item>9:00</item>
 	    <item>12:00</item>
 	</string-array>
-	<string name="game_detail_info_empty">该比赛项目已结束</string>
+	<string name="game_detail_info_empty">The event has been over.</string>
 	<string name="empty_box_text">No more affairs to be checked today</string>
-	<string name="cancel_attention">确认删除此项?</string>
+	<string name="cancel_attention">Confirm Delete?</string>
+	<string name="cep_menu_title">CEP Programme</string>
+	<string name="cep_score_failed">Failed scoring, please retry.</string>
+	<string name="change_error">Fail</string>
 </resources>

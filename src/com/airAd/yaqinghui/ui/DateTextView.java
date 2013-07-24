@@ -16,6 +16,7 @@ public class DateTextView extends TextView {
 	protected boolean isHaveActivity = false;
 	protected boolean isToday = false;
 	private Paint paint;
+	private Paint textPaint;
 	private Path path;
 
 	public DateTextView(Context context, AttributeSet attrs) {
@@ -25,6 +26,11 @@ public class DateTextView extends TextView {
 		paint.setColor(COLOR);
 		paint.setTextAlign(Align.CENTER);
 		path = new Path();
+		
+		textPaint = new Paint();
+		textPaint.setStyle(Style.FILL);
+		textPaint.setColor(Color.WHITE);
+		textPaint.setTextAlign(Align.CENTER);
 	}
 	
 	public void setToday(){
@@ -44,7 +50,7 @@ public class DateTextView extends TextView {
 			canvas.drawPath(path, paint);
 		}
 		if (isToday) {
-			canvas.drawText("today", getWidth() / 2, getHeight() -2, paint);
+			canvas.drawText("today", getWidth() / 2, getHeight() -2, textPaint);
 		}
 	}
 
