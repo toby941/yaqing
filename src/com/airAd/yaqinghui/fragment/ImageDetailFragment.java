@@ -24,12 +24,14 @@ public class ImageDetailFragment extends Fragment {
 	private ImageView mImageView;
 	public ImageFetcher mImageFetcher;
 	public Cep cep;
+	public int imgId;
 
-	public static ImageDetailFragment newInstance(String imageUrl, Cep cep)
+	public static ImageDetailFragment newInstance(String imageUrl, Cep cep, int imgId)
 	{
 		final ImageDetailFragment f = new ImageDetailFragment();
 		final Bundle args = new Bundle();
 		f.cep= cep;
+		f.imgId= imgId;
 		args.putString(IMAGE_DATA_EXTRA, imageUrl);
 		f.setArguments(args);
 		return f;
@@ -67,7 +69,9 @@ public class ImageDetailFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		if(mImageFetcher==null){
-			mImageView.setImageResource(Cep.getCepSmallPicRes(cep.getId()));
+			mImageView.setImageResource(imgId);
+			//			mImageView.setImageResource(Cep.getCepSmallPicRes(cep.getId()));
+
 			//			if (HomeActivity.class.isInstance(getActivity())) {
 			//				mImageFetcher = ((HomeActivity) getActivity()).getImageFetcher();
 			//				mImageFetcher.loadImage(mImageUrl, mImageView);
@@ -75,8 +79,10 @@ public class ImageDetailFragment extends Fragment {
 			//				mImageView.setImageResource(Cep.getCepSmallPicRes(cep.getId()));
 			//			}
 		}else{
+			mImageView.setImageResource(imgId);
 			//			mImageFetcher.loadImage(mImageUrl, mImageView);
-			mImageView.setImageResource(Cep.getCepSmallPicRes(cep.getId()));
+
+			//			mImageView.setImageResource(Cep.getCepSmallPicRes(cep.getId()));
 		}
 	}
 

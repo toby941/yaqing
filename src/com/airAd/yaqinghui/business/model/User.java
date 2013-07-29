@@ -101,10 +101,41 @@ public class User extends Base {
 		}
 		return user;
 	}
-
+	/*
+	中文： CHI
+	英文： ENG
+	日文： JAP
+	越南文：VIE
+	韩文： KOR
+	泰文： THA
+	俄语： RUS
+	阿拉伯语: ARA
+	香港繁体：HK
+	*/
 	public static String getLan() {
-		Log.d("htestGetLan", Locale.getDefault().getLanguage());
-		return "CHI";
-		// return Locale.getDefault().getLanguage();
+		String lan = Locale.getDefault().getLanguage();
+		String country = Locale.getDefault().getCountry()==null? "":Locale.getDefault().getCountry().trim().toLowerCase() ;
+		Log.d("htestGetLan", lan);
+		Log.d("htestGetCountry", country);
+		if("ko".equalsIgnoreCase(lan)){
+			//韩国
+			return "KOR";
+		}else if("vi".equalsIgnoreCase(lan)){
+			return "VIE";
+		}else if("zh".equalsIgnoreCase(lan)){
+			if(country.contains("tw")|| country.contains("hk")){
+				return "HK";
+			}
+			return "CHI";
+		}else if("jp".equalsIgnoreCase(lan) || "ja".equalsIgnoreCase(lan)){
+			return "JAP";
+		}else if("ar".equalsIgnoreCase(lan)){
+			return "ARA";
+		}else if("ru".equalsIgnoreCase(lan)){
+			return "RUS";
+		}else if("th".equalsIgnoreCase(lan)){
+			return "THA";
+		}
+		return "ENG";
 	}
 }// end class

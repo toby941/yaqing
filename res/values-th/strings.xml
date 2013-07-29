@@ -43,7 +43,7 @@
 <string name="event_tips">เตือนสติเหตุการณ์</string>
 <string name="event_remind_text">เตือนสติก่อน30นาที</string>
 <string name="dialy_remind">เตือนสติทุกวัน</string>
-<string name="dialy_remind_text">เตือนสติ</string>
+<string name="dialy_remind_text">เตือนสติ%sิ</string>
 <string name="help">ช่วย</string>
 <string name="upgrate_version">การปรับปรุงซอฟต์แวร์</string>
 <string name="reset_password">เปลี่ยนรหัสผ่าน</string>
@@ -57,20 +57,19 @@
 <string name="account_init_password">รหัสผ่านเริ่มต้น</string>
 <string name="new_passwod">รหัสผ่านใหม่</string>
 <string name="new_confirm_password">ยืนยัน</string>
-<string name="schedule_item_tips">เตือนสติก่อน30นาที</string>
+<string name="schedule_item_tips">เตือนสติก่อน%dนาที</string>
 <string name="is_locating">ได้รับตำแหน่ง</string>
 <string name="upload_waiting">การตรวจสอบ</string>
 <string name="shake_tips">เขย่าเพื่อค้นหากิจกรรมที่แนะนำ</string>
 <string name="push_title">ส่งข้อความ</string>
 <string name="scan">รายละเอียด</string>
-<string name="weibo_send"></string>
 <string name="click_play">ดูโปรโมชั่นCEP </string>
-<string name="first_tips">ตารางการแข่งขัน</string>
+<string name="first_tips">คลิกปุ่ม "สอบถาม / เพิ่ม" เพื่อสอบถามและเพิ่ม "ตารางการแข่งขัน", "กิจกรรม CEP"</string>
 <string name="score_title">ให้คะแนน</string>
 <string name="submit">เสนอ</string>
 <string name="loginout_success">ความสำเร็จ</string>
 <string name="delete_schdule">ลบ</string>
-<string name="signin_in_failed">ความสำเร็จ</string>
+<string name="signin_in_failed">ลงชื่อเข้าใช้ล้มเหลวโปรดลองอีกครั้ง</string>
 <string name="number">NO.</string>
 <string name="watch_success">ความสำเร็จ</string>
 <string name="watch_failed">ความล้มเหลว</string>
@@ -97,7 +96,6 @@
 <string name="empty_box_text">วันนี้ไม่มีเหตุการณ์ที่เพิ่มขึ้นที่ต้องดู</string>
 <string name="cancel_attention">ลบ</string>
 <string name="cep_menu_title">กิจกรรมCEP </string>
-<string name="cep_score_failed">ความล้มเหลว</string>
+<string name="cep_score_failed">ให้คะแนนล้มเหลวโปรดลองอีกครั้ง</string>
 <string name="change_error">ความล้มเหลว</string>
-<string name="cur_version">v.alpha-20130724-1</string>
 </resources>

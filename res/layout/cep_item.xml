@@ -56,6 +56,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/cep_type"
+            android:singleLine="true"
             android:textColor="#000000"
             android:textSize="15dp" />
 

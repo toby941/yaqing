@@ -133,7 +133,7 @@
         android:layout_alignParentTop="true"
         android:background="@drawable/weibo_send_bg"
         android:paddingRight="4dp"
-        android:text="发送"
+        android:text="@string/weibo_send"
         android:textColor="#FFFFFF"
         android:textSize="12dp" />
 

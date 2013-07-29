@@ -100,7 +100,7 @@
 	    <item>9:00</item>
 	    <item>12:00</item>
 	</string-array>
-	<string name="game_detail_info_empty">試合終了済みr.</string>
+	<string name="game_detail_info_empty">試合終了済み.</string>
 	<string name="empty_box_text">今日は閲覧すべき事項無し</string>
 	<string name="cancel_attention">削除を確認？</string>
 	<string name="cep_menu_title">CEPイベント</string>

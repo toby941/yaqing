@@ -21,12 +21,11 @@
             android:src="@drawable/detail_back_bg" />
 
         <ImageView
-            android:layout_toRightOf="@id/back"
-            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/back"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/detail_title" />
     </RelativeLayout>
 

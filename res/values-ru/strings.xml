@@ -43,7 +43,7 @@
 <string name="event_tips">напоминание о событии</string>
 <string name="event_remind_text">напоминать %dмин. раньше</string>
 <string name="dialy_remind">ежедневное напоминание</string>
-<string name="dialy_remind_text">напоминать 6:30 утра</string>
+<string name="dialy_remind_text">напоминание %s</string>
 <string name="help">помощь</string>
 <string name="upgrate_version">обновление программного обеспечения</string>
 <string name="reset_password">изменить пароль</string>
@@ -64,12 +64,12 @@
 <string name="push_title">рекомендуемые сообщения</string>
 <string name="scan">подробности</string>
 <string name="click_play">посмотреть агитфильм CEP</string>
-<string name="first_tips">расписание соревнования</string>
+<string name="first_tips">нажать шпонку "запросить/добавить" можно запросить и добавить "расписание соревнования", "деятельность CEP"</string>
 <string name="score_title">оценить</string>
 <string name="submit">подавать</string>
 <string name="loginout_success">успех</string>
 <string name="delete_schdule">удалять</string>
-<string name="signin_in_failed">успех</string>
+<string name="signin_in_failed">не удачно расписаться в прибытии,  попробуете еще раз.</string>
 <string name="number">NO.</string>
 <string name="watch_success">успех</string>
 <string name="watch_failed">провал</string>
@@ -96,7 +96,6 @@
 <string name="empty_box_text">сегодняшние события для посмотрения пока больше нет </string>
 <string name="cancel_attention">удалять</string>
 <string name="cep_menu_title">деятельность CEP</string>
-<string name="cep_score_failed">провал</string>
+<string name="cep_score_failed">не удачно оценить, попробуете еще раз.</string>
 <string name="change_error">провал</string>
-<string name="cur_version">v.alpha-20130724-1</string>
 </resources>

@@ -138,7 +138,7 @@ public class PushClose extends RelativeLayout {
 		final Calendar calendar = Calendar.getInstance();
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
 		int selected = day - 13;
-		if (selected < 0 || selected > DAYS) {
+		if (selected < 0 || selected >=DAYS) {
 			return;
 		}
 		dates[selected].setToday();
@@ -146,7 +146,7 @@ public class PushClose extends RelativeLayout {
 
 	public void setDateDay(int day) {
 		int selected = day - 13;
-		if (selected < 0 || selected > DAYS) {
+		if (selected < 0 || selected >= DAYS) {
 			return;
 		}
 		if (selectedDate != null) {

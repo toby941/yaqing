@@ -14,7 +14,7 @@
 <string name="menu_left_schedule"> جدول السباق </string>
 <string name="menu_left_equip">البحث من المحيط</string>
 <string name="notify">الأخبار</string>
-<string name="activity">نشاط CEP لي</string>
+<string name="activity">نشاCEPلي</string>
 <string name="delete">حذف</string>
 <string name="net_exception">الشبكة عاطلة </string>
 <string name="order_attend">اهتمام</string>
@@ -36,7 +36,7 @@
 <string name="country">الجنسية</string>
 <string name="gender">الجنس </string>
 <string name="attend_items">سباقي</string>
-<string name="cep_video">دعاوة CEP </string>
+<string name="cep_video">دعاوةCEP </string>
 <string name="schedule_my_project">سباقي</string>
 <string name="schedule_other_project">السباقات الأخري</string>
 <string name="make_socre">إعطاء الدرجة</string>
@@ -57,19 +57,18 @@
 <string name="account_init_password">كلمة المرور الأصلية</string>
 <string name="new_passwod">كلمة المرور الجديدة</string>
 <string name="new_confirm_password">تأكيد </string>
-<string name="schedule_item_tips">تنبيه قبل 30 دقيقة </string>
+<string name="schedule_item_tips">تنبيه قبل %d دقيقة </string>
 <string name="is_locating">الحصول على موقف</string>
 <string name="upload_waiting">التحقق من</string>
 <string name="shake_tips">اهتز للبحث عن توصية الأحداث</string>
 <string name="push_title">خبر مدفوع</string>
 <string name="scan">تفاصيل</string>
-<string name="click_play">مشاهدة دعاوة CEP </string>
-<string name="first_tips"> جدول السباق </string>
+<string name="first_tips">جدول السباق " و" أنشطة CEP " </string>
 <string name="score_title">إعطاء الدرجة</string>
 <string name="submit">عرض</string>
 <string name="loginout_success">نجاح</string>
 <string name="delete_schdule">حذف</string>
-<string name="signin_in_failed">نجاح</string>
+<string name="signin_in_failed">أخري. </string>
 <string name="number">NO.</string>
 <string name="watch_success">نجاح</string>
 <string name="watch_failed">فشل</string>
@@ -88,15 +87,14 @@
 	<item>تنبيه قبل 120 دقيقة </item>
 </string-array>
 <string-array name="time_daily_array">
-	<item>6:30</item>
-	<item>9:00</item>
-	<item>12:00</item>
+	<item>تنبيه6:30</item>
+	<item>تنبيه9:00</item>
+	<item>تنبيه12:00</item>
 </string-array>
 <string name="game_detail_info_empty">انتهت السباقة</string>
 <string name="empty_box_text">لا مزيد من الأشياء في حاجة إلي المشاهدة اليوم </string>
 <string name="cancel_attention">حذف</string>
-<string name="cep_menu_title">أنشطة CEP</string>
-<string name="cep_score_failed">فشل</string>
+<string name="cep_menu_title">أنشطةCEP</string>
+<string name="cep_score_failed">مرة أخري. </string>
 <string name="change_error">فشل</string>
-<string name="cur_version">v.alpha-20130724-1</string>
 </resources>
