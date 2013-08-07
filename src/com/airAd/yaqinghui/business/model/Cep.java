@@ -32,14 +32,14 @@ public class Cep {
 	private Integer index;
 	private List<Integer> imgIds;
 
-	public List<Integer> getImgIds()
-	{
+	public List<Integer> getImgIds() {
 		return imgIds;
 	}
-	public void setImgIds(List<Integer> imgIds)
-	{
-		this.imgIds= imgIds;
+
+	public void setImgIds(List<Integer> imgIds) {
+		this.imgIds = imgIds;
 	}
+
 	public Integer getIndex() {
 		return index;
 	}
@@ -126,7 +126,7 @@ public class Cep {
 		// cepevent
 		JSONArray eventsArr = obj.optJSONArray("event");
 		int index = 0;
-		int flag=-1;
+		int flag = -1;
 		List<CepEvent> events = new ArrayList<CepEvent>();
 		if (eventsArr != null) {
 			for (int i = 0; i < eventsArr.size(); i++) {
@@ -147,7 +147,8 @@ public class Cep {
 				// {
 				events.add(event);
 				// }
-				if(new Date().getTime() < event.getEndTimel() && index == 0 && flag == -1){
+				if (new Date().getTime() < event.getEndTimel() && index == 0
+						&& flag == -1) {
 					index = i;
 					flag = 0;
 				}
@@ -207,15 +208,15 @@ public class Cep {
 		int id = Integer.parseInt(ids);
 		switch (id) {
 		case 1:
-			return R.drawable.big_yf;
+			return R.drawable.big_yf;// 青年的节日
 		case 2:
-			return R.drawable.big_ac;
+			return R.drawable.big_ac;// 亚洲文化活动
 		case 3:
-			return R.drawable.big_is;
+			return R.drawable.big_is;// 国际组织展
 		case 5:
-			return R.drawable.big_tn2;
+			return R.drawable.big_tn1;// 南京历史文化风貌观光
 		case 6:
-			return R.drawable.big_tn1;
+			return R.drawable.big_tn2;// 环保农业
 		default:
 			return R.drawable.big_yf;
 		}
@@ -241,39 +242,38 @@ public class Cep {
 
 	/**
 	 * 返回CEP_ID对应的图片列表
+	 * 
 	 * @param ids
 	 * @return
 	 */
-	public static List<Integer> getCepSmallPicResArrays(String ids)
-	{
-		int id= Integer.parseInt(ids);
-		List<Integer> retList= new ArrayList<Integer>();
-		switch (id)
-		{
-			case 1 :
-				retList.add(R.drawable.small_yf);
-				//				retList.add(R.drawable.small_yf);
-				return retList;
-			case 2 :
-				retList.add(R.drawable.small_ac);
-				//				retList.add(R.drawable.small_ac);
-				return retList;
-			case 3 :
-				retList.add(R.drawable.small_is);
-				//				retList.add(R.drawable.small_is);
-				return retList;
-			case 5 :
-				retList.add(R.drawable.small_tn2);
-				//				retList.add(R.drawable.small_tn2);
-				return retList;
-			case 6 :
-				retList.add(R.drawable.small_tn1);
-				//				retList.add(R.drawable.small_tn1);
-				return retList;
-			default :
-				retList.add(R.drawable.small_yf);
-				//				retList.add(R.drawable.small_yf);
-				return retList;
+	public static List<Integer> getCepSmallPicResArrays(String ids) {
+		int id = Integer.parseInt(ids);
+		List<Integer> retList = new ArrayList<Integer>();
+		switch (id) {
+		case 1:
+			retList.add(R.drawable.small_yf);
+			// retList.add(R.drawable.small_yf);
+			return retList;
+		case 2:
+			retList.add(R.drawable.small_ac);
+			// retList.add(R.drawable.small_ac);
+			return retList;
+		case 3:
+			retList.add(R.drawable.small_is);
+			// retList.add(R.drawable.small_is);
+			return retList;
+		case 5:
+			retList.add(R.drawable.small_tn2);
+			// retList.add(R.drawable.small_tn2);
+			return retList;
+		case 6:
+			retList.add(R.drawable.small_tn1);
+			// retList.add(R.drawable.small_tn1);
+			return retList;
+		default:
+			retList.add(R.drawable.small_yf);
+			// retList.add(R.drawable.small_yf);
+			return retList;
 		}
 	}
 

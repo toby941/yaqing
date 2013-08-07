@@ -1,0 +1,3 @@
+<resources>
+     <dimen name="sign_padding_right">60dp</dimen>
+</resources>

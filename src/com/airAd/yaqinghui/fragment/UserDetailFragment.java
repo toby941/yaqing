@@ -138,6 +138,7 @@ public class UserDetailFragment extends Fragment
 			genderText.setText(mUser.getGender());
 			String str_eg= ApiUtil.getSportsNameByType(mUser.getTypes()[0]).split(",")[1];
 			itemText.setText(str_eg);
+			itemTextEg.setText(ApiUtil.getSportsNameByType(mUser.getTypes()[0]).split(",")[0]);
 			try
 			{
 				itemIcon.setImageBitmap(BitmapFactory.decodeStream(assertManager.open(mUser.getTypes()[0].toLowerCase()

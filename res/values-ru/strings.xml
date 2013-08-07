@@ -18,7 +18,7 @@
 <string name="delete">удалять</string>
 <string name="net_exception">аномальная сеть</string>
 <string name="order_attend">внимание</string>
-<string name="sign_in">расписаться в прибытии</string>
+<string name="sign_in">регистрация</string>
 <string name="dialog_title">побуждать</string>
 <string name="dialog_msg">загрузка</string>
 <string name="no_sd_card">не обнаружить карточку SD</string>

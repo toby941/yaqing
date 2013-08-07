@@ -292,7 +292,14 @@ public class UserFragment extends Fragment
 		{
 			total+= green;
 		}
-		medalNum.setText(total + " " + getString(R.string.badge));
+		if (total > 1)
+		{
+			medalNum.setText(total + " " + getString(R.string.badge) + "S");
+		}
+		else
+		{
+			medalNum.setText(total + " " + getString(R.string.badge));
+		}
 	}
 	private void setThumbImage(View view)
 	{

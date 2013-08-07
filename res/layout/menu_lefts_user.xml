@@ -354,12 +354,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/sign_icon"
+        android:drawablePadding="@dimen/sign_padding"
+        android:paddingLeft="15dp"
+        android:paddingRight="@dimen/sign_padding_right"
+        android:gravity="center_vertical"
         android:layout_marginBottom="20dp"
         android:background="@drawable/sign_btn_bg"
-        android:paddingLeft="5dp"
-        android:scaleType="center"
         android:text="@string/sign_in"
         android:textColor="#BEC6D6"
         android:textSize="20dp" />
-
 </RelativeLayout>

@@ -106,6 +106,6 @@
 	<string name="cep_menu_title">CEP Programme</string>
 	<string name="cep_score_failed">Failed scoring, please retry.</string>
 	<string name="change_error">Fail</string>
-	<string name="hidden_version">v.alpha-20130725-1</string>
-	<string name="cur_version">v1.0.1</string>
+	<string name="hidden_version">v.alpha-20130802-1</string>
+	<string name="cur_version">v1.0.4</string>
 </resources>

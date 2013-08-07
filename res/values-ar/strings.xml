@@ -8,7 +8,7 @@
 <string name="login_name">حساب</string>
 <string name="login_pwd">كلمة السر </string>
 <string name="name_or_pwd_isempty">اسم المستخدم أو كلمة المرور فارغة</string>
-<string name="pro_exit_cofirm"> чтобы выйти из"</string>
+<string name="pro_exit_cofirm">اضغط مرة أخرى للخروج</string>
 <string name="login_failed">فشل</string>
 <string name="menu_left_home">الصفحة الرئيسية</string>
 <string name="menu_left_schedule"> جدول السباق </string>
@@ -41,9 +41,9 @@
 <string name="schedule_other_project">السباقات الأخري</string>
 <string name="make_socre">إعطاء الدرجة</string>
 <string name="event_tips">أمور التنبيه</string>
-<string name="event_remind_text">تنبيه قبل 30 دقيقة </string>
+<string name="event_remind_text">تنبيه قبل %d دقيقة </string>
 <string name="dialy_remind">التنبيه اليومية</string>
-<string name="dialy_remind_text">تنبيه في الساعة السادسة والنصف صباحا </string>
+<string name="dialy_remind_text">تنبيه في %s والنصف صباحا </string>
 <string name="help">مساعدات</string>
 <string name="upgrate_version">تحديث البرامج</string>
 <string name="reset_password">تغيير كلمة المرور</string>
@@ -51,35 +51,34 @@
 <string name="change_thumb">تغيير الصورة</string>
 <string name="take_photo">حصول عليها بأخذ الصورة </string>
 <string name="select_from_album">حصول عليها من الألبومات</string>
-<string name="confirm_thumb">تأكد من استخدام هذه الصورة الشخصية؟</string>
+<string name="confirm_thumb">تتأكد من استخدام هذه الصورة الشخصية؟</string>
 <string name="confirm">تأكيد </string>
 <string name="cancel">إلغاء </string>
 <string name="account_init_password">كلمة المرور الأصلية</string>
 <string name="new_passwod">كلمة المرور الجديدة</string>
-<string name="new_confirm_password">تأكيد </string>
+<string name="new_confirm_password">تأكيد من كلمة المرور الجديدة</string>
 <string name="schedule_item_tips">تنبيه قبل %d دقيقة </string>
 <string name="is_locating">الحصول على موقف</string>
 <string name="upload_waiting">التحقق من</string>
 <string name="shake_tips">اهتز للبحث عن توصية الأحداث</string>
 <string name="push_title">خبر مدفوع</string>
 <string name="scan">تفاصيل</string>
-<string name="first_tips">جدول السباق " و" أنشطة CEP " </string>
-<string name="score_title">إعطاء الدرجة</string>
-<string name="submit">عرض</string>
-<string name="loginout_success">نجاح</string>
-<string name="delete_schdule">حذف</string>
-<string name="signin_in_failed">أخري. </string>
-<string name="number">NO.</string>
+<string name="click_play">مشاهدة دعاوة CEP </string>
+<string name="first_tips">ضافة " جدول السباق " و" أنشطة CEP " </string>
+<string name="score_title">يرجي إعطاء الدرجة بأشكال النجوم</string>
+<string name="submit">تقديم الدرجة</string>
+<string name="loginout_success">خروج النجاح</string>
+<string name="delete_schdule">ما إذا كان حذف </string>
+<string name="signin_in_failed">التسجيل فاشل، يرجي المحاولة مرة أخري. </string>
 <string name="watch_success">نجاح</string>
 <string name="watch_failed">فشل</string>
 <string name="get_medal">حصول علي الشارة</string>
-<string name="OK">OK !</string>
 <string name="cep_socre1">التقييم الإجمالي</string>
 <string name="cep_socre2">مستوي التنظيم</string>
 <string name="cep_socre3">الحصاد الفردي</string>
 <string name="weibo_secc">نجاح</string>
 <string name="weibo_err">فشل</string>
-<string name="alarm_title">تنبيه في الساعة السادسة والنصف صباحا </string>
+<string name="alarm_title">ذكر</string>
 <string name="update_no_need">هذا هو أحدث إصدار!</string>
 <string-array name="time_before_array">
 	<item>تنبيه قبل 30 دقيقة </item>
@@ -93,8 +92,8 @@
 </string-array>
 <string name="game_detail_info_empty">انتهت السباقة</string>
 <string name="empty_box_text">لا مزيد من الأشياء في حاجة إلي المشاهدة اليوم </string>
-<string name="cancel_attention">حذف</string>
+<string name="cancel_attention">تأكيد حذف؟</string>
 <string name="cep_menu_title">أنشطةCEP</string>
-<string name="cep_score_failed">مرة أخري. </string>
+<string name="cep_score_failed">إعطاء الدرجة فاشل، يرجي المحاولة مرة أخري. </string>
 <string name="change_error">فشل</string>
 </resources>

@@ -24,14 +24,6 @@
 <string name="no_sd_card">ไม่พบการ์ดSD </string>
 <string name="islogining">โหลด</string>
 <string name="opengps">กรุณาเปิดGPS</string>
-<string name="sat">Sat</string>
-<string name="mon">Mon</string>
-<string name="tue">Tue</string>
-<string name="wed">Wed</string>
-<string name="thu">Thu</string>
-<string name="fri">Fri</string>
-<string name="sun">Sun</string>
-<string name="badge">BADAGE</string>
 <string name="base_information">ข้อมูลพื้นฐาน</string>
 <string name="country">สัญชาติ </string>
 <string name="gender">เพศ</string>
@@ -41,7 +33,7 @@
 <string name="schedule_other_project">เกมส์อื่น ๆ</string>
 <string name="make_socre">ให้คะแนน</string>
 <string name="event_tips">เตือนสติเหตุการณ์</string>
-<string name="event_remind_text">เตือนสติก่อน30นาที</string>
+<string name="event_remind_text">เตือนสติก่อน%dนาที</string>
 <string name="dialy_remind">เตือนสติทุกวัน</string>
 <string name="dialy_remind_text">เตือนสติ%sิ</string>
 <string name="help">ช่วย</string>
@@ -56,7 +48,7 @@
 <string name="cancel">ยกเลิก</string>
 <string name="account_init_password">รหัสผ่านเริ่มต้น</string>
 <string name="new_passwod">รหัสผ่านใหม่</string>
-<string name="new_confirm_password">ยืนยัน</string>
+<string name="new_confirm_password">ยืนยันรหัสผ่านใหม่</string>
 <string name="schedule_item_tips">เตือนสติก่อน%dนาที</string>
 <string name="is_locating">ได้รับตำแหน่ง</string>
 <string name="upload_waiting">การตรวจสอบ</string>
@@ -65,16 +57,14 @@
 <string name="scan">รายละเอียด</string>
 <string name="click_play">ดูโปรโมชั่นCEP </string>
 <string name="first_tips">คลิกปุ่ม "สอบถาม / เพิ่ม" เพื่อสอบถามและเพิ่ม "ตารางการแข่งขัน", "กิจกรรม CEP"</string>
-<string name="score_title">ให้คะแนน</string>
-<string name="submit">เสนอ</string>
-<string name="loginout_success">ความสำเร็จ</string>
-<string name="delete_schdule">ลบ</string>
+<string name="score_title">กดปุ่มแบบดาวเพื่อให้คะแนน</string>
+<string name="submit">เสนอคะแนน</string>
+<string name="loginout_success">ออกจากความสำเร็จ</string>
+<string name="delete_schdule">จะลบไหม</string>
 <string name="signin_in_failed">ลงชื่อเข้าใช้ล้มเหลวโปรดลองอีกครั้ง</string>
-<string name="number">NO.</string>
 <string name="watch_success">ความสำเร็จ</string>
 <string name="watch_failed">ความล้มเหลว</string>
 <string name="get_medal">รับแบดจ์</string>
-<string name="OK">OK !</string>
 <string name="cep_socre1">ประเมินโดยรวม</string>
 <string name="cep_socre2">ระดับขององค์กร</string>
 <string name="cep_socre3">การเก็บเกี่ยวบุคคล</string>
@@ -87,14 +77,9 @@
 	<item>เตือนสติก่อน60นาที</item>
 	<item>เตือนสติก่อน120นาที</item>
 </string-array>
-<string-array name="time_daily_array">
-	<item>6:30</item>
-	<item>9:00</item>
-	<item>12:00</item>
-</string-array>
 <string name="game_detail_info_empty">การแข่งขันได้สิ้นสุดลงแล้ว</string>
 <string name="empty_box_text">วันนี้ไม่มีเหตุการณ์ที่เพิ่มขึ้นที่ต้องดู</string>
-<string name="cancel_attention">ลบ</string>
+<string name="cancel_attention">ยืนยันการลบ?</string>
 <string name="cep_menu_title">กิจกรรมCEP </string>
 <string name="cep_score_failed">ให้คะแนนล้มเหลวโปรดลองอีกครั้ง</string>
 <string name="change_error">ความล้มเหลว</string>

@@ -5,80 +5,134 @@ import java.util.Date;
 import java.util.Random;
 
 import com.airAd.yaqinghui.R;
+
 public class Common {
-	public static String genBannerText(int day)
-	{
-		String week= "";
-		switch (day)
-		{
-			case 13 :
-				week= "Tue";
-				break;
-			case 14 :
-				week= "Wed";
-				break;
-			case 15 :
-				week= "Thu";
-				break;
-			case 16 :
-				week= "Fri";
-				break;
-			case 17 :
-				week= "Sat";
-				break;
-			case 18 :
-				week= "Sun";
-				break;
-			case 19 :
-				week= "Mon";
-				break;
-			case 20 :
-				week= "Tue";
-				break;
-			case 21 :
-				week= "Wed";
-				break;
-			case 22 :
-				week= "Thu";
-				break;
-			case 23 :
-				week= "Fri";
-				break;
-			case 24 :
-				week= "Sat";
-				break;
+	public static String genBannerText(int day) {
+		String week = "";
+		switch (day) {
+		case 1:
+			week = "Thu";
+			break;
+		case 2:
+			week = "Fri";
+			break;
+		case 3:
+			week = "Sat";
+			break;
+		case 4:
+			week = "Sun";
+			break;
+		case 5:
+			week = "Mon";
+			break;
+		case 6:
+			week = "Tue";
+			break;
+		case 7:
+			week = "Wed";
+			break;
+		case 8:
+			week = "Thu";
+			break;
+		case 9:
+			week = "Fri";
+			break;
+		case 10:
+			week = "Sat";
+			break;
+		case 11:
+			week = "Sun";
+			break;
+		case 12:
+			week = "Mon";
+			break;
+		case 13:
+			week = "Tue";
+			break;
+		case 14:
+			week = "Wed";
+			break;
+		case 15:
+			week = "Thu";
+			break;
+		case 16:
+			week = "Fri";
+			break;
+		case 17:
+			week = "Sat";
+			break;
+		case 18:
+			week = "Sun";
+			break;
+		case 19:
+			week = "Mon";
+			break;
+		case 20:
+			week = "Tue";
+			break;
+		case 21:
+			week = "Wed";
+			break;
+		case 22:
+			week = "Thu";
+			break;
+		case 23:
+			week = "Fri";
+			break;
+		case 24:
+			week = "Sat";
+			break;
+		case 25:
+			week = "Sun";
+			break;
+		case 26:
+			week = "Mon";
+			break;
+		case 27:
+			week = "Tue";
+			break;
+		case 28:
+			week = "Wed";
+			break;
+		case 29:
+			week = "Thu";
+			break;
+		case 30:
+			week = "Fri";
+			break;
+		case 31:
+			week = "Sat";
+			break;
+		default:
+			week = "Mon";
+			break;
 		}
 		return day + "  " + week;
 	}
-	public static int getCepTypePic(String iconType)
-	{
-		if ("0".equals(iconType))
-		{
+
+	public static int getCepTypePic(String iconType) {
+		if ("0".equals(iconType)) {
 			return R.drawable.cep_type_red;
-		}
-		else if ("1".equals(iconType))
-		{
+		} else if ("1".equals(iconType)) {
 			return R.drawable.cep_type_green;
-		}
-		else
-		{
+		} else {
 			return R.drawable.cep_type_blue;
 		}
 	}
-	public static String timeNotifyString(long time)
-	{
-		SimpleDateFormat sdf= new SimpleDateFormat("MM.dd.yyyy");
-		Date dt= new Date(time);
+
+	public static String timeNotifyString(long time) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
+		Date dt = new Date(time);
 		return sdf.format(dt);
 	}
-	public static String timeString(String timeStr)
-	{
-		long time= Long.parseLong(timeStr);
-		SimpleDateFormat sdf= new SimpleDateFormat("HH:mm a");
-		Date dt = new Date(time);  
+
+	public static String timeString(String timeStr) {
+		long time = Long.parseLong(timeStr);
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm a");
+		Date dt = new Date(time);
 		return sdf.format(dt);
 	}
-	
+
 	public static int genRand(int min, int max) {
 		return (new Random()).nextInt(max) % (max - min + 1) + min;
 	}
@@ -113,9 +167,9 @@ public class Common {
 		}
 		return false;
 	}
-	
-	public static boolean isHit(float left1, float top1, float w1, float h1, float left2,
-			float top2, float w2, float h2) {
+
+	public static boolean isHit(float left1, float top1, float w1, float h1,
+			float left2, float top2, float w2, float h2) {
 		float x1 = left1 + w1 / 2;
 		float y1 = top1 + h1 / 2;
 		float x2 = left2 + w2 / 2;
