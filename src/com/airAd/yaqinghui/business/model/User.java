@@ -117,25 +117,25 @@ public class User extends Base {
 		String country = Locale.getDefault().getCountry()==null? "":Locale.getDefault().getCountry().trim().toLowerCase() ;
 		Log.d("htestGetLan", lan);
 		Log.d("htestGetCountry", country);
-//		if("ko".equalsIgnoreCase(lan)){
-//			//韩国
-//			return "KOR";
-//		}else if("vi".equalsIgnoreCase(lan)){
-//			return "VIE";
-//		}else if("zh".equalsIgnoreCase(lan)){
-//			if(country.contains("tw")|| country.contains("hk")){
-//				return "HK";
-//			}
-//			return "CHI";
-//		}else if("jp".equalsIgnoreCase(lan) || "ja".equalsIgnoreCase(lan)){
-//			return "JAP";
-//		}else if("ar".equalsIgnoreCase(lan)){
-//			return "ARA";
-//		}else if("ru".equalsIgnoreCase(lan)){
-//			return "RUS";
-//		}else if("th".equalsIgnoreCase(lan)){
-//			return "THA";
-//		}
-		return "ARA";
+		if("ko".equalsIgnoreCase(lan)){
+			//韩国
+			return "KOR";
+		}else if("vi".equalsIgnoreCase(lan)){
+			return "VIE";
+		}else if("zh".equalsIgnoreCase(lan)){
+			if(country.contains("tw")|| country.contains("hk")){
+				return "HK";
+			}
+			return "CHI";
+		}else if("jp".equalsIgnoreCase(lan) || "ja".equalsIgnoreCase(lan)){
+			return "JAP";
+		}else if("ar".equalsIgnoreCase(lan)){
+			return "ARA";
+		}else if("ru".equalsIgnoreCase(lan)){
+			return "RUS";
+		}else if("th".equalsIgnoreCase(lan)){
+			return "THA";
+		}
+		return "ENG";
 	}
 }// end class

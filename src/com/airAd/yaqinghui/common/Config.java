@@ -46,4 +46,6 @@ public class Config {
 	public static final String CEP_EVENT_ID= "cep_event_id";
 
 	public static final String CEP_USER_ID = "00000001";
+	
+	public static final boolean isDebug=false;
 }
