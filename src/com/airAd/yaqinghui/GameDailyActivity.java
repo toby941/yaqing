@@ -2,7 +2,9 @@ package com.airAd.yaqinghui;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -48,11 +50,13 @@ public class GameDailyActivity extends BackBaseActivity {
 	private GameDailyTask task;
 	private String gameId;
 	private String gamePicUrl;
+	private String days;
 	private int checkboxWidth, checkboxHeight;
 	private TextView bannerText;
 
 	public static final String GAME_ID = "game_id";
 	public static final String GAME_PIC_URL = "game_pic_url";
+	public static final String GAME_DAYS = "game_days";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,8 @@ public class GameDailyActivity extends BackBaseActivity {
 		setContentView(R.layout.schedule_daily);
 		gameId = getIntent().getStringExtra(GAME_ID);
 		gamePicUrl = getIntent().getStringExtra(GAME_PIC_URL);
+		days = getIntent().getStringExtra(GAME_DAYS);
+		//days = "13,19,20";
 		Drawable checkboxDrawable = getResources().getDrawable(
 				R.drawable.game_daily_delete);
 		checkboxWidth = checkboxDrawable.getIntrinsicWidth();
@@ -98,6 +104,7 @@ public class GameDailyActivity extends BackBaseActivity {
 
 			}
 		};
+		setDays();
 		mPushClose.setOnDateClickListener(new OnDateClickListener() {
 
 			@Override
@@ -115,6 +122,25 @@ public class GameDailyActivity extends BackBaseActivity {
 				mPushClose.open();
 			}
 		});
+	}
+	
+	private void setDays()
+	{
+		if(days != null && !"".equals(days))
+		{
+			Map<Integer, Integer> params = new HashMap<Integer, Integer>();
+			for(String dayStr : days.split(","))
+			{
+				int day = 0;
+				try {
+					day = Integer.parseInt(dayStr);
+					params.put(day, 1);
+				} catch (NumberFormatException e) {
+				}
+			}
+			mPushClose.setDateHaveItems(params);
+		}
+		
 	}
 
 	/**
@@ -288,8 +314,13 @@ public class GameDailyActivity extends BackBaseActivity {
 			if (today.before(firstDay)) {
 				today = firstDay;
 			}
-			// 从第一天一直遍历到最后一天
 			DailyGameInfo info= new DailyGameInfo();
+			List<GameInfo> list = gameService.getGameInfo(gameId,
+					today.getTime());
+			info.list = list;
+			info.day = today.get(Calendar.DAY_OF_MONTH);
+			// 从第一天一直遍历到最后一天
+			/*DailyGameInfo info= new DailyGameInfo();
 			for (Calendar c = today; c.before(lastDay); c.add(
 					Calendar.DAY_OF_MONTH, 1)) {
 				List<GameInfo> list = gameService.getGameInfo(gameId,
@@ -305,7 +336,7 @@ public class GameDailyActivity extends BackBaseActivity {
 						(c.get(Calendar.MONTH) + 1) + ","
 								+ c.get(Calendar.DAY_OF_MONTH) + ":"
 								+ String.valueOf(list));
-			}
+			}*/
 			return info;
 		}
 
@@ -320,17 +351,17 @@ public class GameDailyActivity extends BackBaseActivity {
 				if (!gameInfoList.isEmpty()) {
 					mPushClose.setDateDay(info.day);
 				} else {
-					Toast.makeText(GameDailyActivity.this,
+					/*Toast.makeText(GameDailyActivity.this,
 							R.string.game_detail_info_empty, Toast.LENGTH_SHORT)
-							.show();
+							.show();*/
 					final Calendar calendar = Calendar.getInstance();
 					int day = calendar.get(Calendar.DAY_OF_MONTH);
 					mPushClose.setDateDay(day);
 				}
 			} else {
-				Toast.makeText(GameDailyActivity.this,
+				/*Toast.makeText(GameDailyActivity.this,
 						R.string.game_detail_info_empty, Toast.LENGTH_SHORT)
-						.show();
+						.show();*/
 			}
 		}
 

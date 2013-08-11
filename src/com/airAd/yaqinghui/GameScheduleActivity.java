@@ -92,9 +92,13 @@ public class GameScheduleActivity extends BackBaseActivity {
 	}
 
 	private void openDaily(int index) {
-		Intent intent  = new Intent(this, GameDailyActivity.class);
+		Intent intent = new Intent(this, GameDailyActivity.class);
 		intent.putExtra(GameDailyActivity.GAME_ID, myGameList.get(index).getId());
 		intent.putExtra(GameDailyActivity.GAME_PIC_URL, myGameList.get(index).getPic());
+		String days = myGameList.get(index).getDays();
+		if(days != null){
+			intent.putExtra(GameDailyActivity.GAME_DAYS, myGameList.get(index).getDays());
+		}
 		startActivity(intent);
 	}
 

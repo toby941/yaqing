@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.airAd.yaqinghui.MyApplication;
 import com.airAd.yaqinghui.R;
@@ -163,18 +164,21 @@ public class AlarmService {
 		//long firstTime = SystemClock.elapsedRealtime();
 		
 		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(System.currentTimeMillis());
 		//c.add(Calendar.MINUTE, timeBefore * -1);
-		c.add(Calendar.DAY_OF_MONTH, 1);
-		c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-		c.set(Calendar.MINUTE, minute);
+		//c.add(Calendar.DAY_OF_MONTH, 1);
+		//c.set(Calendar.HOUR_OF_DAY, 20);
+		//c.set(Calendar.MINUTE, 41);
 		c.set(Calendar.SECOND, 0);
 		c.set(Calendar.MILLISECOND, 0);
 		
 		am.cancel(pendingIntent);
 		//提醒时间由当前RTC时间差+SystemClock.elapsedRealtime()组成
 		long setTime = SystemClock.elapsedRealtime() + c.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
+		Log.i("time", System.currentTimeMillis() + "," + SystemClock.currentThreadTimeMillis() + "," + Calendar.getInstance().getTimeInMillis());
 		//am.setRepeating(R, triggerAtMillis, intervalMillis, operation)
-		am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, setTime, 1000 * 24 * 60 * 60, pendingIntent);
+		//am.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 1000 * 24 * 60 * 60, pendingIntent);
+		am.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis() + 60 * 1000, 1000 * 24 * 60 * 60, pendingIntent);
 	}
 	
 	public void cancelDailyRepeatAlarm()

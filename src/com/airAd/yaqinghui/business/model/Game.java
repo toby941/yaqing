@@ -21,6 +21,7 @@ public class Game {
 	private String name;
 	private String type; // 比赛、训练
 	private String pic;
+	private String days;
 
 	public String getId() {
 		return id;
@@ -54,6 +55,14 @@ public class Game {
 		this.type = type;
 	}
 
+	public String getDays() {
+		return days;
+	}
+
+	public void setDays(String days) {
+		this.days = days;
+	}
+
 	public static List<Game> instanceList(JSONObject jsonObj) {
 		List<Game> games = new ArrayList<Game>();
 		JSONArray gameArray = jsonObj.getJSONArray("GameTypeInfo");
@@ -63,6 +72,7 @@ public class Game {
 			game.setId(obj.getString("id"));
 			game.setName(obj.getString("name"));
 			game.setPic(obj.getString("pic"));
+			game.setDays(obj.optString("days"));
 			games.add(game);
 		}
 		return games;
