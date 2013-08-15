@@ -1,0 +1,80 @@
+@charset "UTF-8";
+* {
+	padding: 0;
+	margin: 0;
+	text-decoration:none;-webkit-user-select:none;
+}
+:root {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-font-smoothing: antialiased;
+}
+body, html {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	margin: 0;
+	font-size: 14px;
+	color: #444;
+	line-height: 1.7em;
+	background: #f5f5f5;
+}
+#wp {
+	max-width: 400px;
+	margin: 0 auto;
+	padding: 12px;
+}
+h2 {
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 1.9em;
+}
+h3 {
+	font-size: 16px;
+	line-height: 1.8em;
+	font-weight:500;
+}
+table {
+	border-collapse: collapse;
+	border: 1px #525152 solid;
+	margin: 8px 0;
+}
+th, td {
+	border: 1px #525152 solid;
+	text-align: center;
+	font-size: 12px;
+	min-height:30px;
+	
+}
+th {
+	background: #edf2f5;
+}
+.out {
+	border-top: 46px #edf2f5 solid;
+	width: 0px;
+	height: 0px;
+	border-left: 90px #E3E7E9 solid;
+	position: relative;
+}
+table b {
+	font-style: normal;
+	display: block;
+	position: absolute;
+	top: -46px;
+	left: -59px;
+	width: 55px;
+	text-align:right;
+}
+table em {
+	font-style: normal;
+	display: block;
+	position: absolute;
+	top: -22px;
+	left: -86px;
+	width: 55px;
+	text-align:left;
+}
+table .sty1 {
+	background: #E3E7E9;
+}
+.b {
+	color: #111;
+	font-weight:500;
+}

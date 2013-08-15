@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF" >
+
+    <ImageView
+        android:id="@+id/j_top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/top_banner_bg" />
+
+    <ImageButton
+        android:id="@+id/main_banner_left_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="6dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/back_top_btn" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/show_title" />
+
+    <ImageView
+        android:id="@+id/j_line"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/j_top"
+        android:scaleType="fitXY"
+        android:src="@drawable/colorbar" />
+
+    <it.sephiroth.android.library.imagezoom.ImageViewTouch
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/j_line"
+        android:scaleType="fitCenter"
+        android:src="@drawable/yaqing_pic" />
+
+</RelativeLayout>

@@ -106,4 +106,5 @@
 	<string name="cep_menu_title">CEP이벤트</string>
 	<string name="cep_score_failed">평점 실패, 재시도하시기 바랍니다. </string>
 	<string name="change_error">실패</string>
+	<string name="help_center">정보 센터</string>
 </resources>

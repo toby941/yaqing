@@ -98,4 +98,5 @@
 <string name="cep_menu_title">деятельность CEP</string>
 <string name="cep_score_failed">не удачно оценить, попробуете еще раз.</string>
 <string name="change_error">провал</string>
+<string name="help_center">Информационный центр</string>
 </resources>

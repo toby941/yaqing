@@ -26,138 +26,175 @@
         android:scaleType="fitXY"
         android:src="@drawable/left_user_caitiao" />
 
-    <LinearLayout
-        android:id="@+id/menu_list"
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/top"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical" >
+        android:scrollbars="vertical" >
 
         <LinearLayout
-            android:id="@+id/activity"
-            android:paddingLeft="30dp"
+            android:id="@+id/menu_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/queren_bg"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp" >
+            android:layout_marginTop="5dp"
+            android:orientation="vertical" >
 
-            <ImageView
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/activity"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/item_dialy_bg" />
+                android:background="@drawable/queren_bg"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp" >
 
-            <TextView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/item_dialy_bg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/menu_left_schedule"
+                    android:textColor="#BFC3C9"
+                    android:textSize="19dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:background="@drawable/siglines2" />
+
+            <LinearLayout
+                android:id="@+id/cep"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="@string/menu_left_schedule"
-                android:textColor="#BFC3C9"
-                android:textSize="19dp" />
-        </LinearLayout>
+                android:background="@drawable/queren_bg"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp" >
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3px"
-            android:background="@drawable/siglines2" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/cep_icon" />
 
-        <LinearLayout
-            android:id="@+id/cep"
-            android:paddingLeft="30dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/queren_bg"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/cep_menu_title"
+                    android:textColor="#BFC3C9"
+                    android:textSize="19dp" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:background="@drawable/siglines2" />
+
+            <LinearLayout
+                android:id="@+id/video"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/cep_icon" />
+                android:background="@drawable/queren_bg"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp" >
 
-            <TextView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/video_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/cep_video"
+                    android:textColor="#BFC3C9"
+                    android:textSize="19dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:background="@drawable/siglines2" />
+
+            <LinearLayout
+                android:id="@+id/equip"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="@string/cep_menu_title"
-                android:textColor="#BFC3C9"
-                android:textSize="19dp" />
-        </LinearLayout>
+                android:background="@drawable/queren_bg"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp" >
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3px"
-            android:background="@drawable/siglines2" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/surround_icon" />
 
-        <LinearLayout
-            android:id="@+id/video"
-            android:paddingLeft="30dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/queren_bg"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/menu_left_equip"
+                    android:textColor="#BFC3C9"
+                    android:textSize="19dp" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:background="@drawable/siglines2" />
+
+            <LinearLayout
+                android:id="@+id/help"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/video_icon" />
+                android:background="@drawable/queren_bg"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="@string/cep_video"
-                android:textColor="#BFC3C9"
-                android:textSize="19dp" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/help_icon" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3px"
-            android:background="@drawable/siglines2" />
-        
-        <LinearLayout
-            android:id="@+id/equip"
-            android:paddingLeft="30dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/queren_bg"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/help_center"
+                    android:textColor="#BFC3C9"
+                    android:textSize="19dp" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/surround_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="@string/menu_left_equip"
-                android:textColor="#BFC3C9"
-                android:textSize="19dp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3px"
-            android:background="@drawable/siglines2" />
-    </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:background="@drawable/siglines2" />
+        </LinearLayout> 
+    </ScrollView>
 
 </RelativeLayout>

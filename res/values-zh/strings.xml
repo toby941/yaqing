@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">亚青助手</string>
+    <string name="app_name">亚青日程助手</string>
     <string name="left_menu_setting">设置</string>
     <string name="login_title">登录</string>
     <string name="login_hint_username">请输入运动员ID</string>
@@ -12,7 +12,7 @@
     <string name="login_failed">登录失败</string>
     <string name="menu_left_home">首页</string>
     <string name="menu_left_schedule">赛事日程</string>
-    <string name="menu_left_equip">周边查找</string>
+    <string name="menu_left_equip">场馆信息</string>
     <string name="notify">通知</string>
     <string name="activity">我的CEP</string>
     <string name="delete">删除</string>
@@ -100,10 +100,16 @@
 	    <item>9:00</item>
 	    <item>12:00</item>
 	</string-array>
-	<string name="game_detail_info_empty">该比赛项目已结束</string>
+	<string name="game_detail_info_empty">无赛事</string>
 	<string name="empty_box_text">今天暂无更多事项需要查看</string>
 	<string name="cancel_attention">确认删除？</string>
 	<string name="cep_menu_title">CEP活动</string>
 	<string name="cep_score_failed">评分失败，请重试。</string>
 	<string name="change_error">失败</string>
+	<string name="help_center">亚青村信息</string>
+	<string name="help_map">亚青村地图</string>
+	<string name="help_traffic">交通服务</string>
+	<string name="help_religion">宗教服务</string>
+	<string name="help_eating">餐饮服务</string>
+	<string name="help_language">语言服务</string>
 </resources>

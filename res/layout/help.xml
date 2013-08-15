@@ -1,0 +1,113 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E5E5E5" >
+
+    <ImageView
+        android:id="@+id/j_top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/top_banner_bg" />
+
+    <ImageButton
+        android:id="@+id/main_banner_left_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="6dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/back_top_btn" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/show_title" />
+
+    <ImageView
+        android:id="@+id/j_line"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/j_top"
+        android:scaleType="fitXY"
+        android:src="@drawable/colorbar" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_below="@id/j_line"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/map"
+            android:layout_marginTop="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:textColor="#545455"
+            android:drawableRight="@drawable/help_goto"
+            android:paddingLeft="20dp"
+            android:background="@drawable/help_btn"
+            android:text="@string/help_map" />
+        
+        <Button
+            android:id="@+id/traffic"
+            android:layout_marginTop="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:textColor="#545455"
+            android:drawableRight="@drawable/help_goto"
+            android:paddingLeft="20dp"
+            android:background="@drawable/help_btn"
+            android:text="@string/help_traffic" />
+        
+        
+        <Button
+            android:id="@+id/religion"
+            android:layout_marginTop="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:textColor="#545455"
+           android:drawableRight="@drawable/help_goto"
+            android:paddingLeft="20dp"
+            android:background="@drawable/help_btn"
+            android:text="@string/help_religion" />
+        
+        <Button
+            android:id="@+id/eating"
+            android:layout_marginTop="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:textColor="#545455"
+            android:drawableRight="@drawable/help_goto"
+            android:paddingLeft="20dp"
+            android:background="@drawable/help_btn"
+            android:text="@string/help_eating" />
+        
+        <Button
+            android:id="@+id/language"
+            android:layout_marginTop="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:textColor="#545455"
+            android:drawableRight="@drawable/help_goto"
+            android:paddingLeft="20dp"
+            android:background="@drawable/help_btn"
+            android:text="@string/help_language" />
+        
+    </LinearLayout>
+
+</RelativeLayout>

@@ -106,4 +106,5 @@
 	<string name="cep_menu_title">CEP活動</string>
 	<string name="cep_score_failed">評分失敗，請重試。</string>
 	<string name="change_error">失敗</string>
+	<string name="help_center">亞青村信息</string>
 </resources>
