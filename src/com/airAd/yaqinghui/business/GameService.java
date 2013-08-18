@@ -5,6 +5,7 @@ package com.airAd.yaqinghui.business;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -109,9 +110,9 @@ public class GameService extends BaseService {
 	 * @param gameInfo
 	 * @param picURL
 	 */
-	public void deleteFromSchedule(String gameId) {
+	public void deleteFromSchedule(GameId gameId) {
 		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
-		db.delete("schedule", "ref_id = ?", new String[] { gameId });
+		db.delete("schedule", "ref_id = ? AND start_time = ?", new String[] { gameId.id, gameId.startTime.getTimeInMillis() + "" });
 	}
 
 	/**
@@ -131,5 +132,58 @@ public class GameService extends BaseService {
 		}
 		cursor.close();
 		return res;
+	}
+	
+	/**
+	 * 获取schedule的全部id
+	 * 
+	 * @return
+	 */
+	public List<GameId> queryScheduleIdAndStarttime() {
+		SQLiteDatabase db = MyApplication.getCurrentWirteDB();
+		Cursor cursor = db.query("schedule", new String[] { "ref_id" , "start_time"}, null,
+				null, null, null, null);
+		cursor.moveToFirst();
+		List<GameId> res = new ArrayList<GameId>();
+		while (!cursor.isAfterLast()) {
+			res.add(GameId.createBy(cursor.getString(0), cursor.getLong(1)));
+			cursor.moveToNext();
+		}
+		cursor.close();
+		return res;
+	}
+	
+	public static final class GameId
+	{
+		private String id;
+		private Calendar startTime;
+		
+		public static GameId createBy(String id, long startTime)
+		{
+			GameId gameId = new GameId();
+			gameId.id = id;
+			gameId.startTime = Calendar.getInstance();
+			gameId.startTime.setTimeInMillis(startTime);
+			return gameId;
+		}
+		
+		public boolean fit(String id, long startTime)
+		{
+			if(this.id.equals(id) 
+					&& this.startTime.getTimeInMillis() == startTime)
+				return true;
+			return false;
+		}
+		
+		public boolean equals(Object target)
+		{
+			if(target instanceof GameId)
+			{
+				GameId tGameInfo = (GameId)target;
+				if(tGameInfo.fit(id, startTime.getTimeInMillis()))
+					return true;
+			}
+			return false;
+		}
 	}
 }

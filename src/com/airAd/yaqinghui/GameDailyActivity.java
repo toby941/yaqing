@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.airAd.yaqinghui.business.AlarmService;
 import com.airAd.yaqinghui.business.GameService;
+import com.airAd.yaqinghui.business.GameService.GameId;
 import com.airAd.yaqinghui.business.model.GameInfo;
 import com.airAd.yaqinghui.common.Common;
 import com.airAd.yaqinghui.ui.BackBaseActivity;
@@ -45,7 +46,7 @@ public class GameDailyActivity extends BackBaseActivity {
 	private DailyAdapter dailyAdapter;
 	// private OnClickListener addScheduleListener;
 	private OnCheckedChangeListener scheduleChangeListener;
-	private List<String> storedInfoIdList;// 已经持久化的gameInfolist
+	private List<GameId> storedInfoIdList;// 已经持久化的gameInfolist
 
 	private GameDailyTask task;
 	private String gameId;
@@ -80,7 +81,7 @@ public class GameDailyActivity extends BackBaseActivity {
 		listView.setAdapter(dailyAdapter);
 		// doDailyTask(mPushClose.getFirstDate());
 		new InitGameDailyTask().execute();
-		storedInfoIdList = gameService.queryScheduleIds();
+		storedInfoIdList = gameService.queryScheduleIdAndStarttime();
 		Log.i("storedInfoIdList", storedInfoIdList.toString());
 		scheduleChangeListener = new OnCheckedChangeListener() {
 			@Override
@@ -88,16 +89,17 @@ public class GameDailyActivity extends BackBaseActivity {
 					boolean isChecked) {
 				int pos = (Integer) buttonView.getTag();
 				GameInfo gameInfo = gameInfoList.get(pos);
+				GameId gameId = GameId.createBy(gameInfo.getId(), gameInfo.getStartTime());
 				if (isChecked) {
-					storedInfoIdList.add(gameInfo.getId());
-					int cid = gameService.addtoSchedule(gameInfoList.get(pos),
+					storedInfoIdList.add(gameId);
+					int cid = gameService.addtoSchedule(gameInfo,
 							gamePicUrl);
 					AlarmService.getInstance().addAlarm(cid,
 							gameInfo.getStartTime(), gameInfo.getTitle());
 				} else {
-					storedInfoIdList.remove(gameInfoList.get(pos).getId());
-					gameService.deleteFromSchedule(gameInfoList.get(pos)
-							.getId());
+					
+					storedInfoIdList.remove(gameId);
+					gameService.deleteFromSchedule(gameId);
 					AlarmService.getInstance().removeAlarm(
 							Integer.parseInt(gameInfo.getId()));
 				}
@@ -193,6 +195,9 @@ public class GameDailyActivity extends BackBaseActivity {
 				convertView = getLayoutInflater().inflate(
 						R.layout.game_daily_item, null);
 			}
+			
+			GameInfo gameInfo = gameInfoList.get(position);
+			GameId gameId = GameId.createBy(gameInfo.getId(), gameInfo.getStartTime());
 			if (convertView.getTag() == null) {
 				ViewHolder viewHolder = new ViewHolder();
 				viewHolder.titleView = (TextView) convertView
@@ -207,7 +212,7 @@ public class GameDailyActivity extends BackBaseActivity {
 				convertView.setTag(viewHolder);
 			}
 			ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-			if (gameInfoList.get(position).isGame()) {
+			if (gameInfo.isGame()) {
 				viewHolder.itemView
 						.setBackgroundResource(R.drawable.game_daily_match_bg);
 			} else {
@@ -225,7 +230,7 @@ public class GameDailyActivity extends BackBaseActivity {
 			viewHolder.addCheckBox.setLayoutParams(rlp);
 			viewHolder.addCheckBox.setTag(position);
 			viewHolder.addCheckBox.setOnCheckedChangeListener(null);
-			if (storedInfoIdList.contains(gameInfoList.get(position).getId())) {
+			if (storedInfoIdList.contains(gameId)) {
 				viewHolder.addCheckBox.setChecked(true);
 			} else {
 				viewHolder.addCheckBox.setChecked(false);
